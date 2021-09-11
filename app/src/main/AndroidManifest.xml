@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HUJI_Assistant">
-        <activity android:name=".ScanQrActivity">
+        <activity android:name=".MainActivity" />
+        <activity android:name=".ScanQrActivity" />
+        <activity android:name=".CaptureActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
