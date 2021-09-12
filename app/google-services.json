@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "122285413551",
+    "project_id": "huji-assistant1",
+    "storage_bucket": "huji-assistant1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:122285413551:android:038f6a4870481dd04b705a",
+        "android_client_info": {
+          "package_name": "com.example.huji_assistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "122285413551-l0ajlrkaqp4g1cr39jkqsj3espabrga2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8no9K4YLIICy4GJQACpz-g3jg1y0s06U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "122285413551-l0ajlrkaqp4g1cr39jkqsj3espabrga2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
