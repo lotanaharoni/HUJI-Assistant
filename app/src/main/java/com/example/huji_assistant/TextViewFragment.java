@@ -1,10 +1,12 @@
 package com.example.huji_assistant;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,7 +14,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class TextViewFragment extends Fragment {
+    private LocalDataBase db;
     private ViewModelApp viewModelApp;
     public interface buttonClickListener{
         public void onButtonClicked();
@@ -30,6 +39,7 @@ public class TextViewFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.db = HujiAssistentApplication.getInstance().getDataBase();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         if (view != null) {
 
@@ -61,6 +71,26 @@ public class TextViewFragment extends Fragment {
                 checkValidation(email.getText().toString(), password.getText().toString());
                 if (isEmailValid && isPasswordValid){
                     if (listener != null) {
+                        FirebaseAuth auth = db.getUsersAuthenticator();
+                        auth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d("LoginActivity", "signInWithEmail:success");
+                                            Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+//                                            FirebaseUser user = auth.getCurrentUser();
+//                                            db.setCurrentUser(user);                                        } else {
+                                        }else{
+                                            Log.w("LoginActivity", "signInWithEmail:failure", task.getException());
+                                            Toast.makeText(getActivity(), "signInWithEmail:failure", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
                         StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
                         viewModelApp.set(newStudent);
                         listener.onButtonClicked();
