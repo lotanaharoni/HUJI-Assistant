@@ -1,9 +1,16 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'com.google.gms.google-services'
 }
 
 android {
+    dataBinding{
+        enabled=true
+    }
+    viewBinding{
+        enabled=true
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -13,6 +20,7 @@ android {
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -67,5 +75,4 @@ dependencies {
 
     // Jetpack Compose Integration
     // implementation "androidx.navigation:navigation-compose:2.4.0-alpha08"
-
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HujiApp"
+        tools:layout_editor_absoluteX="180dp"
+        tools:layout_editor_absoluteY="70dp" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="115dp">
+
+        <Button
+            android:id="@+id/myCoursesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="400dp"
+            android:layout_marginLeft="10dp"
+            android:text="הקורסים שלי" />
+
+        <Button
+            android:id="@+id/myCoursesButton1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="400dp"
+            android:layout_marginLeft="150dp"
+            android:text="ניווט בקמפוס" />
+
+        <Button
+            android:id="@+id/myCoursesButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="49dp"
+            android:textSize="12dp"
+            android:layout_marginLeft="290dp"
+            android:layout_marginTop="400dp"
+            android:text="מערכת שעות" />
+
+        <SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="380dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
+
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

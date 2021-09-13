@@ -22,9 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HUJI_Assistant">
         <activity android:name=".CaptureActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MapActivity" />
         <activity android:name=".ScanQrActivity" />
-        <activity android:name=".MapActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
