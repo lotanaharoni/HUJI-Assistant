@@ -84,7 +84,7 @@ public class MapActivity extends AppCompatActivity {
 //        startMarker.setPosition(shprintzakPoint);
 //        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER);
 //        map.getOverlays().add(startMarker1);
-//        map.getController().setCenter(point);
+//        map.getController().setCenter(shprintzakPoint);
 
     }
 
