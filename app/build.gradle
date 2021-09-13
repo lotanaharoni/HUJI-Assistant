@@ -42,4 +42,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.budiyev.android:code-scanner:2.1.0'
     implementation 'org.osmdroid:osmdroid-android:6.1.11'
+    implementation 'com.google.android.gms:play-services-location:11.0.1'
 }
