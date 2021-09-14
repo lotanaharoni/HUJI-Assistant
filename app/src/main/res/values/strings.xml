@@ -4,6 +4,12 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
     <string name="image_title">Add description to your image</string>
+    <string name="aguda">אגודת הסטודנטים</string>
+    <string name="kolzchut">אתר כל-זכות</string>
+    <string name="link_to_drive">דרייב מדמ״ח</string>
+    <string name="rishumnet">רישום.נט</string>
+    <string name="recommendations">המלצות על קורסים</string>
+    <string name="drawer_header"><b><u><i>קישורים שימושיים</i></u></b></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
