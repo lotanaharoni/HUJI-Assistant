@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 goToUrl("https://rishum-net.huji.ac.il/site/student/login.asp");
                 break;
             case R.id.recommendations:
-                goToUrl("https://docs.google.com/spreadsheets/d/1ZeeEIkyVsfxV2R7kS_1Jcq06Tu1zu20Y3XT1q9cybtk/edit#gid=0");
+                goToUrl("https://drive.google.com/drive/u/3/folders/1BtcBIpl_zTht1KWKR7Qjl_RoavkmfQG0");
                 break;
         }
         return true;

@@ -114,8 +114,10 @@ public class RegisterFragment extends Fragment {
 
     public void checkValidation(String email, String password){
         if (email.isEmpty()) {
-            emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
-            emailValidationView.setVisibility(View.VISIBLE);
+//            emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
+//            emailValidationView.setVisibility(View.VISIBLE);
+            //todo: maybe a Toast?
+            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_email_msg), Toast.LENGTH_LONG).show();
 
             isEmailValid = false;}
         //  } else if (!Patterns.EMAIL_ADDRESS.matcher(email.matches("*"))) {
@@ -127,10 +129,16 @@ public class RegisterFragment extends Fragment {
 
         // Check for a valid password.
         if (password.isEmpty()) {
-            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
-            passwordValidationView.setVisibility(View.VISIBLE);
+//            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
+//            passwordValidationView.setVisibility(View.VISIBLE);
+            //todo: maybe a Toast?
+            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
             isPasswordValid = false;
         } else if (password.length() < PASSWORD_LENGTH) {
+//            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
+//            passwordValidationView.setVisibility(View.VISIBLE);
+            //todo: maybe a Toast?
+            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
             isPasswordValid = false;
         } else  {
             isPasswordValid = true;
