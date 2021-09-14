@@ -3,6 +3,8 @@ package com.example.huji_assistant;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,10 +36,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TopFragment f = new TopFragment();
         FirstFragment firstFragment = new FirstFragment();
         TextViewFragment secondFragment = new TextViewFragment();
+        RegisterFragment registerFragment = new RegisterFragment();
         CoursesFragment coursesFragment = new CoursesFragment();
         InfoFragment infoFragment = new InfoFragment();
         MainScreen mainScreen = new MainScreen();
-        getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment)
+        getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment, "FIRST_FRAGMENT")
                 .commit();
 
         findViewById(R.id.buttonMoreInfoMapActivity).setOnClickListener(v -> {
@@ -54,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         R.anim.slide_in,   // popEnter
                         R.anim.fade_out  // popExit
                 )
-                        .replace(loginFragment.getId(), secondFragment).addToBackStack(null).commit();
+                        .replace(loginFragment.getId(), registerFragment, "REGISTER_FRAGMENT").addToBackStack(null).commit();
             }
         };
 
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         R.anim.slide_out,  // exit
                         R.anim.slide_in,   // popEnter
                         R.anim.fade_out  // popExit
-                ).replace(loginFragment.getId(), secondFragment).addToBackStack(null).commit();
+                ).replace(loginFragment.getId(), secondFragment, "LOGIN_FRAGMENT").addToBackStack(null).commit();
             }
         };
 
@@ -80,6 +83,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         R.anim.fade_out  // popExit
                 )
                         .replace(loginFragment.getId(), infoFragment).addToBackStack(null).commit();
+            }
+        };
+
+        registerFragment.listener = new TextViewFragment.buttonClickListener() {
+            @Override
+            public void onButtonClicked() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(loginFragment.getId(), infoFragment, "REGISTER_FRAGMENT").addToBackStack(null).commit();
             }
         };
 
@@ -144,7 +160,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
         else {
-            super.onBackPressed();
+            FirstFragment myFragment = (FirstFragment)getSupportFragmentManager().findFragmentByTag("FIRST_FRAGMENT");
+            if (myFragment != null && myFragment.isVisible()) {
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE: {
+                            finishAffinity();
+                            System.exit(0);
+                            break;
+                        }
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Close the app?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            }
+            else {
+                super.onBackPressed();
+            }
         }
     }
 }
