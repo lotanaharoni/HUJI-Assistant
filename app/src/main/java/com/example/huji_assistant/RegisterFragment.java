@@ -20,13 +20,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class TextViewFragment extends Fragment {
+public class RegisterFragment extends Fragment {
     private LocalDataBase db;
     private ViewModelApp viewModelApp;
     public interface buttonClickListener{
         public void onButtonClicked();
     }
-    public TextViewFragment(){
+    public RegisterFragment(){
         super(R.layout.loginfragment);
     }
     public TextViewFragment.buttonClickListener listener = null;
@@ -67,26 +67,30 @@ public class TextViewFragment extends Fragment {
             public void onClick(View v) {
                 emailValidationView.setVisibility(View.GONE);
                 passwordValidationView.setVisibility(View.GONE);
+//                FirstFragment myFragment = (FirstFragment)getSupportFragmentManager().findFragmentByTag("FIRST_FRAGMENT");
+//                if (myFragment != null && myFragment.isVisible()) {
+//                }
 
                 checkValidation(email.getText().toString(), password.getText().toString());
                 if (isEmailValid && isPasswordValid){
                     if (listener != null) {
                         FirebaseAuth auth = db.getUsersAuthenticator();
-                        auth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                        Toast.makeText(getActivity(), "register fragment", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                        auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            Log.d("LoginActivity", "signInWithEmail:success");
-                                            Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                            Log.d("RegisterActivity", "registerWithEmail:success");
+                                            Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
 //                                            FirebaseUser user = auth.getCurrentUser();
 //                                            db.setCurrentUser(user);                                        } else {
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
                                             viewModelApp.set(newStudent);
                                             listener.onButtonClicked();
                                         }else{
-                                            Log.w("LoginActivity", "signInWithEmail:failure", task.getException());
-                                            Toast.makeText(getActivity(), "signInWithEmail:failure", Toast.LENGTH_LONG).show();
+                                            Log.w("RegisterActivity", "registerWithEmail:failure", task.getException());
+                                            Toast.makeText(getActivity(), "registerWithEmail:failure", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                         }
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
