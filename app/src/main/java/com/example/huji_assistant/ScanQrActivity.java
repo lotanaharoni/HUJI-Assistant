@@ -15,10 +15,20 @@ import androidx.core.content.ContextCompat;
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.CodeScannerView;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.zxing.Result;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ScanQrActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
+    private final int COURSE = 0;
+    private final int YEAR = 1;
+    private final int DAY = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +37,7 @@ public class ScanQrActivity extends AppCompatActivity {
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
         verifyPermissions();
+        mCodeScanner.startPreview();
 
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -34,7 +45,32 @@ public class ScanQrActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(ScanQrActivity.this, result.getText(), Toast.LENGTH_SHORT).show();
+                        String[] parts = result.getText().split("-");
+                        // parts = "67625-2021-15/09"
+                        if (parts.length != 3){
+                            return;
+                        }
+                        User tempUser = new User("Yosi", "123456789", "yosi@gmail.com", 1, 3);
+                        // todo: Get current user
+                        Map<String, Object> userScan = new HashMap<>();
+                        userScan.put("Yosi-121121121", tempUser); //todo
+                        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                        firestore.collection(parts[COURSE]).document(parts[YEAR]).collection(parts[DAY])
+                                .add(userScan)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Toast.makeText(ScanQrActivity.this, "DocumentSnapshot added", Toast.LENGTH_LONG).show();
+                                        mCodeScanner.stopPreview();
+                                        onBackPressed();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(ScanQrActivity.this, "DocumentSnapshot failed", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                    }
+                                });
                     }
                 });
             }
@@ -64,6 +100,16 @@ public class ScanQrActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         verifyPermissions();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mCodeScanner.isPreviewActive()){
+            mCodeScanner.stopPreview();
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
 }
