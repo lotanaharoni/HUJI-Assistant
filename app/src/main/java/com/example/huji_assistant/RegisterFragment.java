@@ -27,7 +27,7 @@ public class RegisterFragment extends Fragment {
         public void onButtonClicked();
     }
     public RegisterFragment(){
-        super(R.layout.loginfragment);
+        super(R.layout.register_fragment);
     }
     public TextViewFragment.buttonClickListener listener = null;
     boolean isEmailValid = false;
