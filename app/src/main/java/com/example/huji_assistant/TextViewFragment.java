@@ -1,5 +1,7 @@
 package com.example.huji_assistant;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +49,7 @@ public class TextViewFragment extends Fragment {
         }
         EditText email = view.findViewById(R.id.email);
         EditText password = view.findViewById(R.id.password);
+        Button forgotPassword = view.findViewById(R.id.forgotPassword);
 
         emailValidationView = view.findViewById(R.id.emailValidation);
         passwordValidationView = view.findViewById(R.id.passwordValidation);
@@ -58,6 +62,43 @@ public class TextViewFragment extends Fragment {
             @Override
             public void onChanged(StudentInfo studentInfo) {
                 // when observe occurs
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final EditText resetMail = new EditText(view.getContext());
+                final AlertDialog.Builder passwordDialog = new AlertDialog.Builder(view.getContext());
+                passwordDialog.setTitle("Reset password?");
+                passwordDialog.setMessage("Enter your Email to receive a Reset link");
+                passwordDialog.setView(resetMail);
+                passwordDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String resetEmail = resetMail.getText().toString();
+                        FirebaseAuth auth = db.getUsersAuthenticator();
+                        auth.sendPasswordResetEmail(resetEmail)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(getActivity(), "Check your mail and reset your password", Toast.LENGTH_LONG).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "There was a problem, please try again later", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+                passwordDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                passwordDialog.create().show();
             }
         });
 
@@ -110,8 +151,10 @@ public class TextViewFragment extends Fragment {
 
     public void checkValidation(String email, String password){
         if (email.isEmpty()) {
-            emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
-            emailValidationView.setVisibility(View.VISIBLE);
+//            emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
+//            emailValidationView.setVisibility(View.VISIBLE);
+            //todo: maybe a Toast?
+            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_email_msg), Toast.LENGTH_LONG).show();
 
             isEmailValid = false;}
         //  } else if (!Patterns.EMAIL_ADDRESS.matcher(email.matches("*"))) {
@@ -123,10 +166,14 @@ public class TextViewFragment extends Fragment {
 
         // Check for a valid password.
         if (password.isEmpty()) {
-            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
-            passwordValidationView.setVisibility(View.VISIBLE);
+//            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
+//            passwordValidationView.setVisibility(View.VISIBLE);
+            //todo: maybe a Toast?
+            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
             isPasswordValid = false;
         } else if (password.length() < PASSWORD_LENGTH) {
+            //todo: maybe a Toast?
+            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
             isPasswordValid = false;
         } else  {
             isPasswordValid = true;
