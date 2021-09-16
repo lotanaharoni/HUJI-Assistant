@@ -112,4 +112,7 @@ public class ScanQrActivity extends AppCompatActivity {
         }
     }
 
+    public boolean isCodeScannerActive(){
+        return mCodeScanner.isPreviewActive();
+    }
 }
