@@ -7,6 +7,8 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import com.google.firebase.FirebaseApp;
+
 import java.util.UUID;
 
 public class HujiAssistentApplication extends Application {
@@ -20,6 +22,7 @@ public class HujiAssistentApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        FirebaseApp.initializeApp(this);
         instance = this;
         dataBase = new LocalDataBase(this); // pass the current context to allow broadcasts
         sp = this.getSharedPreferences("local_work_sp", Context.MODE_PRIVATE);
