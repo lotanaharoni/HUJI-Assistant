@@ -46,7 +46,7 @@ public class ScanQrActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         String[] parts = result.getText().split("-");
-                        // parts = "67625-2021-15/09"
+                        // parts = "67625-2021-15.09"
                         if (parts.length != 3){
                             return;
                         }
