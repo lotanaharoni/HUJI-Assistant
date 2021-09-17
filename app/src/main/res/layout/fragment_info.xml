@@ -20,6 +20,14 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="686dp" >
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_marginTop="50dp"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layouttext"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
@@ -90,11 +98,15 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layouttext3"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewDegree"
@@ -109,6 +121,9 @@
                 android:hint="בחר תואר"
                 android:layout_weight="1"
                 android:text="" />
+
+
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

@@ -2,16 +2,45 @@ package com.example.huji_assistant;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.fragment.app.FragmentContainerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+
 public class MainActivity extends AppCompatActivity {
 
+    public LocalDataBase dataBase = null;
+
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //FirebaseFirestore.getInstance()
+
+        // db
+        if (dataBase == null){
+            dataBase = HujiAssistentApplication.getInstance().getDataBase();
+        }
+       // Fetcher fe = new Fetcher();
+       // fe.execute();
+
+       // HashMap<String, Chug> chugsMap = fe.getChugsMap();
+      //  dataBase.chugs = chugsMap;
+
+
+
+        // application singleton
+        HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
 
         // Gets fragments
         FragmentContainerView loginFragment = findViewById(R.id.loginfragment);
@@ -76,7 +105,16 @@ public class MainActivity extends AppCompatActivity {
                         .replace(loginFragment.getId(), coursesFragment).addToBackStack(null).commit();
             }
         };
+/** todo remove this listener
+        infoFragment.itemSelectedDropDownFacultyListener = new InfoFragment.itemSelectedDropDownFaculty() {
+            @Override
+            public void onFacultyItemSelected() {
+                View autoCompleteTextViewFacultyView = findViewById(R.id.autoCompleteTextViewFaculty);
+            //    autoCompleteTextViewFacultyView.
 
+            }
+        };
+*/
         coursesFragment.endRegistrationBtnListener = new CoursesFragment.endRegistrationButtonClickListener() {
             @Override
             public void onEndRegistrationBtnClicked() {
@@ -90,5 +128,6 @@ public class MainActivity extends AppCompatActivity {
                         .replace(loginFragment.getId(), mainScreen).disallowAddToBackStack().commit();
             }
         };
-    }
+ }
+
 }

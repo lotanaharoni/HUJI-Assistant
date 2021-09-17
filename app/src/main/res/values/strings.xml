@@ -11,19 +11,19 @@
     <string name="email_address_field">כתובת דואר אלקטרוני</string>
     <string name="password_address_field">סיסמא</string>
     <string-array name="faculty">
-        <item value="1">הפקולטה למדעי הרוח</item>
-        <item number="2">הפקולטה למדעי הטבע</item>
-        <item number="3">הפקולטה למשפטים</item>
-        <item number="4">הפקולטה לרפואה</item>
-        <item number="5">הפקולטה לרפואת שיניים</item>
-        <item number="6">ביה"ס למנהל העסקים</item>
-        <item number="7">הפקולטה למדעי החברה</item>
-        <item number="8">הפקולטה לחקלאות</item>
-        <item number="9">ביה"ס לעבודה סוציאלית</item>
-        <item number="10">מרכז אדמונד ולילי ספרא למדעי המוח</item>
-        <item number="11">ביה"ס להנדסה ולמדעי המחשב</item>
-        <item number="12">מכינה</item>
-        <item number="12">תוכניות מיוחדות</item>
+        <item value="01">הפקולטה למדעי הרוח</item>
+        <item number="02">הפקולטה למדעי הטבע</item>
+        <item number="03">הפקולטה למשפטים</item>
+        <item number="04">הפקולטה לרפואה</item>
+        <item number="05">הפקולטה לרפואת שיניים</item>
+        <item number="06">ביה"ס למנהל העסקים</item>
+        <item number="07">הפקולטה למדעי החברה</item>
+        <item number="08">הפקולטה לחקלאות</item>
+        <item number="09">ביה"ס לעבודה סוציאלית</item>
+        <item number="11">מרכז אדמונד ולילי ספרא למדעי המוח</item>
+        <item number="12">ביה"ס להנדסה ולמדעי המחשב</item>
+        <item number="16">מכינה</item>
+        <item number="30">תוכניות מיוחדות</item>
     </string-array>
     <string-array name="school_science_faculty">
         <item number="12">מכינה</item>
@@ -52,8 +52,8 @@
     </string-array>
 
     <string-array name="ruach_faculty">
-        <item value="0" label="כל החוגים">כל החוגים</item>
-        <item value="0255" label="אמירים - תכנית מצטיינים ">אמירים - תכנית מצטיינים</item>
+        <item name="0" label="כל החוגים">כל החוגים</item>
+        <item name="0255" label="אמירים - תכנית מצטיינים ">אמירים - תכנית מצטיינים</item>
         <item value="0176" label="אנגלית ">אנגלית</item>
         <item value="0150" label="ארכאולוגיה והמזרח הקרוב הקדום ">ארכאולוגיה והמזרח הקרוב הקדום</item>
         <item value="0195" label="ביה&quot;ס לאמנויות ">ביה"ס לאמנויות</item>

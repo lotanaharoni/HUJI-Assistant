@@ -57,8 +57,10 @@ public class TextViewFragment extends Fragment {
             public void onClick(View v) {
                 emailValidationView.setVisibility(View.GONE);
                 passwordValidationView.setVisibility(View.GONE);
-
-                checkValidation(email.getText().toString(), password.getText().toString());
+                //todo remove later
+                isPasswordValid = true;
+                isEmailValid = true;
+                //checkValidation(email.getText().toString(), password.getText().toString());
                 if (isEmailValid && isPasswordValid){
                     if (listener != null) {
                         StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
