@@ -1,7 +1,5 @@
 package com.example.huji_assistant;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,19 +16,18 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class TextViewFragment extends Fragment {
+public class RegisterFragment extends Fragment {
     private LocalDataBase db;
     private ViewModelApp viewModelApp;
     public interface buttonClickListener{
         public void onButtonClicked();
     }
-    public TextViewFragment(){
-        super(R.layout.loginfragment);
+    public RegisterFragment(){
+        super(R.layout.register_fragment);
     }
     public TextViewFragment.buttonClickListener listener = null;
     boolean isEmailValid = false;
@@ -49,7 +46,6 @@ public class TextViewFragment extends Fragment {
         }
         EditText email = view.findViewById(R.id.email);
         EditText password = view.findViewById(R.id.password);
-        Button forgotPassword = view.findViewById(R.id.forgotPassword);
 
         emailValidationView = view.findViewById(R.id.emailValidation);
         passwordValidationView = view.findViewById(R.id.passwordValidation);
@@ -65,71 +61,36 @@ public class TextViewFragment extends Fragment {
             }
         });
 
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final EditText resetMail = new EditText(view.getContext());
-                final AlertDialog.Builder passwordDialog = new AlertDialog.Builder(view.getContext());
-                passwordDialog.setTitle("Reset password?");
-                passwordDialog.setMessage("Enter your Email to receive a Reset link");
-                passwordDialog.setView(resetMail);
-                passwordDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String resetEmail = resetMail.getText().toString();
-                        FirebaseAuth auth = db.getUsersAuthenticator();
-                        auth.sendPasswordResetEmail(resetEmail)
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        Toast.makeText(getActivity(), "Check your mail and reset your password", Toast.LENGTH_LONG).show();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), "There was a problem, please try again later", Toast.LENGTH_LONG).show();
-                            }
-                        });
-                    }
-                });
-                passwordDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                passwordDialog.create().show();
-            }
-        });
-
         Button continueBtn = view.findViewById(R.id.continueBtn);
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 emailValidationView.setVisibility(View.GONE);
                 passwordValidationView.setVisibility(View.GONE);
-                //todo remove later
-                isPasswordValid = true;
-                isEmailValid = true;
-                //checkValidation(email.getText().toString(), password.getText().toString());
+//                FirstFragment myFragment = (FirstFragment)getSupportFragmentManager().findFragmentByTag("FIRST_FRAGMENT");
+//                if (myFragment != null && myFragment.isVisible()) {
+//                }
+
+                checkValidation(email.getText().toString(), password.getText().toString());
                 if (isEmailValid && isPasswordValid){
                     if (listener != null) {
                         FirebaseAuth auth = db.getUsersAuthenticator();
-                        auth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                        Toast.makeText(getActivity(), "register fragment", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                        auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
-                                            Log.d("LoginActivity", "signInWithEmail:success");
-                                            Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                            Log.d("RegisterActivity", "registerWithEmail:success");
+                                            Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
 //                                            FirebaseUser user = auth.getCurrentUser();
 //                                            db.setCurrentUser(user);                                        } else {
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
                                             viewModelApp.set(newStudent);
                                             listener.onButtonClicked();
                                         }else{
-                                            Log.w("LoginActivity", "signInWithEmail:failure", task.getException());
-                                            Toast.makeText(getActivity(), "signInWithEmail:failure", Toast.LENGTH_LONG).show();
+                                            Log.w("RegisterActivity", "registerWithEmail:failure", task.getException());
+                                            Toast.makeText(getActivity(), "registerWithEmail:failure", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                         }
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -174,6 +135,8 @@ public class TextViewFragment extends Fragment {
             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
             isPasswordValid = false;
         } else if (password.length() < PASSWORD_LENGTH) {
+//            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
+//            passwordValidationView.setVisibility(View.VISIBLE);
             //todo: maybe a Toast?
             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
             isPasswordValid = false;
