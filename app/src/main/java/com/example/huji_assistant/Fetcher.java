@@ -3,6 +3,9 @@ package com.example.huji_assistant;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -77,10 +80,13 @@ public class Fetcher extends AsyncTask<Void, Void, Void> {
                 DocumentReference document = firebaseInstancedb.collection(collection_name).document(value);
                 document.set(newFaculty).addOnSuccessListener(aVoid -> {
                     Log.i("tag", "added a new order to firestore db");
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("tag", "failure a new order to firestore db");
+                    }
                 });
             }
-
-            // todo save data in firestore so it will be saved when app is closed
 
             getChugsData();
             getMaslulimData();
