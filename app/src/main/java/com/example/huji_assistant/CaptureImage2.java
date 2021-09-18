@@ -1,12 +1,18 @@
 package com.example.huji_assistant;
 
+import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -14,6 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,14 +33,25 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CaptureImage2 extends AppCompatActivity {
 
     private Button uploadBtn, showAllBtn;
-    private ImageView imageView;
+    private ImageView imageView, cameraImageUpload;
     private ProgressBar progressBar;
     private DatabaseReference root;
     private StorageReference reference;
     private Uri imageUri;
+    EditText imageTitle;
+    String currentPhotoPath;
+    public static final int CAMERA_PERM_CODE = 101;
+    public static final int CAMERA_REQUEST_CODE = 102;
+    public static final int DOCUMENTS_REQUEST_CODE = 104;
+    public static final int GALLERY_REQUEST_CODE = 105;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +65,19 @@ public class CaptureImage2 extends AppCompatActivity {
         root = FirebaseDatabase.getInstance().getReference("Image");
         reference = FirebaseStorage.getInstance().getReference();
         progressBar.setVisibility(View.INVISIBLE);
-//        imageView.setImageURI(null);
+        cameraImageUpload = findViewById(R.id.cameraImageUpload2);
+        imageTitle = findViewById(R.id.imageTitle);
+        imageTitle.setText("");
+
+//        imageView.setImageURI(null); todo: reset the image
 //        imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);
+
+        cameraImageUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                askCameraPermissions();
+            }
+        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +85,7 @@ public class CaptureImage2 extends AppCompatActivity {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, 2);
+                startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
             }
         });
 
@@ -62,7 +93,7 @@ public class CaptureImage2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (imageUri != null){
-                    uploadToFirebase(imageUri);
+                    uploadToFirebase(imageUri, GALLERY_REQUEST_CODE, "");
                 }else{
                     Toast.makeText(CaptureImage2.this, "Please select image", Toast.LENGTH_SHORT).show();
                 }
@@ -77,20 +108,28 @@ public class CaptureImage2 extends AppCompatActivity {
         });
     }
 
-    private void uploadToFirebase(Uri uri) {
-        StorageReference fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+    private void uploadToFirebase(Uri uri, int source, String name) {
+        StorageReference fileRef;
+        if (source == 0){
+            fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+        }
+        else{
+            fileRef = reference.child("images/" + name);
+        }
+//        StorageReference fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+        StorageReference finalFileRef = fileRef;
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                finalFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-
                         Model model = new Model(uri.toString());
                         String modelId = root.push().getKey();
                         assert modelId != null;
                         progressBar.setVisibility(View.INVISIBLE);
                         root.child(modelId).setValue(model);
+                        imageTitle.setText(""); //todo: add title
                         Toast.makeText(CaptureImage2.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -119,9 +158,92 @@ public class CaptureImage2 extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 2 && resultCode == RESULT_OK && data != null){
+        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null){
             imageUri = data.getData();
             imageView.setImageURI(imageUri);
         }
+
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            File f = new File(currentPhotoPath);
+            imageView.setImageURI(Uri.fromFile(f));
+
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri contentUri = Uri.fromFile(f);
+            mediaScanIntent.setData(contentUri);
+            this.sendBroadcast(mediaScanIntent);
+
+            uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
+        }
     }
+
+    private void askCameraPermissions() {
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+        }else {
+            dispatchTakePictureIntent();
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+            }
+        }
+    }
+
+    private File createImageFile() throws IOException {
+//     Create an image file name
+        String imageFileName = "";
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        if (!imageTitle.getText().toString().equals("")){
+            imageFileName = "JPEG_" + imageTitle.getText().toString() + "_";
+        }
+        else{
+            imageFileName = "JPEG_" + timeStamp + "_";
+        }
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+//     Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("imageTitle", imageTitle.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        imageTitle.setText(savedInstanceState.getString("imageTitle"));
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent backToLoginIntent = new Intent(this, MainActivity.class);
+        startActivity(backToLoginIntent);
+    }
+
 }
