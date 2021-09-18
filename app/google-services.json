@@ -1,33 +1,34 @@
 {
   "project_info": {
-    "project_number": "741980634750",
-    "project_id": "hujiassistent2",
-    "storage_bucket": "hujiassistent2.appspot.com"
+    "project_number": "122285413551",
+    "firebase_url": "https://huji-assistant1-default-rtdb.firebaseio.com",
+    "project_id": "huji-assistant1",
+    "storage_bucket": "huji-assistant1.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:741980634750:android:bae1a39cea868a1c39622f",
+        "mobilesdk_app_id": "1:122285413551:android:d871736477432ba44b705a",
         "android_client_info": {
           "package_name": "com.example.huji_assistant"
         }
       },
       "oauth_client": [
         {
-          "client_id": "741980634750-q0vnujja5fi2goebsht0t8mp9lkoeivb.apps.googleusercontent.com",
+          "client_id": "122285413551-l0ajlrkaqp4g1cr39jkqsj3espabrga2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCzeYSVodwvKqJpkec5CZmKfHGVmhHafGs"
+          "current_key": "AIzaSyD8no9K4YLIICy4GJQACpz-g3jg1y0s06U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "741980634750-q0vnujja5fi2goebsht0t8mp9lkoeivb.apps.googleusercontent.com",
+              "client_id": "122285413551-l0ajlrkaqp4g1cr39jkqsj3espabrga2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
