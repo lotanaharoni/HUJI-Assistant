@@ -7,7 +7,11 @@ public class StudentInfo {
     private String name;
     private String email;
     private String password;
-    private String degreeName;
+
+    private String facultyId;
+    private String chugId;
+    private String maslulId;
+    private String degree;
     private String year;
     private UUID id;
 
@@ -15,6 +19,14 @@ public class StudentInfo {
         email=email;
         password=password;
         id = UUID.randomUUID();
+    }
+
+    public StudentInfo(String facultyId_, String chugId_, String maslulId_, String degree_, String year_){
+        this.facultyId = facultyId_;
+        this.chugId = chugId_;
+        this.maslulId = maslulId_;
+        this.degree = degree_;
+        this.year = year_;
     }
 
 
@@ -35,10 +47,30 @@ public class StudentInfo {
     }
 
     public void setDegreeName(String degreeName){
-        this.degreeName = degreeName;
+        this.degree = degreeName;
     }
 
     public String getName(){
         return name;
+    }
+
+    public String getFacultyId(){
+        return facultyId;
+    }
+
+    public String getChugId(){
+        return chugId;
+    }
+
+    public String getMaslulId(){
+        return maslulId;
+    }
+
+    public String getDegree(){
+        return degree;
+    }
+
+    public String getYear(){
+        return year;
     }
 }

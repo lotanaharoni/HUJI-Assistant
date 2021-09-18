@@ -10,7 +10,6 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 public class CoursesFragment extends Fragment {
@@ -19,17 +18,51 @@ public class CoursesFragment extends Fragment {
         public void onEndRegistrationBtnClicked();
     }
 
+    String facultyId;
+    String chugId;
+    String maslulId;
+    String degree;
+    String year;
+    TextView facultyTextView;
+    TextView chugTextView;
+    TextView maslulTextView;
+    TextView yearTextView;
+    TextView degreeTextView;
+
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
 
     public CoursesFragment(){
-        super(R.layout.courselayout);
+        super(R.layout.fragment_courses);
     }
     Spinner dropdown;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewModelApp viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
+        viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
+        facultyTextView = view.findViewById(R.id.faculty);
+        chugTextView = view.findViewById(R.id.chugName);
+        maslulTextView = view.findViewById(R.id.maslulName);
+        yearTextView = view.findViewById(R.id.year);
+        degreeTextView = view.findViewById(R.id.degreeType);
+
+
+        viewModelApp.get().observe(getViewLifecycleOwner(), item->{
+             facultyId = item.getFacultyId();
+             chugId = item.getChugId();
+             maslulId = item.getMaslulId();
+             degree = item.getDegree();
+             year = item.getYear();
+
+             facultyTextView.setText(facultyId);
+             chugTextView.setText(chugId);
+             maslulTextView.setText(maslulId);
+             degreeTextView.setText(degree);
+             yearTextView.setText(year);
+
+        });
+
+        /**
         viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
             @Override
             public void onChanged(StudentInfo studentInfo) {
@@ -38,7 +71,7 @@ public class CoursesFragment extends Fragment {
              //   TextView nameTextView = view.findViewById(R.id.studentNameTextView);
               //  nameTextView.setText(name);
             }
-        });
+        });*/
 
         OnBackPressedCallback callback = new OnBackPressedCallback(false) {
             @Override

@@ -75,7 +75,8 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
     def multidex_version = "2.0.1"

@@ -40,22 +40,31 @@ public class InfoFragment extends Fragment {
     public InfoFragment(){
         super(R.layout.personalinfofragment);
     }
+
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+
     public interface itemSelectedDropDownFaculty{
         public void onFacultyItemSelected();
     }
-    public InfoFragment.itemSelectedDropDownFaculty itemSelectedDropDownFacultyListener = null;
-    HashMap<Integer, String> faculties_position_map = new HashMap<>();
 
+    public InfoFragment.itemSelectedDropDownFaculty itemSelectedDropDownFacultyListener = null;
+
+    HashMap<Integer, String> faculties_position_map = new HashMap<>();
     FragmentInfoBinding binding;
     AutoCompleteTextView dropdownHugim;
     AutoCompleteTextView dropdownFaculty;
     AutoCompleteTextView dropdownMaslulim;
+    AutoCompleteTextView dropdowndegree;
     AutoCompleteTextView dropdownYear;
+    ArrayList<String> degreeList = new ArrayList<>();
+
     private ViewModelApp viewModelApp;
     String facultyId;
     String chugId;
     String maslulId;
+    String selectedDegree;
+    String selectedYear;
+    boolean validDegree = false;
     public LocalDataBase dataBase;
     public interface continueButtonClickListener{
         public void continueBtnClicked();
@@ -82,10 +91,7 @@ public class InfoFragment extends Fragment {
 
         // Get values recourse
         String[] facultyArray = getResources().getStringArray(R.array.faculty);
-        String[] computerScienceHugimArray = getResources().getStringArray(R.array.school_science_faculty);
-        String[] ruachHugimArray = getResources().getStringArray(R.array.ruach_faculty);
-
-        // todo get faculties from firestore delete string array
+        //String[] degreeArray = getResources().getStringArray(R.array.degreeTypesList);
 
         // Get items to show in drop down faculty
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdownfacultyitem, facultyArray);
@@ -100,6 +106,15 @@ public class InfoFragment extends Fragment {
     }
 
     public InfoFragment.continueButtonClickListener continueListener = null;
+
+    private void checkValidation(){
+        // Check fields not empty
+
+        int facultySelectedItem = dropdownFaculty.getListSelection();
+
+
+        System.out.println("faculty: " + facultyId + "chug: " + chugId + "maslul: "+ maslulId);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -128,7 +143,10 @@ public class InfoFragment extends Fragment {
         autoCompleteTextViewYear.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
 
+
+
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
+
         view.findViewById(R.id.continuePersBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -140,6 +158,13 @@ public class InfoFragment extends Fragment {
                     //  currentStudent.setDegreeName(degreeNameEditText.getText().toString());
                     // todo validation check for inserted values
                     // todo bar
+                    checkValidation();
+                    if (!validDegree){
+
+                    }
+
+                    StudentInfo newStudent = new StudentInfo(facultyId, chugId, maslulId, selectedDegree, selectedYear);
+                    viewModelApp.set(newStudent);
 
                     continueListener.continueBtnClicked();
                 }
@@ -149,18 +174,19 @@ public class InfoFragment extends Fragment {
         dropdownHugim = view.findViewById(R.id.autoCompleteTextViewChug);
         dropdownFaculty = view.findViewById(R.id.autoCompleteTextViewFaculty);
         dropdownMaslulim = view.findViewById(R.id.autoCompleteTextViewMaslul);
+        dropdowndegree = view.findViewById(R.id.autoCompleteTextViewDegree);
         dropdownYear = view.findViewById(R.id.autoCompleteTextViewYear);
-
 
         dropdownFaculty.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String)parent.getItemAtPosition(position);
-              //  System.out.println("selection "+ selection);
-                //System.out.println("position "+ position);
-                //dropdownHugim = view.findViewById(R.id.autoCompleteTextViewChug);
                 ArrayList<String> s = new ArrayList<>();
                 autoCompleteTextViewChug.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownhujiitem, s));
+
+               // dropdownHugim.clearListSelection();
+               // dropdownHugim.setText("");
+               // dropdownMaslulim.setText("");
                 progressBar.setVisibility(View.VISIBLE);
 
 
@@ -235,31 +261,7 @@ public class InfoFragment extends Fragment {
                                 }
                             }
                         });*/
-                        /**
-                        .document(facultyId).collection("chugimInFaculty")
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                autoCompleteTextViewChug.setEnabled(true);
-                                List<DocumentSnapshot> documents = task.getResult().getDocuments();
 
-                                 ArrayList<String> chugimInFaculty = new ArrayList<>();
-
-                                for (DocumentSnapshot document1 : documents){
-                                    // retrieve for each chug id it's name
-                                    String docId  = document1.getId().toString();
-                                    Chug chug = document1.toObject(Chug.class);
-                                   // chugId = chug.getId();
-                                  //  System.out.println("chug "+ chug.toStringP());
-                                    String chugTitle = chug.getTitle();
-                                    chugimInFaculty.add(chugTitle);
-                                }
-
-                                binding.autoCompleteTextViewChug.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownhujiitem, chugimInFaculty));
-                            }
-                        });
-                         */
             }
         });
 
@@ -268,13 +270,13 @@ public class InfoFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 progressBar.setVisibility(View.VISIBLE);
                 String selection = (String)parent.getItemAtPosition(position);
-                System.out.println("selection "+ selection);
-                System.out.println("position "+ position);
                 dropdownMaslulim = view.findViewById(R.id.autoCompleteTextViewMaslul);
                 //autoCompleteTextViewMaslul.setEnabled(true);
+               // dropdownMaslulim.setText("");
                 ArrayList<String> s = new ArrayList<>();
                 autoCompleteTextViewMaslul.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownmaslulitem, s));
 
+               // dropdownMaslulim.clearListSelection();
 
                 // Get the chosen document
                 Task<QuerySnapshot> document = firebaseInstancedb.collection("faculties").
@@ -323,48 +325,52 @@ public class InfoFragment extends Fragment {
         dropdownMaslulim.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String)parent.getItemAtPosition(position);
-                System.out.println("selection "+ selection);
-                System.out.println("position "+ position);
+                String selection = (String) parent.getItemAtPosition(position);
+                System.out.println("selection " + selection);
+                System.out.println("position " + position);
 
                 // Save id's
+                Task<QuerySnapshot> document = firebaseInstancedb.collection("faculties").
+                        document(facultyId).collection("chugimInFaculty").document(chugId)
+                        .collection("maslulimInChug").whereEqualTo("title", selection)
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                progressBar.setVisibility(View.INVISIBLE);
+                                autoCompleteTextViewDegree.setEnabled(true);
+                                List<DocumentSnapshot> documents = task.getResult().getDocuments();
 
+                                for (DocumentSnapshot document1 : documents) {
+                                    // retrieve for each chug id it's name
+                                    Maslul maslul = document1.toObject(Maslul.class);
+                                    maslulId = maslul.getId();
+                                    System.out.println("chosen maslul: " + maslulId);
+                                }
+
+                                String[] degreeArray = getResources().getStringArray(R.array.degreeTypesList);
+                                binding.autoCompleteTextViewDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdowndegreeitem, degreeArray));
+                            }
+                        });
             }
         });
 
-        /**
-        dropdownHugim.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+        dropdowndegree.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selection = (String)parent.getItemAtPosition(position);
-                long itemIdAtPosition = parent.getItemIdAtPosition(position);
-                System.out.println("item id "+ itemIdAtPosition);
-                Object selectedItem = parent.getSelectedItem();
-                System.out.println("selectedItem "+ selectedItem);
-
-                int ruach_faculty = getResources().getIdentifier(selection, "ruach_faculty", "");
-                System.out.println("ruach_faculty "+ ruach_faculty);
-                String[] ruachHugimArray = getResources().getStringArray(R.array.ruach_faculty);
-                System.out.println("length" + ruachHugimArray.length);
-                System.out.println("tostring" + Arrays.toString(ruachHugimArray));
-                int i = Arrays.binarySearch(ruachHugimArray, selection);
-                System.out.println("i" + i);
-                List<String> list = Arrays.asList(ruachHugimArray);
-                System.out.println("list" + list);
-                int i1 = list.indexOf(selection);
-                System.out.println("i1" + i1);
-
-
-                String item = dataBase.ruach_faculty_values_names_map.get(selection);
-                System.out.println("item" + item);
-
-
+                selectedDegree = (String) parent.getItemAtPosition(position);
+                System.out.println("selection " + selectedDegree);
+                System.out.println("position " + position);
+                autoCompleteTextViewYear.setEnabled(true);
+                String[] yearArray = getResources().getStringArray(R.array.yearArray);
+                binding.autoCompleteTextViewYear.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownyearitem, yearArray));
             }
         });
-*/
 
-
-
+        dropdownYear.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedYear = (String) parent.getItemAtPosition(position);
+            }
+        });
     }
 }

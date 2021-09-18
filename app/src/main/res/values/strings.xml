@@ -10,6 +10,22 @@
     <string name="please_enter_email_msg">נא להכניס כתובת דואר אלקטרוני</string>
     <string name="email_address_field">כתובת דואר אלקטרוני</string>
     <string name="password_address_field">סיסמא</string>
+    <string-array name="degreeTypesList">
+        <item value="01">בוגר</item>
+        <item value="02">מוסמך</item>
+    </string-array>
+
+    <string-array name="yearArray">
+        <item value="01">שנה א</item>
+        <item value="02">שנה ב</item>
+        <item value="03">שנה ג</item>
+        <item value="04">שנה ד</item>
+        <item value="05">שנה ה</item>
+    </string-array>
+
+
+
+
     <string-array name="faculty">
         <item value="01">הפקולטה למדעי הרוח</item>
         <item number="02">הפקולטה למדעי הטבע</item>

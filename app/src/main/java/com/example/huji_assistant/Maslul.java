@@ -28,4 +28,8 @@ public class Maslul {
     public String getTitle(){
         return title;
     }
+
+    public String getId(){
+        return maslulId;
+    }
 }
