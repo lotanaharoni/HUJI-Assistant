@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout moreInfoDrawerLayout;
 
@@ -41,15 +41,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //FirebaseFirestore.getInstance()
 
         // db
-        if (dataBase == null){
+        if (dataBase == null) {
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
-       // Fetcher fe = new Fetcher();
-       // fe.execute();
+        Fetcher fe = new Fetcher();
+        fe.execute();
 
-       // HashMap<String, Chug> chugsMap = fe.getChugsMap();
-      //  dataBase.chugs = chugsMap;
-
+        // HashMap<String, Chug> chugsMap = fe.getChugsMap();
+        //  dataBase.chugs = chugsMap;
 
 
         // application singleton
@@ -70,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CoursesFragment coursesFragment = new CoursesFragment();
         InfoFragment infoFragment = new InfoFragment();
         MainScreen mainScreen = new MainScreen();
+
         getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment, "FIRST_FRAGMENT")
                 .commit();
 
@@ -141,16 +141,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(loginFragment.getId(), coursesFragment).addToBackStack(null).commit();
             }
         };
-/** todo remove this listener
-        infoFragment.itemSelectedDropDownFacultyListener = new InfoFragment.itemSelectedDropDownFaculty() {
-            @Override
-            public void onFacultyItemSelected() {
-                View autoCompleteTextViewFacultyView = findViewById(R.id.autoCompleteTextViewFaculty);
-            //    autoCompleteTextViewFacultyView.
 
-            }
-        };
-*/
         coursesFragment.endRegistrationBtnListener = new CoursesFragment.endRegistrationButtonClickListener() {
             @Override
             public void onEndRegistrationBtnClicked() {
@@ -164,9 +155,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(loginFragment.getId(), mainScreen).disallowAddToBackStack().commit();
             }
         };
- }
-
     }
+
 
     private void goToUrl(String s) {
         Uri url = Uri.parse(s);
@@ -194,14 +184,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
+
     @Override
     public void onBackPressed() {
         if (moreInfoDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             moreInfoDrawerLayout.closeDrawer(GravityCompat.START);
             return;
-        }
-        else {
-            FirstFragment myFragment = (FirstFragment)getSupportFragmentManager().findFragmentByTag("FIRST_FRAGMENT");
+        } else {
+            FirstFragment myFragment = (FirstFragment) getSupportFragmentManager().findFragmentByTag("FIRST_FRAGMENT");
             if (myFragment != null && myFragment.isVisible()) {
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                     switch (which) {
@@ -218,8 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Close the app?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
-            }
-            else {
+            } else {
                 super.onBackPressed();
             }
         }

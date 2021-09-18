@@ -52,9 +52,6 @@ public class CaptureActivity extends AppCompatActivity {
     Uri imageuri = null;
     ImageView pdfImageUpload, galleryImageUpload, cameraImageUpload;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

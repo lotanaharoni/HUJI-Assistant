@@ -30,21 +30,20 @@ public class LocalDataBase {
     private String[] faculty_values;
     public HashMap<String, Chug> chugs = new HashMap<>();
 
-
     private final FirebaseAuth mAuth;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public LocalDataBase(Context context){
         this.context = context;
         this.sp = context.getSharedPreferences("local_db_calculation_items", Context.MODE_PRIVATE);
-*/
-
+        this.mAuth = FirebaseAuth.getInstance();
         // initializeSp();
     }
 
-    public HashMap<String, String> getRuach_faculty_values_names_map(){
-      
+    public HashMap<String, String> getRuach_faculty_values_names_map() {
         return ruach_faculty_values_names_map;
+    }
+
     public FirebaseAuth getUsersAuthenticator() {
         return mAuth;
     }
