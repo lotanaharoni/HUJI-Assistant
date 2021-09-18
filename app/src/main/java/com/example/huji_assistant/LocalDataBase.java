@@ -3,6 +3,7 @@ package com.example.huji_assistant;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.util.Pair;
 
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
@@ -24,8 +25,11 @@ public class LocalDataBase {
     private final MutableLiveData<List<StudentInfo>> mutableLiveData = new MutableLiveData<>();
     public final LiveData<List<StudentInfo>> publicLiveData = mutableLiveData;
     private ArrayList<Course> listOfCourses = new ArrayList<>();
-    private HashMap faculty_values_names_map;
+    private HashMap<String, String> faculty_values_names_map;
+    public HashMap<String, String> ruach_faculty_values_names_map;
     private String[] faculty_values;
+    public HashMap<String, Chug> chugs = new HashMap<>();
+
 
     private final FirebaseAuth mAuth;
 
@@ -33,15 +37,14 @@ public class LocalDataBase {
     public LocalDataBase(Context context){
         this.context = context;
         this.sp = context.getSharedPreferences("local_db_calculation_items", Context.MODE_PRIVATE);
-//        faculty_values = new String[]{"1","2","3","4","5","6","7","8","9","10","11","12"};
-//        faculty_values_names_map.put("1", "");
-
-        this.mAuth = FirebaseAuth.getInstance();
-
+*/
 
         // initializeSp();
     }
 
+    public HashMap<String, String> getRuach_faculty_values_names_map(){
+      
+        return ruach_faculty_values_names_map;
     public FirebaseAuth getUsersAuthenticator() {
         return mAuth;
     }

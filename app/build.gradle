@@ -3,7 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'com.google.gms.google-services'
 }
-
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 android {
     dataBinding{
         enabled=true
@@ -22,7 +23,6 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -79,13 +79,23 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
 
+    // Import the BoM for the Firebase platform
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
 
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.firebase:firebase-firestore'
+
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
     // Feature module Support
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
-
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
-
+    def multidex_version = "2.0.1"
+    implementation "androidx.multidex:multidex:$multidex_version"
+    implementation 'com.android.support:multidex:1.0.3'
     // Jetpack Compose Integration
     // implementation "androidx.navigation:navigation-compose:2.4.0-alpha08"
 }

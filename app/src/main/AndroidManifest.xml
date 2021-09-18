@@ -3,6 +3,7 @@
     package="com.example.huji_assistant">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -21,6 +22,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".HujiAssistentApplication"
         android:theme="@style/Theme.HUJI_Assistant">
         <activity android:name=".ShowActivity" />
         <activity android:name=".CaptureActivity" />

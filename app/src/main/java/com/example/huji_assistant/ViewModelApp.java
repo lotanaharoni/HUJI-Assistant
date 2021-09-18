@@ -14,6 +14,7 @@ public class ViewModelApp extends ViewModel {
 
     public MutableLiveData<StudentInfo> studentInfoMutableLiveData = new MutableLiveData<>();
     // private final Firestore firestore;
+
     public ViewModelApp(FragmentActivity fragmentActivity){
         // firestore = Firestore.getInstance();
     }

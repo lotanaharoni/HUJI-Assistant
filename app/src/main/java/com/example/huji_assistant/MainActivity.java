@@ -3,6 +3,12 @@ package com.example.huji_assistant;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,16 +20,40 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout moreInfoDrawerLayout;
 
+    public LocalDataBase dataBase = null;
+
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //FirebaseFirestore.getInstance()
+
+        // db
+        if (dataBase == null){
+            dataBase = HujiAssistentApplication.getInstance().getDataBase();
+        }
+       // Fetcher fe = new Fetcher();
+       // fe.execute();
+
+       // HashMap<String, Chug> chugsMap = fe.getChugsMap();
+      //  dataBase.chugs = chugsMap;
+
+
+
+        // application singleton
+        HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
 
         moreInfoDrawerLayout = findViewById(R.id.drawer_layout_more_info);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -111,7 +141,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(loginFragment.getId(), coursesFragment).addToBackStack(null).commit();
             }
         };
+/** todo remove this listener
+        infoFragment.itemSelectedDropDownFacultyListener = new InfoFragment.itemSelectedDropDownFaculty() {
+            @Override
+            public void onFacultyItemSelected() {
+                View autoCompleteTextViewFacultyView = findViewById(R.id.autoCompleteTextViewFaculty);
+            //    autoCompleteTextViewFacultyView.
 
+            }
+        };
+*/
         coursesFragment.endRegistrationBtnListener = new CoursesFragment.endRegistrationButtonClickListener() {
             @Override
             public void onEndRegistrationBtnClicked() {
@@ -125,6 +164,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(loginFragment.getId(), mainScreen).disallowAddToBackStack().commit();
             }
         };
+ }
+
     }
 
     private void goToUrl(String s) {

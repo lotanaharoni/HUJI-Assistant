@@ -7,6 +7,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 public class MainScreen extends Fragment {
@@ -27,6 +28,11 @@ public class MainScreen extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
+
+        viewModelApp.get().observe(getViewLifecycleOwner(), item->{
+
+        });
+
         //spinner
     }
 }

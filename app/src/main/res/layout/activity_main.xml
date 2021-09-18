@@ -16,6 +16,16 @@
         android:background="@drawable/backgroundimage"
         tools:context=".MainActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/loginfragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/screen_center"
+        tools:background="#000099" >
+
+    </androidx.fragment.app.FragmentContainerView>
+      
         <View
             android:id="@+id/screen_center"
             android:layout_width="match_parent"
