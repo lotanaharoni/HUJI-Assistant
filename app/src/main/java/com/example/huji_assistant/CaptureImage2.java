@@ -1,6 +1,7 @@
 package com.example.huji_assistant;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -24,8 +25,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -41,7 +45,7 @@ import java.util.Date;
 public class CaptureImage2 extends AppCompatActivity {
 
     private Button uploadBtn, showAllBtn;
-    private ImageView imageView, cameraImageUpload;
+    private ImageView imageView, cameraImageUpload, pdfImageUpload;
     private ProgressBar progressBar;
     private DatabaseReference root;
     private StorageReference reference;
@@ -61,11 +65,12 @@ public class CaptureImage2 extends AppCompatActivity {
         uploadBtn = findViewById(R.id.upload_btn);
         showAllBtn = findViewById(R.id.showall_btn);
         progressBar = findViewById(R.id.progressBar2);
-        imageView = findViewById(R.id.imageView);
+        imageView = findViewById(R.id.uploadFromGallery);
         root = FirebaseDatabase.getInstance().getReference("Image");
         reference = FirebaseStorage.getInstance().getReference();
         progressBar.setVisibility(View.INVISIBLE);
-        cameraImageUpload = findViewById(R.id.cameraImageUpload2);
+        cameraImageUpload = findViewById(R.id.cameraImageUpload);
+        pdfImageUpload = findViewById(R.id.pdfImageUpload);
         imageTitle = findViewById(R.id.imageTitle);
         imageTitle.setText("");
 
@@ -86,6 +91,18 @@ public class CaptureImage2 extends AppCompatActivity {
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
                 startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
+            }
+        });
+
+        pdfImageUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+                // We will be redirected to choose pdf
+                galleryIntent.setType("application/pdf");
+                startActivityForResult(galleryIntent, DOCUMENTS_REQUEST_CODE);
             }
         });
 
@@ -110,13 +127,15 @@ public class CaptureImage2 extends AppCompatActivity {
 
     private void uploadToFirebase(Uri uri, int source, String name) {
         StorageReference fileRef;
-        if (source == 0){
-            fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
+        if (source == GALLERY_REQUEST_CODE){
+            fileRef = reference.child("Gallery_files/" + System.currentTimeMillis() + "." + getFileExtension(uri));
+        }
+        else if (source == CAMERA_REQUEST_CODE){
+            fileRef = reference.child("Camera_images/" + name);
         }
         else{
-            fileRef = reference.child("images/" + name);
+            fileRef = reference.child("Documents/" + name);
         }
-//        StorageReference fileRef = reference.child(System.currentTimeMillis() + "." + getFileExtension(uri));
         StorageReference finalFileRef = fileRef;
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -165,7 +184,7 @@ public class CaptureImage2 extends AppCompatActivity {
 
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             File f = new File(currentPhotoPath);
-            imageView.setImageURI(Uri.fromFile(f));
+            cameraImageUpload.setImageURI(Uri.fromFile(f));
 
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri contentUri = Uri.fromFile(f);
@@ -173,6 +192,14 @@ public class CaptureImage2 extends AppCompatActivity {
             this.sendBroadcast(mediaScanIntent);
 
             uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
+        }
+
+        if (requestCode == DOCUMENTS_REQUEST_CODE && resultCode == RESULT_OK){
+            imageUri = data.getData();
+            final String timestamp = "" + System.currentTimeMillis();
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+            final String messagePushID = timestamp + "." + "pdf";
+            uploadToFirebase(imageUri, DOCUMENTS_REQUEST_CODE, messagePushID);
         }
     }
 
