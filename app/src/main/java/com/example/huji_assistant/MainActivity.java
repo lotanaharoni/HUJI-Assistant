@@ -5,24 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
-
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -67,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         RegisterFragment registerFragment = new RegisterFragment();
         CoursesFragment coursesFragment = new CoursesFragment();
         InfoFragment infoFragment = new InfoFragment();
-        MainScreen mainScreen = new MainScreen();
+        MainScreenFragment mainScreenFragment = new MainScreenFragment();
 
         getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment, "FIRST_FRAGMENT")
                 .commit();
@@ -147,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // todo get all data from registration fragments and save the new user
 
                 // TODO open MainSreen2 activity
-                Intent editIntent = new Intent(MainActivity.this, MainScreen2.class);
+                Intent editIntent = new Intent(MainActivity.this, MainScreenActivity.class);
                 startActivity(editIntent);
 
 

@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentContainerView;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class MainScreen2 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public LocalDataBase dataBase = null;
     private DrawerLayout moreInfoDrawerLayout;
@@ -38,7 +38,7 @@ public class MainScreen2 extends AppCompatActivity implements NavigationView.OnN
         navigationView.setNavigationItemSelectedListener(this);
 
         FragmentContainerView mainFragmentView = findViewById(R.id.mainfragment);
-        MainScreen mainscreenfragment = new MainScreen();
+        MainScreenFragment mainscreenfragment = new MainScreenFragment();
 
         getSupportFragmentManager().beginTransaction().replace(mainFragmentView.getId(), mainscreenfragment, "MAIN_FRAGMENT")
                 .commit();
@@ -83,7 +83,7 @@ public class MainScreen2 extends AppCompatActivity implements NavigationView.OnN
             moreInfoDrawerLayout.closeDrawer(GravityCompat.START);
             return;
         } else {
-            MainScreen myFragment = (MainScreen) getSupportFragmentManager().findFragmentByTag("MAIN_FRAGMENT");
+            MainScreenFragment myFragment = (MainScreenFragment) getSupportFragmentManager().findFragmentByTag("MAIN_FRAGMENT");
             if (myFragment != null && myFragment.isVisible()) {
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                     switch (which) {

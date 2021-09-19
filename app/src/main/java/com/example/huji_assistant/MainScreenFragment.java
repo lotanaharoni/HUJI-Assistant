@@ -1,42 +1,27 @@
 package com.example.huji_assistant;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class MainScreen extends Fragment {
+public class MainScreenFragment extends Fragment {
 
     private ViewModelApp viewModelApp;
     public interface endRegistrationButtonClickListener{
         public void onEndRegistrationBtnClicked();
     }
 
-    public MainScreen.endRegistrationButtonClickListener endRegistrationBtnListener = null;
+    public MainScreenFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
 
-    public MainScreen(){
+    public MainScreenFragment(){
         super(R.layout.mainscreen);
     }
     Spinner dropdown;
