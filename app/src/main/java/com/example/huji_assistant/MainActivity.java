@@ -29,7 +29,6 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout moreInfoDrawerLayout;
-
     public LocalDataBase dataBase = null;
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -44,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (dataBase == null) {
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
-        Fetcher fe = new Fetcher();
-        fe.execute();
+        //Fetcher fe = new Fetcher();
+        //fe.execute();
 
         // HashMap<String, Chug> chugsMap = fe.getChugsMap();
         //  dataBase.chugs = chugsMap;
@@ -146,13 +145,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onEndRegistrationBtnClicked() {
                 // todo get all data from registration fragments and save the new user
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.fade_in,  // enter
-                        R.anim.slide_out,  // exit
-                        R.anim.slide_in,   // popEnter
-                        R.anim.fade_out  // popExit
-                )
-                        .replace(loginFragment.getId(), mainScreen).disallowAddToBackStack().commit();
+
+                // TODO open MainSreen2 activity
+                Intent editIntent = new Intent(MainActivity.this, MainScreen2.class);
+                startActivity(editIntent);
+
+
+               // getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                //        R.anim.fade_in,  // enter
+                //        R.anim.slide_out,  // exit
+                //        R.anim.slide_in,   // popEnter
+                //        R.anim.fade_out  // popExit
+                //)
+                  //      .replace(loginFragment.getId(), mainScreen).disallowAddToBackStack().commit();
+
             }
         };
     }
@@ -204,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                     }
                 };
-
+                // todo not work
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage("Close the app?").setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
