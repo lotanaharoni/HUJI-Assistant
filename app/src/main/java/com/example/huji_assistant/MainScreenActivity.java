@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     public LocalDataBase dataBase = null;
     private DrawerLayout moreInfoDrawerLayout;
+
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +41,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         navigationView.setNavigationItemSelectedListener(this);
 
         FragmentContainerView mainFragmentView = findViewById(R.id.mainfragment);
+        CoursesFragment coursesFragment = new CoursesFragment();
         MainScreenFragment mainscreenfragment = new MainScreenFragment();
 
         getSupportFragmentManager().beginTransaction().replace(mainFragmentView.getId(), mainscreenfragment, "MAIN_FRAGMENT")
@@ -47,6 +51,19 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             moreInfoDrawerLayout.openDrawer(GravityCompat.START);
         });
 
+        mainscreenfragment.myCoursesButtonListenerBtn = new MainScreenFragment.myCoursesButtonListener() {
+            @Override
+            public void onMyCoursesButtonClicked() {
+                // todo change the fragment
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
 
     }
 

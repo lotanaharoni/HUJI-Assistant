@@ -6,10 +6,6 @@
     android:background="@drawable/backgroundimage"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
-
-
     <Spinner
         android:id="@+id/courseListSpinner"
         android:layout_width="match_parent"
@@ -21,7 +17,7 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleView"
+        android:id="@+id/recycleViewCourses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="240dp"
@@ -38,7 +34,7 @@
         android:layout_marginStart="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recycleView"
+        app:layout_constraintTop_toBottomOf="@id/recycleViewCourses"
         tools:layout_editor_absoluteX="30dp"
         tools:layout_editor_absoluteY="655dp" />
 

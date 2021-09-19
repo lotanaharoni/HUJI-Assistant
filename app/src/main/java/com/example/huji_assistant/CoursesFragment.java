@@ -1,7 +1,9 @@
 package com.example.huji_assistant;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -11,9 +13,20 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.huji_assistant.databinding.FragmentCoursesBinding;
+import com.example.huji_assistant.databinding.FragmentInfoBinding;
+
+import java.util.ArrayList;
 
 public class CoursesFragment extends Fragment {
     private ViewModelApp viewModelApp;
+    FragmentCoursesBinding binding;
+    public CourseItemHolder holder = null;
+    public CoursesAdapter adapter = null;
+    public LocalDataBase dataBase = null;
     public interface endRegistrationButtonClickListener{
         public void onEndRegistrationBtnClicked();
     }
@@ -28,6 +41,7 @@ public class CoursesFragment extends Fragment {
     TextView maslulTextView;
     TextView yearTextView;
     TextView degreeTextView;
+    RecyclerView recyclerViewCourses;
 
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
 
@@ -35,6 +49,15 @@ public class CoursesFragment extends Fragment {
         super(R.layout.fragment_courses);
     }
     Spinner dropdown;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentCoursesBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
+
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -45,6 +68,28 @@ public class CoursesFragment extends Fragment {
         maslulTextView = view.findViewById(R.id.maslulName);
         yearTextView = view.findViewById(R.id.year);
         degreeTextView = view.findViewById(R.id.degreeType);
+        recyclerViewCourses = view.findViewById(R.id.recycleViewCourses);
+        adapter = new CoursesAdapter(getContext());
+
+        if (holder == null) {
+            holder = new CourseItemHolder(recyclerViewCourses);
+        }
+
+        ArrayList<Course> courseItems = new ArrayList<>();
+        // todo add demo courses
+        Course infiC = new Course("infi", "0");
+        courseItems.add(infiC);
+
+        // Create the adapter
+        adapter.addCoursesListToAdapter(courseItems);
+        recyclerViewCourses.setAdapter(adapter);
+        recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+                RecyclerView.VERTICAL, false));
+
+
+        // todo was getappcontext
+     //   LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+      //  recyclerViewCourses.setLayoutManager(linearLayoutManager);
 
 
         viewModelApp.get().observe(getViewLifecycleOwner(), item->{
