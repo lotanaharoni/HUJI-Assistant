@@ -13,11 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.databinding.FragmentCoursesBinding;
 import com.example.huji_assistant.databinding.FragmentInfoBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -42,7 +44,7 @@ public class CoursesFragment extends Fragment {
     TextView yearTextView;
     TextView degreeTextView;
     RecyclerView recyclerViewCourses;
-
+    LinearLayoutManager coordinatorLayout;
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
 
     public CoursesFragment(){
@@ -75,21 +77,24 @@ public class CoursesFragment extends Fragment {
             holder = new CourseItemHolder(recyclerViewCourses);
         }
 
-        ArrayList<Course> courseItems = new ArrayList<>();
+        ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
+
         // todo add demo courses
-        Course infiC = new Course("infi", "0");
+        Course infiC = new Course("אינפי", "0");
+        Course linearitC = new Course("לינארית", "1");
         courseItems.add(infiC);
+        courseItems.add(linearitC);
 
         // Create the adapter
         adapter.addCoursesListToAdapter(courseItems);
         recyclerViewCourses.setAdapter(adapter);
+
+          coordinatorLayout = new LinearLayoutManager(getContext(),
+                RecyclerView.VERTICAL, false);
+
         recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
 
-
-        // todo was getappcontext
-     //   LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-      //  recyclerViewCourses.setLayoutManager(linearLayoutManager);
 
 
         viewModelApp.get().observe(getViewLifecycleOwner(), item->{
@@ -150,6 +155,19 @@ public class CoursesFragment extends Fragment {
         // dropdown.setAdapter(adapter);
 
     }
+    private void enableSwipeToDeleteAndUndo() {
+        SwipeViewHolderItem swipeToDelete = new SwipeViewHolderItem(getContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                //super.onSwiped(viewHolder, direction);
+                final int position = viewHolder.getAdapterPosition();
+                final Course courseItem = adapter.getItems().get(position);
+                //todo check if this works should delete from local db and then from adapter
+                adapter.removeCourseFromAdapter(courseItem);
 
-
+            }
+        };
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDelete);
+       // ItemTouchHelper.attachToRecyclerView(recyclerViewCourses);
+    }
 }

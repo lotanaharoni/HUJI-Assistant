@@ -26,6 +26,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         notifyDataSetChanged();
     }
 
+    public void removeCourseFromAdapter(Course course){
+        //list.remove(course);
+        this.list.remove(course);
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public CourseItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,5 +61,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
 
     public int getItemCount() {
         return this.list.size();
+    }
+
+    public ArrayList<Course> getItems(){
+        return list;
     }
 }
