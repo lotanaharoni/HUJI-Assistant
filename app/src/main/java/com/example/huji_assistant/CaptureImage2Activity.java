@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CaptureImage2 extends AppCompatActivity {
+public class CaptureImage2Activity extends AppCompatActivity {
 
     private Button uploadBtn, showAllBtn, button2;
     private ImageView imageView, cameraImageUpload, pdfImageUpload;
@@ -87,8 +87,7 @@ public class CaptureImage2 extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CaptureImage2.this, PDFMainActivity.class));            }
-            }
+                startActivity(new Intent(CaptureImage2Activity.this, PDFMainActivity.class));            }
         });
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +118,7 @@ public class CaptureImage2 extends AppCompatActivity {
                 if (imageUri != null){
                     uploadToFirebase(imageUri, GALLERY_REQUEST_CODE, "");
                 }else{
-                    Toast.makeText(CaptureImage2.this, "Please select image", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CaptureImage2Activity.this, "Please select image", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -127,7 +126,7 @@ public class CaptureImage2 extends AppCompatActivity {
         showAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CaptureImage2.this, ShowActivity.class));
+                startActivity(new Intent(CaptureImage2Activity.this, ShowActivity.class));
             }
         });
     }
@@ -164,7 +163,7 @@ public class CaptureImage2 extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         root.child(modelId).setValue(model);
                         imageTitle.setText(""); //todo: add title
-                        Toast.makeText(CaptureImage2.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CaptureImage2Activity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -177,7 +176,7 @@ public class CaptureImage2 extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(CaptureImage2.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CaptureImage2Activity.this, "Failed to upload", Toast.LENGTH_SHORT).show();
             }
         });
     }
