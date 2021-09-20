@@ -9,7 +9,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/mtrl_card_checked_layer_id"
+        android:id="@+id/cardviewtop"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_marginTop="30dp"
@@ -144,7 +144,7 @@
         android:layout_marginTop="36dp"
         android:text="המשך"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mtrl_card_checked_layer_id"
+        app:layout_constraintTop_toBottomOf="@id/cardviewtop"
 
         />
 
@@ -156,7 +156,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="מסך הרשמה למערכת - שלב 2 מתוך 5"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/mtrl_card_checked_layer_id"
+        app:layout_constraintBottom_toTopOf="@id/cardviewtop"
         tools:layout_editor_absoluteX="180dp"
         tools:layout_editor_absoluteY="1dp" />
 

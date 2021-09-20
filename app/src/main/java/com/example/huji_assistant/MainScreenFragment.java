@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -38,23 +39,29 @@ import java.util.Date;
 public class MainScreenFragment extends Fragment {
 
     private ViewModelApp viewModelApp;
+
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     private static final int CAMERA_TYPE = 1;
     private DatabaseReference root;
     private StorageReference reference;
     String currentPhotoPath;
+//84705ccd5979e94064a85a2ea4ab231fb90221b1
 
     public interface endRegistrationButtonClickListener{
         public void onEndRegistrationBtnClicked();
     }
+    public MainScreenFragment.endRegistrationButtonClickListener newUserBtnListener = null;
+    public MainScreenFragment.myCoursesButtonListener myCoursesButtonListenerBtn = null;
 
-    public MainScreenFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
-
+    public interface myCoursesButtonListener{
+        public void onMyCoursesButtonClicked();
+    }
     public MainScreenFragment(){
         super(R.layout.mainscreen);
     }
     Spinner dropdown;
+    Button myCourses;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -62,10 +69,20 @@ public class MainScreenFragment extends Fragment {
         root = FirebaseDatabase.getInstance().getReference("Image");
         reference = FirebaseStorage.getInstance().getReference();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
-        FloatingActionButton openCameraFloatingButton = view.findViewById(R.id.open_camera_floating_button);
+        myCourses = view.findViewById(R.id.myCoursesButton);
 
+        FloatingActionButton openCameraFloatingButton = view.findViewById(R.id.open_camera_floating_button);
         viewModelApp.get().observe(getViewLifecycleOwner(), item->{
 
+        });
+
+        myCourses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (myCoursesButtonListenerBtn != null) {
+                    myCoursesButtonListenerBtn.onMyCoursesButtonClicked();
+                }
+            }
         });
 
         openCameraFloatingButton.setOnClickListener(new View.OnClickListener() {

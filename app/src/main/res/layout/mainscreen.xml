@@ -13,12 +13,12 @@
         android:text="HujiAssistent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/cardView"
+        app:layout_constraintBottom_toTopOf="@id/cardViewTop"
         tools:layout_editor_absoluteX="164dp"
         tools:layout_editor_absoluteY="70dp" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cardViewTop"
         android:layout_marginTop="200dp"
         android:layout_width="match_parent"
         android:layout_height="600dp"
@@ -35,7 +35,7 @@
             android:text="הקורסים שלי" />
 
         <Button
-            android:id="@+id/myCoursesButton1"
+            android:id="@+id/navigationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="400dp"
@@ -43,7 +43,7 @@
             android:text="ניווט בקמפוס" />
 
         <Button
-            android:id="@+id/myCoursesButton2"
+            android:id="@+id/circulumButton"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
             android:textSize="12dp"
@@ -52,7 +52,7 @@
             android:text="מערכת שעות" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/privateInfoEditButton"
             android:layout_marginTop="450dp"
             android:layout_width="wrap_content"
             android:layout_marginLeft="120dp"

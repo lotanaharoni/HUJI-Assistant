@@ -1,7 +1,9 @@
 package com.example.huji_assistant;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -11,9 +13,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.huji_assistant.databinding.FragmentCoursesBinding;
+import com.example.huji_assistant.databinding.FragmentInfoBinding;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
 
 public class CoursesFragment extends Fragment {
     private ViewModelApp viewModelApp;
+    FragmentCoursesBinding binding;
+    public CourseItemHolder holder = null;
+    public CoursesAdapter adapter = null;
+    public LocalDataBase dataBase = null;
     public interface endRegistrationButtonClickListener{
         public void onEndRegistrationBtnClicked();
     }
@@ -21,20 +36,32 @@ public class CoursesFragment extends Fragment {
     String facultyId;
     String chugId;
     String maslulId;
-    String degree;
+    String degreeType; // first degree, second degree...
     String year;
+    String beginnigYearOfDegree;
+    String beginSemesterOfDegree;
     TextView facultyTextView;
     TextView chugTextView;
     TextView maslulTextView;
     TextView yearTextView;
     TextView degreeTextView;
-
+    RecyclerView recyclerViewCourses;
+    LinearLayoutManager coordinatorLayout;
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
 
     public CoursesFragment(){
         super(R.layout.fragment_courses);
     }
     Spinner dropdown;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentCoursesBinding.inflate(inflater, container, false);
+
+        return binding.getRoot();
+
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -45,22 +72,56 @@ public class CoursesFragment extends Fragment {
         maslulTextView = view.findViewById(R.id.maslulName);
         yearTextView = view.findViewById(R.id.year);
         degreeTextView = view.findViewById(R.id.degreeType);
+        recyclerViewCourses = view.findViewById(R.id.recycleViewCourses);
+        adapter = new CoursesAdapter(getContext());
 
+        if (holder == null) {
+            holder = new CourseItemHolder(recyclerViewCourses);
+        }
+
+        ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
+
+        // todo add demo courses
+        Course infiC = new Course("אינפי", "0");
+        Course linearitC = new Course("לינארית", "1");
+        courseItems.add(infiC);
+        courseItems.add(linearitC);
+
+        // Create the adapter
+        adapter.addCoursesListToAdapter(courseItems);
+        recyclerViewCourses.setAdapter(adapter);
+
+          coordinatorLayout = new LinearLayoutManager(getContext(),
+                RecyclerView.VERTICAL, false);
+
+        recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+                RecyclerView.VERTICAL, false));
 
         viewModelApp.get().observe(getViewLifecycleOwner(), item->{
              facultyId = item.getFacultyId();
              chugId = item.getChugId();
              maslulId = item.getMaslulId();
-             degree = item.getDegree();
+             degreeType = item.getDegree();
              year = item.getYear();
+             beginnigYearOfDegree = item.getBeginYear();
+             beginSemesterOfDegree = item.getBeginSemester();
+
+             System.out.println("begin year: " + beginnigYearOfDegree);
+            System.out.println("begin semester: " + beginSemesterOfDegree);
 
              facultyTextView.setText(facultyId);
              chugTextView.setText(chugId);
              maslulTextView.setText(maslulId);
-             degreeTextView.setText(degree);
+             degreeTextView.setText(degreeType);
              yearTextView.setText(year);
-
         });
+
+        //beginnigYearOfDegree = "2022"; // todo change
+
+
+
+
+
 
         /**
         viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
@@ -105,6 +166,19 @@ public class CoursesFragment extends Fragment {
         // dropdown.setAdapter(adapter);
 
     }
+    private void enableSwipeToDeleteAndUndo() {
+        SwipeViewHolderItem swipeToDelete = new SwipeViewHolderItem(getContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                //super.onSwiped(viewHolder, direction);
+                final int position = viewHolder.getAdapterPosition();
+                final Course courseItem = adapter.getItems().get(position);
+                //todo check if this works should delete from local db and then from adapter
+                adapter.removeCourseFromAdapter(courseItem);
 
-
+            }
+        };
+        ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDelete);
+       // ItemTouchHelper.attachToRecyclerView(recyclerViewCourses);
+    }
 }

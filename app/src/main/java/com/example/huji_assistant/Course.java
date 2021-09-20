@@ -6,9 +6,26 @@ import java.util.UUID;
 public class Course {
 
     private String name;
-    private UUID id;
+    private String id;
     private ArrayList<Course> prevCourses;
     private boolean isMandatory;
     private String nameOfDegree;
+
+    public Course(){
+
+    }
+
+    public Course(String name_, String id_){
+        name = name_;
+        id = id_;
+    }
+
+    public String getName(){
+        return name;
+    }
+
+    public String getId(){
+        return id;
+    }
 
 }
