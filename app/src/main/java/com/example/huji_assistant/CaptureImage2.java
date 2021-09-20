@@ -88,6 +88,7 @@ public class CaptureImage2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CaptureImage2.this, PDFMainActivity.class));            }
+            }
         });
 
         imageView.setOnClickListener(new View.OnClickListener() {
