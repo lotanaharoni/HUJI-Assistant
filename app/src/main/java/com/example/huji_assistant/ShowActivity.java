@@ -22,6 +22,7 @@ public class ShowActivity extends AppCompatActivity {
 
     private ShowImagesAdapter adapter;
     private DatabaseReference root;
+    private static final int PDF_TYPE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,10 @@ public class ShowActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Model model = dataSnapshot.getValue(Model.class);
-                    list.add(model);
+                    assert model != null;
+                    if (model.getType() != PDF_TYPE){
+                        list.add(model);
+                    }
                 }
                 adapter.notifyDataSetChanged();
             }
