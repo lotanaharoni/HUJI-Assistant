@@ -1,11 +1,10 @@
 package com.example.huji_assistant;
 
 import android.os.Bundle;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -15,45 +14,44 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ShowActivity extends AppCompatActivity {
+public class PDFMainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView;
-    private ArrayList<Model> list;
-
-    private ShowImagesAdapter adapter;
-    private DatabaseReference root;
+    ArrayList<PDFDoc> pdfDocs;
     private static final int PDF_TYPE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show);
+        setContentView(R.layout.activity_main_pdf);
+        final ListView lv= (ListView) findViewById(R.id.lv);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        root = FirebaseDatabase.getInstance().getReference("Image");
-        list = new ArrayList<>();
-        adapter = new ShowImagesAdapter(this, list);
-        recyclerView.setAdapter(adapter);
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("Image");
+        pdfDocs = new ArrayList<>();
 
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PDFDoc pdfDoc;
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     Model model = dataSnapshot.getValue(Model.class);
                     assert model != null;
-                    if (model.getType() != PDF_TYPE){
-                        list.add(model);
+                    if (model.getType() == PDF_TYPE){
+                        pdfDoc=new PDFDoc();
+                        pdfDoc.setName(model.getName());
+                        pdfDoc.setPath(model.getImageUrl());
+                        pdfDocs.add(pdfDoc);
                     }
                 }
-                adapter.notifyDataSetChanged();
+                lv.setAdapter(new PDFCustomerAdapter(PDFMainActivity.this,getPDFs()));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
+    }
+
+    private ArrayList<PDFDoc> getPDFs() {
+        return pdfDocs;
     }
 }

@@ -24,12 +24,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HUJI_Assistant">
         <activity android:name=".ShowActivity" />
-        <activity android:name=".CaptureActivity" />
+        <activity android:name=".PDFMainActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".ScanQrActivity" />
-        <activity android:name=".CaptureImage2" />
+        <activity android:name=".CaptureActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".MainScreenActivity">
+        <activity android:name=".MainScreenActivity" />
+        <activity android:name=".PDFActivity" />
+        <activity android:name=".CaptureImage2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
