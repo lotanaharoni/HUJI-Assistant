@@ -29,9 +29,9 @@
         <activity android:name=".CaptureImage2" />
         <activity android:name=".ScanQrActivity" />
         <activity android:name=".MainScreenActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"/>
         <activity android:name=".CaptureActivity" />
-        <activity android:name=".PDFActivity" />
+        <activity android:name=".PDFActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
