@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/purple_200"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:minHeight="40dp">
 
     <androidx.cardview.widget.CardView
@@ -16,37 +16,36 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_height="wrap_content" >
 
-        <View
-            android:id="@+id/screen_center"
+        <ImageView
+            android:src="@android:drawable/divider_horizontal_dark"
+            android:background="@color/red"
             android:layout_width="match_parent"
-            android:layout_height="7dp"
-            android:layout_marginTop="0dp"
-            android:background="@color/teal_700"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.05"
-            tools:layout_editor_absoluteX="16dp" />
+            android:layout_height="1dp"
+            android:scaleType="fitXY"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp" />
 
         <TextView
             android:id="@+id/courseNameHolder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="270dp"
-            android:layout_marginEnd="30dp"
+            android:layout_marginStart="250dp"
             android:layout_marginTop="5dp"
-            android:background="@color/purple_200"
+            android:background="@color/common_google_signin_btn_text_dark_default"
             android:fontFamily="casual"
-            android:singleLine="false"
+            android:singleLine="true"
             android:text="name"
-            android:textAlignment="textStart"
-            android:textDirection="ltr"
-            android:textSize="25sp"
+            android:gravity="right"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:drawableBottomCompat="@color/black" />
 
         <TextView
             android:id="@+id/courseNumberHolder"
             android:layout_width="wrap_content"
-            android:background="@color/purple_200"
+            android:background="@color/common_google_signin_btn_text_dark_default"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="5dp"
@@ -56,7 +55,7 @@
         <TextView
             android:id="@+id/coursepoints"
             android:layout_width="wrap_content"
-            android:background="@color/purple_200"
+            android:background="@color/common_google_signin_btn_text_dark_default"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_marginTop="35dp"
@@ -72,7 +71,7 @@
 
         <CheckBox
             android:id="@+id/checkBoxCourse"
-            android:layout_marginStart="365dp"
+            android:layout_marginStart="355dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
