@@ -1,8 +1,6 @@
 package com.example.huji_assistant;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,11 +23,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,7 +39,7 @@ import java.util.Date;
 
 public class CaptureImage2 extends AppCompatActivity {
 
-    private Button uploadBtn, showAllBtn;
+    private Button uploadBtn, showAllBtn, button2;
     private ImageView imageView, cameraImageUpload, pdfImageUpload;
     private ProgressBar progressBar;
     private DatabaseReference root;
@@ -56,6 +51,10 @@ public class CaptureImage2 extends AppCompatActivity {
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int DOCUMENTS_REQUEST_CODE = 104;
     public static final int GALLERY_REQUEST_CODE = 105;
+    private static final int GALLERY_TYPE = 0;
+    private static final int CAMERA_TYPE = 1;
+    private static final int PDF_TYPE = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,7 @@ public class CaptureImage2 extends AppCompatActivity {
         pdfImageUpload = findViewById(R.id.pdfImageUpload);
         imageTitle = findViewById(R.id.imageTitle);
         imageTitle.setText("");
+        button2 = findViewById(R.id.button2);
 
 //        imageView.setImageURI(null); todo: reset the image
 //        imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);
@@ -81,6 +81,13 @@ public class CaptureImage2 extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 askCameraPermissions();
+            }
+        });
+
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CaptureImage2.this, PDFMainActivity.class));            }
             }
         });
 
@@ -127,14 +134,22 @@ public class CaptureImage2 extends AppCompatActivity {
 
     private void uploadToFirebase(Uri uri, int source, String name) {
         StorageReference fileRef;
+        int type;
+        String fileName;
         if (source == GALLERY_REQUEST_CODE){
             fileRef = reference.child("Gallery_files/" + System.currentTimeMillis() + "." + getFileExtension(uri));
+            fileName = System.currentTimeMillis() + "." + getFileExtension(uri);
+            type = GALLERY_TYPE;
         }
         else if (source == CAMERA_REQUEST_CODE){
             fileRef = reference.child("Camera_images/" + name);
+            type = CAMERA_TYPE;
+            fileName = name;
         }
         else{
             fileRef = reference.child("Documents/" + name);
+            type = PDF_TYPE;
+            fileName = name;
         }
         StorageReference finalFileRef = fileRef;
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -143,7 +158,7 @@ public class CaptureImage2 extends AppCompatActivity {
                 finalFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Model model = new Model(uri.toString());
+                        Model model = new Model(uri.toString(), fileName,type);
                         String modelId = root.push().getKey();
                         assert modelId != null;
                         progressBar.setVisibility(View.INVISIBLE);
@@ -179,12 +194,12 @@ public class CaptureImage2 extends AppCompatActivity {
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null){
             imageUri = data.getData();
-            imageView.setImageURI(imageUri);
+//            imageView.setImageURI(imageUri);
         }
 
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             File f = new File(currentPhotoPath);
-            cameraImageUpload.setImageURI(Uri.fromFile(f));
+//            cameraImageUpload.setImageURI(Uri.fromFile(f));
 
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri contentUri = Uri.fromFile(f);

@@ -11,7 +11,9 @@
     <string name="recommendations">המלצות על קורסים</string>
     <string name="drawer_header"><b><u><i>קישורים שימושיים</i></u></b></string>
     <string name="upload_button">UPLOAD</string>
-    <string name="show_all_button">SHOW ALL</string>
+    <string name="show_all_pictures_button">SHOW PICTURES</string>
+    <string name="show_all_pdf_button">SHOW DOCUMENTS</string>
+    <string name="pdf_name">Name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
