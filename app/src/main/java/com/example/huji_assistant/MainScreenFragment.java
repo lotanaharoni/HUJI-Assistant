@@ -40,6 +40,7 @@ public class MainScreenFragment extends Fragment {
     private ViewModelApp viewModelApp;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
+    private static final int CAMERA_TYPE = 1;
     private DatabaseReference root;
     private StorageReference reference;
     String currentPhotoPath;
@@ -133,7 +134,7 @@ public class MainScreenFragment extends Fragment {
                 fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Model model = new Model(uri.toString());
+                        Model model = new Model(uri.toString(), name, CAMERA_TYPE);
                         String modelId = root.push().getKey();
                         assert modelId != null;
 //                        progressBar.setVisibility(View.INVISIBLE);

@@ -9,9 +9,12 @@
         <entry key="app/src/main/res/layout/activity_capture.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_capture2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19635416666666666" />
+        <entry key="app/src/main/res/layout/activity_main_pdf.xml" value="0.1234375" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.11510416666666666" />
+        <entry key="app/src/main/res/layout/activity_pdf.xml" value="0.1234375" />
         <entry key="app/src/main/res/layout/activity_scan_qr.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_show.xml" value="0.1956521739130435" />
+        <entry key="app/src/main/res/layout/content_main_pdf.xml" value="0.1234375" />
         <entry key="app/src/main/res/layout/courseitem.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/courselayout.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/dropdownfacultyitem.xml" value="0.19067028985507245" />
@@ -21,6 +24,7 @@
         <entry key="app/src/main/res/layout/login.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/mainscreen.xml" value="0.375" />
         <entry key="app/src/main/res/layout/mainscreen2.xml" value="0.1234375" />
+        <entry key="app/src/main/res/layout/model_pdf.xml" value="0.25" />
         <entry key="app/src/main/res/layout/more_info_drawer_layer.xml" value="0.19635416666666666" />
         <entry key="app/src/main/res/layout/personalinfofragment.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.1421875" />
