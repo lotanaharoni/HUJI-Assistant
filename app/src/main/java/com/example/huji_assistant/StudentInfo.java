@@ -13,6 +13,8 @@ public class StudentInfo {
     private String maslulId;
     private String degree;
     private String year;
+    private String beginYear;
+    private String beginSemester;
     private UUID id;
 
     public StudentInfo(String email, String password){
@@ -21,12 +23,14 @@ public class StudentInfo {
         id = UUID.randomUUID();
     }
 
-    public StudentInfo(String facultyId_, String chugId_, String maslulId_, String degree_, String year_){
+    public StudentInfo(String facultyId_, String chugId_, String maslulId_, String degree_, String year_, String beginYear_, String beginSemester_){
         this.facultyId = facultyId_;
         this.chugId = chugId_;
         this.maslulId = maslulId_;
         this.degree = degree_;
         this.year = year_;
+        this.beginYear = beginYear_;
+        this.beginSemester = beginSemester_;
     }
 
 
@@ -72,5 +76,13 @@ public class StudentInfo {
 
     public String getYear(){
         return year;
+    }
+
+    public String getBeginYear(){
+        return beginYear;
+    }
+
+    public String getBeginSemester(){
+        return beginSemester;
     }
 }

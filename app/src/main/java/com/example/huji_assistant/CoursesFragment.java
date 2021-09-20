@@ -39,6 +39,7 @@ public class CoursesFragment extends Fragment {
     String degreeType; // first degree, second degree...
     String year;
     String beginnigYearOfDegree;
+    String beginSemesterOfDegree;
     TextView facultyTextView;
     TextView chugTextView;
     TextView maslulTextView;
@@ -102,6 +103,11 @@ public class CoursesFragment extends Fragment {
              maslulId = item.getMaslulId();
              degreeType = item.getDegree();
              year = item.getYear();
+             beginnigYearOfDegree = item.getBeginYear();
+             beginSemesterOfDegree = item.getBeginSemester();
+
+             System.out.println("begin year: " + beginnigYearOfDegree);
+            System.out.println("begin semester: " + beginSemesterOfDegree);
 
              facultyTextView.setText(facultyId);
              chugTextView.setText(chugId);
@@ -110,7 +116,7 @@ public class CoursesFragment extends Fragment {
              yearTextView.setText(year);
         });
 
-        beginnigYearOfDegree = "2022"; // todo change
+        //beginnigYearOfDegree = "2022"; // todo change
 
 
 

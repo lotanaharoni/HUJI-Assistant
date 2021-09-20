@@ -56,6 +56,8 @@ public class InfoFragment extends Fragment {
     AutoCompleteTextView dropdownMaslulim;
     AutoCompleteTextView dropdowndegree;
     AutoCompleteTextView dropdownYear;
+    AutoCompleteTextView dropdownyearbegindegree;
+    AutoCompleteTextView dropdownsemesterbegindegree;
     ArrayList<String> degreeList = new ArrayList<>();
 
     private ViewModelApp viewModelApp;
@@ -64,6 +66,8 @@ public class InfoFragment extends Fragment {
     String maslulId;
     String selectedDegree;
     String selectedYear;
+    String selectedBeginYear;
+    String selectedBeginSemester;
     boolean validDegree = false;
     public LocalDataBase dataBase;
     public interface continueButtonClickListener{
@@ -130,6 +134,14 @@ public class InfoFragment extends Fragment {
         arrayAdapter.getFilter().filter("");
         binding.autoCompleteTextViewFaculty.setAdapter(arrayAdapter);
 
+
+        String[] beginSemesterArray = getResources().getStringArray(R.array.beginsemesterarray);
+        binding.autoCompleteSemesterBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginsemesteritem, beginSemesterArray));
+
+        String[] beginYearArray = getResources().getStringArray(R.array.beginyeararray);
+        binding.autoCompleteYearBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginyearitem, beginYearArray));
+
+
         AutoCompleteTextView autoCompleteTextViewFaculty = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewFaculty);
         AutoCompleteTextView autoCompleteTextViewChug = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewChug);
         AutoCompleteTextView autoCompleteTextViewDegree = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewDegree);
@@ -163,9 +175,8 @@ public class InfoFragment extends Fragment {
 
                     }
 
-                    StudentInfo newStudent = new StudentInfo(facultyId, chugId, maslulId, selectedDegree, selectedYear);
+                    StudentInfo newStudent = new StudentInfo(facultyId, chugId, maslulId, selectedDegree, selectedYear, selectedBeginYear, selectedBeginSemester);
                     viewModelApp.set(newStudent);
-
                     continueListener.continueBtnClicked();
                 }
             }
@@ -176,6 +187,8 @@ public class InfoFragment extends Fragment {
         dropdownMaslulim = view.findViewById(R.id.autoCompleteTextViewMaslul);
         dropdowndegree = view.findViewById(R.id.autoCompleteTextViewDegree);
         dropdownYear = view.findViewById(R.id.autoCompleteTextViewYear);
+        dropdownyearbegindegree = view.findViewById(R.id.autoCompleteYearBeginDegree);
+        dropdownyearbegindegree = view.findViewById(R.id.autoCompleteSemesterBeginDegree);
 
         dropdownFaculty.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -370,6 +383,26 @@ public class InfoFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedYear = (String) parent.getItemAtPosition(position);
+                dropdownyearbegindegree.setEnabled(true);
+                String[] beginYearArray = getResources().getStringArray(R.array.beginyeararray);
+                binding.autoCompleteYearBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginyearitem, beginYearArray));
+            }
+        });
+
+        dropdownyearbegindegree.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedBeginYear = (String) parent.getItemAtPosition(position);
+                dropdownsemesterbegindegree.setEnabled(true);
+                String[] beginSemesterArray = getResources().getStringArray(R.array.beginsemesterarray);
+                binding.autoCompleteSemesterBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginsemesteritem, beginSemesterArray));
+            }
+        });
+
+        dropdownyearbegindegree.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedBeginSemester = (String) parent.getItemAtPosition(position);
             }
         });
     }
