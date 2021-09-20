@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mtrl_card_checked_layer_id" />
+        app:layout_constraintTop_toBottomOf="@id/cardviewtop" />
 
     <TextView
         android:id="@+id/infoText"
@@ -28,12 +28,12 @@
         app:layout_constraintRight_toRightOf="parent"
         android:text="מסך הרשמה למערכת - שלב 1 מתוך 5"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/mtrl_card_checked_layer_id"
+        app:layout_constraintBottom_toTopOf="@id/cardviewtop"
         tools:layout_editor_absoluteX="180dp"
         tools:layout_editor_absoluteY="1dp" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/mtrl_card_checked_layer_id"
+        android:id="@+id/cardviewtop"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_marginTop="30dp"

@@ -36,8 +36,9 @@ public class CoursesFragment extends Fragment {
     String facultyId;
     String chugId;
     String maslulId;
-    String degree;
+    String degreeType; // first degree, second degree...
     String year;
+    String beginnigYearOfDegree;
     TextView facultyTextView;
     TextView chugTextView;
     TextView maslulTextView;
@@ -95,22 +96,26 @@ public class CoursesFragment extends Fragment {
         recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
 
-
-
         viewModelApp.get().observe(getViewLifecycleOwner(), item->{
              facultyId = item.getFacultyId();
              chugId = item.getChugId();
              maslulId = item.getMaslulId();
-             degree = item.getDegree();
+             degreeType = item.getDegree();
              year = item.getYear();
 
              facultyTextView.setText(facultyId);
              chugTextView.setText(chugId);
              maslulTextView.setText(maslulId);
-             degreeTextView.setText(degree);
+             degreeTextView.setText(degreeType);
              yearTextView.setText(year);
-
         });
+
+        beginnigYearOfDegree = "2022"; // todo change
+
+
+
+
+
 
         /**
         viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
