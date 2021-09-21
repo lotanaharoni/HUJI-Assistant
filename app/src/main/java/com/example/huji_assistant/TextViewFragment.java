@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class TextViewFragment extends Fragment {
     private LocalDataBase db;
@@ -122,8 +123,8 @@ public class TextViewFragment extends Fragment {
                                         if (task.isSuccessful()) {
                                             Log.d("LoginActivity", "signInWithEmail:success");
                                             Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
-//                                            FirebaseUser user = auth.getCurrentUser();
-//                                            db.setCurrentUser(user);                                        } else {
+                                            FirebaseUser user = auth.getCurrentUser();
+                                            db.setCurrentUser(user);
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
                                             viewModelApp.set(newStudent);
                                             listener.onButtonClicked();

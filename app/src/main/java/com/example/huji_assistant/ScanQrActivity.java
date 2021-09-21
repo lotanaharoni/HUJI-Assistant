@@ -50,7 +50,7 @@ public class ScanQrActivity extends AppCompatActivity {
                         if (parts.length != 3){
                             return;
                         }
-                        User tempUser = new User("Yosi", "123456789", "yosi@gmail.com", 1, 3);
+                        UserNotBeenUsed tempUser = new UserNotBeenUsed("Yosi", "123456789", "yosi@gmail.com", 1, 3);
                         // todo: Get current user
                         Map<String, Object> userScan = new HashMap<>();
                         userScan.put("Yosi-121121121", tempUser); //todo

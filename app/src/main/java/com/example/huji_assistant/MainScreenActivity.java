@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     public LocalDataBase dataBase = null;
     private DrawerLayout moreInfoDrawerLayout;
+    private ImageView logoutImageView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +35,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         // application singleton
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
 
+        logoutImageView = findViewById(R.id.logoutImageView);
         moreInfoDrawerLayout = findViewById(R.id.drawer_layout_more_info);
         NavigationView navigationView = findViewById(R.id.nav_view);
         moreInfoDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -47,6 +51,26 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             moreInfoDrawerLayout.openDrawer(GravityCompat.START);
         });
 
+        logoutImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE: {
+                            dataBase.logoutUser();
+                            startActivity(new Intent(MainScreenActivity.this, MainActivity.class));
+                            finish();
+                            break;
+                        }
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainScreenActivity.this);
+                builder.setMessage("Logout?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            }
+        });
 
     }
 

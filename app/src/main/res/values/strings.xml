@@ -14,6 +14,9 @@
     <string name="show_all_pictures_button">SHOW PICTURES</string>
     <string name="show_all_pdf_button">SHOW DOCUMENTS</string>
     <string name="pdf_name">Name</string>
+    <string name="loading">loading…</string>
+    <string name="logo_description">The app logo</string>
+    <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

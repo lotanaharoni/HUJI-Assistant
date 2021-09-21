@@ -31,7 +31,8 @@
         <activity android:name=".PDFActivity" />
         <activity android:name=".CaptureImage2Activity" />
         <activity android:name=".CaptureActivity" />
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainActivity" />
+        <activity android:name=".LoadDataMainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

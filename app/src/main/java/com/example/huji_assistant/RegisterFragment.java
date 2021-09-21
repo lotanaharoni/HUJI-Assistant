@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterFragment extends Fragment {
     private LocalDataBase db;
@@ -73,7 +74,7 @@ public class RegisterFragment extends Fragment {
 
                 checkValidation(email.getText().toString(), password.getText().toString());
                 if (isEmailValid && isPasswordValid){
-                    if (listener != null) {
+                    if (listener != null && !db.emailUserExists(email.getText().toString())) {
                         FirebaseAuth auth = db.getUsersAuthenticator();
                         Toast.makeText(getActivity(), "register fragment", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                         auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
@@ -83,8 +84,9 @@ public class RegisterFragment extends Fragment {
                                         if (task.isSuccessful()) {
                                             Log.d("RegisterActivity", "registerWithEmail:success");
                                             Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
-//                                            FirebaseUser user = auth.getCurrentUser();
-//                                            db.setCurrentUser(user);                                        } else {
+                                            FirebaseUser user = auth.getCurrentUser();
+                                            db.addStudent(user.getUid(), email.getText().toString(), password.getText().toString());
+                                            db.setCurrentUser(user);
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
                                             viewModelApp.set(newStudent);
                                             listener.onButtonClicked();
@@ -98,6 +100,8 @@ public class RegisterFragment extends Fragment {
                             public void onFailure(@NonNull Exception e) {
                             }
                         });
+                    }else{
+                        Toast.makeText(getActivity(), "user is already register", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

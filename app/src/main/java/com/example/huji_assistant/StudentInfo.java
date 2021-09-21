@@ -15,15 +15,26 @@ public class StudentInfo {
     private String year;
     private String beginYear;
     private String beginSemester;
-    private UUID id;
+    private String id;
+
+    public StudentInfo(){
+
+    }
 
     public StudentInfo(String email, String password){
-        email=email;
-        password=password;
-        id = UUID.randomUUID();
+        this.id = UUID.randomUUID().toString();
+        this.email = email;
+        this.password = password;
+    }
+
+    public StudentInfo(String studentId, String email, String password){
+        this.id = studentId;
+        this.email = email;
+        this.password = password;
     }
 
     public StudentInfo(String facultyId_, String chugId_, String maslulId_, String degree_, String year_, String beginYear_, String beginSemester_){
+        this.id = UUID.randomUUID().toString();
         this.facultyId = facultyId_;
         this.chugId = chugId_;
         this.maslulId = maslulId_;
@@ -33,13 +44,25 @@ public class StudentInfo {
         this.beginSemester = beginSemester_;
     }
 
+    public StudentInfo(String name, String email, String password, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.facultyId = facultyId;
+        this.chugId = chugId;
+        this.maslulId = maslulId;
+        this.degree = degree;
+        this.year = year;
+        this.id = id;
+    }
+
 
     public StudentInfo(String name, String email, String password, String year){
-        name=name;
-        email=email;
-        password=password;
-        year=year;
-        //  id = UUID.randomUUID();
+        this.name=name;
+        this.email=email;
+        this.password=password;
+        this.year=year;
+        this.id = UUID.randomUUID().toString();
     }
 
     public void setName(String name){
@@ -84,5 +107,15 @@ public class StudentInfo {
 
     public String getBeginSemester(){
         return beginSemester;
+    }
+
+    public String getId(){ return id;}
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
