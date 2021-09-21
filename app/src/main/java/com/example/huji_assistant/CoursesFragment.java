@@ -22,6 +22,7 @@ import com.example.huji_assistant.databinding.FragmentInfoBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CoursesFragment extends Fragment {
     private ViewModelApp viewModelApp;
@@ -48,7 +49,7 @@ public class CoursesFragment extends Fragment {
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
-
+    public CoursesAdapter.OnItemClickListener onItemClickListener = null;
     public CoursesFragment(){
         super(R.layout.fragment_courses);
     }
@@ -114,6 +115,17 @@ public class CoursesFragment extends Fragment {
              maslulTextView.setText(maslulId);
              degreeTextView.setText(degreeType);
              yearTextView.setText(year);
+        });
+
+        adapter.setItemClickListener(new CoursesAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Course item) {
+                if (onItemClickListener != null){
+                    onItemClickListener.onClick(item);
+                }
+
+              //  adapter.notifyDataSetChanged();
+            }
         });
 
         //beginnigYearOfDegree = "2022"; // todo change

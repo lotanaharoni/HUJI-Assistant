@@ -9,6 +9,7 @@
     android:minHeight="40dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/courseitemcard"
         android:layout_width="match_parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/teal_700"

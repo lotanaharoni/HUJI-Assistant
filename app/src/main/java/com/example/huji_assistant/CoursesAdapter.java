@@ -15,6 +15,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
     private final ArrayList<Course> list;
     private Context mContext;
 
+
     public CoursesAdapter(Context context){
         this.list = new ArrayList<>();
         this.mContext = context;
@@ -41,6 +42,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
 
     public DeleteClickListener deleteListener;
     public CancelClickListener cancelListener;
+    public OnItemClickListener itemClickListener;
 
     // Create an interface
     public interface DeleteClickListener{
@@ -52,11 +54,28 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         void onCancelClick(Course item);
     }
 
+    public interface OnItemClickListener {
+      //  public void onClick(View view, int position);
+        public void onClick(Course item);
+    }
+
+    public void setItemClickListener(OnItemClickListener listener){
+        this.itemClickListener = listener;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull CourseItemHolder holder, int position) {
         Course courseItem = this.list.get(position);
         holder.name.setText(courseItem.getName());
         holder.number.setText(courseItem.getId());
+
+        // todo check if works click on item
+        holder.itemView.setOnClickListener(v -> {
+            // todo open item's fragment
+            // todo make listener
+            itemClickListener.onClick(courseItem);
+        });
+
     }
 
     public int getItemCount() {

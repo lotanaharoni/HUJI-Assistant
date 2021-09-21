@@ -83,6 +83,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         FragmentContainerView mainFragmentView = findViewById(R.id.mainfragment);
         CoursesFragment coursesFragment = new CoursesFragment();
         MyCoursesFragment myCoursesFragment = new MyCoursesFragment();
+        CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
         MainScreenFragment mainscreenfragment = new MainScreenFragment();
 
         getSupportFragmentManager().beginTransaction().replace(mainFragmentView.getId(), mainscreenfragment, "MAIN_FRAGMENT")
@@ -95,7 +96,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         mainscreenfragment.myCoursesButtonListenerBtn = new MainScreenFragment.myCoursesButtonListener() {
             @Override
             public void onMyCoursesButtonClicked() {
-                // todo change the fragment
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(
                         R.anim.fade_in,  // enter
                         R.anim.slide_out,  // exit
@@ -104,6 +104,19 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 )
                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
                   .replace(mainFragmentView.getId(), myCoursesFragment, "MY_COURSES_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        coursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Course item) {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(mainFragmentView.getId(), courseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
             }
         };
     } // end of on create
