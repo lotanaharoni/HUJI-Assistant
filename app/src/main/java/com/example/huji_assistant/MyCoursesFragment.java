@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,9 @@ public class MyCoursesFragment extends Fragment {
         if (holder == null) {
             holder = new CourseItemHolder(recyclerViewMyCourses);
         }
+
+       // ImageView logoutImageView = view.findViewById(R.id.logoutImageView);
+      //  logoutImageView.setEnabled(false);
 
         ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
 

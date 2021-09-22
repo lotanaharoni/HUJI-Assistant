@@ -2,7 +2,7 @@ package com.example.huji_assistant;
 
 import java.util.HashMap;
 
-public class User {
+public class UserNotBeenUsed {
     private String name;
     private String password;
     private String email;
@@ -11,7 +11,7 @@ public class User {
     private int credits;
     private HashMap<Integer, Integer> coursesAndGrades;
 
-    public User(String name, String password, String email, int yearOfStudy, int studyPlan) {
+    public UserNotBeenUsed(String name, String password, String email, int yearOfStudy, int studyPlan) {
         this.name = name;
         this.password = password;
         this.email = email;

@@ -23,12 +23,13 @@
         <entry key="app/src/main/res/layout/item.xml" value="0.18568840579710144" />
         <entry key="app/src/main/res/layout/login.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/mainscreen.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/mainscreen2.xml" value="0.1234375" />
+        <entry key="app/src/main/res/layout/mainscreen2.xml" value="0.335" />
         <entry key="app/src/main/res/layout/model_pdf.xml" value="0.25" />
         <entry key="app/src/main/res/layout/more_info_drawer_layer.xml" value="0.19635416666666666" />
         <entry key="app/src/main/res/layout/personalinfofragment.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/register_fragment.xml" value="0.1421875" />
         <entry key="app/src/main/res/layout/topfragment.xml" value="0.19067028985507245" />
+        <entry key="app/src/main/res/layout/wait_screen.xml" value="0.25" />
         <entry key="app/src/main/res/menu/info_menu_bar.xml" value="0.19635416666666666" />
         <entry key="app/src/main/res/xml/file_paths.xml" value="0.13489583333333333" />
       </map>

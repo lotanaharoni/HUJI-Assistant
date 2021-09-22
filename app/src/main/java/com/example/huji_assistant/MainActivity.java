@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentContainerView;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+//public class MainActivity extends AppCompatActivity  {
 
     private DrawerLayout moreInfoDrawerLayout;
     public LocalDataBase dataBase = null;
@@ -34,6 +35,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (dataBase == null) {
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
+
+        // Get all chugim and maslulim
+        ///FireStoreReader fire = new FireStoreReader();
+      //  fire.work();
+
         //Fetcher fe = new Fetcher();
         //fe.execute();
 
