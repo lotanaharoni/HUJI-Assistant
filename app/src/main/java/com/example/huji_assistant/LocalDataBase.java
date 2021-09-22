@@ -1,5 +1,7 @@
 package com.example.huji_assistant;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -10,17 +12,30 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import androidx.annotation.Nullable;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class LocalDataBase {
 
@@ -37,12 +52,14 @@ public class LocalDataBase {
     private FirebaseUser currentFbUser;
     private StudentInfo currentStudent;
     private final HashMap<String, StudentInfo> students;
-    private final DatabaseReference usersRef;
+//    private final DatabaseReference usersRef;
     private final MutableLiveData<StudentInfo> currentUserMutableLiveData = new MutableLiveData<>();
     public final LiveData<StudentInfo> currentUserLiveData = currentUserMutableLiveData;
     private final MutableLiveData<Boolean> firstLoadFlagMutableLiveData = new MutableLiveData<>();
     public final LiveData<Boolean> firstLoadFlagLiveData = firstLoadFlagMutableLiveData;
     private boolean firstUsersLoad = false;
+    FirebaseFirestore db;
+    CollectionReference studentsCollection;
 
     private final FirebaseAuth mAuth;
 
@@ -52,13 +69,15 @@ public class LocalDataBase {
         this.sp = context.getSharedPreferences("local_db_calculation_items", Context.MODE_PRIVATE);
         this.mAuth = FirebaseAuth.getInstance();
         this.students = new HashMap<>();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        this.usersRef = database.getReference("Users");
+        this.db = FirebaseFirestore.getInstance();
+        this.studentsCollection = db.collection("students");
         this.currentStudent = new StudentInfo();
-        this.refreshDataUsers();
-
+        this.readDataIdsInUse4();
         firstLoadFlagMutableLiveData.postValue(false);
-        // initializeSp();
+
+//        this.refreshDataUsers();
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        this.usersRef = database.getReference("Users");
     }
 
     public HashMap<String, String> getRuach_faculty_values_names_map() {
@@ -79,11 +98,6 @@ public class LocalDataBase {
         spEditor.apply();
     }
 
-    public void refreshDataUsers() {
-        readDataIdsInUse((students) -> {
-        });
-    }
-
     public void logoutUser() {
         mAuth.signOut();
         this.currentFbUser = null;
@@ -100,14 +114,18 @@ public class LocalDataBase {
         return false;
     }
 
-    public void addStudent(String studentId, String email, String password) {
+    public void addStudent(String studentId, String email, String password){
         StudentInfo newStudent = new StudentInfo(studentId, email, password);
-        this.usersRef.child(newStudent.getId()).setValue(newStudent);
+        Map<String, StudentInfo> newUser = new HashMap<>();
+        newUser.put(newStudent.getId(), newStudent);
+        this.studentsCollection.document(newStudent.getId()).set(newStudent);
     }
 
     public void updateStudent(String name, String email, String password, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
         StudentInfo newUser = new StudentInfo(name, email, password, facultyId, chugId, maslulId, degree, year, id);
-        this.usersRef.child(id).setValue(newUser).addOnSuccessListener(aVoid -> {
+        Map<String, StudentInfo> updatedUser = new HashMap<>();
+        updatedUser.put(newUser.getId(), newUser);
+        this.studentsCollection.document(newUser.getId()).set(updatedUser).addOnSuccessListener(aVoid -> {
             if (newUser.getId().equals(currentStudent.getId())) {
                 currentStudent = newUser;
             } else {
@@ -126,43 +144,27 @@ public class LocalDataBase {
         }
     }
 
-    private void readDataIdsInUse(FirebaseUsersUpdateCallback firebaseCallback) {
-        ValueEventListener valueEventListenerUsers = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                students.clear();
-                ArrayList<StudentInfo> unapproved = new ArrayList<>();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    if (ds != null) {
-                        StudentInfo user = ds.getValue(StudentInfo.class);
-                        assert user != null;
-                        students.put(user.getId(), user);
+    public void readDataIdsInUse4(){
+        db.collection("students")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        students.clear();
+                        for (QueryDocumentSnapshot doc : value) {
+                            StudentInfo user = doc.toObject(StudentInfo.class);
+                            students.put(user.getId(), user);
+                        }
+                        setCurrentUser(currentFbUser);
+                        firstLoadFlagMutableLiveData.postValue(true);
+                        firstUsersLoad = true;
+//                        firstLoadFlagMutableLiveData.postValue(true);
                     }
-                }
-                setCurrentUser(currentFbUser);
-                firebaseCallback.onCallback(students);
-                firstLoadFlagMutableLiveData.postValue(firstUsersLoad);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        };
-        // update data and relevant liveData
-        usersRef.addValueEventListener(valueEventListenerUsers);
-
-        // notifies first load
-        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                firstUsersLoad = true;
-                firstLoadFlagMutableLiveData.postValue(true);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
+                });
     }
 
     public StudentInfo getStudent(String studentId) {
@@ -171,4 +173,64 @@ public class LocalDataBase {
         }
         return null;
     }
+
+    //    private void readDataIdsInUse(FirebaseUsersUpdateCallback firebaseCallback) {
+//        ValueEventListener valueEventListenerUsers = new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                students.clear();
+//                ArrayList<StudentInfo> unapproved = new ArrayList<>();
+//                for (DataSnapshot ds : snapshot.getChildren()) {
+//                    if (ds != null) {
+//                        StudentInfo user = ds.getValue(StudentInfo.class);
+//                        assert user != null;
+//                        students.put(user.getId(), user);
+//                    }
+//                }
+//                setCurrentUser(currentFbUser);
+//                firebaseCallback.onCallback(students);
+//                firstLoadFlagMutableLiveData.postValue(firstUsersLoad);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//            }
+//        };
+//        // update data and relevant liveData
+//        usersRef.addValueEventListener(valueEventListenerUsers);
+//
+//        // notifies first load
+//        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                firstUsersLoad = true;
+//                firstLoadFlagMutableLiveData.postValue(true);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//            }
+//        });
+//    }
+
+    //    public void addStudentFirebase(String studentId, String email, String password) {
+//        StudentInfo newStudent = new StudentInfo(studentId, email, password);
+//        this.usersRef.child(newStudent.getId()).setValue(newStudent);
+//    }
+
+    //    public void updateStudentFirebase(String name, String email, String password, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
+//        StudentInfo newUser = new StudentInfo(name, email, password, facultyId, chugId, maslulId, degree, year, id);
+//        this.usersRef.child(id).setValue(newUser).addOnSuccessListener(aVoid -> {
+//            if (newUser.getId().equals(currentStudent.getId())) {
+//                currentStudent = newUser;
+//            } else {
+//                Log.d("sameUserCheck", "not the current user");
+//            }
+//        });
+//    }
+
+    //    public void refreshDataUsers() {
+//        readDataIdsInUse((students) -> {
+//        });
+//    }
 }
