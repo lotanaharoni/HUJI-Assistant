@@ -26,6 +26,7 @@ import java.util.UUID;
 
 public class CoursesFragment extends Fragment {
     private ViewModelApp viewModelApp;
+    private ViewModelAppMainScreen viewModelAppCourse;
     FragmentCoursesBinding binding;
     public CourseItemHolder holder = null;
     public CoursesAdapter adapter = null;
@@ -49,7 +50,9 @@ public class CoursesFragment extends Fragment {
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
+
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
+
     public CoursesFragment(){
         super(R.layout.fragment_courses);
     }
@@ -68,6 +71,7 @@ public class CoursesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
+        viewModelAppCourse = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         facultyTextView = view.findViewById(R.id.faculty);
         chugTextView = view.findViewById(R.id.chugName);
         maslulTextView = view.findViewById(R.id.maslulName);
@@ -98,7 +102,7 @@ public class CoursesFragment extends Fragment {
         recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
 
-        viewModelApp.get().observe(getViewLifecycleOwner(), item->{
+        viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
              facultyId = item.getFacultyId();
              chugId = item.getChugId();
              maslulId = item.getMaslulId();
@@ -108,7 +112,7 @@ public class CoursesFragment extends Fragment {
              beginSemesterOfDegree = item.getBeginSemester();
 
              System.out.println("begin year: " + beginnigYearOfDegree);
-            System.out.println("begin semester: " + beginSemesterOfDegree);
+             System.out.println("begin semester: " + beginSemesterOfDegree);
 
              facultyTextView.setText(facultyId);
              chugTextView.setText(chugId);
@@ -121,6 +125,7 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(Course item) {
                 if (onItemClickListener != null){
+                    viewModelAppCourse.set(item);
                     onItemClickListener.onClick(item);
                 }
 

@@ -13,6 +13,7 @@ import java.util.List;
 public class ViewModelApp extends ViewModel {
 
     public MutableLiveData<StudentInfo> studentInfoMutableLiveData = new MutableLiveData<>();
+    public MutableLiveData<Course> courseMutableLiveData = new MutableLiveData<>();
     // private final Firestore firestore;
 
     public ViewModelApp(FragmentActivity fragmentActivity){
@@ -23,17 +24,29 @@ public class ViewModelApp extends ViewModel {
 
     }
 
-    public void set(StudentInfo student){
+    public void setStudent(StudentInfo student){
         studentInfoMutableLiveData.setValue(student);
     }
 
+    public void setCourse(Course course){
+        courseMutableLiveData.setValue(course);
+    }
+
     //public MutableLiveData<StudentInfo> get(Class<ViewModelApp> viewModelAppClass){
-    public MutableLiveData<StudentInfo> get(){
+    public MutableLiveData<StudentInfo> getStudent(){
         if (studentInfoMutableLiveData == null)
         {
             studentInfoMutableLiveData = new MutableLiveData<>();
         }
         return studentInfoMutableLiveData;
+    }
+
+    public MutableLiveData<Course> getCourse(){
+        if (courseMutableLiveData == null)
+        {
+            courseMutableLiveData = new MutableLiveData<>();
+        }
+        return courseMutableLiveData;
     }
 
 }

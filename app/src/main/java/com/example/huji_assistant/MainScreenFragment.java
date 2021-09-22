@@ -72,7 +72,7 @@ public class MainScreenFragment extends Fragment {
         myCourses = view.findViewById(R.id.myCoursesButton);
 
         FloatingActionButton openCameraFloatingButton = view.findViewById(R.id.open_camera_floating_button);
-        viewModelApp.get().observe(getViewLifecycleOwner(), item->{
+        viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
 
         });
 

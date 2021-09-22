@@ -86,7 +86,7 @@ public class RegisterFragment extends Fragment {
 //                                            FirebaseUser user = auth.getCurrentUser();
 //                                            db.setCurrentUser(user);                                        } else {
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
-                                            viewModelApp.set(newStudent);
+                                            viewModelApp.setStudent(newStudent);
                                             listener.onButtonClicked();
                                         }else{
                                             Log.w("RegisterActivity", "registerWithEmail:failure", task.getException());

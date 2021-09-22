@@ -163,7 +163,7 @@ public class InfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (continueListener != null) {
-                    StudentInfo currentStudent = viewModelApp.get().getValue();
+                    StudentInfo currentStudent = viewModelApp.getStudent().getValue();
 
                     //  currentStudent.setName(nameEditText.getText().toString());
                     // currentStudent.setYear(yearEditText.getText().toString());
@@ -176,7 +176,7 @@ public class InfoFragment extends Fragment {
                     }
 
                     StudentInfo newStudent = new StudentInfo(facultyId, chugId, maslulId, selectedDegree, selectedYear, selectedBeginYear, selectedBeginSemester);
-                    viewModelApp.set(newStudent);
+                    viewModelApp.setStudent(newStudent);
                     continueListener.continueBtnClicked();
                 }
             }

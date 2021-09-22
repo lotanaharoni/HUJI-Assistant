@@ -45,7 +45,7 @@ public class PersonalInfoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (continueListener != null) {
-                    StudentInfo currentStudent = viewModelApp.get().getValue();
+                    StudentInfo currentStudent = viewModelApp.getStudent().getValue();
 
                     //  currentStudent.setName(nameEditText.getText().toString());
                     // currentStudent.setYear(yearEditText.getText().toString());

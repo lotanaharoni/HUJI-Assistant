@@ -125,7 +125,7 @@ public class TextViewFragment extends Fragment {
 //                                            FirebaseUser user = auth.getCurrentUser();
 //                                            db.setCurrentUser(user);                                        } else {
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
-                                            viewModelApp.set(newStudent);
+                                            viewModelApp.setStudent(newStudent);
                                             listener.onButtonClicked();
                                         }else{
                                             Log.w("LoginActivity", "signInWithEmail:failure", task.getException());

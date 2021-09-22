@@ -9,6 +9,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 public class MyCoursesFragment extends Fragment {
 
-    private ViewModelApp viewModelApp;
+    private ViewModelAppMainScreen viewModelAppMainScreen;
     FragmentMycoursesBinding binding;
 
     public CourseItemHolder holder = null;
@@ -27,6 +28,7 @@ public class MyCoursesFragment extends Fragment {
     public CoursesAdapter adapter = null;
     public LocalDataBase dataBase = null;
     RecyclerView recyclerViewMyCourses;
+    public CoursesAdapter.OnItemClickListener onItemClickListener = null;
 
     public interface endRegistrationButtonClickListener{
         public void onEndRegistrationBtnClicked();
@@ -46,7 +48,7 @@ public class MyCoursesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        viewModelAppMainScreen = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         recyclerViewMyCourses = view.findViewById(R.id.recycleViewMyCourses);
         adapter = new CoursesAdapter(getContext());
 
@@ -73,6 +75,17 @@ public class MyCoursesFragment extends Fragment {
 
         recyclerViewMyCourses.setLayoutManager(new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false));
+
+        adapter.setItemClickListener(new CoursesAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Course item) {
+                if (onItemClickListener != null){
+                    viewModelAppMainScreen.set(item);
+                    onItemClickListener.onClick(item);
+                }
+                //  adapter.notifyDataSetChanged();
+            }
+        });
 
     }
 }

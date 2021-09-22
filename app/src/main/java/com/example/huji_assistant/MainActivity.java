@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         CoursesFragment coursesFragment = new CoursesFragment();
         InfoFragment infoFragment = new InfoFragment();
         MainScreenFragment mainScreenFragment = new MainScreenFragment();
+        CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
 
         getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment, "FIRST_FRAGMENT")
                 .commit();
@@ -150,6 +151,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //)
                   //      .replace(loginFragment.getId(), mainScreen).disallowAddToBackStack().commit();
 
+            }
+        };
+        coursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Course item) {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(loginFragment.getId(), courseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
             }
         };
     }
