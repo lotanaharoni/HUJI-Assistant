@@ -26,6 +26,7 @@ import java.util.Map;
 
 public class ScanQrActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
+    LocalDataBase db;
     private final int COURSE = 0;
     private final int YEAR = 1;
     private final int DAY = 2;
@@ -36,6 +37,7 @@ public class ScanQrActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan_qr);
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
+        db = HujiAssistentApplication.getInstance().getDataBase();
         verifyPermissions();
         mCodeScanner.startPreview();
 
@@ -50,10 +52,9 @@ public class ScanQrActivity extends AppCompatActivity {
                         if (parts.length != 3){
                             return;
                         }
-                        UserNotBeenUsed tempUser = new UserNotBeenUsed("Yosi", "123456789", "yosi@gmail.com", 1, 3);
-                        // todo: Get current user
+                        StudentInfo user = db.getCurrentUser();
                         Map<String, Object> userScan = new HashMap<>();
-                        userScan.put("Yosi-121121121", tempUser); //todo
+                        userScan.put(user.getId(), user);
                         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                         firestore.collection(parts[COURSE]).document(parts[YEAR]).collection(parts[DAY])
                                 .add(userScan)

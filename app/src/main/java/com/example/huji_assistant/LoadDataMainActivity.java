@@ -17,8 +17,10 @@ public class LoadDataMainActivity extends AppCompatActivity {
         LocalDataBase db = HujiAssistentApplication.getInstance().getDataBase();
 
         FirebaseUser currentUser = db.getUsersAuthenticator().getCurrentUser();
-
         //db.logoutUser();
+
+        db.logoutUser();
+
 
 //        FireStoreReader fireStoreReader = new FireStoreReader();
 

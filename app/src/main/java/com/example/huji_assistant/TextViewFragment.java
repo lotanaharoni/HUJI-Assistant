@@ -122,7 +122,7 @@ public class TextViewFragment extends Fragment {
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         if (task.isSuccessful()) {
                                             Log.d("LoginActivity", "signInWithEmail:success");
-                                            Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+//                                            Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                             FirebaseUser user = auth.getCurrentUser();
                                             db.setCurrentUser(user);
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
@@ -130,7 +130,7 @@ public class TextViewFragment extends Fragment {
                                             listener.onButtonClicked();
                                         }else{
                                             Log.w("LoginActivity", "signInWithEmail:failure", task.getException());
-                                            Toast.makeText(getActivity(), "signInWithEmail:failure", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(), "שם משתמש וסיסמה לא נכונים. נסה להזין שוב או להירשם בתור משתמש חדש", Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
