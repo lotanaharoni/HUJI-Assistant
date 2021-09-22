@@ -18,6 +18,8 @@ public class LoadDataMainActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = db.getUsersAuthenticator().getCurrentUser();
 
+        db.logoutUser();
+
 //        FireStoreReader fireStoreReader = new FireStoreReader();
 
         // update UI when DB finish to load the initial data
