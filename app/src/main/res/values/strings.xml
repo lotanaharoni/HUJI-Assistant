@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HUJI_Assistant</string>
+    <string name="app_name">HUJI Assistant</string>
     <string name="scan_something">Scan Something</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
