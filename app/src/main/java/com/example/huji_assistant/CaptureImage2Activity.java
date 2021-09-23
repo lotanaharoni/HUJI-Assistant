@@ -1,6 +1,7 @@
 package com.example.huji_assistant;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
@@ -19,6 +20,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -95,6 +100,25 @@ public class CaptureImage2Activity extends AppCompatActivity {
             }
         });
 
+//        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result) {
+//                        if (result.getResultCode() == Activity.RESULT_OK) {
+//                            // There are no request codes
+//                            Intent data = result.getData();
+//                            data.setAction(Intent.ACTION_GET_CONTENT);
+//                            data.setType("application/pdf");
+////                            galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                            // We will be redirected to choose pdf
+////                            galleryIntent.setType("application/pdf");
+////                            doSomeOperations();
+//                        }
+//                    }
+//                });
+
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,6 +136,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
+//                someActivityResultLauncher.launch(galleryIntent, GALLERY_REQUEST_CODE);
                 startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
             }
         });
@@ -310,12 +335,25 @@ public class CaptureImage2Activity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("imageTitle", imageTitle.getText().toString());
+        outState.putParcelable("imageUri", imageUri);
+        outState.putInt("progressBarVisibility", progressBar.getVisibility());
+        outState.putInt("cameraUploadVisibility", cameraImageUpload.getVisibility());
+        outState.putInt("pdfImageVisibility", pdfImageUpload.getVisibility());
+        outState.putInt("imageShowVisibility", imageShow.getVisibility());
+        outState.putString("pdfNameText", pdfName.getText().toString());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         imageTitle.setText(savedInstanceState.getString("imageTitle"));
+        imageUri = savedInstanceState.getParcelable("imageUri");
+        imageShow.setImageURI(imageUri);
+        progressBar.setVisibility(savedInstanceState.getInt("progressBarVisibility"));
+        cameraImageUpload.setVisibility(savedInstanceState.getInt("cameraUploadVisibility"));
+        pdfImageUpload.setVisibility(savedInstanceState.getInt("pdfImageVisibility"));
+        imageShow.setVisibility(savedInstanceState.getInt("imageShowVisibility"));
+        pdfName.setText(savedInstanceState.getString("pdfNameText"));
     }
 
     private void hideButtonsAfterChooseImage(){
