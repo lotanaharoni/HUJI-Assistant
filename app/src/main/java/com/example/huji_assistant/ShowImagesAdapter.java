@@ -1,10 +1,12 @@
 package com.example.huji_assistant;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +35,8 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Glide.with(context).load(mList.get(position).getImageUrl()).into(holder.imageView);
+        holder.imageTitle.setText(mList.get(position).getName());
+//        Glide.with(context).load(mList.get(position).getName()).into(holder.imageTitle);
     }
 
     @Override
@@ -43,9 +47,13 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imageView;
+        TextView imageTitle;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.m_image);
+            imageTitle = itemView.findViewById(R.id.info_text);
+            imageTitle.setTypeface(null, Typeface.BOLD_ITALIC);
+
         }
     }
 }
