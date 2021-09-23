@@ -40,12 +40,12 @@ public class LoadDataMainActivity extends AppCompatActivity {
             db.setCurrentUser(firebaseUser);
             db.currentUserLiveData.observe(this, user -> {
                 if (user != null) {
-                    startActivity(new Intent(this, CaptureImage2Activity.class));
+                    startActivity(new Intent(this, MainScreenActivity.class));
                     finish();
                 }
             });
         } else {
-            startActivity(new Intent(this, CaptureImage2Activity.class));
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
     }
