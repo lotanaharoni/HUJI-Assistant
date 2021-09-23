@@ -53,7 +53,20 @@ public class PDFCustomerAdapter extends BaseAdapter {
         img.setImageResource(R.drawable.ic_pdf_icon);
 
         //VIEW ITEM CLICK
-        view.setOnClickListener(new View.OnClickListener() {
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openPDFView(pdfDoc.getPath());
+//            }
+//        });
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openPDFView(pdfDoc.getPath());
+            }
+        });
+
+        nameTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openPDFView(pdfDoc.getPath());
