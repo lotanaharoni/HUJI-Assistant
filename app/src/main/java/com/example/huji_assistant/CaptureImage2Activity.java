@@ -1,7 +1,10 @@
 package com.example.huji_assistant;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -14,8 +17,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,11 +48,14 @@ import java.util.Date;
 public class CaptureImage2Activity extends AppCompatActivity {
 
     private Button uploadBtn, showAllBtn, button2;
-    private ImageView imageView, cameraImageUpload, pdfImageUpload;
+    private TextView pdfName;
+    private ImageView imageView, cameraImageUpload, pdfImageUpload, imageShow;
+    private int uploadChoose;
+    private String fName, messagePushId;
     private ProgressBar progressBar;
     private DatabaseReference root;
     private StorageReference reference;
-    private Uri imageUri;
+    private Uri imageUri, classContentUri;
     EditText imageTitle;
     String currentPhotoPath;
     public static final int CAMERA_PERM_CODE = 101;
@@ -62,6 +73,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_capture2);
 
         uploadBtn = findViewById(R.id.upload_btn);
+        uploadBtn.setEnabled(false);
         showAllBtn = findViewById(R.id.showall_btn);
         progressBar = findViewById(R.id.progressBar2);
         imageView = findViewById(R.id.uploadFromGallery);
@@ -69,13 +81,17 @@ public class CaptureImage2Activity extends AppCompatActivity {
         reference = FirebaseStorage.getInstance().getReference();
         progressBar.setVisibility(View.INVISIBLE);
         cameraImageUpload = findViewById(R.id.cameraImageUpload);
+        pdfName = findViewById(R.id.PDFName);
         pdfImageUpload = findViewById(R.id.pdfImageUpload);
+        imageShow = findViewById(R.id.imageShow);
         imageTitle = findViewById(R.id.imageTitle);
         imageTitle.setText("");
+        imageShow.setVisibility(View.INVISIBLE);
         button2 = findViewById(R.id.button2);
-
-//        imageView.setImageURI(null); todo: reset the image
-//        imageView.setImageResource(R.drawable.ic_baseline_add_photo_alternate_24);
+        uploadChoose = -1;
+        fName = "";
+        pdfName.setText("");
+        pdfName.setVisibility(View.INVISIBLE);
 
         cameraImageUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +99,25 @@ public class CaptureImage2Activity extends AppCompatActivity {
                 askCameraPermissions();
             }
         });
+
+//        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+//                new ActivityResultContracts.StartActivityForResult(),
+//                new ActivityResultCallback<ActivityResult>() {
+//                    @Override
+//                    public void onActivityResult(ActivityResult result) {
+//                        if (result.getResultCode() == Activity.RESULT_OK) {
+//                            // There are no request codes
+//                            Intent data = result.getData();
+//                            data.setAction(Intent.ACTION_GET_CONTENT);
+//                            data.setType("application/pdf");
+////                            galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+//
+//                            // We will be redirected to choose pdf
+////                            galleryIntent.setType("application/pdf");
+////                            doSomeOperations();
+//                        }
+//                    }
+//                });
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,6 +136,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
                 Intent galleryIntent = new Intent();
                 galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
                 galleryIntent.setType("image/*");
+//                someActivityResultLauncher.launch(galleryIntent, GALLERY_REQUEST_CODE);
                 startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
             }
         });
@@ -120,10 +156,14 @@ public class CaptureImage2Activity extends AppCompatActivity {
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (imageUri != null){
-                    uploadToFirebase(imageUri, GALLERY_REQUEST_CODE, "");
-                }else{
-                    Toast.makeText(CaptureImage2Activity.this, "Please select image", Toast.LENGTH_SHORT).show();
+                if (uploadChoose == GALLERY_TYPE){
+                    uploadToFirebase(imageUri, GALLERY_REQUEST_CODE, imageTitle.getText().toString());
+                }
+                else if (uploadChoose == CAMERA_TYPE){
+                    uploadToFirebase(classContentUri, CAMERA_REQUEST_CODE, fName);
+                }
+                else if (uploadChoose == PDF_TYPE){
+                    uploadToFirebase(imageUri, DOCUMENTS_REQUEST_CODE, messagePushId);
                 }
             }
         });
@@ -137,16 +177,17 @@ public class CaptureImage2Activity extends AppCompatActivity {
     }
 
     private void uploadToFirebase(Uri uri, int source, String name) {
+        name = System.currentTimeMillis() + "_" + imageTitle.getText().toString();
         StorageReference fileRef;
         int type;
         String fileName;
         if (source == GALLERY_REQUEST_CODE){
-            fileRef = reference.child("Gallery_files/" + System.currentTimeMillis() + "." + getFileExtension(uri));
+            fileRef = reference.child("Gallery_files/" + name + "." + getFileExtension(uri));
             fileName = System.currentTimeMillis() + "." + getFileExtension(uri);
             type = GALLERY_TYPE;
         }
         else if (source == CAMERA_REQUEST_CODE){
-            fileRef = reference.child("Camera_images/" + name);
+            fileRef = reference.child("Camera_images/" + imageTitle.getText().toString() + "_" + fName);
             type = CAMERA_TYPE;
             fileName = name;
         }
@@ -167,7 +208,9 @@ public class CaptureImage2Activity extends AppCompatActivity {
                         assert modelId != null;
                         progressBar.setVisibility(View.INVISIBLE);
                         root.child(modelId).setValue(model);
-                        imageTitle.setText(""); //todo: add title
+                        imageTitle.setText("");
+                        uploadBtn.setEnabled(false);
+                        showButtonsAfterChooseImage();
                         Toast.makeText(CaptureImage2Activity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -198,6 +241,10 @@ public class CaptureImage2Activity extends AppCompatActivity {
 
         if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null){
             imageUri = data.getData();
+            hideButtonsAfterChooseImage();
+            imageShow.setImageURI(imageUri);
+            uploadBtn.setEnabled(true);
+            uploadChoose = GALLERY_TYPE;
 //            imageView.setImageURI(imageUri);
         }
 
@@ -209,8 +256,12 @@ public class CaptureImage2Activity extends AppCompatActivity {
             Uri contentUri = Uri.fromFile(f);
             mediaScanIntent.setData(contentUri);
             this.sendBroadcast(mediaScanIntent);
-
-            uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
+            hideButtonsAfterChooseImage();
+            imageShow.setImageURI(contentUri);
+            uploadChoose = CAMERA_TYPE;
+            classContentUri = contentUri;
+            fName = f.getName();
+            uploadBtn.setEnabled(true);
         }
 
         if (requestCode == DOCUMENTS_REQUEST_CODE && resultCode == RESULT_OK){
@@ -218,7 +269,13 @@ public class CaptureImage2Activity extends AppCompatActivity {
             final String timestamp = "" + System.currentTimeMillis();
             StorageReference storageReference = FirebaseStorage.getInstance().getReference();
             final String messagePushID = timestamp + "." + "pdf";
-            uploadToFirebase(imageUri, DOCUMENTS_REQUEST_CODE, messagePushID);
+            hideButtonsAfterChooseImage();
+            imageShow.setImageResource(R.drawable.ic_pdf_icon);
+            uploadChoose = PDF_TYPE;
+            messagePushId = messagePushID;
+            uploadBtn.setEnabled(true);
+            pdfName.setVisibility(View.VISIBLE);
+            pdfName.setText(messagePushID);
         }
     }
 
@@ -257,10 +314,10 @@ public class CaptureImage2Activity extends AppCompatActivity {
         String imageFileName = "";
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         if (!imageTitle.getText().toString().equals("")){
-            imageFileName = "JPEG_" + imageTitle.getText().toString() + "_";
+            imageFileName = imageTitle.getText().toString() + "_";
         }
         else{
-            imageFileName = "JPEG_" + timeStamp + "_";
+            imageFileName = timeStamp + "_";
         }
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -278,18 +335,62 @@ public class CaptureImage2Activity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString("imageTitle", imageTitle.getText().toString());
+        outState.putParcelable("imageUri", imageUri);
+        outState.putInt("progressBarVisibility", progressBar.getVisibility());
+        outState.putInt("cameraUploadVisibility", cameraImageUpload.getVisibility());
+        outState.putInt("pdfImageVisibility", pdfImageUpload.getVisibility());
+        outState.putInt("imageShowVisibility", imageShow.getVisibility());
+        outState.putString("pdfNameText", pdfName.getText().toString());
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         imageTitle.setText(savedInstanceState.getString("imageTitle"));
+        imageUri = savedInstanceState.getParcelable("imageUri");
+        imageShow.setImageURI(imageUri);
+        progressBar.setVisibility(savedInstanceState.getInt("progressBarVisibility"));
+        cameraImageUpload.setVisibility(savedInstanceState.getInt("cameraUploadVisibility"));
+        pdfImageUpload.setVisibility(savedInstanceState.getInt("pdfImageVisibility"));
+        imageShow.setVisibility(savedInstanceState.getInt("imageShowVisibility"));
+        pdfName.setText(savedInstanceState.getString("pdfNameText"));
+    }
+
+    private void hideButtonsAfterChooseImage(){
+        imageView.setVisibility(View.INVISIBLE);
+        cameraImageUpload.setVisibility(View.INVISIBLE);
+        pdfImageUpload.setVisibility(View.INVISIBLE);
+        imageShow.setVisibility(View.VISIBLE);
+    }
+
+    private void showButtonsAfterChooseImage(){
+        imageView.setVisibility(View.VISIBLE);
+        cameraImageUpload.setVisibility(View.VISIBLE);
+        pdfImageUpload.setVisibility(View.VISIBLE);
+        imageShow.setVisibility(View.INVISIBLE);
+        imageTitle.setText("");
+        pdfName.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void onBackPressed() {
-        Intent backToLoginIntent = new Intent(this, MainActivity.class);
-        startActivity(backToLoginIntent);
+        if (imageShow.getVisibility() == View.VISIBLE){
+            DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE: {
+                        showButtonsAfterChooseImage();
+                        break;
+                    }
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure to reset the image?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
+        else{
+            super.onBackPressed();
+        }
     }
-
 }

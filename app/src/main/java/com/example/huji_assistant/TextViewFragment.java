@@ -2,6 +2,7 @@ package com.example.huji_assistant;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -127,7 +128,8 @@ public class TextViewFragment extends Fragment {
                                             db.setCurrentUser(user);
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
                                             viewModelApp.setStudent(newStudent);
-                                            listener.onButtonClicked();
+                                            startActivity(new Intent(getActivity(), MainScreenActivity.class));
+//                                            listener.onButtonClicked();
                                         }else{
                                             Log.w("LoginActivity", "signInWithEmail:failure", task.getException());
                                             Toast.makeText(getActivity(), "שם משתמש וסיסמה לא נכונים. נסה להזין שוב או להירשם בתור משתמש חדש", Toast.LENGTH_LONG).show();

@@ -56,7 +56,8 @@ public class ScanQrActivity extends AppCompatActivity {
                         Map<String, Object> userScan = new HashMap<>();
                         userScan.put(user.getId(), user);
                         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                        firestore.collection(parts[COURSE]).document(parts[YEAR]).collection(parts[DAY])
+                        firestore.collection("attendance").document(parts[COURSE]).collection(parts[YEAR]).document(parts[DAY]).collection(user.getId())
+//                        firestore.collection(parts[COURSE]).document(parts[YEAR]).collection(parts[DAY])
                                 .add(userScan)
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
