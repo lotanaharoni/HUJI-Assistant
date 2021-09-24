@@ -19,7 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.databinding.FragmentCoursesBinding;
 import com.example.huji_assistant.databinding.FragmentInfoBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -49,6 +53,7 @@ public class CoursesFragment extends Fragment {
     TextView degreeTextView;
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
+    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
 
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
@@ -119,6 +124,16 @@ public class CoursesFragment extends Fragment {
              maslulTextView.setText(maslulId);
              degreeTextView.setText(degreeType);
              yearTextView.setText(year);
+
+             //firebaseInstancedb.collection("courses").whereArrayContains()
+
+             firebaseInstancedb.collection("courses").whereArrayContains(chugId, chugId)
+                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                 @Override
+                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                 }
+             });
         });
 
         adapter.setItemClickListener(new CoursesAdapter.OnItemClickListener() {
