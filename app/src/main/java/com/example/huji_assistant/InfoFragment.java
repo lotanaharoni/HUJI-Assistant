@@ -137,9 +137,11 @@ public class InfoFragment extends Fragment {
 
         String[] beginSemesterArray = getResources().getStringArray(R.array.beginsemesterarray);
         binding.autoCompleteSemesterBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginsemesteritem, beginSemesterArray));
+        arrayAdapter.getFilter().filter("");
 
         String[] beginYearArray = getResources().getStringArray(R.array.beginyeararray);
         binding.autoCompleteYearBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginyearitem, beginYearArray));
+        arrayAdapter.getFilter().filter("");
 
 
         AutoCompleteTextView autoCompleteTextViewFaculty = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewFaculty);
@@ -195,6 +197,7 @@ public class InfoFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String)parent.getItemAtPosition(position);
                 ArrayList<String> s = new ArrayList<>();
+                arrayAdapter.getFilter().filter("");
                 autoCompleteTextViewChug.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownhujiitem, s));
 
                // dropdownHugim.clearListSelection();
@@ -228,7 +231,7 @@ public class InfoFragment extends Fragment {
                                     String chugTitle = chug.getTitle();
                                     chugimInFaculty.add(chugTitle);
                                 }
-
+                                arrayAdapter.getFilter().filter("");
                                 binding.autoCompleteTextViewChug.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownhujiitem, chugimInFaculty));
                             }
                         });
@@ -287,6 +290,7 @@ public class InfoFragment extends Fragment {
                 //autoCompleteTextViewMaslul.setEnabled(true);
                // dropdownMaslulim.setText("");
                 ArrayList<String> s = new ArrayList<>();
+                arrayAdapter.getFilter().filter("");
                 autoCompleteTextViewMaslul.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownmaslulitem, s));
 
                // dropdownMaslulim.clearListSelection();
@@ -375,6 +379,7 @@ public class InfoFragment extends Fragment {
                 System.out.println("position " + position);
                 autoCompleteTextViewYear.setEnabled(true);
                 String[] yearArray = getResources().getStringArray(R.array.yearArray);
+                arrayAdapter.getFilter().filter("");
                 binding.autoCompleteTextViewYear.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownyearitem, yearArray));
             }
         });
@@ -385,6 +390,7 @@ public class InfoFragment extends Fragment {
                 selectedYear = (String) parent.getItemAtPosition(position);
                 dropdownyearbegindegree.setEnabled(true);
                 String[] beginYearArray = getResources().getStringArray(R.array.beginyeararray);
+                arrayAdapter.getFilter().filter("");
                 binding.autoCompleteYearBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginyearitem, beginYearArray));
             }
         });
@@ -395,6 +401,7 @@ public class InfoFragment extends Fragment {
                 selectedBeginYear = (String) parent.getItemAtPosition(position);
                 dropdownsemesterbegindegree.setEnabled(true);
                 String[] beginSemesterArray = getResources().getStringArray(R.array.beginsemesterarray);
+                arrayAdapter.getFilter().filter("");
                 binding.autoCompleteSemesterBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginsemesteritem, beginSemesterArray));
             }
         });

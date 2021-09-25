@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.databinding.FragmentCoursesBinding;
 import com.example.huji_assistant.databinding.FragmentMycoursesBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,21 +37,22 @@ public class MyCoursesFragment extends Fragment {
     RecyclerView recyclerViewMyCourses;
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
 
-    public interface endRegistrationButtonClickListener{
-        public void onEndRegistrationBtnClicked();
+    //public interface endRegistrationButtonClickListener{
+     //   public void onEndRegistrationBtnClicked();
+   // }
+
+    public interface addCourseButtonClickListener{
+        public void addCourseBtnClicked();
     }
 
     public MyCoursesFragment(){
         super(R.layout.fragment_mycourses);
     }
-
+    public MyCoursesFragment.addCourseButtonClickListener addCourseListener = null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentMycoursesBinding.inflate(inflater, container, false);
-
-
-
         return binding.getRoot();
     }
 
@@ -61,6 +63,14 @@ public class MyCoursesFragment extends Fragment {
         viewModelAppMainScreen = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         recyclerViewMyCourses = view.findViewById(R.id.recycleViewMyCourses);
         adapter = new CoursesAdapter(getContext());
+        FloatingActionButton addCourseBtn = view.findViewById(R.id.addCourseBtn);
+
+        addCourseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addCourseListener.addCourseBtnClicked();
+            }
+        });
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdownfacultyitem, getResources().getStringArray(R.array.courseType));
         arrayAdapter.getFilter().filter("");

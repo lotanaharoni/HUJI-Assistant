@@ -7,9 +7,6 @@
     android:layout_height="match_parent">
 
 
-
-
-
     <TextView
         android:id="@+id/hujiapptextview"
         android:layout_width="wrap_content"
@@ -43,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="400dp"
+            android:singleLine="true"
             android:layout_marginLeft="150dp"
             android:text="ניווט בקמפוס" />
 
@@ -63,9 +61,21 @@
             android:layout_height="wrap_content"
             android:text="עריכת פרטים אישיים" />
 
-        <SearchView
+
+        <ListView
+            android:id="@+id/listViewMainScreen"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="367dp"
+            android:layout_below="@+id/searchViewMainScreen"
+            android:divider="#ad5"
+            android:dividerHeight="2dp" />
+        <SearchView
+            android:id="@+id/searchViewMainScreen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:queryHint="חפש קורס.."
+            android:iconifiedByDefault="false"
+            android:layout_alignParentTop="true"/>
 
         <ScrollView
             android:layout_width="match_parent"

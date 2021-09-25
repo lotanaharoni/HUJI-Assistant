@@ -80,6 +80,7 @@
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_height="match_parent">
 
             <com.google.android.material.bottomappbar.BottomAppBar

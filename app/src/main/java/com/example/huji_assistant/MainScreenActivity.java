@@ -58,6 +58,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         CoursesFragment coursesFragment = new CoursesFragment();
         MyCoursesFragment myCoursesFragment = new MyCoursesFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
+        AddCourseFragment addCourseFragment = new AddCourseFragment();
 
         MainScreenFragment mainscreenfragment = new MainScreenFragment();
 
@@ -72,6 +73,20 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             // todo handle
             System.out.println("settings clicked");
         });
+
+        myCoursesFragment.addCourseListener = new MyCoursesFragment.addCourseButtonClickListener() {
+            @Override
+            public void addCourseBtnClicked() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+                        .replace(mainFragmentView.getId(), addCourseFragment, "ADD_COURSES_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
 
         mainscreenfragment.myCoursesButtonListenerBtn = new MainScreenFragment.myCoursesButtonListener() {
             @Override
