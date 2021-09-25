@@ -61,7 +61,18 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="35dp"
             android:textSize="12sp"
-            android:text="points"
+            android:text="נקודות זכות"
+            android:textAppearance="?android:textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/courseTypeHolder"
+            android:layout_width="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="170dp"
+            android:layout_marginTop="35dp"
+            android:textSize="12sp"
+            android:text="type"
             android:textAppearance="?android:textAppearanceLarge" />
 
         <TextView

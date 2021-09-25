@@ -28,8 +28,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_height="wrap_content">
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -148,21 +146,36 @@
         app:layout_constraintBottom_toTopOf="@id/linearlayout2"
         android:orientation="horizontal">
 
-        <AutoCompleteTextView
-            android:id="@+id/autocompletechoosetype"
-            android:layout_width="100dp"
-            android:layout_marginLeft="80dp"
-            android:textSize="12sp"
-            android:layout_height="wrap_content"
-            android:text="חפש לפי סוג" />
+        <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layouttext1"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <AutoCompleteTextView
-            android:id="@+id/autocompletechoosename"
-            android:layout_marginLeft="90dp"
-            android:layout_width="100dp"
-            android:textSize="12sp"
+            android:id="@+id/autocompletechoosetype"
+            android:layout_width="150dp"
+            android:layout_marginStart="70dp"
+            android:textSize="10sp"
             android:layout_height="wrap_content"
-            android:text="חפש לפי שם קורס" />
+            android:hint="חפש לפי סוג"
+             />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layouttext2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/autocompletechoosename"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:hint="חפש לפי קורס"
+                android:textSize="10sp" />
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -195,10 +208,103 @@
         android:id="@+id/recycleViewMyCourses"
         android:layout_width="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         />
+
+
+
     </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewTotalPoints"
+        android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/lightorange2"
+        android:background="@color/lightorange2"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/linearlayout2"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/textViewTotalHovaPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="330dp"
+            android:layout_marginTop="0dp"
+            android:text="חובה:">
+
+        </TextView>
+        <TextView
+            android:id="@+id/textViewTotalHovaChoosePoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="230dp"
+            android:layout_marginTop="0dp"
+            android:text="חובת בחירה:">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewTotalChoosePoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="0dp"
+            android:text="בחירה:">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewTotalSuppPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="0dp"
+            android:text="משלימים:">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewTotalCornerStonePoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="0dp"
+            android:text="אבני פינה:">
+
+        </TextView>
+
+        <ImageView
+            android:src="@android:drawable/divider_horizontal_dark"
+            app:layout_constraintTop_toBottomOf="@id/textViewTotalHovaChoosePoints"
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="18dp"
+            />
+
+        <TextView
+            android:id="@+id/textViewTotalPoints"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="270dp"
+            android:textSize="16sp"
+            android:layout_marginTop="20dp"
+            android:text="מספר נקודות כולל:">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewTotalPointsDegree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:text="מספר נקודות לתואר:">
+
+        </TextView>
+    </androidx.cardview.widget.CardView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

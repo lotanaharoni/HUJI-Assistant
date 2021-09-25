@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class CourseItemHolder extends RecyclerView.ViewHolder  {
 
-
     protected ArrayList<Course> coursesList;
 
     LocalDataBase dataBase;
     TextView name;
     TextView number;
-    //CardView cardView; // check if need to click on item
+    TextView type;
+    CardView cardView;
 
     public CourseItemHolder(View view) {
         super(view);
@@ -24,8 +24,9 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
         dataBase = HujiAssistentApplication.getInstance().getDataBase();
         name = view.findViewById(R.id.courseNameHolder);
         number = view.findViewById(R.id.courseNumberHolder);
+        type = view.findViewById(R.id.courseTypeHolder);
+        cardView = view.findViewById(R.id.courseitemcard);
 
-        //cardView = view.findViewById(R.id.courseitemcard);
     }
 
     public ArrayList<Course> getCurrentItems() {

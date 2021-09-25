@@ -3,6 +3,7 @@ package com.example.huji_assistant;
 import static android.content.ContentValues.TAG;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
@@ -33,6 +34,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +63,11 @@ public class LocalDataBase {
     FirebaseFirestore db;
     CollectionReference studentsCollection;
 
+    // Courses db
+    private final MutableLiveData<List<Course>> mutableLiveDataMyCourses = new MutableLiveData<>();
+    public final LiveData<List<Course>> publicLiveDataMyCourses = mutableLiveDataMyCourses;
+
+
     private final FirebaseAuth mAuth;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -75,9 +82,25 @@ public class LocalDataBase {
         this.readDataIdsInUse4();
         firstLoadFlagMutableLiveData.postValue(false);
 
+
+        mutableLiveDataMyCourses.setValue(new ArrayList<>(listOfCourses));
+        sortCourseItems();
 //        this.refreshDataUsers();
 //        FirebaseDatabase database = FirebaseDatabase.getInstance();
 //        this.usersRef = database.getReference("Users");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getMyCoursesList(){
+        sortCourseItems();
+        return new ArrayList<>(listOfCourses);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void sendBroadcastDbChanged(){
+        Intent broadcast = new Intent("changed_db");
+        broadcast.putExtra("new_list", getMyCoursesList());
+        context.sendBroadcast(broadcast);
     }
 
     public HashMap<String, String> getRuach_faculty_values_names_map() {
@@ -172,6 +195,26 @@ public class LocalDataBase {
             return students.get(studentId);
         }
         return null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void sortCourseItems(){
+        this.listOfCourses.sort(new Comparator<Course>() {
+            @Override
+            public int compare(Course o1, Course o2) {
+                if (o1.getType().equals(Course.Type.Mandatory.toString()) && o2.getType().equals(Course.Type.Mandatory.toString())) {
+                    String num1 = o1.getPoints();
+                    String num2 = o2.getPoints();
+                    return num2.compareTo(num1);
+                }
+                else if (o1.getType().equals(Course.Type.MandatoryChoose.toString()) && o2.getType().equals(Course.Type.Mandatory.toString())){
+                    String num1 = o1.getPoints();
+                    String num2 = o2.getPoints();
+                    return num1.compareTo(num2);
+                } // todo add conditions
+                return 0;
+            }
+        });
     }
 
     //    private void readDataIdsInUse(FirebaseUsersUpdateCallback firebaseCallback) {

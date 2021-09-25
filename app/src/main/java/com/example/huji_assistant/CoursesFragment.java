@@ -22,10 +22,14 @@ import com.example.huji_assistant.databinding.FragmentInfoBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.w3c.dom.Document;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class CoursesFragment extends Fragment {
@@ -92,8 +96,8 @@ public class CoursesFragment extends Fragment {
         ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
 
         // todo add demo courses
-        Course infiC = new Course("אינפי", "0");
-        Course linearitC = new Course("לינארית", "1");
+        Course infiC = new Course("אינפי", "0", Course.Type.Mandatory);
+        Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
         courseItems.add(infiC);
         courseItems.add(linearitC);
 
@@ -125,7 +129,20 @@ public class CoursesFragment extends Fragment {
              degreeTextView.setText(degreeType);
              yearTextView.setText(year);
 
-             //firebaseInstancedb.collection("courses").whereArrayContains()
+             firebaseInstancedb.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                 @Override
+                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                     List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                     for (DocumentSnapshot doc : documents) {
+                       //  Chug chug = doc.toObject(Chug.class);
+                       //  System.out.println(chug.getTitle());
+                         String s = doc.getId().toString();
+                         System.out.println(s);
+
+                     }
+                 }
+             });
 
              firebaseInstancedb.collection("courses").whereArrayContains(chugId, chugId)
                      .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

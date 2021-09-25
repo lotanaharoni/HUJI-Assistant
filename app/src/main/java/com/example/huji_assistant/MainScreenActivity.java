@@ -14,13 +14,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.lifecycle.Observer;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public LocalDataBase dataBase = null;
     private DrawerLayout moreInfoDrawerLayout;
+   // private DrawerLayout settingsDrawerLayout;
     private ImageView logoutImageView;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,12 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         NavigationView navigationView = findViewById(R.id.nav_view);
         moreInfoDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         navigationView.setNavigationItemSelectedListener(this);
+
+       // settingsDrawerLayout = findViewById(R.id.drawer_layout_settings);
+      //  NavigationView settingsNavView = findViewById(R.id.nav_view_settings);
+     //   settingsDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+      //  settingsNavView.setNavigationItemSelectedListener(this);
+
 
         FragmentContainerView mainFragmentView = findViewById(R.id.mainfragment);
         CoursesFragment coursesFragment = new CoursesFragment();
