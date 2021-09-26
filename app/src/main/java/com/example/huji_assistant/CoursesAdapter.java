@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,13 +14,52 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
+    private  ArrayList<Course> list;
+    class CustomFilter extends Filter {
 
-    private final ArrayList<Course> list;
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            FilterResults results = new FilterResults();
+            if (constraint != null && constraint.length() > 0) {
+
+                constraint = constraint.toString().toUpperCase();
+                ArrayList<String> filters = new ArrayList<>();
+
+                for (int i = 0; i < filterList.size(); i++) {
+                    if (filterList.get(i).getName().toUpperCase().contains(constraint)) {
+                        filters.add(filterList.get(i).getName());
+                    }
+                }
+
+                results.count = filters.size();
+                results.values = filters;
+            } else {
+                results.count = filterList.size();
+                results.values = filterList;
+            }
+            return results;
+        }
+
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            list = (ArrayList<Course>) results.values;
+            notifyDataSetChanged();
+        }
+    }
+
     private Context mContext;
+    ArrayList<Course> filterList;
+    CustomFilter filter;
 
+    public Filter getFilter(){
+        if (filter == null){
+            filter = new CustomFilter();
+        }
+        return filter;
+    }
 
     public CoursesAdapter(Context context){
         this.list = new ArrayList<>();
+        this.filterList = list;
         this.mContext = context;
     }
 

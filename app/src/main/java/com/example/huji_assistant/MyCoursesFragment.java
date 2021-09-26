@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,7 @@ public class MyCoursesFragment extends Fragment {
     public CoursesAdapter adapter = null;
     public LocalDataBase dataBase = null;
     RecyclerView recyclerViewMyCourses;
+    SearchView searchView;
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
 
     //public interface endRegistrationButtonClickListener{
@@ -64,6 +66,11 @@ public class MyCoursesFragment extends Fragment {
         recyclerViewMyCourses = view.findViewById(R.id.recycleViewMyCourses);
         adapter = new CoursesAdapter(getContext());
         FloatingActionButton addCourseBtn = view.findViewById(R.id.addCourseBtn);
+        androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search1);
+        //searchView = (SearchView) /viewById
+
+
+
 
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +82,20 @@ public class MyCoursesFragment extends Fragment {
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdownfacultyitem, getResources().getStringArray(R.array.courseType));
         arrayAdapter.getFilter().filter("");
         binding.autocompletechoosetype.setAdapter(arrayAdapter);
+
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                arrayAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
 
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
@@ -105,11 +126,11 @@ public class MyCoursesFragment extends Fragment {
         courseItems = new ArrayList<>(); // Saves the current courses list
 
         // todo add demo courses
-        Course infiC = new Course("אינפי", "0", Course.Type.MandatoryChoose);
-        Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
-        Course cC = new Course("סי", "2", Course.Type.Choose);
-        Course dastC = new Course("דאסט", "4", Course.Type.Supplemental);
-        Course linearit2C = new Course("לינארית 2", "6", Course.Type.CornerStones);
+        Course infiC = new Course("infi", "0", Course.Type.MandatoryChoose);
+        Course linearitC = new Course("linearit", "1", Course.Type.Mandatory);
+        Course cC = new Course("c", "2", Course.Type.Choose);
+        Course dastC = new Course("dast", "4", Course.Type.Supplemental);
+        Course linearit2C = new Course("linearit 2", "6", Course.Type.CornerStones);
         courseItems.add(infiC);
         courseItems.add(linearitC);
         courseItems.add(cC);

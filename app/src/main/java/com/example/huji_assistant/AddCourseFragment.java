@@ -55,7 +55,9 @@ public class AddCourseFragment extends Fragment {
         listView = view.findViewById(R.id.listViewNumber);
         list = new ArrayList<>(courseItems);
 
-        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, list);
+        String[] aa = {"linearit", "infi"};
+
+        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, aa);
         listView.setAdapter(adapter);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

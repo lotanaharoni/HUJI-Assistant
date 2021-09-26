@@ -207,10 +207,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewMyCourses"
         android:layout_width="match_parent"
+
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         />
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 
 
