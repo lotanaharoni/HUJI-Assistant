@@ -6,12 +6,13 @@ import java.util.UUID;
 public class Course {
 
     private String name;
-    private String id;
+    private String number;
+    private String points;
+    private String type;
     private ArrayList<Course> prevCourses;
     private boolean isMandatory;
     private String nameOfDegree;
-    private String points;
-    private String type;
+
     public enum Type{
         Mandatory, MandatoryChoose, Choose, Supplemental, CornerStones
     }
@@ -20,9 +21,13 @@ public class Course {
 
     }
 
+    public String toStringP(){
+        return "name: " + name + " number " + number + " type " + type + " points " + points;
+    }
+
     public Course(String name_, String id_ , Type type_){
         name = name_;
-        id = id_;
+        number = id_;
         type = type_.toString();
     }
 
@@ -31,7 +36,7 @@ public class Course {
     }
 
     public String getId(){
-        return id;
+        return number;
     }
 
     public String getPoints(){

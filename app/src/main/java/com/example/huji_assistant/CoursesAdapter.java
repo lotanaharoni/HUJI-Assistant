@@ -111,6 +111,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         Course courseItem = this.list.get(position);
         holder.name.setText(courseItem.getName());
         holder.number.setText(courseItem.getId());
+        holder.type.setText(courseItem.getType());
+
+
         String courseType = courseItem.getType();
         switch (courseType) {
             case "Mandatory":

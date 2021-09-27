@@ -95,6 +95,7 @@ public class CoursesFragment extends Fragment {
 
         ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
 
+
         // todo add demo courses
         Course infiC = new Course("אינפי", "0", Course.Type.Mandatory);
         Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
@@ -102,14 +103,14 @@ public class CoursesFragment extends Fragment {
         courseItems.add(linearitC);
 
         // Create the adapter
-        adapter.addCoursesListToAdapter(courseItems);
-        recyclerViewCourses.setAdapter(adapter);
+       // adapter.addCoursesListToAdapter(courseItems);
+       // recyclerViewCourses.setAdapter(adapter);
 
-          coordinatorLayout = new LinearLayoutManager(getContext(),
-                RecyclerView.VERTICAL, false);
+       //   coordinatorLayout = new LinearLayoutManager(getContext(),
+        //        RecyclerView.VERTICAL, false);
 
-        recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
-                RecyclerView.VERTICAL, false));
+        //recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+        //        RecyclerView.VERTICAL, false));
 
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
              facultyId = item.getFacultyId();
@@ -129,6 +130,43 @@ public class CoursesFragment extends Fragment {
              degreeTextView.setText(degreeType);
              yearTextView.setText(year);
 
+            // Get the list of courses from firebase
+            Task<QuerySnapshot> document = firebaseInstancedb.collection("courses").document(chugId)
+                    .collection("maslulim").document(maslulId).collection("coursesInMaslul")
+                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
+
+                            ArrayList<Course> coursesInMaslul = new ArrayList<>();
+
+                            for (DocumentSnapshot document1 : documents){
+                                // retrieve for each chug id it's name
+                                Course course = document1.toObject(Course.class);
+                                String courseTitle = course.getName();
+                                String courseNumber = course.getId();
+                                String coursePoints = course.getPoints();
+                                String courseType = course.getType();
+                                System.out.println(course.toStringP());
+                                coursesInMaslul.add(course);
+                            }
+
+                            // show results in recycle view
+                            // Create the adapter
+                            adapter.addCoursesListToAdapter(coursesInMaslul);
+                            recyclerViewCourses.setAdapter(adapter);
+
+                            coordinatorLayout = new LinearLayoutManager(getContext(),
+                                    RecyclerView.VERTICAL, false);
+
+                            recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+                                    RecyclerView.VERTICAL, false));
+                        }
+                    });
+
+
+
+             /**
              firebaseInstancedb.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                  @Override
                  public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -143,7 +181,8 @@ public class CoursesFragment extends Fragment {
                      }
                  }
              });
-
+              */
+/**
              firebaseInstancedb.collection("courses").whereArrayContains(chugId, chugId)
                      .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                  @Override
@@ -151,6 +190,7 @@ public class CoursesFragment extends Fragment {
 
                  }
              });
+ */
         });
 
         adapter.setItemClickListener(new CoursesAdapter.OnItemClickListener() {

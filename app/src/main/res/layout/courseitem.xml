@@ -37,6 +37,7 @@
             android:background="@color/common_google_signin_btn_text_dark_default"
             android:fontFamily="casual"
             android:singleLine="true"
+            android:maxHeight="40dp"
             android:text="name"
             android:gravity="right"
             android:textSize="18sp"

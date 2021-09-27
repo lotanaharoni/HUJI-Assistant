@@ -16,6 +16,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
     TextView name;
     TextView number;
     TextView type;
+    TextView points;
     CardView cardView;
 
     public CourseItemHolder(View view) {
@@ -25,6 +26,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
         name = view.findViewById(R.id.courseNameHolder);
         number = view.findViewById(R.id.courseNumberHolder);
         type = view.findViewById(R.id.courseTypeHolder);
+        points = view.findViewById(R.id.coursepoints);
         cardView = view.findViewById(R.id.courseitemcard);
 
     }
