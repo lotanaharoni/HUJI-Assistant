@@ -242,6 +242,8 @@ public class CoursesFragment extends Fragment {
             public void onClick(View v) {
                 if (endRegistrationBtnListener != null){
                     endRegistrationBtnListener.onEndRegistrationBtnClicked();
+                    // TODO create an object studentInfo
+
                 }
             }
         });
