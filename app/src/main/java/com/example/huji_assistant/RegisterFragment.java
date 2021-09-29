@@ -2,6 +2,7 @@ package com.example.huji_assistant;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -123,7 +124,13 @@ public class RegisterFragment extends Fragment {
             //todo: maybe a Toast?
             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_email_msg), Toast.LENGTH_LONG).show();
 
-            isEmailValid = false;}
+            isEmailValid = false;
+        }
+        else if (email.length() > 254 ||
+                !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            Toast.makeText(getActivity(), getResources().getString(R.string.email_not_valid_message), Toast.LENGTH_LONG).show();
+            isEmailValid = false;
+        }
         //  } else if (!Patterns.EMAIL_ADDRESS.matcher(email.matches("*"))) {
         //  email.setError(getResources().getString(R.string.error_invalid_email));
         //    isEmailValid = false;}
