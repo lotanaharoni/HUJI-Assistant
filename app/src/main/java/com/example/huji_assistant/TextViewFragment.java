@@ -133,7 +133,7 @@ public class TextViewFragment extends Fragment {
 //                                            Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                             FirebaseUser user = auth.getCurrentUser();
                                             db.setCurrentUser(user);
-                                            StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
+                                            StudentInfo newStudent = new StudentInfo(email.getText().toString());
                                             viewModelApp.setStudent(newStudent);
                                             startActivity(new Intent(getActivity(), MainScreenActivity.class));
 //                                            listener.onButtonClicked();

@@ -114,15 +114,15 @@ public class LocalDataBase {
         return false;
     }
 
-    public void addStudent(String studentId, String email, String password){
-        StudentInfo newStudent = new StudentInfo(studentId, email, password);
+    public void addStudent(String studentId, String email){
+        StudentInfo newStudent = new StudentInfo(studentId, email);
         Map<String, StudentInfo> newUser = new HashMap<>();
         newUser.put(newStudent.getId(), newStudent);
         this.studentsCollection.document(newStudent.getId()).set(newStudent);
     }
 
-    public void updateStudent(String name, String email, String password, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
-        StudentInfo newUser = new StudentInfo(name, email, password, facultyId, chugId, maslulId, degree, year, id);
+    public void updateStudent(String name, String email, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
+        StudentInfo newUser = new StudentInfo(name, email, facultyId, chugId, maslulId, degree, year, id);
         Map<String, StudentInfo> updatedUser = new HashMap<>();
         updatedUser.put(newUser.getId(), newUser);
         this.studentsCollection.document(newUser.getId()).set(updatedUser).addOnSuccessListener(aVoid -> {
