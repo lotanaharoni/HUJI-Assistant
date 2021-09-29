@@ -92,9 +92,9 @@ public class RegisterFragment extends Fragment {
                                             Log.d("RegisterActivity", "registerWithEmail:success");
                                             Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                             FirebaseUser user = auth.getCurrentUser();
-                                            db.addStudent(user.getUid(), email.getText().toString(), password.getText().toString());
+                                            db.addStudent(user.getUid(), email.getText().toString());
                                             db.setCurrentUser(user);
-                                            StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
+                                            StudentInfo newStudent = new StudentInfo(email.getText().toString());
                                             viewModelApp.setStudent(newStudent);
                                             listener.onButtonClicked();
                                         }else{
