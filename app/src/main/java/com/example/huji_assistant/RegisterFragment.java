@@ -2,6 +2,7 @@ package com.example.huji_assistant;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,10 +37,16 @@ public class RegisterFragment extends Fragment {
     TextView emailValidationView;
     TextView passwordValidationView;
     int PASSWORD_LENGTH = 8;
+    EditText email;
+    EditText password;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null) {
+            email.setText(savedInstanceState.getString("email", ""));
+            password.setText(savedInstanceState.getString("password", ""));
+        }
         this.db = HujiAssistentApplication.getInstance().getDataBase();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         if (view != null) {
@@ -85,9 +92,9 @@ public class RegisterFragment extends Fragment {
                                             Log.d("RegisterActivity", "registerWithEmail:success");
                                             Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                             FirebaseUser user = auth.getCurrentUser();
-                                            db.addStudent(user.getUid(), email.getText().toString(), password.getText().toString());
+                                            db.addStudent(user.getUid(), email.getText().toString());
                                             db.setCurrentUser(user);
-                                            StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
+                                            StudentInfo newStudent = new StudentInfo(email.getText().toString());
                                             viewModelApp.setStudent(newStudent);
                                             listener.onButtonClicked();
                                         }else{
@@ -123,7 +130,13 @@ public class RegisterFragment extends Fragment {
             //todo: maybe a Toast?
             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_email_msg), Toast.LENGTH_LONG).show();
 
-            isEmailValid = false;}
+            isEmailValid = false;
+        }
+        else if (email.length() > 254 ||
+                !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            Toast.makeText(getActivity(), getResources().getString(R.string.email_not_valid_message), Toast.LENGTH_LONG).show();
+            isEmailValid = false;
+        }
         //  } else if (!Patterns.EMAIL_ADDRESS.matcher(email.matches("*"))) {
         //  email.setError(getResources().getString(R.string.error_invalid_email));
         //    isEmailValid = false;}
@@ -151,5 +164,13 @@ public class RegisterFragment extends Fragment {
         if (isEmailValid && isPasswordValid) {
             // the values are valid
         }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("email", email.getText().toString());
+        outState.putString("password", password.getText().toString());
     }
 }

@@ -6,7 +6,6 @@ public class StudentInfo {
 
     private String name;
     private String email;
-    private String password;
 
     private String facultyId;
     private String chugId;
@@ -21,16 +20,14 @@ public class StudentInfo {
 
     }
 
-    public StudentInfo(String email, String password){
+    public StudentInfo(String email){
         this.id = UUID.randomUUID().toString();
         this.email = email;
-        this.password = password;
     }
 
-    public StudentInfo(String studentId, String email, String password){
+    public StudentInfo(String studentId, String email){
         this.id = studentId;
         this.email = email;
-        this.password = password;
     }
 
     public StudentInfo(String facultyId_, String chugId_, String maslulId_, String degree_, String year_, String beginYear_, String beginSemester_){
@@ -44,10 +41,9 @@ public class StudentInfo {
         this.beginSemester = beginSemester_;
     }
 
-    public StudentInfo(String name, String email, String password, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
+    public StudentInfo(String name, String email, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
         this.name = name;
         this.email = email;
-        this.password = password;
         this.facultyId = facultyId;
         this.chugId = chugId;
         this.maslulId = maslulId;
@@ -57,10 +53,9 @@ public class StudentInfo {
     }
 
 
-    public StudentInfo(String name, String email, String password, String year){
+    public StudentInfo(String name, String email, String year){
         this.name=name;
         this.email=email;
-        this.password=password;
         this.year=year;
         this.id = UUID.randomUUID().toString();
     }
@@ -113,9 +108,5 @@ public class StudentInfo {
 
     public String getEmail() {
         return email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 }

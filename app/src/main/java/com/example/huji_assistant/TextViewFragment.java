@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,17 +41,23 @@ public class TextViewFragment extends Fragment {
     TextView emailValidationView;
     TextView passwordValidationView;
     int PASSWORD_LENGTH = 8;
+    EditText email;
+    EditText password;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null) {
+            email.setText(savedInstanceState.getString("email", ""));
+            password.setText(savedInstanceState.getString("password", ""));
+        }
         this.db = HujiAssistentApplication.getInstance().getDataBase();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         if (view != null) {
 
         }
-        EditText email = view.findViewById(R.id.email);
-        EditText password = view.findViewById(R.id.password);
+        email = view.findViewById(R.id.email);
+        password = view.findViewById(R.id.password);
         Button forgotPassword = view.findViewById(R.id.forgotPassword);
 
         emailValidationView = view.findViewById(R.id.emailValidation);
@@ -126,7 +133,7 @@ public class TextViewFragment extends Fragment {
 //                                            Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                             FirebaseUser user = auth.getCurrentUser();
                                             db.setCurrentUser(user);
-                                            StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString());
+                                            StudentInfo newStudent = new StudentInfo(email.getText().toString());
                                             viewModelApp.setStudent(newStudent);
                                             startActivity(new Intent(getActivity(), MainScreenActivity.class));
 //                                            listener.onButtonClicked();
@@ -161,7 +168,13 @@ public class TextViewFragment extends Fragment {
             //todo: maybe a Toast?
             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_email_msg), Toast.LENGTH_LONG).show();
 
-            isEmailValid = false;}
+            isEmailValid = false;
+        }
+        else if (email.length() > 254 ||
+                !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+            Toast.makeText(getActivity(), getResources().getString(R.string.email_not_valid_message), Toast.LENGTH_LONG).show();
+            isEmailValid = false;
+        }
         //  } else if (!Patterns.EMAIL_ADDRESS.matcher(email.matches("*"))) {
         //  email.setError(getResources().getString(R.string.error_invalid_email));
         //    isEmailValid = false;}
@@ -187,5 +200,12 @@ public class TextViewFragment extends Fragment {
         if (isEmailValid && isPasswordValid) {
             // the values are valid
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("email", email.getText().toString());
+        outState.putString("password", password.getText().toString());
     }
 }
