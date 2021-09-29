@@ -37,10 +37,16 @@ public class RegisterFragment extends Fragment {
     TextView emailValidationView;
     TextView passwordValidationView;
     int PASSWORD_LENGTH = 8;
+    EditText email;
+    EditText password;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (savedInstanceState != null) {
+            email.setText(savedInstanceState.getString("email", ""));
+            password.setText(savedInstanceState.getString("password", ""));
+        }
         this.db = HujiAssistentApplication.getInstance().getDataBase();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         if (view != null) {
@@ -158,5 +164,13 @@ public class RegisterFragment extends Fragment {
         if (isEmailValid && isPasswordValid) {
             // the values are valid
         }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("email", email.getText().toString());
+        outState.putString("password", password.getText().toString());
     }
 }
