@@ -17,6 +17,7 @@
     <string name="loading">loading…</string>
     <string name="logo_description">The app logo</string>
     <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
+    <string name="email_not_valid_message">כתובת אימייל לא תקינה</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
