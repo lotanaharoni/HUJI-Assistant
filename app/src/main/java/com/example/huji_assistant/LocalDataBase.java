@@ -53,6 +53,9 @@ public class LocalDataBase {
     public HashMap<String, Chug> chugs = new HashMap<>();
     private FirebaseUser currentFbUser;
     private StudentInfo currentStudent;
+    private Faculty currentFaculty;
+    private Chug currentChug;
+    private Maslul currentMaslul;
     private final HashMap<String, StudentInfo> students;
 //    private final DatabaseReference usersRef;
     private final MutableLiveData<StudentInfo> currentUserMutableLiveData = new MutableLiveData<>();
@@ -109,6 +112,27 @@ public class LocalDataBase {
 
     public FirebaseAuth getUsersAuthenticator() {
         return mAuth;
+    }
+
+    public void setCurrentFaculty(Faculty faculty){
+        this.currentFaculty = faculty;
+    }
+    public Faculty getCurrentFaculty(){
+        return this.currentFaculty;
+    }
+
+    public void setCurrentChug(Chug chug){
+        this.currentChug = chug;
+    }
+    public Chug getCurrentChug(){
+        return this.currentChug;
+    }
+
+    public void setCurrentMaslul(Maslul maslul){
+        this.currentMaslul = maslul;
+    }
+    public Maslul getCurrentMaslul(){
+        return this.currentMaslul;
     }
 
     public StudentInfo getCurrentUser() {

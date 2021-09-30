@@ -11,6 +11,7 @@ public class Course {
     private String semester = "";
     private String type = "";
     private String year = "";
+    private boolean isFinished = false; // is the course done
 
     private ArrayList<Course> prevCourses;
     private boolean isMandatory;

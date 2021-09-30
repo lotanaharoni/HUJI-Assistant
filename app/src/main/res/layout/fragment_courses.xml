@@ -9,38 +9,56 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewTop"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/listOfCoursesLayout"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/faculty"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="290dp"
-            android:layout_marginTop="40dp"
-            android:text="faculty" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textDirection="rtl"
+            android:layoutDirection="rtl"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/addCoursesInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="הוסף קורסים לרשימה" />
+            <TextView
+                android:id="@+id/infoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:paddingRight="2dp"
+                android:textColor="@color/black"
+                android:text="מסך הרשמה למערכת - שלב 3 מתוך 3   -   הוסף קורסים לרשימה" />
 
-        <TextView
-            android:id="@+id/chugName"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_height="wrap_content"
-            android:text="Name of chug" />
+            <TextView
+                android:id="@+id/faculty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:textStyle="bold"
+                android:paddingRight="2dp"
+                android:text="faculty" />
 
-        <TextView
-            android:id="@+id/maslulName"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="140dp"
-            android:layout_height="wrap_content"
-            android:text="Name of maslul" />
+            <TextView
+                android:id="@+id/chugName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="2dp"
+                android:textStyle="bold"
+                android:layout_marginTop="6dp"
+                android:text="Name of chug" />
+
+            <TextView
+                android:id="@+id/maslulName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="2dp"
+                android:textStyle="bold"
+                android:layout_marginTop="7dp"
+                android:text="Name of maslul" />
+
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/degreeType"
@@ -57,13 +75,8 @@
             android:layout_height="wrap_content"
             android:text="year of degree" />
 
-        <TextView
-            android:id="@+id/infoText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:layout_marginLeft="190dp"
-            android:text="מסך הרשמה למערכת - שלב 3 מתוך 3" />
+
+
 
     </androidx.cardview.widget.CardView>
 

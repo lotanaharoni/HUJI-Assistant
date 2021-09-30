@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -146,9 +148,57 @@ public class CoursesFragment extends Fragment {
              System.out.println("begin year: " + beginnigYearOfDegree);
              System.out.println("begin semester: " + beginSemesterOfDegree);
 
-             facultyTextView.setText(facultyId);
-             chugTextView.setText(chugId);
-             maslulTextView.setText(maslulId);
+            Task<DocumentSnapshot> faculties1 = firebaseInstancedb.collection("faculties").document(facultyId)
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                 @Override
+                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                     DocumentSnapshot result = task.getResult();
+                     assert result != null;
+                     Faculty data = result.toObject(Faculty.class);
+                     assert data != null;
+                     String facultyName = data.title;
+                     String text = facultyName + " " + facultyId;
+                     facultyTextView.setText(text);
+                     db.setCurrentFaculty(data);
+                 }
+             });
+
+            Task<DocumentSnapshot> chugim1 = firebaseInstancedb.collection("faculties").document(facultyId)
+                    .collection("chugimInFaculty").document(chugId)
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            DocumentSnapshot result = task.getResult();
+                            assert result != null;
+                            Chug data = result.toObject(Chug.class);
+                            assert data != null;
+                            String chugName = data.title;
+                            String text = chugName + " " + chugId;
+                            chugTextView.setText(text);
+                            db.setCurrentChug(data);
+                        }
+                    });
+
+            Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection("faculties").document(facultyId)
+                    .collection("chugimInFaculty").document(chugId)
+                    .collection("maslulimInChug").document(maslulId)
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            DocumentSnapshot result = task.getResult();
+                            assert result != null;
+                            Maslul data = result.toObject(Maslul.class);
+                            assert data != null;
+                            String maslulName = data.title;
+                            String text = maslulName + " " + maslulId;
+                            maslulTextView.setText(text);
+                            db.setCurrentMaslul(data);
+                        }
+                    });
+
+             //facultyTextView.setText(facultyId);
+           //  chugTextView.setText(chugId);
+             //maslulTextView.setText(maslulId);
              degreeTextView.setText(degreeType);
              yearTextView.setText(year);
 
@@ -247,10 +297,14 @@ public class CoursesFragment extends Fragment {
 
                     if (item.getChecked()){
                         coursesOfStudent.add(item.getId());
+                        String text = "קורס מספר: " + item.getId() + " נוסף לרשימת הקורסים";
+                        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                         System.out.println("added: " + item.getId());
                     }
                     else{
                         coursesOfStudent.remove(item.getId()); //todo check if contains?
+                        String text = "קורס מספר: " + item.getId() + " הוסר מרשימת הקורסים";
+                        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                         System.out.println("removed: " + item.getId());
                     }
                     //todo sort
