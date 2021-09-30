@@ -64,6 +64,22 @@ public class StudentInfo {
         this.year = year;
         this.id = id;
     }
+    // FOR LOCAL DB CLASS
+    public StudentInfo(String id_, String email_, String personalName_, String familyName_, String facultyId_,
+                       String chugId_, String maslulId_, String degree_, String year_, String beginYear_, String beginSemester_){
+
+        this.personalName = personalName_;
+        this.familyName = familyName_;
+        this.email = email_;
+        this.facultyId = facultyId_;
+        this.chugId = chugId_;
+        this.maslulId = maslulId_;
+        this.degree = degree_;
+        this.year = year_;
+        this.beginYear = beginYear_;
+        this.beginSemester = beginSemester_;
+        this.id = id_;
+    }
 
 
    // public StudentInfo(String name, String email, String year){

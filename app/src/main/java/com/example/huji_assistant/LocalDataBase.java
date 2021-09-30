@@ -137,8 +137,13 @@ public class LocalDataBase {
         return false;
     }
 
-    public void addStudent(String studentId, String email){
-        StudentInfo newStudent = new StudentInfo(studentId, email);
+    public void addStudent(String studentId, String email, String personalName,
+                           String familyName, String facultyId, String chugId, String maslulId,
+                           String degreeType, String year, String beginYear, String beginSemester){
+
+        StudentInfo newStudent = new StudentInfo(studentId, email, personalName, familyName,
+                facultyId, chugId, maslulId, degreeType, year, beginYear, beginSemester);
+
         Map<String, StudentInfo> newUser = new HashMap<>();
         newUser.put(newStudent.getId(), newStudent);
         this.studentsCollection.document(newStudent.getId()).set(newStudent);

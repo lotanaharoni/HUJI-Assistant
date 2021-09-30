@@ -52,6 +52,8 @@ public class CoursesFragment extends Fragment {
 
     private String email;
     private String password;
+    private String personalName;
+    private String familyName;
     String facultyId;
     String chugId;
     String maslulId;
@@ -129,9 +131,10 @@ public class CoursesFragment extends Fragment {
         //        RecyclerView.VERTICAL, false));
 
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
-
              email = item.getEmail();
              password = item.getPassword();
+             personalName = item.getPersonalName();
+             familyName = item.getFamilyName();
              facultyId = item.getFacultyId();
              chugId = item.getChugId();
              maslulId = item.getMaslulId();
@@ -139,7 +142,6 @@ public class CoursesFragment extends Fragment {
              year = item.getYear();
              beginnigYearOfDegree = item.getBeginYear();
              beginSemesterOfDegree = item.getBeginSemester();
-
 
              System.out.println("begin year: " + beginnigYearOfDegree);
              System.out.println("begin semester: " + beginSemesterOfDegree);
@@ -323,8 +325,9 @@ public class CoursesFragment extends Fragment {
                                         Log.d("RegisterActivity", "registerWithEmail:success");
                                         Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                         FirebaseUser user = auth.getCurrentUser();
-                                        // todo add student fields
-                                        db.addStudent(user.getUid(), email);
+                                        // todo upload courses
+                                        db.addStudent(user.getUid(), email, personalName, familyName,
+                                                facultyId, chugId, maslulId, degreeType, year, beginnigYearOfDegree, beginSemesterOfDegree);
                                         db.setCurrentUser(user);
                                       //  StudentInfo newStudent = new StudentInfo(email.getText().toString(),
                                        //         personalName.getText().toString(), familyName.getText().toString());
