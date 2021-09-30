@@ -5,13 +5,17 @@ import java.util.UUID;
 
 public class Course {
 
-    private String name;
-    private String number;
-    private String points;
-    private String type;
+    private String name = "";
+    private String number = "";
+    private String points = "";
+    private String semester = "";
+    private String type = "";
+    private String year = "";
+
     private ArrayList<Course> prevCourses;
     private boolean isMandatory;
     private String nameOfDegree;
+    private boolean isChecked = false;
 
     public enum Type{
         Mandatory, MandatoryChoose, Choose, Supplemental, CornerStones
@@ -29,6 +33,14 @@ public class Course {
         name = name_;
         number = id_;
         type = type_.toString();
+    }
+
+    public void setChecked(boolean val){
+        this.isChecked = val;
+    }
+
+    public boolean getChecked(){
+        return this.isChecked;
     }
 
     public String getName(){
@@ -50,6 +62,4 @@ public class Course {
     public String getType(){
         return type;
     }
-
-
 }

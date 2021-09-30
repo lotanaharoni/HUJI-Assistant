@@ -140,6 +140,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
 
         holder.checkBox.setOnClickListener(v -> {
             System.out.println("check box clicked");
+            if (holder.checkBox.isChecked()){
+                courseItem.setChecked(true);
+            }
+            else{
+                courseItem.setChecked(false);
+            }
             checkBoxClickListener.onCheckBoxClicked(courseItem);
         });
 

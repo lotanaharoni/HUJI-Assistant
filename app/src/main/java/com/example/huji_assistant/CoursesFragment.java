@@ -135,24 +135,34 @@ public class CoursesFragment extends Fragment {
              degreeTextView.setText(degreeType);
              yearTextView.setText(year);
 
-            // Get the list of courses from firebase
             Task<QuerySnapshot> document = firebaseInstancedb.collection("courses").document(chugId)
-                    .collection("maslulim").document(maslulId).collection("coursesInMaslul")
+                    .collection("maslulimInChug").document(maslulId).collection("coursesInMaslul")
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                     //   }
+                   // })
+
+            // Get the list of courses from firebase
+        //    Task<QuerySnapshot> document = firebaseInstancedb.collection("courses").document(chugId)
+                  //  .collection("maslulim").document(maslulId).collection("coursesInMaslul")
+                  //  .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                     //   @Override
+                    //    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                          //  List<DocumentSnapshot> documents = task.getResult().getDocuments();
 
                             ArrayList<Course> coursesInMaslul = new ArrayList<>();
 
                             for (DocumentSnapshot document1 : documents){
                                 // retrieve for each chug id it's name
                                 Course course = document1.toObject(Course.class);
+                                assert course != null;
                                 String courseTitle = course.getName();
                                 String courseNumber = course.getId();
                                 String coursePoints = course.getPoints();
                                 String courseType = course.getType();
-                                System.out.println(course.toStringP());
+                                System.out.println("++++++" + course.toStringP());
                                 coursesInMaslul.add(course);
                             }
 
@@ -215,6 +225,20 @@ public class CoursesFragment extends Fragment {
             public void onCheckBoxClicked(Course item) {
                 if (onCheckBoxClickListener != null){
                    // viewModelAppCourse.set(item);
+                    // TODO does'nt get the number
+                    System.out.println("item: " + item.toStringP());
+
+                    if (item.getChecked()){
+                        coursesOfStudent.add(item.getId());
+                        System.out.println("added: " + item.getId());
+                    }
+                    else{
+                        coursesOfStudent.remove(item.getId()); //todo check if contains?
+                        System.out.println("removed: " + item.getId());
+                    }
+                    //todo sort
+                    System.out.println("sort: ");
+                    printCourses();
                     onCheckBoxClickListener.onCheckBoxClicked(item);
                 }
             }
@@ -289,6 +313,13 @@ public class CoursesFragment extends Fragment {
         // dropdown.setAdapter(adapter);
 
     }
+
+    private void printCourses(){
+        for (int i = 0; i < coursesOfStudent.size(); i++){
+            System.out.println(coursesOfStudent.get(i));
+        }
+    }
+
     private void enableSwipeToDeleteAndUndo() {
         SwipeViewHolderItem swipeToDelete = new SwipeViewHolderItem(getContext()) {
             @Override

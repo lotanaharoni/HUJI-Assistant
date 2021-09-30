@@ -25,6 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class RegisterFragment extends Fragment {
     private LocalDataBase db;
     private ViewModelApp viewModelApp;
+    private EditText email;
+    private EditText password;
   //  public interface buttonClickListener{
    //     public void onButtonClicked();
    // }
@@ -43,8 +45,8 @@ public class RegisterFragment extends Fragment {
     TextView personalNameValidationView;
     TextView familyNameValidationView;
     int PASSWORD_LENGTH = 8;
-    EditText email;
-    EditText password;
+   // EditText email;
+   // EditText password;
     EditText personalName;
     EditText familyName;
     boolean isPersonalNameValid = false;
@@ -53,17 +55,17 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null) {
-            email.setText(savedInstanceState.getString("email", ""));
-            password.setText(savedInstanceState.getString("password", ""));
-        }
+      //  if (savedInstanceState != null) {
+      //      email.setText(savedInstanceState.getString("email", ""));
+      //      password.setText(savedInstanceState.getString("password", ""));
+     //   }
         this.db = HujiAssistentApplication.getInstance().getDataBase();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         if (view != null) {
 
         }
-        EditText email = view.findViewById(R.id.email);
-        EditText password = view.findViewById(R.id.password);
+        email = view.findViewById(R.id.email);
+        password = view.findViewById(R.id.password);
 
         emailValidationView = view.findViewById(R.id.emailValidation);
         passwordValidationView = view.findViewById(R.id.passwordValidation);
@@ -77,6 +79,11 @@ public class RegisterFragment extends Fragment {
         passwordValidationView = view.findViewById(R.id.passwordValidation);
         personalNameValidationView = view.findViewById(R.id.personalNameValidation);
         familyNameValidationView = view.findViewById(R.id.secondNameValidation);
+
+        if (savedInstanceState != null) {
+            email.setText(savedInstanceState.getString("email", ""));
+            password.setText(savedInstanceState.getString("password", ""));
+        }
 
         // Gets current data from live data to show at the screen
         vm.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {

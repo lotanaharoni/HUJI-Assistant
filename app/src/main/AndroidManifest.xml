@@ -27,11 +27,11 @@
         <activity android:name=".PDFMainActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".ScanQrActivity" />
-        <activity android:name=".MainScreenActivity" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".PDFActivity" />
         <activity android:name=".CaptureImage2Activity" />
         <activity android:name=".LoadDataMainActivity" />
-        <activity android:name=".MainActivity" >
+        <activity android:name=".MainScreenActivity" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
