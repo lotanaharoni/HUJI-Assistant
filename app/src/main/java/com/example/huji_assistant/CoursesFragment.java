@@ -1,12 +1,14 @@
 package com.example.huji_assistant;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -21,8 +23,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.huji_assistant.databinding.FragmentCoursesBinding;
 import com.example.huji_assistant.databinding.FragmentInfoBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,11 +45,13 @@ public class CoursesFragment extends Fragment {
     FragmentCoursesBinding binding;
     public CourseItemHolder holder = null;
     public CoursesAdapter adapter = null;
-    public LocalDataBase dataBase = null;
+    private LocalDataBase db = null;
     public interface endRegistrationButtonClickListener{
         public void onEndRegistrationBtnClicked();
     }
 
+    private String email;
+    private String password;
     String facultyId;
     String chugId;
     String maslulId;
@@ -100,6 +108,9 @@ public class CoursesFragment extends Fragment {
 
         ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
 
+        if (db == null) {
+            db = HujiAssistentApplication.getInstance().getDataBase();
+        }
 
         // todo add demo courses
         Course infiC = new Course("אינפי", "0", Course.Type.Mandatory);
@@ -118,6 +129,9 @@ public class CoursesFragment extends Fragment {
         //        RecyclerView.VERTICAL, false));
 
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
+
+             email = item.getEmail();
+             password = item.getPassword();
              facultyId = item.getFacultyId();
              chugId = item.getChugId();
              maslulId = item.getMaslulId();
@@ -125,6 +139,7 @@ public class CoursesFragment extends Fragment {
              year = item.getYear();
              beginnigYearOfDegree = item.getBeginYear();
              beginSemesterOfDegree = item.getBeginSemester();
+
 
              System.out.println("begin year: " + beginnigYearOfDegree);
              System.out.println("begin semester: " + beginSemesterOfDegree);
@@ -297,9 +312,38 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (endRegistrationBtnListener != null){
-                    endRegistrationBtnListener.onEndRegistrationBtnClicked();
-                    // TODO create an object studentInfo
 
+                    FirebaseAuth auth = db.getUsersAuthenticator();
+                    Toast.makeText(getActivity(), "register fragment", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                    auth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("RegisterActivity", "registerWithEmail:success");
+                                        Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                        FirebaseUser user = auth.getCurrentUser();
+                                        // todo add student fields
+                                        db.addStudent(user.getUid(), email);
+                                        db.setCurrentUser(user);
+                                      //  StudentInfo newStudent = new StudentInfo(email.getText().toString(),
+                                       //         personalName.getText().toString(), familyName.getText().toString());
+                                       // viewModelApp.setStudent(newStudent);
+
+
+                                        endRegistrationBtnListener.onEndRegistrationBtnClicked();
+                                    }else{
+                                        Log.w("RegisterActivity", "registerWithEmail:failure", task.getException());
+                                        Toast.makeText(getActivity(), "registerWithEmail:failure", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                    }
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+                    // TODO create an object studentInfo
                 }
             }
         });

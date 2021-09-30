@@ -8,6 +8,7 @@ public class StudentInfo {
     private String personalName;
     private String familyName;
     private String email;
+    private String password;
     private Faculty faculty;
     private Chug chug;
     private Maslul maslul;
@@ -28,9 +29,10 @@ public class StudentInfo {
 
     }
 
-    public StudentInfo(String email_, String personalName_, String familyName_){
+    public StudentInfo(String email_, String password_, String personalName_, String familyName_){
         this.id = UUID.randomUUID().toString(); // todo maybe id for db
         this.personalName = personalName_;
+        this.password = password_;
         this.familyName = familyName_;
         this.email = email_;
     }
@@ -115,7 +117,9 @@ public class StudentInfo {
                 " begin year: " + beginYear + " begin semester: " + beginSemester;
     }
 
-
+    public String getPassword(){
+        return password;
+    }
 
     public String getPersonalName(){
         return personalName;

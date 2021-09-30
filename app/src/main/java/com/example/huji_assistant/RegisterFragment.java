@@ -111,6 +111,12 @@ public class RegisterFragment extends Fragment {
                // checkValidation(email.getText().toString(), password.getText().toString());
                 if (isEmailValid && isPasswordValid && isPersonalNameValid && isFamilyNameValid){
                     if (continueButtonListener != null && !db.emailUserExists(email.getText().toString())) {
+
+                        StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString(),
+                                personalName.getText().toString(), familyName.getText().toString());
+                        viewModelApp.setStudent(newStudent);
+                        continueButtonListener.onContinueButtonClick();
+                        /**
                         FirebaseAuth auth = db.getUsersAuthenticator();
                         Toast.makeText(getActivity(), "register fragment", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                         auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
@@ -136,7 +142,7 @@ public class RegisterFragment extends Fragment {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                             }
-                        });
+                        });*/
                     }else{
                         Toast.makeText(getActivity(), "user is already register", Toast.LENGTH_SHORT).show();
                     }
