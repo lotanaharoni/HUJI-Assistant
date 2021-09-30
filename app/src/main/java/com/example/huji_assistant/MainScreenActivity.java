@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.Observer;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private DrawerLayout moreInfoDrawerLayout;
    // private DrawerLayout settingsDrawerLayout;
     private ImageView logoutImageView;
+    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         // application singleton
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
+
+        // todo observe from students collection
+
+
 
         logoutImageView = findViewById(R.id.logoutImageView);
      //   logoutImageView.setVisibility(View.VISIBLE);
@@ -59,6 +65,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         MyCoursesFragment myCoursesFragment = new MyCoursesFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
         AddCourseFragment addCourseFragment = new AddCourseFragment();
+        ProfilePageFragment profilePageFragment = new ProfilePageFragment();
 
         MainScreenFragment mainscreenfragment = new MainScreenFragment();
 
@@ -73,6 +80,21 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             // todo handle
             System.out.println("settings clicked");
         });
+
+        mainscreenfragment.editInfoButtonListener = new MainScreenFragment.editInfoButtonListener(){
+
+            @Override
+            public void onEditInfoButtonClicked() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+                        .replace(mainFragmentView.getId(), profilePageFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
 
         myCoursesFragment.addCourseListener = new MyCoursesFragment.addCourseButtonClickListener() {
             @Override

@@ -58,15 +58,21 @@ public class MainScreenFragment extends Fragment {
     }
     public MainScreenFragment.endRegistrationButtonClickListener newUserBtnListener = null;
     public MainScreenFragment.myCoursesButtonListener myCoursesButtonListenerBtn = null;
+    public MainScreenFragment.editInfoButtonListener editInfoButtonListener = null;
 
     public interface myCoursesButtonListener{
         public void onMyCoursesButtonClicked();
+    }
+
+    public interface editInfoButtonListener{
+        public void onEditInfoButtonClicked();
     }
     public MainScreenFragment(){
         super(R.layout.mainscreen);
     }
     Spinner dropdown;
     Button myCourses;
+    Button privateInfoEditBtn;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -75,6 +81,7 @@ public class MainScreenFragment extends Fragment {
         reference = FirebaseStorage.getInstance().getReference();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         myCourses = view.findViewById(R.id.myCoursesButton);
+        privateInfoEditBtn = view.findViewById(R.id.privateInfoEditButton);
 
         cameraUploadActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -107,6 +114,15 @@ public class MainScreenFragment extends Fragment {
             public void onClick(View v) {
                 if (myCoursesButtonListenerBtn != null) {
                     myCoursesButtonListenerBtn.onMyCoursesButtonClicked();
+                }
+            }
+        });
+
+        privateInfoEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editInfoButtonListener != null) {
+                    editInfoButtonListener.onEditInfoButtonClicked();
                 }
             }
         });

@@ -69,8 +69,7 @@ public class MyCoursesFragment extends Fragment {
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search1);
         //searchView = (SearchView) /viewById
 
-
-
+        StudentInfo currentStudent = dataBase.getCurrentUser();
 
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override

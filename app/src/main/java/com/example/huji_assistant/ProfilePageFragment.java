@@ -1,17 +1,18 @@
 package com.example.huji_assistant;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ProfilePageActivity extends AppCompatActivity {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+public class ProfilePageFragment extends Fragment {
 
     private TextView userFirstNameEditText;
     private TextView userLastNameEditText;
@@ -21,27 +22,28 @@ public class ProfilePageActivity extends AppCompatActivity {
     private boolean isEdit = false;
     private String emailBeforeEdit;
 
+    public ProfilePageFragment(){
+        super(R.layout.activity_profile_page);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_page);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         LocalDataBase dataBase = HujiAssistentApplication.getInstance().getDataBase();
         StudentInfo currentUser = dataBase.getCurrentUser();
 
         // find views
-        userFirstNameEditText = findViewById(R.id.profile_user_first_name);
-        userLastNameEditText = findViewById(R.id.profile_user_last_name);
-        emailEditText = findViewById(R.id.usersEmailMyProfile);
-        btnCancelEdit = findViewById(R.id.btnCancelEditProfile);
-        btnEditProfile = findViewById(R.id.btnEditProfile);
-
+        userFirstNameEditText = view.findViewById(R.id.profile_user_first_name);
+        userLastNameEditText = view.findViewById(R.id.profile_user_last_name);
+        emailEditText = view.findViewById(R.id.usersEmailMyProfile);
+        btnCancelEdit = view.findViewById(R.id.btnCancelEditProfile);
+        btnEditProfile = view.findViewById(R.id.btnEditProfile);
 
         // initialize screen appearance
         setViewsByState(false);
         setViewsContentByUser(currentUser);
 
-        // todo: last name
         btnEditProfile.setOnClickListener(v -> {
             if (isEdit) {
                 btnCancelEdit.setVisibility(View.GONE);
@@ -69,6 +71,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         emailEditText.setText(user.getEmail());
     }
 
+    /**
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -86,7 +89,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         userLastNameEditText.setText(savedInstanceState.getString("user_last_name"));
         emailEditText.setText(savedInstanceState.getString("email"));
         setViewsByState(isEdit);
-    }
+    }*/
 
     private void cancelEditing() {
         emailEditText.setText(emailBeforeEdit);
@@ -108,34 +111,20 @@ public class ProfilePageActivity extends AppCompatActivity {
         int edit_ic = isEditState ? R.drawable.ic_save_profile : R.drawable.ic_edit_profile;
         btnEditProfile.setImageResource(edit_ic);
     }
-
+/**
     @Override
     public void onBackPressed() {
-        if (isEdit){
+        if (isEdit) {
             cancelEditing();
         }
-        else{
-            MainScreenFragment myFragment = (MainScreenFragment) getSupportFragmentManager().findFragmentByTag("MAIN_FRAGMENT");
-            if (myFragment != null && myFragment.isVisible()) {
-                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE: {
-                            finishAffinity();
-                            System.exit(0);
-                            break;
-                        }
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            break;
-                    }
-                };
+    }*/
 
-                android.app.AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Close the app?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
-            } else {
-                super.onBackPressed();
-                finish();
-            }
-        }
+
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 }

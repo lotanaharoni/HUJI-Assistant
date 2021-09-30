@@ -30,7 +30,6 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".PDFActivity" />
         <activity android:name=".CaptureImage2Activity" />
-
         <activity android:name=".LoadDataMainActivity" />
         <activity android:name=".ProfilePageActivity" />
 
