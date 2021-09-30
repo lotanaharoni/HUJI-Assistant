@@ -163,10 +163,12 @@ public class LocalDataBase {
 
     public void addStudent(String studentId, String email, String personalName,
                            String familyName, String facultyId, String chugId, String maslulId,
-                           String degreeType, String year, String beginYear, String beginSemester){
+                           String degreeType, String year, String beginYear, String beginSemester,
+                           ArrayList<String> courses){
 
         StudentInfo newStudent = new StudentInfo(studentId, email, personalName, familyName,
-                facultyId, chugId, maslulId, degreeType, year, beginYear, beginSemester);
+                facultyId, chugId, maslulId, degreeType, year, beginYear, beginSemester,
+                courses);
 
         Map<String, StudentInfo> newUser = new HashMap<>();
         newUser.put(newStudent.getId(), newStudent);

@@ -21,7 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.databinding.FragmentCoursesBinding;
 import com.example.huji_assistant.databinding.FragmentMycoursesBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Document;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +44,9 @@ public class MyCoursesFragment extends Fragment {
     public LocalDataBase dataBase = null;
     RecyclerView recyclerViewMyCourses;
     SearchView searchView;
+    ArrayList<String> coursesId = new ArrayList<>();
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
+    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
     //public interface endRegistrationButtonClickListener{
      //   public void onEndRegistrationBtnClicked();
@@ -67,6 +76,10 @@ public class MyCoursesFragment extends Fragment {
         adapter = new CoursesAdapter(getContext());
         FloatingActionButton addCourseBtn = view.findViewById(R.id.addCourseBtn);
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search1);
+
+        if (dataBase == null){
+            dataBase = HujiAssistentApplication.getInstance().getDataBase();
+        }
 
         StudentInfo currentStudent = dataBase.getCurrentUser();
 
@@ -122,18 +135,42 @@ public class MyCoursesFragment extends Fragment {
 
        // ArrayList<Course>
         courseItems = new ArrayList<>(); // Saves the current courses list
+        StudentInfo currentUser = dataBase.getCurrentUser();
+
+
+        // todo maybe observe instead
+        Task<DocumentSnapshot> document =  firebaseInstancedb.collection("students").document(currentUser.getId())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                         @Override
+                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                             DocumentSnapshot result = task.getResult();
+                             assert result != null;
+                             StudentInfo data = result.toObject(StudentInfo.class);
+                             assert data != null;
+                             coursesId = new ArrayList<>(data.getCourses());
+                             System.out.println("in+++: ");
+                             printCourses();
+                         }
+                     });
+
+        ArrayList<String> coursesIds = dataBase.getCurrentUser().getCourses();
+        // get the courses from fire store
+
+
+        System.out.println("out: ++++");
+        printCourses();
 
         // todo add demo courses
-        Course infiC = new Course("infi", "0", Course.Type.MandatoryChoose);
-        Course linearitC = new Course("linearit", "1", Course.Type.Mandatory);
-        Course cC = new Course("c", "2", Course.Type.Choose);
-        Course dastC = new Course("dast", "4", Course.Type.Supplemental);
-        Course linearit2C = new Course("linearit 2", "6", Course.Type.CornerStones);
+        Course infiC = new Course("infi", "0", Course.Type.MandatoryChoose,"","");
+      //  Course linearitC = new Course("linearit", "1", Course.Type.Mandatory);
+      //  Course cC = new Course("c", "2", Course.Type.Choose);
+     //   Course dastC = new Course("dast", "4", Course.Type.Supplemental);
+      //  Course linearit2C = new Course("linearit 2", "6", Course.Type.CornerStones);
         courseItems.add(infiC);
-        courseItems.add(linearitC);
-        courseItems.add(cC);
-        courseItems.add(dastC);
-        courseItems.add(linearit2C);
+   //     courseItems.add(linearitC);
+     //   courseItems.add(cC);
+      //  courseItems.add(dastC);
+      //  courseItems.add(linearit2C);
 
         // Create the adapter
         adapter.addCoursesListToAdapter(courseItems);
@@ -157,5 +194,10 @@ public class MyCoursesFragment extends Fragment {
             }
         });
 
+    }
+    private void printCourses(){
+        for (int i = 0; i < coursesId.size(); i++){
+            System.out.println(coursesId.get(i));
+        }
     }
 }

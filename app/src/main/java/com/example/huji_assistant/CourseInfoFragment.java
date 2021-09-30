@@ -35,7 +35,7 @@ public class CourseInfoFragment extends Fragment {
 
         viewModelAppMainScreen.get().observe(getViewLifecycleOwner(), item -> {
             courseName = item.getName();
-            courseNumber = item.getId();
+            courseNumber = item.getNumber();
          //   coursePoints = item.getPoints();
            // System.out.println("name: " + courseName + " number: " + courseNumber);
             courseNameTextView.setText(courseName);

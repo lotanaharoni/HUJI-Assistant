@@ -130,7 +130,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
     public void onBindViewHolder(@NonNull CourseItemHolder holder, int position) {
         Course courseItem = this.list.get(position);
         holder.name.setText(courseItem.getName());
-        holder.number.setText(courseItem.getId());
+        holder.number.setText(courseItem.getNumber());
         holder.type.setText(courseItem.getType());
 
         //todo remove

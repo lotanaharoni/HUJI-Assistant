@@ -27,13 +27,16 @@ public class Course {
     }
 
     public String toStringP(){
-        return "name: " + name + " number " + number + " type " + type + " points " + points;
+        return "name: " + name + " number " + number + " type " + type + " points " + points +" semester "+semester
+                +" year: " + year;
     }
 
-    public Course(String name_, String id_ , Type type_){
+    public Course(String name_, String number_ , Type type_, String points_, String semester_){
         name = name_;
-        number = id_;
+        number = number_;
         type = type_.toString();
+        this.points = points_;
+        this.semester = semester_;
     }
 
     public void setChecked(boolean val){
@@ -48,7 +51,7 @@ public class Course {
         return name;
     }
 
-    public String getId(){
+    public String getNumber(){
         return number;
     }
 

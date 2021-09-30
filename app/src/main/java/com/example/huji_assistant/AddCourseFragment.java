@@ -40,16 +40,16 @@ public class AddCourseFragment extends Fragment {
         }
         ArrayList<Course> courseItems = dataBase.getMyCoursesList();
 
-        Course infiC = new Course("אינפי", "0", Course.Type.MandatoryChoose);
-        Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
-        Course cC = new Course("סי", "2", Course.Type.Choose);
-        Course dastC = new Course("דאסט", "4", Course.Type.Supplemental);
-        Course linearit2C = new Course("לינארית 2", "6", Course.Type.CornerStones);
+        Course infiC = new Course("אינפי", "0", Course.Type.MandatoryChoose, "", "");
+       // Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
+      //  Course cC = new Course("סי", "2", Course.Type.Choose);
+       // Course dastC = new Course("דאסט", "4", Course.Type.Supplemental);
+       // Course linearit2C = new Course("לינארית 2", "6", Course.Type.CornerStones);
         courseItems.add(infiC);
-        courseItems.add(linearitC);
-        courseItems.add(cC);
-        courseItems.add(dastC);
-        courseItems.add(linearit2C);
+       // courseItems.add(linearitC);
+      //  courseItems.add(cC);
+      //  courseItems.add(dastC);
+      //  courseItems.add(linearit2C);
 
         searchView = view.findViewById(R.id.searchViewNumber);
         listView = view.findViewById(R.id.listViewNumber);

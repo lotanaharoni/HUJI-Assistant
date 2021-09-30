@@ -221,11 +221,11 @@ public class RegisterFragment extends Fragment {
     }
 
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
+   // @Override
+   // public void onSaveInstanceState(@NonNull Bundle outState) {
+ //       super.onSaveInstanceState(outState);
         // todo fix bug
-        outState.putString("email", email.getText().toString());
-        outState.putString("password", password.getText().toString());
-    }
+   //     outState.putString("email", email.getText().toString());
+   //     outState.putString("password", password.getText().toString());
+   // }
 }

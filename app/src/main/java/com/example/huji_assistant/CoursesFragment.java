@@ -117,10 +117,10 @@ public class CoursesFragment extends Fragment {
         }
 
         // todo add demo courses
-        Course infiC = new Course("אינפי", "0", Course.Type.Mandatory);
-        Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
+        Course infiC = new Course("אינפי", "0", Course.Type.Mandatory,"","");
+     //   Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
         courseItems.add(infiC);
-        courseItems.add(linearitC);
+       // courseItems.add(linearitC);
 
         // Create the adapter
        // adapter.addCoursesListToAdapter(courseItems);
@@ -226,10 +226,10 @@ public class CoursesFragment extends Fragment {
                                 Course course = document1.toObject(Course.class);
                                 assert course != null;
                                 String courseTitle = course.getName();
-                                String courseNumber = course.getId();
+                                String courseNumber = course.getNumber();
                                 String coursePoints = course.getPoints();
                                 String courseType = course.getType();
-                                System.out.println("++++++" + course.toStringP());
+                                System.out.println("print_of_course" + course.toStringP());
                                 coursesInMaslul.add(course);
                             }
 
@@ -296,16 +296,16 @@ public class CoursesFragment extends Fragment {
                     System.out.println("item: " + item.toStringP());
 
                     if (item.getChecked()){
-                        coursesOfStudent.add(item.getId());
-                        String text = "קורס מספר: " + item.getId() + " נוסף לרשימת הקורסים";
+                        coursesOfStudent.add(item.getNumber());
+                        String text = "קורס מספר: " + item.getNumber() + " נוסף לרשימת הקורסים";
                         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                        System.out.println("added: " + item.getId());
+                        System.out.println("added: " + item.getNumber());
                     }
                     else{
-                        coursesOfStudent.remove(item.getId()); //todo check if contains?
-                        String text = "קורס מספר: " + item.getId() + " הוסר מרשימת הקורסים";
+                        coursesOfStudent.remove(item.getNumber()); //todo check if contains?
+                        String text = "קורס מספר: " + item.getNumber() + " הוסר מרשימת הקורסים";
                         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                        System.out.println("removed: " + item.getId());
+                        System.out.println("removed: " + item.getNumber());
                     }
                     //todo sort
                     System.out.println("sort: ");
@@ -380,8 +380,13 @@ public class CoursesFragment extends Fragment {
                                         Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                         FirebaseUser user = auth.getCurrentUser();
                                         // todo upload courses
+
+                                        printCourses();
+                                        System.out.println("size: " + coursesOfStudent.size());
+
                                         db.addStudent(user.getUid(), email, personalName, familyName,
-                                                facultyId, chugId, maslulId, degreeType, year, beginnigYearOfDegree, beginSemesterOfDegree);
+                                                facultyId, chugId, maslulId, degreeType, year, beginnigYearOfDegree, beginSemesterOfDegree,
+                                                coursesOfStudent);
                                         db.setCurrentUser(user);
                                       //  StudentInfo newStudent = new StudentInfo(email.getText().toString(),
                                        //         personalName.getText().toString(), familyName.getText().toString());

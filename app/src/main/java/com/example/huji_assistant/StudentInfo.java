@@ -9,9 +9,9 @@ public class StudentInfo {
     private String familyName;
     private String email;
     private String password;
-    private Faculty faculty;
-    private Chug chug;
-    private Maslul maslul;
+    //private Faculty faculty;
+   // private Chug chug;
+   // private Maslul maslul;
     private String id;
 
     private String facultyId; // faculty name
@@ -21,6 +21,7 @@ public class StudentInfo {
     private String year;
     private String beginYear;
     private String beginSemester;
+    private ArrayList<String> courses = new ArrayList<>();
     private ArrayList<String> coursesMadeByStudent; // list of course id's
     private ArrayList<String> coursesPlannedByStudent;
 
@@ -42,7 +43,8 @@ public class StudentInfo {
         this.email = email;
     }
 
-    public StudentInfo(String facultyId_, String chugId_, String maslulId_, String degree_, String year_, String beginYear_, String beginSemester_){
+    public StudentInfo(String facultyId_, String chugId_, String maslulId_, String degree_, String year_, String beginYear_,
+                       String beginSemester_, ArrayList<String> courses_){
         this.id = UUID.randomUUID().toString();
         this.facultyId = facultyId_;
         this.chugId = chugId_;
@@ -51,6 +53,7 @@ public class StudentInfo {
         this.year = year_;
         this.beginYear = beginYear_;
         this.beginSemester = beginSemester_;
+        this.courses = new ArrayList<>(courses_);
     }
 
     public StudentInfo(String personalName_, String familyName_, String email, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
@@ -66,7 +69,8 @@ public class StudentInfo {
     }
     // FOR LOCAL DB CLASS
     public StudentInfo(String id_, String email_, String personalName_, String familyName_, String facultyId_,
-                       String chugId_, String maslulId_, String degree_, String year_, String beginYear_, String beginSemester_){
+                       String chugId_, String maslulId_, String degree_, String year_, String beginYear_, String beginSemester_,
+                       ArrayList<String> courses_){
 
         this.personalName = personalName_;
         this.familyName = familyName_;
@@ -79,6 +83,7 @@ public class StudentInfo {
         this.beginYear = beginYear_;
         this.beginSemester = beginSemester_;
         this.id = id_;
+        this.courses = new ArrayList<>(courses_);
     }
 
 
@@ -113,7 +118,13 @@ public class StudentInfo {
         this.beginSemester = beginSemester_;
     }
 
+    public void setCourses(ArrayList<String> courses){
+        this.courses = new ArrayList<>(courses);
+    }
 
+    public ArrayList<String> getCourses(){
+        return new ArrayList<>(this.courses);
+    }
 
     public void setFacultyId(String facultyId_){
         this.facultyId = facultyId_;
