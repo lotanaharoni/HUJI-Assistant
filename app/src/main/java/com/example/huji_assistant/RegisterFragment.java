@@ -25,6 +25,8 @@ import com.google.firebase.auth.FirebaseUser;
 public class RegisterFragment extends Fragment {
     private LocalDataBase db;
     private ViewModelApp viewModelApp;
+    private EditText email;
+    private EditText password;
     public interface buttonClickListener{
         public void onButtonClicked();
     }
@@ -37,23 +39,22 @@ public class RegisterFragment extends Fragment {
     TextView emailValidationView;
     TextView passwordValidationView;
     int PASSWORD_LENGTH = 8;
-    EditText email;
-    EditText password;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null) {
-            email.setText(savedInstanceState.getString("email", ""));
-            password.setText(savedInstanceState.getString("password", ""));
-        }
         this.db = HujiAssistentApplication.getInstance().getDataBase();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         if (view != null) {
 
         }
-        EditText email = view.findViewById(R.id.email);
-        EditText password = view.findViewById(R.id.password);
+        email = view.findViewById(R.id.email);
+        password = view.findViewById(R.id.password);
+
+        if (savedInstanceState != null) {
+            email.setText(savedInstanceState.getString("email", ""));
+            password.setText(savedInstanceState.getString("password", ""));
+        }
 
         emailValidationView = view.findViewById(R.id.emailValidation);
         passwordValidationView = view.findViewById(R.id.passwordValidation);

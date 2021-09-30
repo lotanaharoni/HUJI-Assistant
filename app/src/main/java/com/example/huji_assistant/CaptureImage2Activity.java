@@ -65,6 +65,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
     private static final int GALLERY_TYPE = 0;
     private static final int CAMERA_TYPE = 1;
     private static final int PDF_TYPE = 2;
+    private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
 
 
     @Override
@@ -100,25 +101,6 @@ public class CaptureImage2Activity extends AppCompatActivity {
             }
         });
 
-//        ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-//                new ActivityResultContracts.StartActivityForResult(),
-//                new ActivityResultCallback<ActivityResult>() {
-//                    @Override
-//                    public void onActivityResult(ActivityResult result) {
-//                        if (result.getResultCode() == Activity.RESULT_OK) {
-//                            // There are no request codes
-//                            Intent data = result.getData();
-//                            data.setAction(Intent.ACTION_GET_CONTENT);
-//                            data.setType("application/pdf");
-////                            galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-//
-//                            // We will be redirected to choose pdf
-////                            galleryIntent.setType("application/pdf");
-////                            doSomeOperations();
-//                        }
-//                    }
-//                });
-
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,29 +110,6 @@ public class CaptureImage2Activity extends AppCompatActivity {
 
                 startActivity(new Intent(CaptureImage2Activity.this, PDFMainActivity.class));            }
 
-        });
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-//                someActivityResultLauncher.launch(galleryIntent, GALLERY_REQUEST_CODE);
-                startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
-            }
-        });
-
-        pdfImageUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent();
-                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
-
-                // We will be redirected to choose pdf
-                galleryIntent.setType("application/pdf");
-                startActivityForResult(galleryIntent, DOCUMENTS_REQUEST_CODE);
-            }
         });
 
         uploadBtn.setOnClickListener(new View.OnClickListener() {
@@ -172,6 +131,97 @@ public class CaptureImage2Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CaptureImage2Activity.this, ShowActivity.class));
+            }
+        });
+
+        cameraUploadActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request codes
+                            Intent data = result.getData();
+                            File f = new File(currentPhotoPath);
+//                            cameraImageUpload.setImageURI(Uri.fromFile(f));
+
+                            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                            Uri contentUri = Uri.fromFile(f);
+                            mediaScanIntent.setData(contentUri);
+                            sendBroadcast(mediaScanIntent);
+                            hideButtonsAfterChooseImage();
+                            imageShow.setImageURI(contentUri);
+                            uploadChoose = CAMERA_TYPE;
+                            classContentUri = contentUri;
+                            fName = f.getName();
+                            uploadBtn.setEnabled(true);
+                        }
+                    }
+                });
+
+        ActivityResultLauncher<Intent> GalleryUploadActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request codes
+                            Intent data = result.getData();
+                            imageUri = data.getData();
+                            hideButtonsAfterChooseImage();
+                            imageShow.setImageURI(imageUri);
+                            uploadBtn.setEnabled(true);
+                            uploadChoose = GALLERY_TYPE;
+                        }
+                    }
+                });
+
+        ActivityResultLauncher<Intent> pdfImageUploadActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request codes
+                            Intent data = result.getData();
+                            assert data != null;
+                            imageUri = data.getData();
+                            final String timestamp = "" + System.currentTimeMillis();
+                            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+                            final String messagePushID = timestamp + "." + "pdf";
+                            hideButtonsAfterChooseImage();
+                            imageShow.setImageResource(R.drawable.ic_pdf_icon);
+                            uploadChoose = PDF_TYPE;
+                            messagePushId = messagePushID;
+                            uploadBtn.setEnabled(true);
+                            pdfName.setVisibility(View.VISIBLE);
+                            pdfName.setText(messagePushID);
+                        }
+                    }
+                });
+
+        pdfImageUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+                // We will be redirected to choose pdf
+                galleryIntent.setType("application/pdf");
+                pdfImageUploadActivityResultLauncher.launch(galleryIntent);
+//                startActivityForResult(galleryIntent, DOCUMENTS_REQUEST_CODE);
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent();
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+//                someActivityResultLauncher.launch(galleryIntent, GALLERY_REQUEST_CODE);
+                GalleryUploadActivityResultLauncher.launch(galleryIntent);
+//                startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
             }
         });
     }
@@ -235,49 +285,49 @@ public class CaptureImage2Activity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cr.getType(mUri));
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null){
-            imageUri = data.getData();
-            hideButtonsAfterChooseImage();
-            imageShow.setImageURI(imageUri);
-            uploadBtn.setEnabled(true);
-            uploadChoose = GALLERY_TYPE;
-//            imageView.setImageURI(imageUri);
-        }
-
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
-            File f = new File(currentPhotoPath);
-//            cameraImageUpload.setImageURI(Uri.fromFile(f));
-
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri contentUri = Uri.fromFile(f);
-            mediaScanIntent.setData(contentUri);
-            this.sendBroadcast(mediaScanIntent);
-            hideButtonsAfterChooseImage();
-            imageShow.setImageURI(contentUri);
-            uploadChoose = CAMERA_TYPE;
-            classContentUri = contentUri;
-            fName = f.getName();
-            uploadBtn.setEnabled(true);
-        }
-
-        if (requestCode == DOCUMENTS_REQUEST_CODE && resultCode == RESULT_OK){
-            imageUri = data.getData();
-            final String timestamp = "" + System.currentTimeMillis();
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-            final String messagePushID = timestamp + "." + "pdf";
-            hideButtonsAfterChooseImage();
-            imageShow.setImageResource(R.drawable.ic_pdf_icon);
-            uploadChoose = PDF_TYPE;
-            messagePushId = messagePushID;
-            uploadBtn.setEnabled(true);
-            pdfName.setVisibility(View.VISIBLE);
-            pdfName.setText(messagePushID);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == GALLERY_REQUEST_CODE && resultCode == RESULT_OK && data != null){
+//            imageUri = data.getData();
+//            hideButtonsAfterChooseImage();
+//            imageShow.setImageURI(imageUri);
+//            uploadBtn.setEnabled(true);
+//            uploadChoose = GALLERY_TYPE;
+////            imageView.setImageURI(imageUri);
+//        }
+//
+//        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+//            File f = new File(currentPhotoPath);
+////            cameraImageUpload.setImageURI(Uri.fromFile(f));
+//
+//            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//            Uri contentUri = Uri.fromFile(f);
+//            mediaScanIntent.setData(contentUri);
+//            this.sendBroadcast(mediaScanIntent);
+//            hideButtonsAfterChooseImage();
+//            imageShow.setImageURI(contentUri);
+//            uploadChoose = CAMERA_TYPE;
+//            classContentUri = contentUri;
+//            fName = f.getName();
+//            uploadBtn.setEnabled(true);
+//        }
+//
+//        if (requestCode == DOCUMENTS_REQUEST_CODE && resultCode == RESULT_OK){
+//            imageUri = data.getData();
+//            final String timestamp = "" + System.currentTimeMillis();
+//            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+//            final String messagePushID = timestamp + "." + "pdf";
+//            hideButtonsAfterChooseImage();
+//            imageShow.setImageResource(R.drawable.ic_pdf_icon);
+//            uploadChoose = PDF_TYPE;
+//            messagePushId = messagePushID;
+//            uploadBtn.setEnabled(true);
+//            pdfName.setVisibility(View.VISIBLE);
+//            pdfName.setText(messagePushID);
+//        }
+//    }
 
     private void askCameraPermissions() {
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
@@ -304,7 +354,8 @@ public class CaptureImage2Activity extends AppCompatActivity {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+                cameraUploadActivityResultLauncher.launch(takePictureIntent);
+//                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
         }
     }

@@ -30,6 +30,7 @@
         <activity android:name=".MainScreenActivity" />
         <activity android:name=".PDFActivity" />
         <activity android:name=".CaptureImage2Activity" />
+        <activity android:name=".ProfilePageActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".LoadDataMainActivity" >
             <intent-filter>
