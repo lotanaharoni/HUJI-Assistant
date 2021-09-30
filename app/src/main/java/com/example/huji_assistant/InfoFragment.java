@@ -2,6 +2,7 @@ package com.example.huji_assistant;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.huji_assistant.databinding.FragmentInfoBinding;
@@ -59,7 +62,7 @@ public class InfoFragment extends Fragment {
     AutoCompleteTextView dropdownyearbegindegree;
     AutoCompleteTextView dropdownsemesterbegindegree;
     ArrayList<String> degreeList = new ArrayList<>();
-
+    StudentInfo currentStudent;
     private ViewModelApp viewModelApp;
     String facultyId;
     String chugId;
@@ -68,7 +71,13 @@ public class InfoFragment extends Fragment {
     String selectedYear;
     String selectedBeginYear;
     String selectedBeginSemester;
+    String personalName;
+    String familyName;
+    String email;
     boolean validDegree = false;
+    boolean isFacultyValid = false;
+    boolean isChugValid = false;
+    boolean isMaslulValid = false;
     public LocalDataBase dataBase;
     public interface continueButtonClickListener{
         public void continueBtnClicked();
@@ -112,9 +121,36 @@ public class InfoFragment extends Fragment {
     public InfoFragment.continueButtonClickListener continueListener = null;
 
     private void checkValidation(){
-        // Check fields not empty
 
-        int facultySelectedItem = dropdownFaculty.getListSelection();
+        // Check fields not empty
+        if (dropdownFaculty.getText().toString().isEmpty()) {
+            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_faculty_msg), Toast.LENGTH_LONG).show();
+            isFacultyValid = false;
+        }
+        else {
+            isFacultyValid = true;
+
+            if (dropdownHugim.getText().toString().isEmpty()) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_chug_msg), Toast.LENGTH_LONG).show();
+                isChugValid = false;
+            }
+            else{
+                isChugValid = true;
+
+                if (dropdownMaslulim.getText().toString().isEmpty()){
+                    Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_maslul_msg), Toast.LENGTH_LONG).show();
+                    isMaslulValid = false;
+                }
+                else{
+                    isMaslulValid = true;
+                }
+            }
+        }
+
+
+
+
+       // int facultySelectedItem = dropdownFaculty.getListSelection();
 
 
         System.out.println("faculty: " + facultyId + "chug: " + chugId + "maslul: "+ maslulId);
@@ -157,29 +193,73 @@ public class InfoFragment extends Fragment {
         autoCompleteTextViewYear.setEnabled(false);
         progressBar.setVisibility(View.INVISIBLE);
 
-
-
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
+
+        viewModelApp.getStudent().observe(getViewLifecycleOwner(), item-> {
+                    personalName = item.getPersonalName();
+                    familyName = item.getFamilyName();
+                    email = item.getEmail();
+                    currentStudent = viewModelApp.getStudent().getValue();
+                });
+
+       // viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
+       //     @Override
+        ////    public void onChanged(StudentInfo studentInfo) {
+           //     currentStudent = studentInfo;
+
+          //  }
+     //   });
 
         view.findViewById(R.id.continuePersBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (continueListener != null) {
-                    StudentInfo currentStudent = viewModelApp.getStudent().getValue();
+                  //  StudentInfo currentStudent = viewModelApp.getStudent().getValue();
 
                     //  currentStudent.setName(nameEditText.getText().toString());
                     // currentStudent.setYear(yearEditText.getText().toString());
                     //  currentStudent.setDegreeName(degreeNameEditText.getText().toString());
                     // todo validation check for inserted values
                     // todo bar
+
+
+                    System.out.println("student info: personal name: " + currentStudent.getPersonalName() + " family name: "
+                    + currentStudent.getFamilyName() + " email: " + currentStudent.getEmail());
+
                     checkValidation();
-                    if (!validDegree){
 
+                    if (isFacultyValid && isChugValid && isMaslulValid) {
+
+                        currentStudent.setFacultyId(facultyId);
+                        currentStudent.setChugId(chugId);
+                        currentStudent.setMaslulId(maslulId);
+
+                        // todo take info from the rest of the fields and pass to current student
+
+                        if (!dropdowndegree.getText().toString().isEmpty()){
+                            selectedDegree = dropdowndegree.getText().toString();
+                            currentStudent.setDegree(selectedDegree);
+                        }
+                        if (!dropdownYear.getText().toString().isEmpty()){
+                            selectedYear = dropdownYear.getText().toString();
+                            currentStudent.setYear(selectedYear);
+                        }
+                        if (!dropdownyearbegindegree.getText().toString().isEmpty()){
+                            selectedBeginYear = dropdownyearbegindegree.getText().toString();
+                            currentStudent.setBeginYear(selectedBeginYear);
+                        }
+                        if (!dropdownsemesterbegindegree.getText().toString().isEmpty()){
+                            selectedBeginSemester = dropdownsemesterbegindegree.getText().toString();
+                            currentStudent.setBeginSemester(selectedBeginSemester);
+                        }
+
+                        System.out.println(currentStudent.toStringP()); // todo remove
+
+
+                       // StudentInfo newStudent = new StudentInfo(facultyId, chugId, maslulId, selectedDegree, selectedYear, selectedBeginYear, selectedBeginSemester);
+                        viewModelApp.setStudent(currentStudent);
+                        continueListener.continueBtnClicked();
                     }
-
-                    StudentInfo newStudent = new StudentInfo(facultyId, chugId, maslulId, selectedDegree, selectedYear, selectedBeginYear, selectedBeginSemester);
-                    viewModelApp.setStudent(newStudent);
-                    continueListener.continueBtnClicked();
                 }
             }
         });
@@ -190,7 +270,7 @@ public class InfoFragment extends Fragment {
         dropdowndegree = view.findViewById(R.id.autoCompleteTextViewDegree);
         dropdownYear = view.findViewById(R.id.autoCompleteTextViewYear);
         dropdownyearbegindegree = view.findViewById(R.id.autoCompleteYearBeginDegree);
-        dropdownyearbegindegree = view.findViewById(R.id.autoCompleteSemesterBeginDegree);
+        dropdownsemesterbegindegree = view.findViewById(R.id.autoCompleteSemesterBeginDegree);
 
         dropdownFaculty.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -286,7 +366,7 @@ public class InfoFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 progressBar.setVisibility(View.VISIBLE);
                 String selection = (String)parent.getItemAtPosition(position);
-                dropdownMaslulim = view.findViewById(R.id.autoCompleteTextViewMaslul);
+                //dropdownMaslulim = view.findViewById(R.id.autoCompleteTextViewMaslul); //todo here
                 //autoCompleteTextViewMaslul.setEnabled(true);
                // dropdownMaslulim.setText("");
                 ArrayList<String> s = new ArrayList<>();

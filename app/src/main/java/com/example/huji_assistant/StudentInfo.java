@@ -1,28 +1,38 @@
 package com.example.huji_assistant;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class StudentInfo {
 
-    private String name;
+    private String personalName;
+    private String familyName;
     private String email;
+    private Faculty faculty;
+    private Chug chug;
+    private Maslul maslul;
+    private String id;
 
-    private String facultyId;
+    private String facultyId; // faculty name
     private String chugId;
     private String maslulId;
     private String degree;
     private String year;
     private String beginYear;
     private String beginSemester;
-    private String id;
+    private ArrayList<String> coursesMadeByStudent; // list of course id's
+    private ArrayList<String> coursesPlannedByStudent;
+
 
     public StudentInfo(){
 
     }
 
-    public StudentInfo(String email){
-        this.id = UUID.randomUUID().toString();
-        this.email = email;
+    public StudentInfo(String email_, String personalName_, String familyName_){
+        this.id = UUID.randomUUID().toString(); // todo maybe id for db
+        this.personalName = personalName_;
+        this.familyName = familyName_;
+        this.email = email_;
     }
 
     public StudentInfo(String studentId, String email){
@@ -41,8 +51,9 @@ public class StudentInfo {
         this.beginSemester = beginSemester_;
     }
 
-    public StudentInfo(String name, String email, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
-        this.name = name;
+    public StudentInfo(String personalName_, String familyName_, String email, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
+        this.personalName = personalName_;
+        this.familyName = familyName_;
         this.email = email;
         this.facultyId = facultyId;
         this.chugId = chugId;
@@ -53,27 +64,65 @@ public class StudentInfo {
     }
 
 
-    public StudentInfo(String name, String email, String year){
-        this.name=name;
-        this.email=email;
-        this.year=year;
-        this.id = UUID.randomUUID().toString();
+   // public StudentInfo(String name, String email, String year){
+    //    this.name=name;
+      //  this.email=email;
+      //  this.year=year;
+      //  this.id = UUID.randomUUID().toString();
+    //}
+
+    public void setPersonalName(String name){
+        this.personalName = name;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setFamilyName(String name){
+        this.familyName = name;
     }
 
     public void setYear(String year){
         this.year = year;
     }
 
-    public void setDegreeName(String degreeName){
+    public void setDegree(String degreeName){
         this.degree = degreeName;
     }
 
-    public String getName(){
-        return name;
+    public void setBeginYear(String year_){
+        this.beginYear = year_;
+    }
+
+    public void setBeginSemester(String beginSemester_){
+        this.beginSemester = beginSemester_;
+    }
+
+
+
+    public void setFacultyId(String facultyId_){
+        this.facultyId = facultyId_;
+    }
+
+    public void setChugId(String chugId_){
+        this.chugId = chugId_;
+    }
+
+    public void setMaslulId(String maslulId_){
+        this.maslulId = maslulId_;
+    }
+
+    public String toStringP(){
+        return " personal name: " + personalName + " family name: " + familyName + " email: " + email + " faculty id: " +
+                facultyId + "chug id: " + chugId + " maslulId: " + maslulId + " degree: " + degree + " year: " + year +
+                " begin year: " + beginYear + " begin semester: " + beginSemester;
+    }
+
+
+
+    public String getPersonalName(){
+        return personalName;
+    }
+
+    public String getFamilyName(){
+        return familyName;
     }
 
     public String getFacultyId(){

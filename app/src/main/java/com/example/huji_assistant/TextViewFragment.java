@@ -29,20 +29,27 @@ import com.google.firebase.auth.FirebaseUser;
 public class TextViewFragment extends Fragment {
     private LocalDataBase db;
     private ViewModelApp viewModelApp;
-    public interface buttonClickListener{
-        public void onButtonClicked();
+    public interface continueButtonListener{
+        public void onContinueButtonClick();
     }
+
     public TextViewFragment(){
         super(R.layout.loginfragment);
     }
-    public TextViewFragment.buttonClickListener listener = null;
+    public TextViewFragment.continueButtonListener continueButtonListener = null;
     boolean isEmailValid = false;
     boolean isPasswordValid = false;
+    boolean isPersonalNameValid = false;
+    boolean isFamilyNameValid = false;
     TextView emailValidationView;
     TextView passwordValidationView;
+    TextView personalNameValidationView;
+    TextView familyNameValidationView;
     int PASSWORD_LENGTH = 8;
     EditText email;
     EditText password;
+    EditText personalName;
+    EditText familyName;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -58,10 +65,15 @@ public class TextViewFragment extends Fragment {
         }
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
+        personalName = view.findViewById(R.id.editTextPersonalName);
+        familyName = view.findViewById(R.id.editTextSecondName);
+
         Button forgotPassword = view.findViewById(R.id.forgotPassword);
 
         emailValidationView = view.findViewById(R.id.emailValidation);
         passwordValidationView = view.findViewById(R.id.passwordValidation);
+        personalNameValidationView = view.findViewById(R.id.personalNameValidation);
+        familyNameValidationView = view.findViewById(R.id.secondNameValidation);
 
         // Set view model - singleton
         ViewModelApp vm = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
@@ -115,14 +127,23 @@ public class TextViewFragment extends Fragment {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                emailValidationView.setVisibility(View.GONE);
-                passwordValidationView.setVisibility(View.GONE);
+                emailValidationView.setVisibility(View.INVISIBLE);
+                passwordValidationView.setVisibility(View.INVISIBLE);
+                personalNameValidationView.setVisibility(View.INVISIBLE);
+                familyNameValidationView.setVisibility(View.INVISIBLE);
+
                 //todo remove later
-                isPasswordValid = true;
-                isEmailValid = true;
-                //checkValidation(email.getText().toString(), password.getText().toString());
-                if (isEmailValid && isPasswordValid){
-                    if (listener != null) {
+               // isPasswordValid = true;
+               // isEmailValid = true;
+               // isPersonalNameValid = true;
+              //  isFamilyNameValid = true;
+                System.out.println(email.getText().toString() + password.getText().toString() + personalName.getText().toString() + familyName.getText().toString() + "");
+                checkValidation(email.getText().toString(), password.getText().toString(), personalName.getText().toString(),
+                        familyName.getText().toString());
+
+
+                if (isEmailValid && isPasswordValid && isPersonalNameValid && isFamilyNameValid){
+                    if (continueButtonListener != null) {
                         FirebaseAuth auth = db.getUsersAuthenticator();
                         auth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
                                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -133,9 +154,11 @@ public class TextViewFragment extends Fragment {
 //                                            Toast.makeText(getActivity(), "signInWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                             FirebaseUser user = auth.getCurrentUser();
                                             db.setCurrentUser(user);
-                                            StudentInfo newStudent = new StudentInfo(email.getText().toString());
+                                            StudentInfo newStudent = new StudentInfo(email.getText().toString(),
+                                                    personalName.getText().toString(), familyName.getText().toString());
                                             viewModelApp.setStudent(newStudent);
                                             startActivity(new Intent(getActivity(), MainScreenActivity.class));
+                                           // continueButtonListener.onContinueButtonClick();
 //                                            listener.onButtonClicked();
                                         }else{
                                             Log.w("LoginActivity", "signInWithEmail:failure", task.getException());
@@ -161,10 +184,11 @@ public class TextViewFragment extends Fragment {
         }
     }
 
-    public void checkValidation(String email, String password){
+    public void checkValidation(String email, String password, String personalName, String familyName){
         if (email.isEmpty()) {
-//            emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
-//            emailValidationView.setVisibility(View.VISIBLE);
+            //     emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
+            //     emailValidationView.setVisibility(View.VISIBLE);
+
             //todo: maybe a Toast?
             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_email_msg), Toast.LENGTH_LONG).show();
 
@@ -178,24 +202,43 @@ public class TextViewFragment extends Fragment {
         //  } else if (!Patterns.EMAIL_ADDRESS.matcher(email.matches("*"))) {
         //  email.setError(getResources().getString(R.string.error_invalid_email));
         //    isEmailValid = false;}
-        else  {
+        else {
             isEmailValid = true;
-        }
 
-        // Check for a valid password.
-        if (password.isEmpty()) {
+
+            // Check for a valid password.
+            if (password.isEmpty()) {
+                //   passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
+//            passwordValidationView.setVisibility(View.VISIBLE);
+                //todo: maybe a Toast?
+                Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
+                isPasswordValid = false;
+            } else if (password.length() < PASSWORD_LENGTH) {
 //            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
 //            passwordValidationView.setVisibility(View.VISIBLE);
-            //todo: maybe a Toast?
-            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
-            isPasswordValid = false;
-        } else if (password.length() < PASSWORD_LENGTH) {
-            //todo: maybe a Toast?
-            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
-            isPasswordValid = false;
-        } else  {
-            isPasswordValid = true;
+                //todo: maybe a Toast?
+                Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
+                isPasswordValid = false;
+            } else {
+                isPasswordValid = true;
+
+                if (personalName.isEmpty()) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_personal_name_msg), Toast.LENGTH_LONG).show();
+                    isPersonalNameValid = false;
+                } else {
+                    isPersonalNameValid = true;
+
+
+                    if (familyName.isEmpty()) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_family_name_msg), Toast.LENGTH_LONG).show();
+                        isFamilyNameValid = false;
+                    } else {
+                        isFamilyNameValid = true;
+                    }
+                }
+            }
         }
+
 
         if (isEmailValid && isPasswordValid) {
             // the values are valid

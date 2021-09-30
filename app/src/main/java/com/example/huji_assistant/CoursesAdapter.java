@@ -85,6 +85,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
     public DeleteClickListener deleteListener;
     public CancelClickListener cancelListener;
     public OnItemClickListener itemClickListener;
+    public OnCheckBoxClickListener checkBoxClickListener;
+
 
     // Create an interface
     public interface DeleteClickListener{
@@ -96,6 +98,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         void onCancelClick(Course item);
     }
 
+    public interface OnCheckBoxClickListener{
+        void onCheckBoxClicked(Course item);
+    }
+
     public interface OnItemClickListener {
       //  public void onClick(View view, int position);
         public void onClick(Course item);
@@ -103,6 +109,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
 
     public void setItemClickListener(OnItemClickListener listener){
         this.itemClickListener = listener;
+    }
+
+    public void setItemCheckBoxListener(OnCheckBoxClickListener listener){
+        this.checkBoxClickListener = listener;
     }
 
     @SuppressLint("ResourceAsColor")
@@ -113,6 +123,14 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         holder.number.setText(courseItem.getId());
         holder.type.setText(courseItem.getType());
 
+        holder.checkBox.setOnClickListener(v -> {
+            //System.out.println("check box clicked");
+            checkBoxClickListener.onCheckBoxClicked(courseItem);
+        });
+
+        holder.itemView.setOnClickListener(v -> {
+            itemClickListener.onClick(courseItem);
+        });
 
         String courseType = courseItem.getType();
         switch (courseType) {
@@ -135,9 +153,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
                 break;
         }
 
-        holder.itemView.setOnClickListener(v -> {
-            itemClickListener.onClick(courseItem);
-        });
+
 
         if (courseItem.getType().equals(Course.Type.Mandatory.toString())){
           // holder.itemView.setBackgroundColor(R.color.colorAccent);

@@ -12,6 +12,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,6 +52,7 @@ public class CoursesFragment extends Fragment {
     String beginnigYearOfDegree;
     String beginSemesterOfDegree;
     TextView facultyTextView;
+    StudentInfo currentStudent;
     TextView chugTextView;
     TextView maslulTextView;
     TextView yearTextView;
@@ -58,9 +60,13 @@ public class CoursesFragment extends Fragment {
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+
+    ArrayList<String> coursesOfStudent = new ArrayList<>(); // todo save in db to pass between activities
+
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
 
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
+    public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
 
     public CoursesFragment(){
         super(R.layout.fragment_courses);
@@ -71,9 +77,7 @@ public class CoursesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentCoursesBinding.inflate(inflater, container, false);
-
         return binding.getRoot();
-
     }
 
     @Override
@@ -205,6 +209,8 @@ public class CoursesFragment extends Fragment {
             }
         });
 
+
+
         //beginnigYearOfDegree = "2022"; // todo change
 
 
@@ -234,7 +240,13 @@ public class CoursesFragment extends Fragment {
        // dropdown = view.findViewById(R.id.coursespinner);
         String[] items = new String[]{"1", "2", "three"};
         //  ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, dropdown, items);
+        viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
+            @Override
+            public void onChanged(StudentInfo studentInfo) {
+                currentStudent = viewModelApp.studentInfoMutableLiveData.getValue();
 
+            }
+        });
 
         Button endRegistrationBtn = view.findViewById(R.id.buttonEndRegistration);
         endRegistrationBtn.setOnClickListener(new View.OnClickListener() {

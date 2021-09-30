@@ -201,6 +201,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <AutoCompleteTextView
                     android:id="@+id/autoCompleteYearBeginDegree"
                     android:layout_width="160dp"

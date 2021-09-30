@@ -25,20 +25,29 @@ import com.google.firebase.auth.FirebaseUser;
 public class RegisterFragment extends Fragment {
     private LocalDataBase db;
     private ViewModelApp viewModelApp;
-    public interface buttonClickListener{
-        public void onButtonClicked();
+  //  public interface buttonClickListener{
+   //     public void onButtonClicked();
+   // }
+    public interface continueButtonListener{
+        public void onContinueButtonClick();
     }
     public RegisterFragment(){
         super(R.layout.register_fragment);
     }
-    public TextViewFragment.buttonClickListener listener = null;
+    public TextViewFragment.continueButtonListener continueButtonListener = null;
     boolean isEmailValid = false;
     boolean isPasswordValid = false;
     TextView emailValidationView;
     TextView passwordValidationView;
+    TextView personalNameValidationView;
+    TextView familyNameValidationView;
     int PASSWORD_LENGTH = 8;
     EditText email;
     EditText password;
+    EditText personalName;
+    EditText familyName;
+    boolean isPersonalNameValid = false;
+    boolean isFamilyNameValid = false;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -57,9 +66,16 @@ public class RegisterFragment extends Fragment {
 
         emailValidationView = view.findViewById(R.id.emailValidation);
         passwordValidationView = view.findViewById(R.id.passwordValidation);
+        personalName = view.findViewById(R.id.editTextPersonalName);
+        familyName = view.findViewById(R.id.editTextSecondName);
 
         // Set view model - singleton
         ViewModelApp vm = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
+
+        emailValidationView = view.findViewById(R.id.emailValidation);
+        passwordValidationView = view.findViewById(R.id.passwordValidation);
+        personalNameValidationView = view.findViewById(R.id.personalNameValidation);
+        familyNameValidationView = view.findViewById(R.id.secondNameValidation);
 
         // Gets current data from live data to show at the screen
         vm.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
@@ -75,13 +91,18 @@ public class RegisterFragment extends Fragment {
             public void onClick(View v) {
                 emailValidationView.setVisibility(View.GONE);
                 passwordValidationView.setVisibility(View.GONE);
+                personalNameValidationView.setVisibility(View.INVISIBLE);
+                familyNameValidationView.setVisibility(View.INVISIBLE);
+
 //                FirstFragment myFragment = (FirstFragment)getSupportFragmentManager().findFragmentByTag("FIRST_FRAGMENT");
 //                if (myFragment != null && myFragment.isVisible()) {
 //                }
-
-                checkValidation(email.getText().toString(), password.getText().toString());
-                if (isEmailValid && isPasswordValid){
-                    if (listener != null && !db.emailUserExists(email.getText().toString())) {
+                System.out.println(email.getText().toString() + password.getText().toString() + personalName.getText().toString() + familyName.getText().toString() + "");
+                checkValidation(email.getText().toString(), password.getText().toString(), personalName.getText().toString(),
+                        familyName.getText().toString());
+               // checkValidation(email.getText().toString(), password.getText().toString());
+                if (isEmailValid && isPasswordValid && isPersonalNameValid && isFamilyNameValid){
+                    if (continueButtonListener != null && !db.emailUserExists(email.getText().toString())) {
                         FirebaseAuth auth = db.getUsersAuthenticator();
                         Toast.makeText(getActivity(), "register fragment", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                         auth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
@@ -94,9 +115,10 @@ public class RegisterFragment extends Fragment {
                                             FirebaseUser user = auth.getCurrentUser();
                                             db.addStudent(user.getUid(), email.getText().toString());
                                             db.setCurrentUser(user);
-                                            StudentInfo newStudent = new StudentInfo(email.getText().toString());
+                                            StudentInfo newStudent = new StudentInfo(email.getText().toString(),
+                                                    personalName.getText().toString(), familyName.getText().toString());
                                             viewModelApp.setStudent(newStudent);
-                                            listener.onButtonClicked();
+                                            continueButtonListener.onContinueButtonClick();
                                         }else{
                                             Log.w("RegisterActivity", "registerWithEmail:failure", task.getException());
                                             Toast.makeText(getActivity(), "registerWithEmail:failure", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
@@ -123,10 +145,11 @@ public class RegisterFragment extends Fragment {
         }
     }
 
-    public void checkValidation(String email, String password){
+    public void checkValidation(String email, String password, String personalName, String familyName){
         if (email.isEmpty()) {
-//            emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
-//            emailValidationView.setVisibility(View.VISIBLE);
+       //     emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
+       //     emailValidationView.setVisibility(View.VISIBLE);
+
             //todo: maybe a Toast?
             Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_email_msg), Toast.LENGTH_LONG).show();
 
@@ -140,26 +163,43 @@ public class RegisterFragment extends Fragment {
         //  } else if (!Patterns.EMAIL_ADDRESS.matcher(email.matches("*"))) {
         //  email.setError(getResources().getString(R.string.error_invalid_email));
         //    isEmailValid = false;}
-        else  {
+        else {
             isEmailValid = true;
+
+
+            // Check for a valid password.
+            if (password.isEmpty()) {
+                //   passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
+//            passwordValidationView.setVisibility(View.VISIBLE);
+                //todo: maybe a Toast?
+                Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
+                isPasswordValid = false;
+            } else if (password.length() < PASSWORD_LENGTH) {
+//            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
+//            passwordValidationView.setVisibility(View.VISIBLE);
+                //todo: maybe a Toast?
+                Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
+                isPasswordValid = false;
+            } else {
+                isPasswordValid = true;
+
+                if (personalName.isEmpty()) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_personal_name_msg), Toast.LENGTH_LONG).show();
+                    isPersonalNameValid = false;
+                } else {
+                    isPersonalNameValid = true;
+
+
+                    if (familyName.isEmpty()) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_family_name_msg), Toast.LENGTH_LONG).show();
+                        isFamilyNameValid = false;
+                    } else {
+                        isFamilyNameValid = true;
+                    }
+                }
+            }
         }
 
-        // Check for a valid password.
-        if (password.isEmpty()) {
-//            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
-//            passwordValidationView.setVisibility(View.VISIBLE);
-            //todo: maybe a Toast?
-            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
-            isPasswordValid = false;
-        } else if (password.length() < PASSWORD_LENGTH) {
-//            passwordValidationView.setText(getResources().getString(R.string.please_enter_password_msg));
-//            passwordValidationView.setVisibility(View.VISIBLE);
-            //todo: maybe a Toast?
-            Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_password_msg), Toast.LENGTH_LONG).show();
-            isPasswordValid = false;
-        } else  {
-            isPasswordValid = true;
-        }
 
         if (isEmailValid && isPasswordValid) {
             // the values are valid
@@ -170,6 +210,7 @@ public class RegisterFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        // todo fix bug
         outState.putString("email", email.getText().toString());
         outState.putString("password", password.getText().toString());
     }

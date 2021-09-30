@@ -100,9 +100,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-        secondFragment.listener = new TextViewFragment.buttonClickListener() {
+        secondFragment.continueButtonListener = new TextViewFragment.continueButtonListener() {
             @Override
-            public void onButtonClicked() {
+            public void onContinueButtonClick() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                                  R.anim.fade_in,  // enter
+                                 R.anim.slide_out,  // exit
+                                 R.anim.slide_in,   // popEnter
+                                 R.anim.fade_out  // popExit
+                          )
+                                 .replace(loginFragment.getId(), infoFragment).addToBackStack(null).commit();
+            }
+        };
+
+        secondFragment.continueButtonListener = new TextViewFragment.continueButtonListener() {
+            @Override
+            public void onContinueButtonClick() {
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(
                         R.anim.fade_in,  // enter
                         R.anim.slide_out,  // exit
@@ -113,9 +126,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-        registerFragment.listener = new TextViewFragment.buttonClickListener() {
+        registerFragment.continueButtonListener = new TextViewFragment.continueButtonListener() {
             @Override
-            public void onButtonClicked() {
+            public void onContinueButtonClick() {
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(
                         R.anim.fade_in,  // enter
                         R.anim.slide_out,  // exit
@@ -126,9 +139,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
+
+
         infoFragment.continueListener = new InfoFragment.continueButtonClickListener() {
             @Override
             public void continueBtnClicked() {
+
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(
                         R.anim.fade_in,  // enter
                         R.anim.slide_out,  // exit
@@ -159,6 +175,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         };
+
+        coursesFragment.onCheckBoxClickListener = new CoursesAdapter.OnCheckBoxClickListener() {
+            @Override
+            public void onCheckBoxClicked(Course item) {
+                System.out.println("----------------item checked: " + item.toStringP());
+            }
+        };
+
+
         coursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override
             public void onClick(Course item) {

@@ -143,9 +143,11 @@ public class LocalDataBase {
         newUser.put(newStudent.getId(), newStudent);
         this.studentsCollection.document(newStudent.getId()).set(newStudent);
     }
-
+    // todo fix
     public void updateStudent(String name, String email, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
-        StudentInfo newUser = new StudentInfo(name, email, facultyId, chugId, maslulId, degree, year, id);
+       // StudentInfo newUser = new StudentInfo(name, email, facultyId, chugId, maslulId, degree, year, id);
+        // todo fix
+        StudentInfo newUser = new StudentInfo(name,name, email, facultyId, chugId, maslulId, degree, year, id);
         Map<String, StudentInfo> updatedUser = new HashMap<>();
         updatedUser.put(newUser.getId(), newUser);
         this.studentsCollection.document(newUser.getId()).set(updatedUser).addOnSuccessListener(aVoid -> {
