@@ -13,6 +13,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -46,6 +50,7 @@ public class MainScreenFragment extends Fragment {
     private DatabaseReference root;
     private StorageReference reference;
     String currentPhotoPath;
+    private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
 //84705ccd5979e94064a85a2ea4ab231fb90221b1
 
     public interface endRegistrationButtonClickListener{
@@ -70,6 +75,27 @@ public class MainScreenFragment extends Fragment {
         reference = FirebaseStorage.getInstance().getReference();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         myCourses = view.findViewById(R.id.myCoursesButton);
+
+        cameraUploadActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request codes
+                            Intent data = result.getData();
+                            File f = new File(currentPhotoPath);
+//                            cameraImageUpload.setImageURI(Uri.fromFile(f));
+
+                            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                            Uri contentUri = Uri.fromFile(f);
+                            mediaScanIntent.setData(contentUri);
+                            requireActivity().sendBroadcast(mediaScanIntent);
+
+                            uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
+                        }
+                    }
+                });
 
         FloatingActionButton openCameraFloatingButton = view.findViewById(R.id.open_camera_floating_button);
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
@@ -122,26 +148,27 @@ public class MainScreenFragment extends Fragment {
                         "com.example.android.fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
+                cameraUploadActivityResultLauncher.launch(takePictureIntent);
+//                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            File f = new File(currentPhotoPath);
-//            cameraImageUpload.setImageURI(Uri.fromFile(f));
-
-            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri contentUri = Uri.fromFile(f);
-            mediaScanIntent.setData(contentUri);
-            requireActivity().sendBroadcast(mediaScanIntent);
-
-            uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+//            File f = new File(currentPhotoPath);
+////            cameraImageUpload.setImageURI(Uri.fromFile(f));
+//
+//            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//            Uri contentUri = Uri.fromFile(f);
+//            mediaScanIntent.setData(contentUri);
+//            requireActivity().sendBroadcast(mediaScanIntent);
+//
+//            uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
+//        }
+//    }
 
     private void uploadToFirebase(Uri uri, int source, String name) {
         StorageReference fileRef = reference.child("Camera_images/" + name);

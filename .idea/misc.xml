@@ -4,7 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.13854166666666667" />
+        <entry key="app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.2351851851851852" />
+        <entry key="app/src/main/res/drawable/ic_cancel_edit_button.xml" value="0.2351851851851852" />
+        <entry key="app/src/main/res/drawable/ic_contact_mail.xml" value="0.2351851851851852" />
+        <entry key="app/src/main/res/drawable/ic_edit_profile.xml" value="0.2351851851851852" />
         <entry key="app/src/main/res/drawable/ic_info.xml" value="0.2125" />
+        <entry key="app/src/main/res/drawable/ic_my_profile_small.xml" value="0.2351851851851852" />
+        <entry key="app/src/main/res/drawable/ic_save_profile.xml" value="0.1824074074074074" />
         <entry key="app/src/main/res/layout-v21/item.xml" value="0.18568840579710144" />
         <entry key="app/src/main/res/layout/activity_capture.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_capture2.xml" value="0.335" />
@@ -12,6 +18,7 @@
         <entry key="app/src/main/res/layout/activity_main_pdf.xml" value="0.1234375" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.11510416666666666" />
         <entry key="app/src/main/res/layout/activity_pdf.xml" value="0.1234375" />
+        <entry key="app/src/main/res/layout/activity_profile_page.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_scan_qr.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/activity_show.xml" value="0.1956521739130435" />
         <entry key="app/src/main/res/layout/content_main_pdf.xml" value="0.1234375" />
