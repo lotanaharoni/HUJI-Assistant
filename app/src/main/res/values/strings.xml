@@ -21,7 +21,13 @@
     <string name="settings_drawer_header">הגדרות</string>
 
     <string name="email_not_valid_message">כתובת אימייל לא תקינה</string>
+<<<<<<< HEAD
 
+=======
+    <string name="email_field">Email address</string>
+    <string name="user_first_name_field">First name</string>
+    <string name="user_last_name_field">Last name</string>
+>>>>>>> 09fd6221cd2cf941471342cecf2734beca031ae8
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
