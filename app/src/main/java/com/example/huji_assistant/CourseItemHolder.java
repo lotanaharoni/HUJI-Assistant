@@ -20,6 +20,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
     TextView points;
     CardView cardView;
     CheckBox checkBox;
+    TextView textView;
 
     public CourseItemHolder(View view) {
         super(view);
@@ -31,6 +32,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
         points = view.findViewById(R.id.coursepoints);
         cardView = view.findViewById(R.id.courseitemcard);
         checkBox = view.findViewById(R.id.checkBoxCourse);
+        textView = view.findViewById(R.id.textViewParent);
     }
 
     public ArrayList<Course> getCurrentItems() {

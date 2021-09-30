@@ -35,6 +35,7 @@ public class RegisterFragment extends Fragment {
         super(R.layout.register_fragment);
     }
     public TextViewFragment.continueButtonListener continueButtonListener = null;
+ //   public RegisterFragment.continueButtonListener continueButtonListener = null;
     boolean isEmailValid = false;
     boolean isPasswordValid = false;
     TextView emailValidationView;

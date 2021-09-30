@@ -163,16 +163,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // TODO open MainSreen2 activity
                 Intent editIntent = new Intent(MainActivity.this, MainScreenActivity.class);
                 startActivity(editIntent);
-
-
-               // getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                //        R.anim.fade_in,  // enter
-                //        R.anim.slide_out,  // exit
-                //        R.anim.slide_in,   // popEnter
-                //        R.anim.fade_out  // popExit
-                //)
-                  //      .replace(loginFragment.getId(), mainScreen).disallowAddToBackStack().commit();
-
             }
         };
 
@@ -183,6 +173,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
+
+      //  coursesFragment.onTextBoxClickListener = new CoursesAdapter.OnTextBoxClickListener() {
+        //    @Override
+        //    public void onTextBoxClick(Course item) {
+        //        System.out.println("----------------textbox clicked: " + item.toStringP());
+        //    }
+     //   };
 
         coursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override

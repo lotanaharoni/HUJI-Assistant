@@ -86,6 +86,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
     public CancelClickListener cancelListener;
     public OnItemClickListener itemClickListener;
     public OnCheckBoxClickListener checkBoxClickListener;
+   // public OnTextBoxClickListener textBoxClickListener;
 
 
     // Create an interface
@@ -107,6 +108,11 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         public void onClick(Course item);
     }
 
+   // public interface OnTextBoxClickListener {
+        //  public void onClick(View view, int position);
+   //     public void onTextBoxClick(Course item);
+   // }
+
     public void setItemClickListener(OnItemClickListener listener){
         this.itemClickListener = listener;
     }
@@ -114,6 +120,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
     public void setItemCheckBoxListener(OnCheckBoxClickListener listener){
         this.checkBoxClickListener = listener;
     }
+
+   // public void setTextBoxClickListener(OnTextBoxClickListener listener){
+   ///     this.textBoxClickListener = listener;
+  //  }
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -123,8 +133,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         holder.number.setText(courseItem.getId());
         holder.type.setText(courseItem.getType());
 
+        //todo remove
+       // holder.textView.setOnClickListener(v -> {
+       //     System.out.println("text box clicked");
+       // });
+
         holder.checkBox.setOnClickListener(v -> {
-            //System.out.println("check box clicked");
+            System.out.println("check box clicked");
             checkBoxClickListener.onCheckBoxClicked(courseItem);
         });
 

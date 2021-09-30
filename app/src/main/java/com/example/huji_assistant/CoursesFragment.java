@@ -67,6 +67,7 @@ public class CoursesFragment extends Fragment {
 
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
     public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
+  //  public CoursesAdapter.OnTextBoxClickListener onTextBoxClickListener = null;
 
     public CoursesFragment(){
         super(R.layout.fragment_courses);
@@ -208,6 +209,25 @@ public class CoursesFragment extends Fragment {
               //  adapter.notifyDataSetChanged();
             }
         });
+
+        adapter.setItemCheckBoxListener(new CoursesAdapter.OnCheckBoxClickListener() {
+            @Override
+            public void onCheckBoxClicked(Course item) {
+                if (onCheckBoxClickListener != null){
+                   // viewModelAppCourse.set(item);
+                    onCheckBoxClickListener.onCheckBoxClicked(item);
+                }
+            }
+        });
+
+     //   adapter.setTextBoxClickListener(new CoursesAdapter.OnTextBoxClickListener() {
+         //   @Override
+         //   public void onTextBoxClick(Course item) {
+            //    if (onTextBoxClickListener != null){
+             //       onTextBoxClickListener.onTextBoxClick(item);
+            //    }
+          //  }
+       // });
 
 
 
