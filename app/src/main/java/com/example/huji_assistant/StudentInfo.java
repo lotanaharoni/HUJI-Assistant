@@ -189,4 +189,10 @@ public class StudentInfo {
     public String getEmail() {
         return email;
     }
+
+    public void printCourses(){
+        for (String id: this.courses){
+            System.out.println("course3: " + id);
+        }
+    }
 }

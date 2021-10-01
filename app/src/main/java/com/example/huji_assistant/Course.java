@@ -59,6 +59,14 @@ public class Course {
         return points;
     }
 
+    public String getSemester(){
+        return semester;
+    }
+
+    public String getYear(){
+        return year;
+    }
+
     public void setType(String type_){
         type=type_;
     }

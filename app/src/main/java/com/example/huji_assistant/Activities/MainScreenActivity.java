@@ -29,6 +29,8 @@ import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.StudentInfo;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 //<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MainScreenActivity.java
@@ -38,6 +40,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QuerySnapshot;
 
 //<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MainScreenActivity.java
 import java.util.ArrayList;
@@ -51,6 +54,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private DrawerLayout moreInfoDrawerLayout;
    // private DrawerLayout settingsDrawerLayout;
     private ImageView logoutImageView;
+   // ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
     ListenerRegistration listener;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
@@ -81,8 +85,43 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 // todo set as current student
                 dataBase.setCurrentStudent(currentStudent);
                 System.out.println("updated student: " + currentStudent.toStringP());
+                System.out.println("updated courses list: ");
+                currentStudent.printCourses();
+                getNewCoursesList();
             }
         });
+
+       // ArrayList<String> coursesOfStudentById = dataBase.getCurrentStudent().getCourses();
+       // ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
+/**
+        // Gets the courses of the student from firebase and updates in local data base
+        Task<QuerySnapshot> courses1 = firebaseInstancedb.collection("courses").document(dataBase.getCurrentUser().getChugId())
+                .collection("maslulimInChug").document(dataBase.getCurrentUser().getMaslulId())
+                .collection("coursesInMaslul")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                        ArrayList<Course> coursesFromFireBase = new ArrayList<>();
+                        for (DocumentSnapshot document1 : documents){
+                            Course course = document1.toObject(Course.class);
+                            System.out.println("course2 "+ course.toStringP());
+                            coursesFromFireBase.add(course);
+                        }
+
+                        for (String id : coursesOfStudentById){
+                            for (Course course: coursesFromFireBase){
+                                if (course.getNumber().equals(id)){
+                                    coursesOfStudentByCourse.add(course);
+                                }
+                            }
+                        }
+                        // todo save the list of courses of current student to db
+                        // show changes on course list in adapter
+                        dataBase.setCoursesOfCurrentStudent(coursesOfStudentByCourse);
+                    }
+                });*/
+
         // todo check if is updated in fragments
 
         logoutImageView = findViewById(R.id.logoutImageView);
@@ -209,10 +248,43 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     }
 
-
     private void goToUrl(String s) {
         Uri url = Uri.parse(s);
         startActivity(new Intent(Intent.ACTION_VIEW, url));
+    }
+
+    private void getNewCoursesList(){
+
+        ArrayList<String> coursesOfStudentById = dataBase.getCurrentStudent().getCourses();
+        ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
+
+        // Gets the courses of the student from firebase and updates in local data base
+        Task<QuerySnapshot> courses1 = firebaseInstancedb.collection("courses").document(dataBase.getCurrentUser().getChugId())
+                .collection("maslulimInChug").document(dataBase.getCurrentUser().getMaslulId())
+                .collection("coursesInMaslul")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                        ArrayList<Course> coursesFromFireBase = new ArrayList<>();
+                        for (DocumentSnapshot document1 : documents){
+                            Course course = document1.toObject(Course.class);
+                            System.out.println("course2 "+ course.toStringP());
+                            coursesFromFireBase.add(course);
+                        }
+
+                        for (String id : coursesOfStudentById){
+                            for (Course course: coursesFromFireBase){
+                                if (course.getNumber().equals(id)){
+                                    coursesOfStudentByCourse.add(course);
+                                }
+                            }
+                        }
+                        // todo save the list of courses of current student to db
+                        // show changes on course list in adapter
+                        dataBase.setCoursesOfCurrentStudent(coursesOfStudentByCourse);
+                    }
+                });
     }
 
     @Override

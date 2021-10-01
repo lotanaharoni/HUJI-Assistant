@@ -21,9 +21,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.huji_assistant.Chug;
 import com.example.huji_assistant.Course;
 import com.example.huji_assistant.CourseItemHolder;
 import com.example.huji_assistant.CoursesAdapter;
+import com.example.huji_assistant.Faculty;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.R;
@@ -35,8 +37,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyCoursesFragment extends Fragment {
 
@@ -114,6 +118,53 @@ public class MyCoursesFragment extends Fragment {
         String year = yearTextView.getText() + " " + currentStudent.getYear();
         yearTextView.setText(year);
 
+        ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
+        ArrayList<Course> coursesFromFireBase = new ArrayList<>();
+        ArrayList<Course> coursesForAdapter = new ArrayList<>();
+
+      //  String courseNumber = "64304";
+        // Gets all courses from firestore
+        /**
+        // todo show courses of student - using firebase
+        Task<QuerySnapshot> courses1 = firebaseInstancedb.collection("courses").document(currentStudent.getChugId())
+                .collection("maslulimInChug").document(currentStudent.getMaslulId())
+                .collection("coursesInMaslul")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                        ArrayList<Course> coursesFromFireBase = new ArrayList<>();
+
+                        for (DocumentSnapshot document1 : documents){
+                            // retrieve for each chug id it's name
+                            String docId  = document1.getId().toString();
+                            Course course = document1.toObject(Course.class);
+                            // chugId = chug.getId();
+                            System.out.println("course "+ course.toStringP());
+                            coursesFromFireBase.add(course);
+                        }
+
+                        for (String id : coursesOfStudentById){
+                            for (Course course: coursesFromFireBase){
+                                if (course.getNumber().equals(id)){
+                                    coursesForAdapter.add(course);
+                                }
+                            }
+                        }
+                        // todo save the list of courses of current student to db
+                        // show changes on course list in adapter
+                        dataBase.setCoursesOfCurrentStudent(coursesForAdapter);
+                      //  adapter.addCoursesListToAdapter(coursesForAdapter);
+                      //  adapter.notifyDataSetChanged();
+                      //  recyclerViewMyCourses.setAdapter(adapter);
+                    }
+                });
+         */
+
+        //todo observe from db on change in courses
+
+
+
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +206,7 @@ public class MyCoursesFragment extends Fragment {
             }
         });*/
 
-        ArrayList<Course> courseItems = dataBase.getMyCoursesList();
+
 
         if (holder == null) {
             holder = new CourseItemHolder(recyclerViewMyCourses);
@@ -165,7 +216,7 @@ public class MyCoursesFragment extends Fragment {
       //  logoutImageView.setEnabled(false);
 
        // ArrayList<Course>
-        courseItems = new ArrayList<>(); // Saves the current courses list
+       // ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
         StudentInfo currentUser = dataBase.getCurrentUser();
 
 
@@ -187,21 +238,22 @@ public class MyCoursesFragment extends Fragment {
         ArrayList<String> coursesIds = dataBase.getCurrentUser().getCourses();
         // get the courses from fire store
 
-
         System.out.println("out: ++++");
         printCourses();
-
+        ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
         // todo add demo courses
-        Course infiC = new Course("infi", "0", Course.Type.MandatoryChoose,"","");
+       // Course infiC = new Course("infi", "0", Course.Type.MandatoryChoose,"","");
       //  Course linearitC = new Course("linearit", "1", Course.Type.Mandatory);
       //  Course cC = new Course("c", "2", Course.Type.Choose);
      //   Course dastC = new Course("dast", "4", Course.Type.Supplemental);
       //  Course linearit2C = new Course("linearit 2", "6", Course.Type.CornerStones);
-        courseItems.add(infiC);
+       // courseItems.add(infiC);
    //     courseItems.add(linearitC);
      //   courseItems.add(cC);
       //  courseItems.add(dastC);
       //  courseItems.add(linearit2C);
+
+
 
         // Create the adapter
         adapter.addCoursesListToAdapter(courseItems);

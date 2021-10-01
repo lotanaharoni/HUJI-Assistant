@@ -64,7 +64,7 @@ public class LocalDataBase {
     public final LiveData<Boolean> firstLoadFlagLiveData = firstLoadFlagMutableLiveData;
     private boolean firstUsersLoad = false;
 
-    private final ArrayList<Course> coursesOfCurrentStudent = new ArrayList<>();
+    private ArrayList<Course> coursesOfCurrentStudent = new ArrayList<>();
 
     FirebaseFirestore db;
     CollectionReference studentsCollection;
@@ -228,6 +228,22 @@ public class LocalDataBase {
 
     public void setCurrentStudent(StudentInfo studentInfo){
         this.currentStudent = studentInfo;
+    }
+
+    public void setCoursesOfCurrentStudent(ArrayList<Course> courses){
+        this.coursesOfCurrentStudent = courses;
+    }
+
+    public ArrayList<Course> getCoursesOfCurrentStudent(){
+        return new ArrayList<Course>(this.coursesOfCurrentStudent);
+    }
+
+    public void AddCourse(){
+
+    }
+
+    public void deleteCourse(){
+
     }
 
     public StudentInfo getCurrentStudent(){
