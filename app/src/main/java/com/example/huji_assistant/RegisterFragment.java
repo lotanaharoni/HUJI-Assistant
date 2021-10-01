@@ -77,8 +77,8 @@ public class RegisterFragment extends Fragment {
 
         emailValidationView = view.findViewById(R.id.emailValidation);
         passwordValidationView = view.findViewById(R.id.passwordValidation);
-        personalNameValidationView = view.findViewById(R.id.personalNameValidation);
-        familyNameValidationView = view.findViewById(R.id.secondNameValidation);
+       // personalNameValidationView = view.findViewById(R.id.personalNameValidation);
+       // familyNameValidationView = view.findViewById(R.id.secondNameValidation);
 
         if (savedInstanceState != null) {
             email.setText(savedInstanceState.getString("email", ""));
@@ -99,8 +99,8 @@ public class RegisterFragment extends Fragment {
             public void onClick(View v) {
                 emailValidationView.setVisibility(View.GONE);
                 passwordValidationView.setVisibility(View.GONE);
-                personalNameValidationView.setVisibility(View.INVISIBLE);
-                familyNameValidationView.setVisibility(View.INVISIBLE);
+             //   personalNameValidationView.setVisibility(View.INVISIBLE);
+              //  familyNameValidationView.setVisibility(View.INVISIBLE);
 
 //                FirstFragment myFragment = (FirstFragment)getSupportFragmentManager().findFragmentByTag("FIRST_FRAGMENT");
 //                if (myFragment != null && myFragment.isVisible()) {

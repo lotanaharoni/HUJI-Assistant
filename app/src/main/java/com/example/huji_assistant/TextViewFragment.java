@@ -72,8 +72,8 @@ public class TextViewFragment extends Fragment {
 
         emailValidationView = view.findViewById(R.id.emailValidation);
         passwordValidationView = view.findViewById(R.id.passwordValidation);
-        personalNameValidationView = view.findViewById(R.id.personalNameValidation);
-        familyNameValidationView = view.findViewById(R.id.secondNameValidation);
+      //  personalNameValidationView = view.findViewById(R.id.personalNameValidation);
+      //  familyNameValidationView = view.findViewById(R.id.secondNameValidation);
 
         // Set view model - singleton
         ViewModelApp vm = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
@@ -129,8 +129,8 @@ public class TextViewFragment extends Fragment {
             public void onClick(View v) {
                 emailValidationView.setVisibility(View.INVISIBLE);
                 passwordValidationView.setVisibility(View.INVISIBLE);
-                personalNameValidationView.setVisibility(View.INVISIBLE);
-                familyNameValidationView.setVisibility(View.INVISIBLE);
+               // personalNameValidationView.setVisibility(View.INVISIBLE);
+              //  familyNameValidationView.setVisibility(View.INVISIBLE);
 
                 //todo remove later
                // isPasswordValid = true;
