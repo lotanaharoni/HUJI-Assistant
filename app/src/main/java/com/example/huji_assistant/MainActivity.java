@@ -244,8 +244,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 };
                 // todo not work
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Close the app?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
+                builder.setMessage(R.string.close_app).setPositiveButton(R.string.positive_answer, dialogClickListener)
+                        .setNegativeButton(R.string.negative_answer, dialogClickListener).show();
             } else {
                 super.onBackPressed();
             }

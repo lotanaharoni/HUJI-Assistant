@@ -26,7 +26,7 @@ public class PDFActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pdf);
         activity = this;
 
-        progDailog = ProgressDialog.show(activity, "Loading","Please wait...", true);
+        progDailog = ProgressDialog.show(activity, getString(R.string.loading),getString(R.string.please_wait_message), true);
         progDailog.setCancelable(false);
 
         webView = findViewById(R.id.webview);
@@ -59,8 +59,5 @@ public class PDFActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         webView.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
-
-//        webView.loadUrl("http://www.teluguoneradio.com/rssHostDescr.php?hostId=147");
-
     }
 }

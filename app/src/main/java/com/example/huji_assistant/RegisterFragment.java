@@ -144,7 +144,7 @@ public class RegisterFragment extends Fragment {
                             }
                         });*/
                     }else{
-                        Toast.makeText(getActivity(), "user is already register", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.user_exist_message, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
