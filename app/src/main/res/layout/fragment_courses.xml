@@ -63,19 +63,19 @@
         <TextView
             android:id="@+id/degreeType"
             android:layout_marginTop="60dp"
+            android:layoutDirection="ltr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Name of degree" />
 
         <TextView
             android:id="@+id/year"
+            android:layoutDirection="ltr"
             android:layout_marginTop="60dp"
             android:layout_marginLeft="130dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="year of degree" />
-
-
 
 
     </androidx.cardview.widget.CardView>
@@ -100,6 +100,7 @@
             android:id="@+id/autocompletechoosetypeRegisterScreen"
             android:layout_width="wrap_content"
             android:textSize="12sp"
+            android:layoutDirection="ltr"
             android:singleLine="true"
             android:layout_height="wrap_content"
             android:text="חפש לפי סוג" />
@@ -118,6 +119,7 @@
             android:layout_width="wrap_content"
             android:textSize="12sp"
             android:singleLine="true"
+            android:layoutDirection="rtl"
             android:layout_height="wrap_content"
             android:text="חפש לפי שם קורס" />
 
