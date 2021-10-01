@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -30,8 +30,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.example.huji_assistant.Activities.PDFMainActivity;
-import com.example.huji_assistant.Activities.ShowActivity;
+import com.example.huji_assistant.Model;
+import com.example.huji_assistant.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;

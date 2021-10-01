@@ -20,7 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
-import com.example.huji_assistant.MainScreenActivity;
+import com.example.huji_assistant.Activities.MainScreenActivity;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.StudentInfo;
 import com.example.huji_assistant.ViewModelApp;
