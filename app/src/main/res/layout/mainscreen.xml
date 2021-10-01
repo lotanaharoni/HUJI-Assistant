@@ -23,6 +23,7 @@
         android:layout_marginTop="200dp"
         android:layout_width="match_parent"
         android:layout_height="600dp"
+        android:layoutDirection="ltr"
         app:layout_constraintBottom_toTopOf="@id/bottomconstraitlayout"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="115dp">
