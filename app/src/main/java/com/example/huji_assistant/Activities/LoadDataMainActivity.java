@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
-import com.example.huji_assistant.MainActivity;
-import com.example.huji_assistant.MainScreenActivity;
 import com.example.huji_assistant.R;
 import com.google.firebase.auth.FirebaseUser;
 

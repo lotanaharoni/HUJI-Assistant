@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Fragments;
 
 import android.os.Bundle;
 import android.util.Patterns;
@@ -15,6 +15,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.huji_assistant.Fragments.TextViewFragment;
+import com.example.huji_assistant.HujiAssistentApplication;
+import com.example.huji_assistant.LocalDataBase;
+import com.example.huji_assistant.R;
+import com.example.huji_assistant.StudentInfo;
+import com.example.huji_assistant.ViewModelApp;
 
 public class RegisterFragment extends Fragment {
     private LocalDataBase db;
