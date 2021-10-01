@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Fragments;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.huji_assistant.R;
+import com.example.huji_assistant.ViewModelApp;
 
 public class FirstFragment extends Fragment {
 

@@ -4,6 +4,10 @@ import android.widget.Button;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.example.huji_assistant.Activities.MainActivity;
+import com.example.huji_assistant.Fragments.FirstFragment;
+
 import junit.framework.TestCase;
 
 import org.junit.Before;

@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,25 +20,32 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.huji_assistant.Chug;
+import com.example.huji_assistant.Course;
+import com.example.huji_assistant.CourseItemHolder;
+import com.example.huji_assistant.CoursesAdapter;
+import com.example.huji_assistant.Faculty;
+import com.example.huji_assistant.HujiAssistentApplication;
+import com.example.huji_assistant.LocalDataBase;
+import com.example.huji_assistant.Maslul;
+import com.example.huji_assistant.R;
+import com.example.huji_assistant.StudentInfo;
+import com.example.huji_assistant.SwipeViewHolderItem;
+import com.example.huji_assistant.ViewModelApp;
+import com.example.huji_assistant.ViewModelAppMainScreen;
 import com.example.huji_assistant.databinding.FragmentCoursesBinding;
-import com.example.huji_assistant.databinding.FragmentInfoBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.w3c.dom.Document;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class CoursesFragment extends Fragment {
     private ViewModelApp viewModelApp;

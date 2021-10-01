@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Activities;
 
 import android.Manifest;
 import android.app.Activity;
@@ -25,12 +25,13 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.huji_assistant.Model;
+import com.example.huji_assistant.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +46,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CaptureImage2Activity extends AppCompatActivity {
+public class CaptureImageActivity extends AppCompatActivity {
 
     private Button uploadBtn, showAllBtn, button2;
     private TextView pdfName;
@@ -108,7 +109,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
                // startActivity(new Intent(CaptureImage2.this, PDFMainActivity.class));
            // }
 
-                startActivity(new Intent(CaptureImage2Activity.this, PDFMainActivity.class));            }
+                startActivity(new Intent(CaptureImageActivity.this, PDFMainActivity.class));            }
 
         });
 
@@ -130,7 +131,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
         showAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(CaptureImage2Activity.this, ShowActivity.class));
+                startActivity(new Intent(CaptureImageActivity.this, ShowActivity.class));
             }
         });
 
@@ -261,7 +262,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
                         imageTitle.setText("");
                         uploadBtn.setEnabled(false);
                         showButtonsAfterChooseImage();
-                        Toast.makeText(CaptureImage2Activity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CaptureImageActivity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -274,7 +275,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(CaptureImage2Activity.this, R.string.upload_failed_message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CaptureImageActivity.this, R.string.upload_failed_message, Toast.LENGTH_SHORT).show();
             }
         });
     }

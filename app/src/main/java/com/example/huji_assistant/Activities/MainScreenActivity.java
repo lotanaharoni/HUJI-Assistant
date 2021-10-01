@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,20 +16,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
-import androidx.lifecycle.Observer;
 
+import com.example.huji_assistant.Course;
+import com.example.huji_assistant.CoursesAdapter;
+import com.example.huji_assistant.Fragments.AddCourseFragment;
+import com.example.huji_assistant.Fragments.CourseInfoFragment;
+import com.example.huji_assistant.Fragments.CoursesFragment;
+import com.example.huji_assistant.Fragments.MainScreenFragment;
+import com.example.huji_assistant.Fragments.MyCoursesFragment;
+import com.example.huji_assistant.Fragments.ProfilePageFragment;
+import com.example.huji_assistant.HujiAssistentApplication;
+import com.example.huji_assistant.LocalDataBase;
+import com.example.huji_assistant.R;
+import com.example.huji_assistant.StudentInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+//<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MainScreenActivity.java
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+//>>>>>>> bf2892270b275fb497ce423d915c8af6ed29de96:app/src/main/java/com/example/huji_assistant/Activities/MainScreenActivity.java
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 
+//<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MainScreenActivity.java
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+//>>>>>>> bf2892270b275fb497ce423d915c8af6ed29de96:app/src/main/java/com/example/huji_assistant/Activities/MainScreenActivity.java
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public LocalDataBase dataBase = null;

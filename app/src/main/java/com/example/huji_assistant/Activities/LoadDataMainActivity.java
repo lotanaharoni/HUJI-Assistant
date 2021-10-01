@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,9 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.huji_assistant.HujiAssistentApplication;
+import com.example.huji_assistant.LocalDataBase;
+import com.example.huji_assistant.R;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoadDataMainActivity extends AppCompatActivity {

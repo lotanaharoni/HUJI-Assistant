@@ -1,6 +1,7 @@
 package com.example.huji_assistant;
 
 import com.budiyev.android.codescanner.CodeScannerView;
+import com.example.huji_assistant.Activities.ScanQrActivity;
 
 import junit.framework.TestCase;
 

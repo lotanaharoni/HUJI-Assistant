@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,6 +9,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.huji_assistant.R;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

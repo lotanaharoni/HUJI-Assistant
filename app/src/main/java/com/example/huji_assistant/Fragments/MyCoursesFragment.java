@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Fragments;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -6,33 +6,37 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.SearchView;
+//<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MyCoursesFragment.java
 import android.widget.Spinner;
 import android.widget.TextView;
+
+//>>>>>>> bf2892270b275fb497ce423d915c8af6ed29de96:app/src/main/java/com/example/huji_assistant/Fragments/MyCoursesFragment.java
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.huji_assistant.databinding.FragmentCoursesBinding;
+import com.example.huji_assistant.Course;
+import com.example.huji_assistant.CourseItemHolder;
+import com.example.huji_assistant.CoursesAdapter;
+import com.example.huji_assistant.HujiAssistentApplication;
+import com.example.huji_assistant.LocalDataBase;
+import com.example.huji_assistant.R;
+import com.example.huji_assistant.StudentInfo;
+import com.example.huji_assistant.ViewModelAppMainScreen;
 import com.example.huji_assistant.databinding.FragmentMycoursesBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Document;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MyCoursesFragment extends Fragment {
 

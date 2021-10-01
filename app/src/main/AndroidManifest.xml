@@ -23,15 +23,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HUJI_Assistant">
-        <activity android:name=".ShowActivity" />
-        <activity android:name=".PDFMainActivity" />
-        <activity android:name=".ScanQrActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".PDFActivity" />
-        <activity android:name=".CaptureImage2Activity" />
-        <activity android:name=".MainScreenActivity" />
-        <activity android:name=".ProfilePageActivity" />
-        <activity android:name=".LoadDataMainActivity" >
+        <activity android:name=".Activities.ShowActivity" />
+        <activity android:name=".Activities.PDFMainActivity" />
+        <activity android:name=".Activities.ScanQrActivity" />
+        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.PDFActivity" />
+        <activity android:name=".Activities.CaptureImageActivity" />
+        <activity android:name=".Activities.MainScreenActivity" />
+        <activity android:name=".Activities.ProfilePageActivity" />
+        <activity android:name=".Activities.LoadDataMainActivity" >
 
 
             <intent-filter>
