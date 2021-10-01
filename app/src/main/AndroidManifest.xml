@@ -10,8 +10,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+<!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
@@ -25,7 +25,6 @@
         android:theme="@style/Theme.HUJI_Assistant">
         <activity android:name=".ShowActivity" />
         <activity android:name=".PDFMainActivity" />
-        <activity android:name=".MapActivity" />
         <activity android:name=".ScanQrActivity" />
         <activity android:name=".LoadDataMainActivity" />
         <activity android:name=".PDFActivity" />
