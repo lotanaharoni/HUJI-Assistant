@@ -156,13 +156,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         String courseType = courseItem.getType();
         switch (courseType) {
             case "Mandatory":
-                holder.type.setText("חובה");
+                holder.type.setText("לימודי חובה");
                 break;
             case "MandatoryChoose":
                 holder.type.setText("חובת בחירה");
                 break;
             case "Choose":
-                holder.type.setText("בחירה");
+                holder.type.setText("קורסי בחירה");
                 break;
             case "Supplemental":
                 holder.type.setText("משלימים");
