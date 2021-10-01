@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Fragments;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.huji_assistant.R;
+import com.example.huji_assistant.ViewModelAppMainScreen;
 
 import java.util.ArrayList;
 

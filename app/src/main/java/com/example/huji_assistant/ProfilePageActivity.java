@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.huji_assistant.Fragments.MainScreenFragment;
+
 public class ProfilePageActivity extends AppCompatActivity {
 
     private TextView userFirstNameEditText;

@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.huji_assistant.Activities.PDFActivity;
+
 import java.util.ArrayList;
 
 public class PDFCustomerAdapter extends BaseAdapter {
@@ -78,7 +80,7 @@ public class PDFCustomerAdapter extends BaseAdapter {
     //OPEN PDF VIEW
     private void openPDFView(String path)
     {
-        Intent i=new Intent(c,PDFActivity.class);
+        Intent i=new Intent(c, PDFActivity.class);
         i.putExtra("PATH",path);
         c.startActivity(i);
     }

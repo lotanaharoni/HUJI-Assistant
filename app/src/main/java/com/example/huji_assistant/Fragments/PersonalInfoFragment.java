@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Fragments;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,10 +6,12 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.example.huji_assistant.R;
+import com.example.huji_assistant.StudentInfo;
+import com.example.huji_assistant.ViewModelApp;
 
 public class PersonalInfoFragment extends Fragment {
     private ViewModelApp viewModelApp;

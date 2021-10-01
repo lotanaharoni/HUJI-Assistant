@@ -15,6 +15,13 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
 
+import com.example.huji_assistant.Fragments.CourseInfoFragment;
+import com.example.huji_assistant.Fragments.CoursesFragment;
+import com.example.huji_assistant.Fragments.FirstFragment;
+import com.example.huji_assistant.Fragments.InfoFragment;
+import com.example.huji_assistant.Fragments.MainScreenFragment;
+import com.example.huji_assistant.Fragments.TextViewFragment;
+import com.example.huji_assistant.Fragments.TopFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {

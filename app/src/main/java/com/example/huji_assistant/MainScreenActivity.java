@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,16 +14,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
-import androidx.lifecycle.Observer;
 
+import com.example.huji_assistant.Fragments.AddCourseFragment;
+import com.example.huji_assistant.Fragments.CourseInfoFragment;
+import com.example.huji_assistant.Fragments.CoursesFragment;
+import com.example.huji_assistant.Fragments.MainScreenFragment;
+import com.example.huji_assistant.Fragments.MyCoursesFragment;
+import com.example.huji_assistant.Fragments.ProfilePageFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

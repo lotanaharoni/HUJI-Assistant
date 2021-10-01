@@ -1,4 +1,4 @@
-package com.example.huji_assistant;
+package com.example.huji_assistant.Activities;
 
 import android.os.Bundle;
 import android.widget.ListView;
@@ -6,6 +6,10 @@ import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.huji_assistant.Model;
+import com.example.huji_assistant.PDFCustomerAdapter;
+import com.example.huji_assistant.PDFDoc;
+import com.example.huji_assistant.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
