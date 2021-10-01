@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,6 +48,13 @@ public class MyCoursesFragment extends Fragment {
     ArrayList<String> coursesId = new ArrayList<>();
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    TextView studentNameTextView;
+    TextView facultyTextView;
+    TextView chugTextView;
+    TextView maslulTextView;
+    TextView degreeTextView;
+    TextView yearTextView;
+
 
     //public interface endRegistrationButtonClickListener{
      //   public void onEndRegistrationBtnClicked();
@@ -82,6 +90,25 @@ public class MyCoursesFragment extends Fragment {
         }
 
         StudentInfo currentStudent = dataBase.getCurrentUser();
+        studentNameTextView = view.findViewById(R.id.nameOfStudentTextView);
+        facultyTextView = view.findViewById(R.id.nameOfFaculty);
+        chugTextView = view.findViewById(R.id.nameOfChug);
+        maslulTextView = view.findViewById(R.id.nameOfMaslul);
+        degreeTextView = view.findViewById(R.id.nameOfDegree);
+        yearTextView = view.findViewById(R.id.yearOfDegree);
+
+        String name = studentNameTextView.getText() +" " + currentStudent.getPersonalName() + " " + currentStudent.getFamilyName();
+        studentNameTextView.setText(name);
+        String faculty = facultyTextView.getText() + " " + currentStudent.getFacultyId();
+        facultyTextView.setText(faculty); //todo change not id
+        String chug = chugTextView.getText() + " " + currentStudent.getChugId();
+        chugTextView.setText(chug);
+        String maslul = maslulTextView.getText() + " " + currentStudent.getMaslulId();
+        maslulTextView.setText(maslul);
+        String degree = degreeTextView.getText() + " " + currentStudent.getDegree();
+        degreeTextView.setText(degree);
+        String year = yearTextView.getText() + " " + currentStudent.getYear();
+        yearTextView.setText(year);
 
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override

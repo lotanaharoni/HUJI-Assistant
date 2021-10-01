@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -20,10 +21,13 @@ import androidx.lifecycle.Observer;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
+import java.util.EventListener;
 import java.util.List;
 
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,23 +51,24 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         // application singleton
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
 
-        // todo observe from students collection - keep?
-/**
-        DocumentReference document = firebaseInstancedb.collection("students").document(dataBase.getCurrentUser().getId());
-        document.get().addOnSuccessListener(documentSnapshot -> {
-            StudentInfo currentStudent = documentSnapshot.toObject(StudentInfo.class);
+        System.out.println("current student: " + dataBase.getCurrentUser().toStringP());
 
-
-        }).addOnCompleteListener(task -> {
-            Log.i("tag", "completed task");
-        });
-
-        listener = document.addSnapshotListener((value, error) -> {
+        // firebase listener for changes in current student
+        final DocumentReference docRef = firebaseInstancedb.collection("students").document(dataBase.getCurrentUser().getId());
+        docRef.addSnapshotListener((value, error) -> {
+            if (error != null) {
+                Log.w("ERROR", "Listen failure", error);
+                return;
+            }
             if ((value != null) && (value.exists())) {
                 StudentInfo currentStudent = value.toObject(StudentInfo.class);
+                assert currentStudent != null;
+                // todo set as current student
+                dataBase.setCurrentStudent(currentStudent);
+                System.out.println("updated student: " + currentStudent.toStringP());
             }
         });
-*/
+        // todo check if is updated in fragments
 
         logoutImageView = findViewById(R.id.logoutImageView);
      //   logoutImageView.setVisibility(View.VISIBLE);

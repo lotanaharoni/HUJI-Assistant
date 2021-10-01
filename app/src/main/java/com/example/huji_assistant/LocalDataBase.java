@@ -226,6 +226,14 @@ public class LocalDataBase {
                 });
     }
 
+    public void setCurrentStudent(StudentInfo studentInfo){
+        this.currentStudent = studentInfo;
+    }
+
+    public StudentInfo getCurrentStudent(){
+        return this.currentStudent;
+    }
+
     public StudentInfo getStudent(String studentId) {
         if (students.containsKey(studentId)) {
             return students.get(studentId);
