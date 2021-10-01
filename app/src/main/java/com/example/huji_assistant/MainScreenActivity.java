@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.Observer;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -63,8 +64,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         });*/
 
 
-
-
         logoutImageView = findViewById(R.id.logoutImageView);
      //   logoutImageView.setVisibility(View.VISIBLE);
      //   logoutImageView.setEnabled(true);
@@ -85,6 +84,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
         AddCourseFragment addCourseFragment = new AddCourseFragment();
         ProfilePageFragment profilePageFragment = new ProfilePageFragment();
+        FloatingActionButton openCameraBtn = findViewById(R.id.open_camera_floating_button);
 
         MainScreenFragment mainscreenfragment = new MainScreenFragment();
 
@@ -98,6 +98,14 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         findViewById(R.id.settings).setOnClickListener(v -> {
             // todo handle
             System.out.println("settings clicked");
+        });
+
+        // todo add code - lotan
+        openCameraBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("camera clicked");
+            }
         });
 
         mainscreenfragment.editInfoButtonListener = new MainScreenFragment.editInfoButtonListener(){
