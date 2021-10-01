@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +18,9 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.Observer;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +31,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private DrawerLayout moreInfoDrawerLayout;
    // private DrawerLayout settingsDrawerLayout;
     private ImageView logoutImageView;
+    ListenerRegistration listener;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,22 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         // application singleton
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
 
-        // todo observe from students collection
+        // todo observe from students collection - keep?
+        /**
+        DocumentReference document = firebaseInstancedb.collection("students").document(dataBase.getCurrentUser().getId());
+        document.get().addOnSuccessListener(documentSnapshot -> {
+            StudentInfo currentStudent = documentSnapshot.toObject(StudentInfo.class);
+
+        }).addOnCompleteListener(task -> {
+            Log.i("tag", "completed task");
+        });
+
+        listener = document.addSnapshotListener((value, error) -> {
+            if ((value != null) && (value.exists())) {
+                StudentInfo currentStudent = value.toObject(StudentInfo.class);
+            }
+        });*/
+
 
 
 

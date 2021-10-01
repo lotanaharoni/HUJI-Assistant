@@ -65,8 +65,8 @@ public class TextViewFragment extends Fragment {
         }
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
-        personalName = view.findViewById(R.id.editTextPersonalName);
-        familyName = view.findViewById(R.id.editTextSecondName);
+        //personalName = view.findViewById(R.id.editTextPersonalName);
+      //  familyName = view.findViewById(R.id.editTextSecondName);
 
         Button forgotPassword = view.findViewById(R.id.forgotPassword);
 
@@ -137,12 +137,11 @@ public class TextViewFragment extends Fragment {
                // isEmailValid = true;
                // isPersonalNameValid = true;
               //  isFamilyNameValid = true;
-                System.out.println(email.getText().toString() + password.getText().toString() + personalName.getText().toString() + familyName.getText().toString() + "");
-                checkValidation(email.getText().toString(), password.getText().toString(), personalName.getText().toString(),
-                        familyName.getText().toString());
+                System.out.println(email.getText().toString() + password.getText().toString() + "");
+                checkValidation(email.getText().toString(), password.getText().toString());
 
 
-                if (isEmailValid && isPasswordValid && isPersonalNameValid && isFamilyNameValid){
+                if (isEmailValid && isPasswordValid){
                     if (continueButtonListener != null) {
                         FirebaseAuth auth = db.getUsersAuthenticator();
                         auth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
@@ -155,7 +154,7 @@ public class TextViewFragment extends Fragment {
                                             FirebaseUser user = auth.getCurrentUser();
                                             db.setCurrentUser(user);
                                             StudentInfo newStudent = new StudentInfo(email.getText().toString(), password.getText().toString(),
-                                                    personalName.getText().toString(), familyName.getText().toString());
+                                                    "", "");
                                             viewModelApp.setStudent(newStudent);
                                             startActivity(new Intent(getActivity(), MainScreenActivity.class));
                                            // continueButtonListener.onContinueButtonClick();
@@ -184,7 +183,7 @@ public class TextViewFragment extends Fragment {
         }
     }
 
-    public void checkValidation(String email, String password, String personalName, String familyName){
+    public void checkValidation(String email, String password){
         if (email.isEmpty()) {
             //     emailValidationView.setText(getResources().getString(R.string.please_enter_email_msg));
             //     emailValidationView.setVisibility(View.VISIBLE);
@@ -221,24 +220,8 @@ public class TextViewFragment extends Fragment {
                 isPasswordValid = false;
             } else {
                 isPasswordValid = true;
-
-                if (personalName.isEmpty()) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_personal_name_msg), Toast.LENGTH_LONG).show();
-                    isPersonalNameValid = false;
-                } else {
-                    isPersonalNameValid = true;
-
-
-                    if (familyName.isEmpty()) {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_family_name_msg), Toast.LENGTH_LONG).show();
-                        isFamilyNameValid = false;
-                    } else {
-                        isFamilyNameValid = true;
-                    }
-                }
             }
         }
-
 
         if (isEmailValid && isPasswordValid) {
             // the values are valid
