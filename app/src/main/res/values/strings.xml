@@ -32,6 +32,9 @@
     <string name="try_again_later_message">היתה בעיה, נסה שוב מאוחר יותר</string>
     <string name="incorrect_username">שם משתמש וסיסמה לא נכונים. נסה להזין שוב או להירשם בתור משתמש חדש</string>
     <string name="logout">האם אתה בטוח שברצונך להתנתק?</string>
+    <string name="register_Successfully_message">נרשמת בהצלחה!</string>
+    <string name="register_failed_message">היתה בעיה ברישום, אנא נסה שנית מאוחר יותר</string>
+
 
 
 

@@ -75,7 +75,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     public LocalDataBase dataBase = null;
     public static final int CAMERA_PERM_CODE = 101;
-    public static final int CAMERA_REQUEST_CODE = 102;
     private static final int CAMERA_TYPE = 1;
     private DatabaseReference root;
     private StorageReference reference;
@@ -216,7 +215,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                             mediaScanIntent.setData(contentUri);
                             sendBroadcast(mediaScanIntent);
 
-                            uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
+                            uploadToFirebase(contentUri);
                         }
                     }
                 });
@@ -395,33 +394,32 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
-            dispatchTakePictureIntent();
-        }
-    }
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Ensure that there's a camera activity to handle the intent
+            if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
+                // Create the File where the photo should go
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                cameraUploadActivityResultLauncher.launch(takePictureIntent);
+                }
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this,
+                            "com.example.android.fileprovider",
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    cameraUploadActivityResultLauncher.launch(takePictureIntent);
+                }
             }
         }
     }
 
-    private void uploadToFirebase(Uri uri, int source, String name) {
+    private void uploadToFirebase(Uri uri) {
+        String name = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss").format(new Date()) +
+                "_" + dataBase.getCurrentStudent().getPersonalName() + "_" +
+                dataBase.getCurrentStudent().getFamilyName() + ".jpg";
         StorageReference fileRef = reference.child("Camera_images/" + name);
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -450,17 +448,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     }
 
     private File createImageFile() throws IOException {
-//     Create an image file name
-        String imageFileName = "";
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = new SimpleDateFormat("dd-MM-yyyy").format(new Date());;
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
