@@ -1,18 +1,43 @@
 package com.example.huji_assistant.Activities;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+
+import com.example.huji_assistant.Model;
+import com.example.huji_assistant.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
@@ -27,30 +52,35 @@ import com.example.huji_assistant.Fragments.MyCoursesFragment;
 import com.example.huji_assistant.Fragments.ProfilePageFragment;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
-import com.example.huji_assistant.R;
 import com.example.huji_assistant.StudentInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import com.google.android.material.navigation.NavigationView;
-//<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MainScreenActivity.java
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-//>>>>>>> bf2892270b275fb497ce423d915c8af6ed29de96:app/src/main/java/com/example/huji_assistant/Activities/MainScreenActivity.java
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
-//<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MainScreenActivity.java
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.EventListener;
+import java.util.Date;
 import java.util.List;
 
-//>>>>>>> bf2892270b275fb497ce423d915c8af6ed29de96:app/src/main/java/com/example/huji_assistant/Activities/MainScreenActivity.java
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public LocalDataBase dataBase = null;
+    public static final int CAMERA_PERM_CODE = 101;
+    public static final int CAMERA_REQUEST_CODE = 102;
+    private static final int CAMERA_TYPE = 1;
+    private DatabaseReference root;
+    private StorageReference reference;
+    private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
+    String currentPhotoPath;
     private DrawerLayout moreInfoDrawerLayout;
    // private DrawerLayout settingsDrawerLayout;
     private ImageView logoutImageView;
@@ -145,6 +175,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         AddCourseFragment addCourseFragment = new AddCourseFragment();
         ProfilePageFragment profilePageFragment = new ProfilePageFragment();
         FloatingActionButton openCameraBtn = findViewById(R.id.open_camera_floating_button);
+        root = FirebaseDatabase.getInstance().getReference("Image");
+        reference = FirebaseStorage.getInstance().getReference();
 
         MainScreenFragment mainscreenfragment = new MainScreenFragment();
 
@@ -165,8 +197,29 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 System.out.println("camera clicked");
+                askCameraPermissions();
             }
         });
+
+        cameraUploadActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request codes
+                            Intent data = result.getData();
+                            File f = new File(currentPhotoPath);
+
+                            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                            Uri contentUri = Uri.fromFile(f);
+                            mediaScanIntent.setData(contentUri);
+                            sendBroadcast(mediaScanIntent);
+
+                            uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
+                        }
+                    }
+                });
 
         mainscreenfragment.editInfoButtonListener = new MainScreenFragment.editInfoButtonListener(){
 
@@ -336,5 +389,79 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 super.onBackPressed();
             }
         }
+    }
+
+    private void askCameraPermissions() {
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
+        }else {
+            dispatchTakePictureIntent();
+        }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
+            // Create the File where the photo should go
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                cameraUploadActivityResultLauncher.launch(takePictureIntent);
+            }
+        }
+    }
+
+    private void uploadToFirebase(Uri uri, int source, String name) {
+        StorageReference fileRef = reference.child("Camera_images/" + name);
+        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Model model = new Model(uri.toString(), name, CAMERA_TYPE);
+                        String modelId = root.push().getKey();
+                        assert modelId != null;
+                        root.child(modelId).setValue(model);
+                        Toast.makeText(MainScreenActivity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainScreenActivity.this, R.string.upload_failed_message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private File createImageFile() throws IOException {
+//     Create an image file name
+        String imageFileName = "";
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        currentPhotoPath = image.getAbsolutePath();
+        return image;
     }
 }
