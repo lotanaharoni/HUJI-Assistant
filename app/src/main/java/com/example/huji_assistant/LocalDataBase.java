@@ -63,6 +63,9 @@ public class LocalDataBase {
     private final MutableLiveData<Boolean> firstLoadFlagMutableLiveData = new MutableLiveData<>();
     public final LiveData<Boolean> firstLoadFlagLiveData = firstLoadFlagMutableLiveData;
     private boolean firstUsersLoad = false;
+
+    private final ArrayList<Course> coursesOfCurrentStudent = new ArrayList<>();
+
     FirebaseFirestore db;
     CollectionReference studentsCollection;
 

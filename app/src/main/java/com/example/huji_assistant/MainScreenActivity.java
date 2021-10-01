@@ -48,10 +48,11 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
 
         // todo observe from students collection - keep?
-        /**
+/**
         DocumentReference document = firebaseInstancedb.collection("students").document(dataBase.getCurrentUser().getId());
         document.get().addOnSuccessListener(documentSnapshot -> {
             StudentInfo currentStudent = documentSnapshot.toObject(StudentInfo.class);
+
 
         }).addOnCompleteListener(task -> {
             Log.i("tag", "completed task");
@@ -61,8 +62,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             if ((value != null) && (value.exists())) {
                 StudentInfo currentStudent = value.toObject(StudentInfo.class);
             }
-        });*/
-
+        });
+*/
 
         logoutImageView = findViewById(R.id.logoutImageView);
      //   logoutImageView.setVisibility(View.VISIBLE);
