@@ -91,10 +91,10 @@ public class TextViewFragment extends Fragment {
             public void onClick(View v) {
                 final EditText resetMail = new EditText(view.getContext());
                 final AlertDialog.Builder passwordDialog = new AlertDialog.Builder(view.getContext());
-                passwordDialog.setTitle("Reset password?");
-                passwordDialog.setMessage("Enter your Email to receive a Reset link");
+                passwordDialog.setTitle(R.string.reset_password);
+                passwordDialog.setMessage(R.string.enter_email_for_reset_password);
                 passwordDialog.setView(resetMail);
-                passwordDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                passwordDialog.setPositiveButton(R.string.positive_answer, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String resetEmail = resetMail.getText().toString();
@@ -103,17 +103,17 @@ public class TextViewFragment extends Fragment {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Toast.makeText(getActivity(), "Check your mail and reset your password", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getActivity(), R.string.check_your_mail_for_reset_link_message, Toast.LENGTH_LONG).show();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), "There was a problem, please try again later", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getActivity(), R.string.try_again_later_message, Toast.LENGTH_LONG).show();
                             }
                         });
                     }
                 });
-                passwordDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                passwordDialog.setNegativeButton(R.string.negative_answer, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -161,7 +161,7 @@ public class TextViewFragment extends Fragment {
 //                                            listener.onButtonClicked();
                                         }else{
                                             Log.w("LoginActivity", "signInWithEmail:failure", task.getException());
-                                            Toast.makeText(getActivity(), "שם משתמש וסיסמה לא נכונים. נסה להזין שוב או להירשם בתור משתמש חדש", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getActivity(), R.string.incorrect_username, Toast.LENGTH_LONG).show();
                                         }
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

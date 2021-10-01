@@ -1,29 +1,49 @@
 <resources>
     <string name="app_name">HUJI Assistant</string>
-    <string name="scan_something">Scan Something</string>
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
-    <string name="image_title">Add description to your image</string>
+    <string name="scan_something">קדימה לסרוק!</string>
+    <string name="camera">צילום</string>
+    <string name="gallery">העלה מהגלרייה</string>
+    <string name="image_title">הוסף תיאור לתמונה</string>
     <string name="aguda">אגודת הסטודנטים</string>
     <string name="kolzchut">אתר כל-זכות</string>
     <string name="link_to_drive">דרייברים של חוגים</string>
     <string name="rishumnet">רישום.נט</string>
     <string name="recommendations">המלצות על קורסים</string>
     <string name="drawer_header"><b><u><i>קישורים שימושיים</i></u></b></string>
-    <string name="upload_button">UPLOAD</string>
-    <string name="show_all_pictures_button">SHOW PICTURES</string>
-    <string name="show_all_pdf_button">SHOW DOCUMENTS</string>
-    <string name="pdf_name">Name</string>
-    <string name="loading">loading…</string>
-    <string name="logo_description">The app logo</string>
+    <string name="upload_button">העלאה</string>
+    <string name="show_all_pictures_button">הצג תמונות</string>
+    <string name="show_all_pdf_button">הצג מסמכים</string>
+    <string name="pdf_name">שם</string>
+    <string name="loading">טוען…</string>
+    <string name="logo_description">לוגו</string>
+    <string name="reset_image">האם להשליך את השינויים שנעשו?</string>
+    <string name="positive_answer">כן</string>
+    <string name="negative_answer">לא</string>
+    <string name="upload_Successfully_message">הועלה בהצלחה</string>
+    <string name="upload_failed_message">היתה בעיה בהעלאה</string>
+    <string name="close_app">האם לסגור את האפליקציה?</string>
+    <string name="please_wait_message">בבקשה המתן…</string>
+    <string name="user_exist_message">קיים במערכת משתמש עם האימייל הנ״ל</string>
+    <string name="scan_Successfully_message">הסריקה בוצעה בהצלחה</string>
+    <string name="scan_failed_message">היתה בעיה בסריקה</string>
+    <string name="reset_password">האם לאפס את הסיסמא?</string>
+    <string name="enter_email_for_reset_password">הכנס את המייל שלך כדי לקבל קישור לאיפוס הסיסמא</string>
+    <string name="check_your_mail_for_reset_link_message">בדוק את המייל לקבלת קישור לאיפוס הסיסמא</string>
+    <string name="try_again_later_message">היתה בעיה, נסה שוב מאוחר יותר</string>
+    <string name="incorrect_username">שם משתמש וסיסמה לא נכונים. נסה להזין שוב או להירשם בתור משתמש חדש</string>
+    <string name="logout">האם אתה בטוח שברצונך להתנתק?</string>
+
+
+
+
     <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
 
     <string name="settings_drawer_header">הגדרות</string>
 
     <string name="email_not_valid_message">כתובת אימייל לא תקינה</string>
-    <string name="email_field">Email address</string>
-    <string name="user_first_name_field">First name</string>
-    <string name="user_last_name_field">Last name</string>
+    <string name="email_field">כתובת מייל</string>
+    <string name="user_first_name_field">שם פרטי</string>
+    <string name="user_last_name_field">שם משפחה</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

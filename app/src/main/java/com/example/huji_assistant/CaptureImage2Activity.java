@@ -261,7 +261,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
                         imageTitle.setText("");
                         uploadBtn.setEnabled(false);
                         showButtonsAfterChooseImage();
-                        Toast.makeText(CaptureImage2Activity.this, "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CaptureImage2Activity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -274,7 +274,7 @@ public class CaptureImage2Activity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(CaptureImage2Activity.this, "Failed to upload", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CaptureImage2Activity.this, R.string.upload_failed_message, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -437,8 +437,8 @@ public class CaptureImage2Activity extends AppCompatActivity {
                 }
             };
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Are you sure to reset the image?").setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
+            builder.setMessage(R.string.reset_image).setPositiveButton(R.string.positive_answer, dialogClickListener)
+                    .setNegativeButton(R.string.negative_answer, dialogClickListener).show();
         }
         else{
             super.onBackPressed();

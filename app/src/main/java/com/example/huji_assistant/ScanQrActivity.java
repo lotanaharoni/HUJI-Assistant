@@ -62,7 +62,7 @@ public class ScanQrActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
                                     public void onSuccess(DocumentReference documentReference) {
-                                        Toast.makeText(ScanQrActivity.this, "DocumentSnapshot added", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ScanQrActivity.this, R.string.scan_Successfully_message, Toast.LENGTH_LONG).show();
                                         mCodeScanner.stopPreview();
                                         onBackPressed();
                                     }
@@ -70,7 +70,7 @@ public class ScanQrActivity extends AppCompatActivity {
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(ScanQrActivity.this, "DocumentSnapshot failed", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                        Toast.makeText(ScanQrActivity.this, R.string.scan_failed_message, Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                     }
                                 });
                     }

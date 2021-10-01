@@ -130,7 +130,6 @@ public class MainScreenFragment extends Fragment {
         openCameraFloatingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(requireActivity(), "Camera is clicked", Toast.LENGTH_SHORT).show();
                 // todo add action
                 askCameraPermissions();
             }
@@ -199,7 +198,7 @@ public class MainScreenFragment extends Fragment {
                         assert modelId != null;
 //                        progressBar.setVisibility(View.INVISIBLE);
                         root.child(modelId).setValue(model);
-                        Toast.makeText(getActivity(), "Uploaded Successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -212,7 +211,7 @@ public class MainScreenFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Exception e) {
 //                progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getActivity(), "Failed to upload", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.upload_failed_message, Toast.LENGTH_SHORT).show();
             }
         });
     }
