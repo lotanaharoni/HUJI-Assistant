@@ -376,7 +376,6 @@ public class CoursesFragment extends Fragment {
                 if (endRegistrationBtnListener != null){
 
                     FirebaseAuth auth = db.getUsersAuthenticator();
-                    Toast.makeText(getActivity(), "register fragment", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                     auth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
