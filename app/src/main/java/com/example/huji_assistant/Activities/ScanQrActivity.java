@@ -34,6 +34,7 @@ public class ScanQrActivity extends AppCompatActivity {
     private final int COURSE = 0;
     private final int YEAR = 1;
     private final int DAY = 2;
+    FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class ScanQrActivity extends AppCompatActivity {
         db = HujiAssistentApplication.getInstance().getDataBase();
         verifyPermissions();
         mCodeScanner.startPreview();
+        firestore = db.getFirestoreDB();
 
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -59,7 +61,6 @@ public class ScanQrActivity extends AppCompatActivity {
                         StudentInfo user = db.getCurrentUser();
                         Map<String, Object> userScan = new HashMap<>();
                         userScan.put(user.getId(), user);
-                        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                         firestore.collection("attendance").document(parts[COURSE]).collection(parts[YEAR]).document(parts[DAY]).collection(user.getId())
 //                        firestore.collection(parts[COURSE]).document(parts[YEAR]).collection(parts[DAY])
                                 .add(userScan)

@@ -56,7 +56,6 @@ import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.StudentInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
@@ -87,7 +86,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private ImageView logoutImageView;
    // ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
     ListenerRegistration listener;
-    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
