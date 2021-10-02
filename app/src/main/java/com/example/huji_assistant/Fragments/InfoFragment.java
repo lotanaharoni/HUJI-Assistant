@@ -40,7 +40,7 @@ public class InfoFragment extends Fragment {
         super(R.layout.personalinfofragment);
     }
 
-    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     public interface itemSelectedDropDownFaculty{
         public void onFacultyItemSelected();

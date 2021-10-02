@@ -8,6 +8,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ public class HujiAssistentApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseApp.initializeApp(this);
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         instance = this;
         dataBase = new LocalDataBase(this); // pass the current context to allow broadcasts
         sp = this.getSharedPreferences("local_work_sp", Context.MODE_PRIVATE);
