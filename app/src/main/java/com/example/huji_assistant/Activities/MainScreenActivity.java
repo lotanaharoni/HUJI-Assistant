@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -78,6 +79,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private static final int CAMERA_TYPE = 1;
     private DatabaseReference root;
     private StorageReference reference;
+    private ProgressBar progressBar;
     private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
     String currentPhotoPath;
     private DrawerLayout moreInfoDrawerLayout;
@@ -154,7 +156,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         // todo check if is updated in fragments
 
         logoutImageView = findViewById(R.id.logoutImageView);
-     //   logoutImageView.setVisibility(View.VISIBLE);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
+        //   logoutImageView.setVisibility(View.VISIBLE);
      //   logoutImageView.setEnabled(true);
         moreInfoDrawerLayout = findViewById(R.id.drawer_layout_more_info);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -431,6 +435,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         String modelId = root.push().getKey();
                         assert modelId != null;
                         root.child(modelId).setValue(model);
+                        progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(MainScreenActivity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -438,10 +443,12 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                progressBar.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(MainScreenActivity.this, R.string.upload_failed_message, Toast.LENGTH_SHORT).show();
             }
         });
