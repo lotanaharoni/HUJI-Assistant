@@ -41,6 +41,7 @@ public class AddCourseFragment extends Fragment {
     public interface addCourseToListButtonClickListener{
         public void addCourseToListBtnClicked(String id);
     }
+    private boolean isCourseIdValid = false;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -58,23 +59,20 @@ public class AddCourseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String courseIdToAdd = courseIdTextView.getText().toString();
-                String text = "קורס מספר: " + courseIdToAdd + " נוסף בהצלחה";
-                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                dataBase.addCourseId(courseIdToAdd);
+
+                // todo check if the course allready exists
+                // todo check if the entered value is valid
+                checkValidaity(courseIdToAdd);
+
+                if (isCourseIdValid) {
+                    String text = "קורס מספר: " + courseIdToAdd + " נוסף בהצלחה";
+                    Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                    dataBase.addCourseId(courseIdToAdd);
+                }
                // addCourseToListButtonClickListener.addCourseToListBtnClicked(courseIdToAdd);
             }
         });
 
-       // Course infiC = new Course("אינפי", "0", Course.Type.MandatoryChoose, "", "");
-       // Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
-      //  Course cC = new Course("סי", "2", Course.Type.Choose);
-       // Course dastC = new Course("דאסט", "4", Course.Type.Supplemental);
-       // Course linearit2C = new Course("לינארית 2", "6", Course.Type.CornerStones);
-        //courseItems.add(infiC);
-       // courseItems.add(linearitC);
-      //  courseItems.add(cC);
-      //  courseItems.add(dastC);
-      //  courseItems.add(linearit2C);
 
         searchView = view.findViewById(R.id.searchViewNumber);
         listView = view.findViewById(R.id.listViewNumber);
@@ -100,5 +98,34 @@ public class AddCourseFragment extends Fragment {
                 return false;
             }
         });
+    }
+
+    private void checkValidaity(String courseToAddId){
+        ArrayList<String> courses = dataBase.getCurrentStudent().getCourses();
+        // todo check if the id is a real course id
+        ArrayList<Course> coursesFromFireBase = dataBase.getCoursesFromFireBase();
+        boolean isExists = false;
+
+        // go to firebase to check if course exists
+        for (Course course : coursesFromFireBase) {
+            if (course.getNumber().equals(courseToAddId)){
+                isExists = true;
+            }
+        }
+        isExists=  false;
+
+        if (!isExists){
+            String text = "לא קיים קורס עם מספר זה";
+            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+        }
+        else {
+
+            if (courses.contains(courseToAddId)) {
+                String text = "הקורס כבר קיים ברשימת הקורסים";
+                Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            } else {
+                isCourseIdValid = true;
+            }
+        }
     }
 }

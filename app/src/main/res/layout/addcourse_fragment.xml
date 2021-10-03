@@ -104,6 +104,7 @@
             android:id="@+id/insertCourseNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:hint="הכנס מספר קורס להוספה.."
             android:layout_marginLeft="80dp"
             />

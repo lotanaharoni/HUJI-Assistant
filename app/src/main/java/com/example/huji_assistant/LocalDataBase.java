@@ -52,6 +52,7 @@ public class LocalDataBase {
     public HashMap<String, String> ruach_faculty_values_names_map;
     private String[] faculty_values;
     public HashMap<String, Chug> chugs = new HashMap<>();
+    private ArrayList<Course> coursesFromFireBase = new ArrayList<>();
     private FirebaseUser currentFbUser;
     private StudentInfo currentStudent;
     private Faculty currentFaculty;
@@ -145,6 +146,14 @@ public class LocalDataBase {
     }
     public Chug getCurrentChug(){
         return this.currentChug;
+    }
+
+    public void setCoursesFromFireBase(ArrayList<Course> coursesToSet){
+        this.coursesFromFireBase = new ArrayList<>(coursesToSet);
+    }
+
+    public ArrayList<Course> getCoursesFromFireBase(){
+        return new ArrayList<>(this.coursesFromFireBase);
     }
 
     public void setCurrentMaslul(Maslul maslul){

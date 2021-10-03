@@ -254,47 +254,16 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         myCoursesFragment.addCourseListener = new MyCoursesFragment.addCourseButtonClickListener() {
             @Override
             public void addCourseBtnClicked() {
-
-                /**
-                ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
-                ArrayAdapter<CharSequence> adapter;
-                EditText txt; // user input bar
-                AlertDialog.Builder alertName = new AlertDialog.Builder(this.m);
-                final EditText editTextName1 = new EditText(this);
-                alertName.setTitle(" Alert Dialog Title");
-// titles can be used regardless of a custom layout or not
-                alertName.setView(editTextName1);
-                LinearLayout layoutName = new LinearLayout();
-                layoutName.setOrientation(LinearLayout.VERTICAL);
-                layoutName.addView(editTextName1); // displays the user input bar
-                alertName.setView(layoutName);
-                alertName.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        txt = editTextName1; // variable to collect user input
-                        collectInput(); // analyze input (txt) in this method
-                    }
-                });
-
-                alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int whichButton) {
-                                dialog.cancel(); // closes dialog
-                                alertName.show(); // display the dialog
-                            }
-                        });
-
-*/
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(
                         R.anim.fade_in,  // enter
                         R.anim.slide_out,  // exit
                         R.anim.slide_in,   // popEnter
                         R.anim.fade_out  // popExit
                 )
-                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
                         .replace(mainFragmentView.getId(), addCourseFragment, "ADD_COURSES_FRAGMENT").addToBackStack(null).commit();
             }
-
         };
-
+/**
         addCourseFragment.addCourseToListButtonClickListener = new AddCourseFragment.addCourseToListButtonClickListener() {
             @Override
             public void addCourseToListBtnClicked(String id) {
@@ -311,9 +280,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 )
                         // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
                         .replace(mainFragmentView.getId(), myCoursesFragment, "MY_COURSES_FRAGMENT").addToBackStack(null).commit();
-            }*/
             }
-        };
+            }
+        };*/
 
         mainscreenfragment.myCoursesButtonListenerBtn = new MainScreenFragment.myCoursesButtonListener() {
             @Override
@@ -437,6 +406,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                             System.out.println("course2 "+ course.toStringP());
                             coursesFromFireBase.add(course);
                         }
+
+                        dataBase.setCoursesFromFireBase(coursesFromFireBase);
 
                         for (String id : coursesOfStudentById){
                             for (Course course: coursesFromFireBase){
