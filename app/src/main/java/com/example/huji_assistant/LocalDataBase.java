@@ -106,6 +106,18 @@ public class LocalDataBase {
         return new ArrayList<>(listOfCourses);
     }
 
+    public void addCourseId(String courseId){
+        if (courseId != null){
+            ArrayList<String> courses = this.currentStudent.getCourses();
+            courses.add(courseId);
+            this.currentStudent.setCourses(courses);
+
+            this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
+                System.out.println("upload finished");
+            });
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void sendBroadcastDbChanged(){
         Intent broadcast = new Intent("changed_db");

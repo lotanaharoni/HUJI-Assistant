@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 //<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MyCoursesFragment.java
 import android.widget.TextView;
@@ -67,6 +69,7 @@ public class MyCoursesFragment extends Fragment {
     TextView maslulTextView;
     TextView degreeTextView;
     TextView yearTextView;
+    ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
 
 
     //public interface endRegistrationButtonClickListener{
@@ -173,6 +176,46 @@ public class MyCoursesFragment extends Fragment {
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**
+                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                EditText editTextName1 = new EditText(getContext());
+                alert.setTitle(" Alert Dialog Title");
+                alert.setView(editTextName1);
+
+                LinearLayout layoutName = new LinearLayout(getContext());
+                layoutName.setOrientation(LinearLayout.VERTICAL);
+                layoutName.addView(editTextName1); // displays the user input bar
+                alert.setView(layoutName);
+
+                /**
+               // ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
+                ArrayAdapter<CharSequence> adapter;
+                EditText txt; // user input bar
+                AlertDialog.Builder alertName = new AlertDialog.Builder(getActivity());
+                final EditText editTextName1 = new EditText(getContext());
+                alertName.setTitle(" Alert Dialog Title");
+                // titles can be used regardless of a custom layout or not
+                alertName.setView(editTextName1);
+                LinearLayout layoutName = new LinearLayout(getContext());
+                layoutName.setOrientation(LinearLayout.VERTICAL);
+                layoutName.addView(editTextName1); // displays the user input bar
+                alertName.setView(layoutName);
+
+                alertName.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                      // txt = editTextName1; // variable to collect user input
+                        collectInput(editTextName1); // analyze input (txt) in this method
+                    }
+                });
+
+                alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel(); // closes dialog
+                        alertName.show(); // display the dialog
+                    }
+                });
+*/
+
                 addCourseListener.addCourseBtnClicked();
             }
         });
@@ -318,6 +361,21 @@ public class MyCoursesFragment extends Fragment {
     private void printCourses(){
         for (int i = 0; i < coursesId.size(); i++){
             System.out.println(coursesId.get(i));
+        }
+    }
+
+    public void collectInput(EditText txt){
+        // convert edit text to string
+        String getInput = txt.getText().toString();
+
+        // ensure that user input bar is not empty
+        if (getInput ==null || getInput.trim().equals("")){
+            Toast.makeText(getContext(), "Please add a group name", Toast.LENGTH_LONG).show();
+        }
+        // add input into an data collection arraylist
+        else {
+            arrayListCollection.add(getInput);
+            adapter.notifyDataSetChanged();
         }
     }
 }

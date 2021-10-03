@@ -11,7 +11,7 @@ public class Course {
     private String semester = "";
     private String type = "";
     private String year = "";
-    
+
     private int grade = -1;
     private boolean isFinished = false; // is the course done
 
