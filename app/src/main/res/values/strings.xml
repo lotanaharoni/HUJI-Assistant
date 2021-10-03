@@ -37,6 +37,17 @@
     <string name="approve_btn">אישור</string>
     <string name="register_Successfully_message">נרשמת בהצלחה!</string>
     <string name="register_failed_message">היתה בעיה ברישום, אנא נסה שנית מאוחר יותר</string>
+    <string name="change_password">הקלד סיסמא חדשה</string>
+    <string name="change_password2">הקלד שנית את הסיסמא חדשה</string>
+    <string name="old_password">הקלד סיסמא ישנה</string>
+    <string name="password_updated_Successfully_message">הסיסמא עודכנה בהצלחה</string>
+    <string name="password_failed_to_update_message">היתה בעיה בעדכון, אנא נסה שנית מאוחר יותר</string>
+    <string name="incorrect_old_password">סיסמא ישנה שגויה</string>
+    <string name="hello_message">שלום</string>
+    <string name="old_password_is_empty">נא להזין סיסמא ישנה</string>
+    <string name="new_password_is_empty">נא להזין סיסמא חדשה</string>
+    <string name="repeat_password_is_empty">נא לחזור על הסיסמא החדשה</string>
+    <string name="new_pass_is_not_equal_to_repeat_pass">נא לחזור במדויק על הסיסמא החדשה</string>
 
     <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
 
