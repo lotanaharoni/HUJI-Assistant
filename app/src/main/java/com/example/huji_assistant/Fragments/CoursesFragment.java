@@ -83,6 +83,7 @@ public class CoursesFragment extends Fragment {
     TextView degreeTextView;
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
+    //FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
     FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     ArrayList<String> coursesOfStudent = new ArrayList<>(); // todo save in db to pass between activities
