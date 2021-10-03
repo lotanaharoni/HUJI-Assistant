@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class InfoFragment extends Fragment {
         super(R.layout.personalinfofragment);
     }
 
-    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
+    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
     public interface itemSelectedDropDownFaculty{
         public void onFacultyItemSelected();
@@ -60,6 +61,7 @@ public class InfoFragment extends Fragment {
     ArrayList<String> degreeList = new ArrayList<>();
     StudentInfo currentStudent;
     private ViewModelApp viewModelApp;
+    FirebaseFirestoreSettings settings;
     String facultyId;
     String chugId;
     String maslulId;
@@ -97,6 +99,11 @@ public class InfoFragment extends Fragment {
         faculties_position_map.put(10, "12");
         faculties_position_map.put(11, "16");
         faculties_position_map.put(12, "30");
+
+        settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        firebaseInstancedb.setFirestoreSettings(settings);
 
         // Get values recourse
         String[] facultyArray = getResources().getStringArray(R.array.faculty);

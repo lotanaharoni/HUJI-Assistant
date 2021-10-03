@@ -454,7 +454,9 @@ public class CaptureImageActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.negative_answer, dialogClickListener).show();
         }
         else{
-            super.onBackPressed();
+            startActivity(new Intent(this, MainScreenActivity.class));
+            finish();
+//            super.onBackPressed();
         }
     }
 }
