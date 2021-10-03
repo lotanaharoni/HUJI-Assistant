@@ -3,13 +3,18 @@ package com.example.huji_assistant;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
 
@@ -129,6 +134,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
    ///     this.textBoxClickListener = listener;
   //  }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull CourseItemHolder holder, int position) {
@@ -138,6 +144,20 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         holder.type.setText(courseItem.getType());
         holder.grade.setVisibility(View.INVISIBLE);
         holder.deleteButton.setVisibility(View.INVISIBLE);
+        String text =   courseItem.getPoints() + " נ''ז ";
+        holder.points.setText(text);
+
+        //holder.name.setTooltipText(courseItem.getName());
+
+
+        /**
+        Tooltip tooltip = new Tooltip.Builder(holder.itemView)
+                .setText(courseItem.getName())
+                .show();*/
+
+
+
+
 
         // Show the grade only for my fragment courses
         if (courseItem.getGrade() != -1) {
