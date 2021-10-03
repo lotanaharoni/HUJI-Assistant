@@ -85,7 +85,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private static final int CAMERA_TYPE = 1;
     private DatabaseReference root;
     private StorageReference reference;
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
     FirebaseFirestoreSettings settings;
     private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
     String currentPhotoPath;
@@ -173,8 +173,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         // todo check if is updated in fragments
 
         logoutImageView = findViewById(R.id.logoutImageView);
-        progressBar = findViewById(R.id.progressBar);
-      //  progressBar.setVisibility(View.INVISIBLE);
+        progressBar = findViewById(R.id.progressBar1);
+        progressBar.setVisibility(View.INVISIBLE); // todo revert
+
         //   logoutImageView.setVisibility(View.VISIBLE);
      //   logoutImageView.setEnabled(true);
         moreInfoDrawerLayout = findViewById(R.id.drawer_layout_more_info);

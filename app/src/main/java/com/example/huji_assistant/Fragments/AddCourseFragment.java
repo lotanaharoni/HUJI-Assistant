@@ -106,6 +106,7 @@ public class AddCourseFragment extends Fragment {
 
         // go to firebase to check if course exists
         boolean isExists = checkIfExists(courseToAddId);
+        System.out.println("is exists: " + isExists);
 
         if (!isExists){
             String text = "לא קיים קורס עם מספר זה";
