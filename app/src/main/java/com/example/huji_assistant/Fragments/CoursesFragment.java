@@ -47,6 +47,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -67,6 +68,7 @@ public class CoursesFragment extends Fragment {
     private String password;
     private String personalName;
     private String familyName;
+    FirebaseFirestoreSettings settings;
     String facultyId;
     String chugId;
     String maslulId;
@@ -83,7 +85,7 @@ public class CoursesFragment extends Fragment {
     TextView degreeTextView;
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
-    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
+    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
     ArrayList<String> coursesOfStudent = new ArrayList<>(); // todo save in db to pass between activities
 
@@ -127,6 +129,10 @@ public class CoursesFragment extends Fragment {
         if (db == null) {
             db = HujiAssistentApplication.getInstance().getDataBase();
         }
+        settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        firebaseInstancedb.setFirestoreSettings(settings);
 
         // todo add demo courses
         Course infiC = new Course("אינפי", "0", Course.Type.Mandatory,"","");

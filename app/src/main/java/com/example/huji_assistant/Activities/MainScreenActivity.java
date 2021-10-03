@@ -35,6 +35,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -85,6 +86,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private DatabaseReference root;
     private StorageReference reference;
     private ProgressBar progressBar;
+    FirebaseFirestoreSettings settings;
     private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
     String currentPhotoPath;
     private DrawerLayout moreInfoDrawerLayout;
@@ -92,7 +94,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private ImageView logoutImageView;
    // ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
     ListenerRegistration listener;
-    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
+    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +104,11 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         if (dataBase == null) {
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
+
+        settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        firebaseInstancedb.setFirestoreSettings(settings);
 
         // application singleton
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
@@ -248,6 +255,23 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 )
                         // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
                         .replace(mainFragmentView.getId(), profilePageFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        mainscreenfragment.uploadPicturesButtonListenerBtn = new MainScreenFragment.UploadPictureButtonListener(){
+
+            @Override
+            public void onUploadPictureButtonClicked() {
+                startActivity(new Intent(MainScreenActivity.this, CaptureImageActivity.class));
+                finish();
+//                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+//                        R.anim.fade_in,  // enter
+//                        R.anim.slide_out,  // exit
+//                        R.anim.slide_in,   // popEnter
+//                        R.anim.fade_out  // popExit
+//                )
+//                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+//                        .replace(mainFragmentView.getId(), profilePageFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
             }
         };
 

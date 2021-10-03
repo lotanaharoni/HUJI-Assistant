@@ -40,6 +40,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ import java.util.UUID;
 public class MyCoursesFragment extends Fragment {
 
     private ViewModelAppMainScreen viewModelAppMainScreen;
+    FirebaseFirestoreSettings settings;
     FragmentMycoursesBinding binding;
 
     public CourseItemHolder holder = null;
@@ -104,6 +106,11 @@ public class MyCoursesFragment extends Fragment {
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
+
+        settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        firebaseInstancedb.setFirestoreSettings(settings);
 
         StudentInfo currentStudent = dataBase.getCurrentUser();
         studentNameTextView = view.findViewById(R.id.nameOfStudentTextView);

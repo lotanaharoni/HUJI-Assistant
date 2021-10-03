@@ -48,13 +48,13 @@
             android:text="הקורסים שלי" />
 
         <Button
-            android:id="@+id/navigationButton"
+            android:id="@+id/uploadPicturesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="400dp"
             android:singleLine="true"
             android:layout_marginLeft="150dp"
-            android:text="ניווט בקמפוס" />
+            android:text="@string/upload_pictures_button" />
 
         <Button
             android:id="@+id/circulumButton"

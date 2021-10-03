@@ -25,6 +25,7 @@ public class MainScreenFragment extends Fragment {
     }
     public MainScreenFragment.endRegistrationButtonClickListener newUserBtnListener = null;
     public MainScreenFragment.myCoursesButtonListener myCoursesButtonListenerBtn = null;
+    public MainScreenFragment.UploadPictureButtonListener uploadPicturesButtonListenerBtn = null;
     public MainScreenFragment.editInfoButtonListener editInfoButtonListener = null;
 
     public interface myCoursesButtonListener{
@@ -34,18 +35,24 @@ public class MainScreenFragment extends Fragment {
     public interface editInfoButtonListener{
         public void onEditInfoButtonClicked();
     }
+
+    public interface UploadPictureButtonListener{
+        public void onUploadPictureButtonClicked();
+    }
     public MainScreenFragment(){
         super(R.layout.mainscreen);
     }
     Spinner dropdown;
     Button myCourses;
     Button privateInfoEditBtn;
+    Button uploadPicturesButton;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         myCourses = view.findViewById(R.id.myCoursesButton);
+        uploadPicturesButton = view.findViewById(R.id.uploadPicturesButton);
         privateInfoEditBtn = view.findViewById(R.id.privateInfoEditButton);
 
         FloatingActionButton openCameraFloatingButton = view.findViewById(R.id.open_camera_floating_button);
@@ -58,6 +65,15 @@ public class MainScreenFragment extends Fragment {
             public void onClick(View v) {
                 if (myCoursesButtonListenerBtn != null) {
                     myCoursesButtonListenerBtn.onMyCoursesButtonClicked();
+                }
+            }
+        });
+
+        uploadPicturesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (uploadPicturesButtonListenerBtn != null) {
+                    uploadPicturesButtonListenerBtn.onUploadPictureButtonClicked();
                 }
             }
         });
