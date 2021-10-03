@@ -62,8 +62,8 @@ public class MyCoursesFragment extends Fragment {
     ArrayList<String> coursesId = new ArrayList<>();
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
     public CoursesAdapter.DeleteClickListener deleteClickListener = null;
-    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
-   // FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
+   // FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     TextView studentNameTextView;
     TextView facultyTextView;

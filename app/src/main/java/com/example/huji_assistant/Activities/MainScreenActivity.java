@@ -174,7 +174,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         logoutImageView = findViewById(R.id.logoutImageView);
         progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
+      //  progressBar.setVisibility(View.INVISIBLE);
         //   logoutImageView.setVisibility(View.VISIBLE);
      //   logoutImageView.setEnabled(true);
         moreInfoDrawerLayout = findViewById(R.id.drawer_layout_more_info);
@@ -210,6 +210,12 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         findViewById(R.id.settings).setOnClickListener(v -> {
             // todo handle
             System.out.println("settings clicked");
+        });
+
+        // todo for lotan
+        findViewById(R.id.qrscan).setOnClickListener(v -> {
+            // todo handle
+            System.out.println("qrscan clicked");
         });
 
         // todo add code - lotan

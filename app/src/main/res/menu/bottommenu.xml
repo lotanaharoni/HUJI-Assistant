@@ -7,9 +7,9 @@
     android:title=""
     android:icon="@drawable/ic_baseline_camera_alt_24"/>
 
-<item android:id="@+id/navigation"
-    android:title="ניווט"
-    android:icon="@drawable/ic_baseline_navigation_24"/>
+<item android:id="@+id/qrscan"
+    android:title="סריקת QR"
+    android:icon="@drawable/ic_baseline_qr_code_scanner_24"/>
 
 
 </menu>
