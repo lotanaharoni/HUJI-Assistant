@@ -36,10 +36,10 @@ public class ProfilePageActivity extends AppCompatActivity {
         StudentInfo currentUser = dataBase.getCurrentUser();
 
         // find views
-        userFirstNameEditText = findViewById(R.id.profile_user_first_name);
-        userLastNameEditText = findViewById(R.id.profile_user_last_name);
+//        userFirstNameEditText = findViewById(R.id.profile_user_first_name);
+//        userLastNameEditText = findViewById(R.id.profile_user_last_name);
         emailEditText = findViewById(R.id.usersEmailMyProfile);
-        btnCancelEdit = findViewById(R.id.btnCancelEditProfile);
+//        btnCancelEdit = findViewById(R.id.btnCancelEditProfile);
         btnEditProfile = findViewById(R.id.btnEditProfile);
 
 
