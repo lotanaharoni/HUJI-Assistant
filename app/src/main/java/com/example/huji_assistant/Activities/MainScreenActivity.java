@@ -215,8 +215,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         // todo for lotan
         findViewById(R.id.qrscan).setOnClickListener(v -> {
-            // todo handle
-            System.out.println("qrscan clicked");
+            startActivity(new Intent(this, ScanQrActivity.class));
+            finish();
+//            System.out.println("qrscan clicked");
         });
 
         // todo add code - lotan
