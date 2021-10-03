@@ -1,5 +1,7 @@
 package com.example.huji_assistant.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.SearchView;
 //<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MyCoursesFragment.java
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //>>>>>>> bf2892270b275fb497ce423d915c8af6ed29de96:app/src/main/java/com/example/huji_assistant/Fragments/MyCoursesFragment.java
 
@@ -21,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.huji_assistant.Activities.MainScreenActivity;
 import com.example.huji_assistant.Chug;
 import com.example.huji_assistant.Course;
 import com.example.huji_assistant.CourseItemHolder;
@@ -41,6 +45,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class MyCoursesFragment extends Fragment {
 
@@ -51,10 +56,12 @@ public class MyCoursesFragment extends Fragment {
     LinearLayoutManager coordinatorLayout;
     public CoursesAdapter adapter = null;
     public LocalDataBase dataBase = null;
+    public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
     RecyclerView recyclerViewMyCourses;
     SearchView searchView;
     ArrayList<String> coursesId = new ArrayList<>();
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
+    public CoursesAdapter.DeleteClickListener deleteClickListener = null;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
     TextView studentNameTextView;
     TextView facultyTextView;
@@ -277,7 +284,40 @@ public class MyCoursesFragment extends Fragment {
             }
         });
 
+        adapter.setDeleteListener(new CoursesAdapter.DeleteClickListener() {
+            @Override
+            public void onDeleteClick(View v, Course item) {
+                if (deleteClickListener != null){
+                    deleteClickListener.onDeleteClick(v, item);
+                    System.out.println("delete button in fragment");
+                    DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE: {
+                                dataBase.removeCourseFromCurrentList(item.getNumber());
+                                ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
+                                adapter.addCoursesListToAdapter(courseItems);
+                                adapter.notifyDataSetChanged();
+                                break;
+                            }
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    };
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(getResources().getString(R.string.delete_course_alert))
+                            .setPositiveButton(R.string.positive_answer, dialogClickListener)
+                            .setNegativeButton(R.string.negative_answer, dialogClickListener).show();
+
+
+                    //dataBase.removeCourseFromCurrentList(item.getNumber());
+                  //  ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
+                    //adapter.addCoursesListToAdapter(courseItems);
+                    //adapter.notifyDataSetChanged();
+                }
+            }
+        });
     }
+
     private void printCourses(){
         for (int i = 0; i < coursesId.size(); i++){
             System.out.println(coursesId.get(i));

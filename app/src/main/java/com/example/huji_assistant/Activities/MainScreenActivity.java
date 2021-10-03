@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -34,6 +35,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -103,23 +105,28 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         System.out.println("current student: " + dataBase.getCurrentUser().toStringP());
 
         // firebase listener for changes in current student
-        final DocumentReference docRef = firebaseInstancedb.collection("students").document(dataBase.getCurrentUser().getId());
-        docRef.addSnapshotListener((value, error) -> {
-            if (error != null) {
-                Log.w("ERROR", "Listen failure", error);
-                return;
-            }
-            if ((value != null) && (value.exists())) {
-                StudentInfo currentStudent = value.toObject(StudentInfo.class);
-                assert currentStudent != null;
-                // todo set as current student
-                dataBase.setCurrentStudent(currentStudent);
-                System.out.println("updated student: " + currentStudent.toStringP());
-                System.out.println("updated courses list: ");
-                currentStudent.printCourses();
-                getNewCoursesList();
-            }
-        });
+        try {
+            final DocumentReference docRef = firebaseInstancedb.collection("students").document(dataBase.getCurrentUser().getId());
+            docRef.addSnapshotListener((value, error) -> {
+                if (error != null) {
+                    Log.w("ERROR", "Listen failure", error);
+                    return;
+                }
+                if ((value != null) && (value.exists())) {
+                    StudentInfo currentStudent = value.toObject(StudentInfo.class);
+                    assert currentStudent != null;
+                    // todo set as current student
+                    dataBase.setCurrentStudent(currentStudent);
+                    System.out.println("updated student: " + currentStudent.toStringP());
+                    System.out.println("updated courses list: ");
+                    currentStudent.printCourses();
+                    getNewCoursesList();
+                }
+            });
+        }
+        catch(Exception e){
+            System.out.println("error loading data from firebase");
+        }
 
        // ArrayList<String> coursesOfStudentById = dataBase.getCurrentStudent().getCourses();
        // ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
@@ -201,6 +208,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         });
 
+
+
         cameraUploadActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -263,6 +272,51 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                   .replace(mainFragmentView.getId(), myCoursesFragment, "MY_COURSES_FRAGMENT").addToBackStack(null).commit();
             }
         };
+/**
+        myCoursesFragment.onCheckBoxClickListener = new CoursesAdapter.OnCheckBoxClickListener() {
+            @Override
+            public void onCheckBoxClicked(View v, Course item) {
+                System.out.println("----------------item checked: " + item.toStringP());
+                // todo show here pop up?
+                if (item.getChecked()) {
+                    grade = "";
+                    //  Intent i = new Intent();
+                    MainActivity.PopUpWindowActivity popUpWindow = new MainScreenActivity().PopUpWindowActivity();
+                    popUpWindow.showPopup(v, item); //todo check
+                    System.out.println("grade of course: " + item.getGrade());
+                }
+            }
+        };*/
+
+        myCoursesFragment.deleteClickListener = new CoursesAdapter.DeleteClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDeleteClick(View v, Course item) {
+                System.out.println("delete button in main activity");
+                /**
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE: {
+                           // dataBase.logoutUser();
+                           //// startActivity(new Intent(MainScreenActivity.this, MainActivity.class));
+                            //finish();
+                            dataBase.removeCourseFromCurrentList(item.getNumber());
+                            break;
+                        }
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            break;
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainScreenActivity.this);
+                builder.setMessage("האם אתה בטוח שברצונך למחוק את הקורס? הפעולה אינה ניתנת לביטול")
+                        .setPositiveButton(R.string.positive_answer, dialogClickListener)
+                        .setNegativeButton(R.string.negative_answer, dialogClickListener).show();
+                 */
+
+
+               // dataBase.removeCourseFromCurrentList(item.getNumber());
+            }
+        };
 
         myCoursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override
@@ -306,6 +360,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         startActivity(new Intent(Intent.ACTION_VIEW, url));
     }
 
+
+
+
+
     private void getNewCoursesList(){
 
         ArrayList<String> coursesOfStudentById = dataBase.getCurrentStudent().getCourses();
@@ -329,6 +387,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         for (String id : coursesOfStudentById){
                             for (Course course: coursesFromFireBase){
                                 if (course.getNumber().equals(id)){
+                                    course.setIsFinished(true);
                                     coursesOfStudentByCourse.add(course);
                                 }
                             }

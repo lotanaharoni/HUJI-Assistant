@@ -11,6 +11,7 @@ public class Course {
     private String semester = "";
     private String type = "";
     private String year = "";
+    private int grade = -1;
     private boolean isFinished = false; // is the course done
 
     private ArrayList<Course> prevCourses;
@@ -47,6 +48,10 @@ public class Course {
         return this.isChecked;
     }
 
+    public boolean getIsFinished(){
+        return this.isFinished;
+    }
+
     public String getName(){
         return name;
     }
@@ -67,8 +72,20 @@ public class Course {
         return year;
     }
 
+    public int getGrade(){
+        return grade;
+    }
+
+    public void setGrade(int grade_){
+        grade=grade_;
+    }
+
     public void setType(String type_){
         type=type_;
+    }
+
+    public void setIsFinished(boolean isFinished_){
+        isFinished=isFinished_;
     }
 
     public String getType(){

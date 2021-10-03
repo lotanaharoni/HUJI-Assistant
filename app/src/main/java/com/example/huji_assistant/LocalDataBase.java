@@ -176,6 +176,7 @@ public class LocalDataBase {
         Map<String, StudentInfo> newUser = new HashMap<>();
         newUser.put(newStudent.getId(), newStudent);
         this.studentsCollection.document(newStudent.getId()).set(newStudent);
+        // todo when loading main screen doesnt have time to set new student
     }
     // todo fix
     public void updateStudent(String name, String email, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
@@ -191,6 +192,39 @@ public class LocalDataBase {
                 Log.d("sameUserCheck", "not the current user");
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void removeCourseFromCurrentList(String itemId){
+
+        ArrayList<String> coursesIdList = new ArrayList<>(this.currentStudent.getCourses());
+        coursesIdList.remove(itemId); // todo check if exists?
+
+        Course toDelete = null;
+        for (Course item : this.coursesOfCurrentStudent){
+            if (item.getNumber().equals(itemId)){
+                toDelete = item;
+                break;
+            }
+        }
+        if (toDelete != null){
+            this.coursesOfCurrentStudent.remove(toDelete);
+        }
+
+        SharedPreferences.Editor editor = sp.edit();
+        if (toDelete != null) {
+            editor.remove(toDelete.getNumber()); // remove the key
+        }
+        editor.apply();
+
+        //mutableLiveData.setValue(new ArrayList<Course>(this.coursesOfCurrentStudent));
+//        sendBroadcastDbChanged();
+        // update firebase
+        this.currentStudent.setCourses(coursesIdList);
+        this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
+           System.out.println("upload finished");
+        });
+
     }
 
     public void setCurrentUser(FirebaseUser user) {

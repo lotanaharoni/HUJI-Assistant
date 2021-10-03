@@ -4,16 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentContainerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.Course;
 import com.example.huji_assistant.CoursesAdapter;
@@ -33,9 +40,13 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 //public class MainActivity extends AppCompatActivity  {
 
+    public interface PopUpInterface
+    {
+        public String grade(String grade);
+    }
     private DrawerLayout moreInfoDrawerLayout;
     public LocalDataBase dataBase = null;
-
+    String grade;
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,10 +190,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
+
+
         coursesFragment.onCheckBoxClickListener = new CoursesAdapter.OnCheckBoxClickListener() {
             @Override
-            public void onCheckBoxClicked(Course item) {
+            public void onCheckBoxClicked(View v, Course item) {
                 System.out.println("----------------item checked: " + item.toStringP());
+                // todo show here pop up?
+               // if (item.getChecked()) {
+                 //   grade = "";
+
+                  //  Intent i = new Intent();
+                  //  PopUpWindowActivity popUpWindow = new PopUpWindowActivity();
+                 //   popUpWindow.showPopup(v); //todo check
+                    // todo get the string value
+
+
+                  //  System.out.println("grade of course: " + item.getGrade());
+                  //  System.out.println("gg");
+               // }
             }
         };
 
@@ -234,6 +260,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         return true;
+    }
+
+    public class PopUpWindowActivity {
+        public void showPopup(View anchorView) {
+
+            PopUpInterface popUpInterface = new PopUpInterface() {
+                @Override
+                public String grade(String grade) {
+                    return grade;
+                }
+            };
+
+
+            System.out.println("reached top");
+            View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
+            System.out.println("bottom");
+            PopupWindow popupWindow = new PopupWindow(popupView,
+                    RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+            System.out.println("bottom1");
+            // TextView tv = (TextView) popupView.findViewById(R.id.tv);
+            EditText gradeTextView = popupView.findViewById(R.id.editTextNumber);
+            Button approveBtn = popupView.findViewById(R.id.approveBtn);
+            System.out.println("bottom2");
+            // If the PopupWindow should be focusable
+            popupWindow.setFocusable(true);
+            System.out.println("bottom3");
+            // If you need the PopupWindow to dismiss when when touched outside
+            popupWindow.setBackgroundDrawable(new ColorDrawable());
+            System.out.println("bottom4");
+            int[] location = new int[2];
+            // final String[] grade1 = new String[1];
+            // Get the View's(the one that was clicked in the Fragment) location
+            anchorView.getLocationOnScreen(location);
+
+            // Using location, the PopupWindow will be displayed right under anchorView
+            popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
+                    location[0], location[1] + anchorView.getHeight());
+            System.out.println("bottom6");
+            approveBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("grade1: " + gradeTextView.getText().toString());
+                    grade = gradeTextView.getText().toString();
+                    //   grade1[0] = grade;
+                    System.out.println("grade1111: " + grade);
+                   // item.setGrade(Integer.parseInt(grade));
+                   // System.out.println("items grade: " + item.getGrade());
+                    //intent.putExtra("grade", grade);
+                    popUpInterface.grade(grade);
+                    popupWindow.dismiss();
+                }
+            });
+            //System.out.println("gggg" + grade1[0]);
+            //return grade1[0];
+        }
     }
 
     @Override

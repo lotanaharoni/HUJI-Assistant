@@ -52,7 +52,17 @@
             android:layout_marginLeft="30dp"
             android:layout_marginTop="5dp"
             android:text="number"
-            android:textAppearance="?android:textAppearanceLarge" />
+             />
+
+        <TextView
+            android:id="@+id/coursegradeHolder"
+            android:layout_width="wrap_content"
+            android:background="@color/common_google_signin_btn_text_dark_default"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="110dp"
+            android:layout_marginTop="5dp"
+            android:text="grade"
+             />
 
         <TextView
             android:id="@+id/coursepoints"
@@ -84,11 +94,25 @@
 
         <CheckBox
             android:id="@+id/checkBoxCourse"
-            android:layout_marginStart="355dp"
+            android:layout_marginLeft="355dp"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="" />
 
+        <TextView
+            android:id="@+id/deleteButton"
+            android:layout_width="31dp"
+            android:visibility="gone"
+            android:layout_height="40dp"
+            android:layout_marginLeft="355dp"
+            android:drawableRight="@drawable/ic_baseline_delete_24"
+            android:fontFamily="casual"
+            android:text=""
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

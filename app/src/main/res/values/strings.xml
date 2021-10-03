@@ -17,6 +17,7 @@
     <string name="loading">טוען…</string>
     <string name="logo_description">לוגו</string>
     <string name="reset_image">האם להשליך את השינויים שנעשו?</string>
+    <string name="delete_course_alert">האם אתה בטוח שברצונך למחוק את הקורס? הפעולה אינה ניתנת לביטול</string>
     <string name="positive_answer">כן</string>
     <string name="negative_answer">לא</string>
     <string name="upload_Successfully_message">הועלה בהצלחה</string>
@@ -32,6 +33,8 @@
     <string name="try_again_later_message">היתה בעיה, נסה שוב מאוחר יותר</string>
     <string name="incorrect_username">שם משתמש וסיסמה לא נכונים. נסה להזין שוב או להירשם בתור משתמש חדש</string>
     <string name="logout">האם אתה בטוח שברצונך להתנתק?</string>
+    <string name="insert_grade">הזן ציון בקורס:</string>
+    <string name="approve_btn">אישור</string>
 
 
 

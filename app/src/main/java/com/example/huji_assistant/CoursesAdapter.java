@@ -91,7 +91,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
 
     // Create an interface
     public interface DeleteClickListener{
-        void onDeleteClick(Course item);
+        void onDeleteClick(View v, Course item);
     }
 
     // Create an interface
@@ -100,7 +100,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
     }
 
     public interface OnCheckBoxClickListener{
-        void onCheckBoxClicked(Course item);
+        void onCheckBoxClicked(View v, Course item);
     }
 
     public interface OnItemClickListener {
@@ -121,6 +121,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         this.checkBoxClickListener = listener;
     }
 
+    public void setDeleteListener(DeleteClickListener listener){
+        this.deleteListener = listener;
+    }
+
    // public void setTextBoxClickListener(OnTextBoxClickListener listener){
    ///     this.textBoxClickListener = listener;
   //  }
@@ -132,6 +136,31 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         holder.name.setText(courseItem.getName());
         holder.number.setText(courseItem.getNumber());
         holder.type.setText(courseItem.getType());
+        holder.grade.setVisibility(View.INVISIBLE);
+        holder.deleteButton.setVisibility(View.INVISIBLE);
+
+        // Show the grade only for my fragment courses
+        if (courseItem.getGrade() != -1) {
+            holder.grade.setVisibility(View.VISIBLE);
+          //  holder.grade.setText(courseItem.getGrade()); // todo check
+            holder.grade.setText("courseItem.getGrade()");
+        }
+
+        // todo check - when added courses write is finished == true
+        if (courseItem.getIsFinished()){
+            holder.checkBox.setVisibility(View.INVISIBLE);
+            holder.deleteButton.setVisibility(View.VISIBLE);
+        }
+
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("delete button clicked");
+                deleteListener.onDeleteClick(v, courseItem);
+            }
+        });
+
+        // todo - enable edit grade?
 
         //todo remove
        // holder.textView.setOnClickListener(v -> {
@@ -146,7 +175,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
             else{
                 courseItem.setChecked(false);
             }
-            checkBoxClickListener.onCheckBoxClicked(courseItem);
+            checkBoxClickListener.onCheckBoxClicked(v, courseItem);
         });
 
         holder.itemView.setOnClickListener(v -> {

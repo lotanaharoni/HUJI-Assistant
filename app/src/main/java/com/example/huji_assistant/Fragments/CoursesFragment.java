@@ -1,11 +1,16 @@
 package com.example.huji_assistant.Fragments;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +74,7 @@ public class CoursesFragment extends Fragment {
     String year;
     String beginnigYearOfDegree;
     String beginSemesterOfDegree;
+    String grade;
     TextView facultyTextView;
     StudentInfo currentStudent;
     TextView chugTextView;
@@ -295,20 +301,36 @@ public class CoursesFragment extends Fragment {
 
         adapter.setItemCheckBoxListener(new CoursesAdapter.OnCheckBoxClickListener() {
             @Override
-            public void onCheckBoxClicked(Course item) {
+            public void onCheckBoxClicked(View v, Course item) {
                 if (onCheckBoxClickListener != null){
                    // viewModelAppCourse.set(item);
-                    // TODO does'nt get the number
+                    // todo show here pop up?
                     System.out.println("item: " + item.toStringP());
+
+
+                   // Intent i = new Intent(getActivity(), PopUp.class);
+                  //  startActivity(i);
+                    //showPopup(v); //todo check
+                   // grade="";
+                  //  System.out.println("grade: " + grade);
+
+                  //  if (!grade.equals("")) {
+                   //     int gradeInt = Integer.parseInt(grade);
+                   //     item.setGrade(gradeInt); // todo check
+                  //  }
+                    // todo validation on grade
+
 
                     if (item.getChecked()){
                         coursesOfStudent.add(item.getNumber());
                         String text = "קורס מספר: " + item.getNumber() + " נוסף לרשימת הקורסים";
+                        item.setChecked(true);
                         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                         System.out.println("added: " + item.getNumber());
                     }
                     else{
                         coursesOfStudent.remove(item.getNumber()); //todo check if contains?
+                        item.setChecked(false);
                         String text = "קורס מספר: " + item.getNumber() + " הוסר מרשימת הקורסים";
                         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                         System.out.println("removed: " + item.getNumber());
@@ -316,7 +338,7 @@ public class CoursesFragment extends Fragment {
                     //todo sort
                     System.out.println("sort: ");
                     printCourses();
-                    onCheckBoxClickListener.onCheckBoxClicked(item);
+                    onCheckBoxClickListener.onCheckBoxClicked(v, item); // todo need?
                 }
             }
         });
@@ -425,6 +447,45 @@ public class CoursesFragment extends Fragment {
         // dropdown.setAdapter(adapter);
 
     }
+
+    public void showPopup(View anchorView) {
+
+        System.out.println("reached top");
+        View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
+        System.out.println("bottom");
+        PopupWindow popupWindow = new PopupWindow(popupView,
+                RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
+        System.out.println("bottom1");
+        // TextView tv = (TextView) popupView.findViewById(R.id.tv);
+        EditText gradeTextView = popupView.findViewById(R.id.editTextNumber);
+        Button approveBtn = popupView.findViewById(R.id.approveBtn);
+        System.out.println("bottom2");
+        // If the PopupWindow should be focusable
+        popupWindow.setFocusable(true);
+        System.out.println("bottom3");
+        // If you need the PopupWindow to dismiss when when touched outside
+        popupWindow.setBackgroundDrawable(new ColorDrawable());
+        System.out.println("bottom4");
+        int[] location = new int[2];
+
+        // Get the View's(the one that was clicked in the Fragment) location
+        anchorView.getLocationOnScreen(location);
+
+        // Using location, the PopupWindow will be displayed right under anchorView
+        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
+                location[0], location[1] + anchorView.getHeight());
+        System.out.println("bottom5");
+        approveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("grade1: " + gradeTextView.getText().toString());
+                grade = gradeTextView.getText().toString();
+                popupWindow.dismiss();
+            }
+        });
+
+    }
+
 
     private void printCourses(){
         for (int i = 0; i < coursesOfStudent.size(); i++){
