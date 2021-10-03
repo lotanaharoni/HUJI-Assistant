@@ -33,7 +33,6 @@
         <activity android:name=".Activities.ProfilePageActivity" />
         <activity android:name=".Activities.LoadDataMainActivity" >
 
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
