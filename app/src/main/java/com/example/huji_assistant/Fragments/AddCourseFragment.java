@@ -60,14 +60,13 @@ public class AddCourseFragment extends Fragment {
             public void onClick(View v) {
                 String courseIdToAdd = courseIdTextView.getText().toString();
 
-                // todo check if the course allready exists
-                // todo check if the entered value is valid
                 checkValidaity(courseIdToAdd);
 
                 if (isCourseIdValid) {
                     String text = "קורס מספר: " + courseIdToAdd + " נוסף בהצלחה";
                     Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                     dataBase.addCourseId(courseIdToAdd);
+                    courseIdTextView.setText("");
                 }
                // addCourseToListButtonClickListener.addCourseToListBtnClicked(courseIdToAdd);
             }
@@ -104,22 +103,15 @@ public class AddCourseFragment extends Fragment {
         ArrayList<String> courses = dataBase.getCurrentStudent().getCourses();
         // todo check if the id is a real course id
         ArrayList<Course> coursesFromFireBase = dataBase.getCoursesFromFireBase();
-        boolean isExists = false;
 
         // go to firebase to check if course exists
-        for (Course course : coursesFromFireBase) {
-            if (course.getNumber().equals(courseToAddId)){
-                isExists = true;
-            }
-        }
-        isExists=  false;
+        boolean isExists = checkIfExists(courseToAddId);
 
         if (!isExists){
             String text = "לא קיים קורס עם מספר זה";
             Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
         }
         else {
-
             if (courses.contains(courseToAddId)) {
                 String text = "הקורס כבר קיים ברשימת הקורסים";
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
@@ -127,5 +119,16 @@ public class AddCourseFragment extends Fragment {
                 isCourseIdValid = true;
             }
         }
+    }
+
+    private boolean checkIfExists(String courseId){
+
+        ArrayList<Course> coursesFromFireBase = dataBase.getCoursesFromFireBase();
+        for (Course course : coursesFromFireBase) {
+            if (course.getNumber().equals(courseId)){
+                return true;
+            }
+        }
+        return false;
     }
 }
