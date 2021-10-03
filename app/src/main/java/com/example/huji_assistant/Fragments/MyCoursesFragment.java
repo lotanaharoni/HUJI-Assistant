@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 //<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MyCoursesFragment.java
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,13 +22,11 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.huji_assistant.Activities.MainScreenActivity;
 import com.example.huji_assistant.Chug;
 import com.example.huji_assistant.Course;
 import com.example.huji_assistant.CourseItemHolder;
 import com.example.huji_assistant.CoursesAdapter;
-import com.example.huji_assistant.Faculty;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.R;
@@ -41,7 +38,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +58,9 @@ public class MyCoursesFragment extends Fragment {
     ArrayList<String> coursesId = new ArrayList<>();
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
     public CoursesAdapter.DeleteClickListener deleteClickListener = null;
-    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    //FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
+
     TextView studentNameTextView;
     TextView facultyTextView;
     TextView chugTextView;
@@ -307,7 +305,6 @@ public class MyCoursesFragment extends Fragment {
                     builder.setMessage(getResources().getString(R.string.delete_course_alert))
                             .setPositiveButton(R.string.positive_answer, dialogClickListener)
                             .setNegativeButton(R.string.negative_answer, dialogClickListener).show();
-
 
                     //dataBase.removeCourseFromCurrentList(item.getNumber());
                   //  ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();

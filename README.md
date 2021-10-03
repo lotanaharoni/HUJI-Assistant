@@ -38,4 +38,4 @@ With HUJI-Assistant, choosing courses, scanning files, and planning a curriculum
 #### Feel free to add whatever you like, we will be happy to see what you have thought of.
 
 ## Authors:
-[Yuval Dellus](https://github.com/YuvalDellus)<br/> [Liora Itenberg](https://github.com/liorait)<br/> [Reut Kurzweil](https://github.com/KurziR)<br/> [Lotan Aharoni](https://github.com/lotanaharoni)<br/>
+[Yuval Dellus](https://github.com/YuvalDellus)<br/> [Liora Itenberg](https://github.com/liorait)<br/>[Lotan Aharoni](https://github.com/lotanaharoni)<br/>

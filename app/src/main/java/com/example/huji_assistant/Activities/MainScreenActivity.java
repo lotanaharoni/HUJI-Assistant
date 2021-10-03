@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -57,7 +58,6 @@ import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.StudentInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
@@ -77,10 +77,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
     public LocalDataBase dataBase = null;
     public static final int CAMERA_PERM_CODE = 101;
-    public static final int CAMERA_REQUEST_CODE = 102;
     private static final int CAMERA_TYPE = 1;
     private DatabaseReference root;
     private StorageReference reference;
+    private ProgressBar progressBar;
     private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
     String currentPhotoPath;
     private DrawerLayout moreInfoDrawerLayout;
@@ -88,7 +88,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private ImageView logoutImageView;
    // ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
     ListenerRegistration listener;
-    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,7 +162,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         // todo check if is updated in fragments
 
         logoutImageView = findViewById(R.id.logoutImageView);
-     //   logoutImageView.setVisibility(View.VISIBLE);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
+        //   logoutImageView.setVisibility(View.VISIBLE);
      //   logoutImageView.setEnabled(true);
         moreInfoDrawerLayout = findViewById(R.id.drawer_layout_more_info);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -225,7 +227,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                             mediaScanIntent.setData(contentUri);
                             sendBroadcast(mediaScanIntent);
 
-                            uploadToFirebase(contentUri, CAMERA_REQUEST_CODE, f.getName());
+                            uploadToFirebase(contentUri);
                         }
                     }
                 });
@@ -454,33 +456,32 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
-            dispatchTakePictureIntent();
-        }
-    }
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            // Ensure that there's a camera activity to handle the intent
+            if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
+                // Create the File where the photo should go
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException ex) {
 
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        // Ensure that there's a camera activity to handle the intent
-        if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
-            // Create the File where the photo should go
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-
-            }
-            // Continue only if the File was successfully created
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.android.fileprovider",
-                        photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                cameraUploadActivityResultLauncher.launch(takePictureIntent);
+                }
+                // Continue only if the File was successfully created
+                if (photoFile != null) {
+                    Uri photoURI = FileProvider.getUriForFile(this,
+                            "com.example.android.fileprovider",
+                            photoFile);
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                    cameraUploadActivityResultLauncher.launch(takePictureIntent);
+                }
             }
         }
     }
 
-    private void uploadToFirebase(Uri uri, int source, String name) {
+    private void uploadToFirebase(Uri uri) {
+        String name = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss").format(new Date()) +
+                "_" + dataBase.getCurrentStudent().getPersonalName() + "_" +
+                dataBase.getCurrentStudent().getFamilyName() + ".jpg";
         StorageReference fileRef = reference.child("Camera_images/" + name);
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -492,6 +493,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         String modelId = root.push().getKey();
                         assert modelId != null;
                         root.child(modelId).setValue(model);
+                        progressBar.setVisibility(View.INVISIBLE);
                         Toast.makeText(MainScreenActivity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -499,27 +501,25 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                progressBar.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                progressBar.setVisibility(View.INVISIBLE);
                 Toast.makeText(MainScreenActivity.this, R.string.upload_failed_message, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private File createImageFile() throws IOException {
-//     Create an image file name
-        String imageFileName = "";
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = new SimpleDateFormat("dd-MM-yyyy").format(new Date());;
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
-
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }

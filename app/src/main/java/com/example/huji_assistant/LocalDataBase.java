@@ -30,6 +30,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -63,9 +64,8 @@ public class LocalDataBase {
     private final MutableLiveData<Boolean> firstLoadFlagMutableLiveData = new MutableLiveData<>();
     public final LiveData<Boolean> firstLoadFlagLiveData = firstLoadFlagMutableLiveData;
     private boolean firstUsersLoad = false;
-
+    FirebaseFirestoreSettings settings;
     private ArrayList<Course> coursesOfCurrentStudent = new ArrayList<>();
-
     FirebaseFirestore db;
     CollectionReference studentsCollection;
 
@@ -87,6 +87,10 @@ public class LocalDataBase {
         this.currentStudent = new StudentInfo();
         this.readDataIdsInUse4();
         firstLoadFlagMutableLiveData.postValue(false);
+        settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
 
 
         mutableLiveDataMyCourses.setValue(new ArrayList<>(listOfCourses));
@@ -309,6 +313,10 @@ public class LocalDataBase {
                 return 0;
             }
         });
+    }
+
+    public FirebaseFirestore getFirestoreDB(){
+        return db;
     }
 
     //    private void readDataIdsInUse(FirebaseUsersUpdateCallback firebaseCallback) {

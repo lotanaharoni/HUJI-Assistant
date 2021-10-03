@@ -83,7 +83,7 @@ public class CoursesFragment extends Fragment {
     TextView degreeTextView;
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
-    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     ArrayList<String> coursesOfStudent = new ArrayList<>(); // todo save in db to pass between activities
 
@@ -398,14 +398,13 @@ public class CoursesFragment extends Fragment {
                 if (endRegistrationBtnListener != null){
 
                     FirebaseAuth auth = db.getUsersAuthenticator();
-                    Toast.makeText(getActivity(), "register fragment", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                     auth.createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         Log.d("RegisterActivity", "registerWithEmail:success");
-                                        Toast.makeText(getActivity(), "registerWithEmail:success", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                        Toast.makeText(getActivity(), R.string.register_Successfully_message, Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                         FirebaseUser user = auth.getCurrentUser();
                                         // todo upload courses
 
@@ -424,7 +423,7 @@ public class CoursesFragment extends Fragment {
                                         endRegistrationBtnListener.onEndRegistrationBtnClicked();
                                     }else{
                                         Log.w("RegisterActivity", "registerWithEmail:failure", task.getException());
-                                        Toast.makeText(getActivity(), "registerWithEmail:failure", Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                        Toast.makeText(getActivity(), R.string.register_failed_message, Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                     }
                                 }
                             }).addOnFailureListener(new OnFailureListener() {

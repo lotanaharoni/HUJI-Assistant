@@ -35,9 +35,8 @@
     <string name="logout">האם אתה בטוח שברצונך להתנתק?</string>
     <string name="insert_grade">הזן ציון בקורס:</string>
     <string name="approve_btn">אישור</string>
-
-
-
+    <string name="register_Successfully_message">נרשמת בהצלחה!</string>
+    <string name="register_failed_message">היתה בעיה ברישום, אנא נסה שנית מאוחר יותר</string>
 
     <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
 

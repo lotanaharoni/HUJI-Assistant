@@ -30,6 +30,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.huji_assistant.HujiAssistentApplication;
+import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.Model;
 import com.example.huji_assistant.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,6 +59,7 @@ public class CaptureImageActivity extends AppCompatActivity {
     private DatabaseReference root;
     private StorageReference reference;
     private Uri imageUri, classContentUri;
+    private LocalDataBase dataBase = null;
     EditText imageTitle;
     String currentPhotoPath;
     public static final int CAMERA_PERM_CODE = 101;
@@ -95,6 +98,10 @@ public class CaptureImageActivity extends AppCompatActivity {
         pdfName.setText("");
         pdfName.setVisibility(View.INVISIBLE);
 
+        if (dataBase == null) {
+            dataBase = HujiAssistentApplication.getInstance().getDataBase();
+        }
+
         cameraImageUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,8 +113,8 @@ public class CaptureImageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               // startActivity(new Intent(CaptureImage2.this, PDFMainActivity.class));
-           // }
+                // startActivity(new Intent(CaptureImage2.this, PDFMainActivity.class));
+                // }
 
                 startActivity(new Intent(CaptureImageActivity.this, PDFMainActivity.class));            }
 
@@ -228,7 +235,12 @@ public class CaptureImageActivity extends AppCompatActivity {
     }
 
     private void uploadToFirebase(Uri uri, int source, String name) {
-        name = System.currentTimeMillis() + "_" + imageTitle.getText().toString();
+        name =  new SimpleDateFormat("dd-MM-yyyy").format(new Date()) +
+                "_" + dataBase.getCurrentStudent().getPersonalName() + "_" +
+                dataBase.getCurrentStudent().getFamilyName();
+        if (!imageTitle.getText().toString().equals("")){
+            name =  imageTitle.getText().toString() + "_" + name;
+        }
         StorageReference fileRef;
         int type;
         String fileName;
@@ -238,12 +250,12 @@ public class CaptureImageActivity extends AppCompatActivity {
             type = GALLERY_TYPE;
         }
         else if (source == CAMERA_REQUEST_CODE){
-            fileRef = reference.child("Camera_images/" + imageTitle.getText().toString() + "_" + fName);
+            fileRef = reference.child("Camera_images/" + name + ".png");
             type = CAMERA_TYPE;
             fileName = name;
         }
         else{
-            fileRef = reference.child("Documents/" + name);
+            fileRef = reference.child("Documents/" + name + ".pdf");
             type = PDF_TYPE;
             fileName = name;
         }
@@ -331,7 +343,7 @@ public class CaptureImageActivity extends AppCompatActivity {
 //    }
 
     private void askCameraPermissions() {
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
         }else {
             dispatchTakePictureIntent();
@@ -364,7 +376,7 @@ public class CaptureImageActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
 //     Create an image file name
         String imageFileName = "";
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyMMdd").format(new Date());
         if (!imageTitle.getText().toString().equals("")){
             imageFileName = imageTitle.getText().toString() + "_";
         }
