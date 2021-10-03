@@ -48,6 +48,7 @@
     <string name="new_password_is_empty">נא להזין סיסמא חדשה</string>
     <string name="repeat_password_is_empty">נא לחזור על הסיסמא החדשה</string>
     <string name="new_pass_is_not_equal_to_repeat_pass">נא לחזור במדויק על הסיסמא החדשה</string>
+    <string name="upload_pictures_button">העלאת סיכומים</string>
 
     <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
 

@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.zxing.Result;
 
 import java.util.HashMap;
@@ -35,6 +36,7 @@ public class ScanQrActivity extends AppCompatActivity {
     private final int YEAR = 1;
     private final int DAY = 2;
     FirebaseFirestore firestore;
+    FirebaseFirestoreSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,11 @@ public class ScanQrActivity extends AppCompatActivity {
         db = HujiAssistentApplication.getInstance().getDataBase();
         verifyPermissions();
         mCodeScanner.startPreview();
-        firestore = db.getFirestoreDB();
+        firestore = FirebaseFirestore.getInstance();
+        settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        firestore.setFirestoreSettings(settings);
 
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
