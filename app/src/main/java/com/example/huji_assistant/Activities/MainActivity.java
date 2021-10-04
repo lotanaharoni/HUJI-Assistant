@@ -39,12 +39,12 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final float GESTURE_THRESHOLD_DP = 16.0f;
+   // private static final float GESTURE_THRESHOLD_DP = 16.0f;
 
     // Get the screen's density scale
-    final float scale = getResources().getDisplayMetrics().density;
+//    final float scale = getResources().getDisplayMetrics().density;
 // Convert the dps to pixels, based on density scale
-    int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
+  //  int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
    // private static final int GESTURE_THRESHOLD_DP = ViewConfiguration.get(myContext).getScaledTouchSlop();
 
 

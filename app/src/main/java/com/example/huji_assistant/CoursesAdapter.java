@@ -144,7 +144,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         holder.type.setText(courseItem.getType());
         holder.grade.setVisibility(View.INVISIBLE);
         holder.deleteButton.setVisibility(View.INVISIBLE);
-        String text =   courseItem.getPoints() + " נ''ז ";
+        String text = courseItem.getPoints() + " נ''ז ";
         holder.points.setText(text);
 
         //holder.name.setTooltipText(courseItem.getName());
@@ -163,7 +163,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         if (courseItem.getGrade() != -1) {
             holder.grade.setVisibility(View.VISIBLE);
           //  holder.grade.setText(courseItem.getGrade()); // todo check
-            holder.grade.setText("courseItem.getGrade()");
+            holder.grade.setText("");
         }
 
         // todo check - when added courses write is finished == true
@@ -202,15 +202,16 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
             itemClickListener.onClick(courseItem);
         });
 
+        /**
         String courseType = courseItem.getType();
         switch (courseType) {
-            case "Mandatory":
+            case "לימודי חובה":
                 holder.type.setText("לימודי חובה");
                 break;
-            case "MandatoryChoose":
+            case "לימודי חובת בחירה":
                 holder.type.setText("חובת בחירה");
                 break;
-            case "Choose":
+            case "קורסי בחירה":
                 holder.type.setText("קורסי בחירה");
                 break;
             case "Supplemental":
@@ -221,27 +222,27 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
                 break;
             default:
                 break;
-        }
+        }*/
 
 
 
-        if (courseItem.getType().equals(Course.Type.Mandatory.toString())){
+        if (courseItem.getType().equals("לימודי חובה")){
           // holder.itemView.setBackgroundColor(R.color.colorAccent);
            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue1));
         }
-        else if (courseItem.getType().equals(Course.Type.MandatoryChoose.toString())){
+        else if (courseItem.getType().equals("לימודי חובת בחירה")){
            // holder.itemView.setBackgroundColor(R.color.light_teal);
             holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue2));
         }
-        else if (courseItem.getType().equals(Course.Type.Choose.toString())){
+        else if (courseItem.getType().equals("קורסי בחירה")){
          //   holder.itemView.setBackgroundColor(R.color.purple_200);
             holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue3));
         }
-        else if (courseItem.getType().equals(Course.Type.Supplemental.toString())){
+        else if (courseItem.getType().equals("משלימים")){
            // holder.itemView.setBackgroundColor(R.color.purple_500);
             holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue4));
         }
-        else if (courseItem.getType().equals(Course.Type.CornerStones.toString())){
+        else if (courseItem.getType().equals("אבני פינה")){
         //    holder.itemView.setBackgroundColor(R.color.purple_700);
             holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue5));
         }

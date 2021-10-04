@@ -16,6 +16,7 @@
         android:textColor="@color/white"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginBottom="2dp"
         app:layout_constraintBottom_toTopOf="@id/cardViewTop"
         tools:layout_editor_absoluteX="164dp"
         tools:layout_editor_absoluteY="70dp" />
@@ -24,36 +25,51 @@
         android:id="@+id/cardViewTop"
         android:layout_marginTop="200dp"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="550dp"
         android:layoutDirection="ltr"
         app:layout_constraintBottom_toTopOf="@id/bottomconstraitlayout"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="115dp">
+
+        <LinearLayout
+            android:id="@+id/linearlayout5"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="220dp"
+            android:background="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/fff"
+            android:orientation="vertical">
 
         <Button
             android:id="@+id/coursesPlan"
             android:layout_width="wrap_content"
             android:layout_height="49dp"
             android:textSize="12dp"
-            android:layout_marginLeft="150dp"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="150dp"
+            android:textDirection="ltr"
+            android:layout_gravity="right"
+            android:gravity="center"
             android:text="תכנון לימודים" />
 
         <Button
             android:id="@+id/myCoursesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
-            android:layout_marginLeft="10dp"
+            android:textDirection="ltr"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:layout_marginRight="150dp"
             android:text="הקורסים שלי" />
 
         <Button
             android:id="@+id/uploadPicturesButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="400dp"
-            android:singleLine="true"
-            android:layout_marginLeft="150dp"
+            android:textDirection="ltr"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:layout_marginRight="150dp"
             android:text="@string/upload_pictures_button" />
 
         <Button
@@ -61,23 +77,28 @@
             android:layout_width="wrap_content"
             android:layout_height="49dp"
             android:textSize="12dp"
-            android:layout_marginLeft="290dp"
-            android:layout_marginTop="400dp"
+            android:layout_marginRight="150dp"
+            android:textDirection="ltr"
+            android:layout_gravity="right"
+            android:gravity="center"
             android:text="מערכת שעות" />
 
         <Button
             android:id="@+id/privateInfoEditButton"
-            android:layout_marginTop="450dp"
+            android:textDirection="ltr"
+            android:layout_gravity="right"
+            android:gravity="center"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="120dp"
+            android:layout_marginRight="150dp"
             android:layout_height="wrap_content"
             android:text="עריכת פרטים אישיים" />
 
+        </LinearLayout>
 
         <ListView
             android:id="@+id/listViewMainScreen"
             android:layout_width="match_parent"
-            android:layout_height="367dp"
+            android:layout_height="37dp"
             android:layout_below="@+id/searchViewMainScreen"
             android:divider="#ad5"
             android:dividerHeight="2dp" />
@@ -90,16 +111,14 @@
             android:layout_alignParentTop="true"/>
 
         <ScrollView
+            android:id="@+id/fff"
             android:layout_width="match_parent"
-            android:layout_height="380dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
+            android:layout_height="130dp">
         </ScrollView>
-
     </androidx.cardview.widget.CardView>
+
+
+
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/bottomconstraitlayout"

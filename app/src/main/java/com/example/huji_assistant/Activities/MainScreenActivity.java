@@ -90,11 +90,11 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
     String currentPhotoPath;
     private DrawerLayout moreInfoDrawerLayout;
-   // private DrawerLayout settingsDrawerLayout;
     private ImageView logoutImageView;
    // ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
     ListenerRegistration listener;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+  //  FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -423,9 +423,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         ArrayList<String> coursesOfStudentById = dataBase.getCurrentStudent().getCourses();
         ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
+        String ROOT_COLLECTION = "coursesTestOnlyCs";
 
         // Gets the courses of the student from firebase and updates in local data base
-        Task<QuerySnapshot> courses1 = firebaseInstancedb.collection("courses").document(dataBase.getCurrentUser().getChugId())
+        Task<QuerySnapshot> courses1 = firebaseInstancedb.collection(ROOT_COLLECTION).document(dataBase.getCurrentUser().getChugId())
                 .collection("maslulimInChug").document(dataBase.getCurrentUser().getMaslulId())
                 .collection("coursesInMaslul")
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -436,6 +437,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         for (DocumentSnapshot document1 : documents){
                             Course course = document1.toObject(Course.class);
                             System.out.println("course2 "+ course.toStringP());
+                            // todo kdam - get data from firebse by course
                             coursesFromFireBase.add(course);
                         }
 

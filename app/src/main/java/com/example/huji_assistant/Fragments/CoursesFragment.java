@@ -87,8 +87,8 @@ public class CoursesFragment extends Fragment {
     LinearLayoutManager coordinatorLayout;
 
     //FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
-    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
-   // FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+   // FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
+    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
     ArrayList<String> coursesOfStudent = new ArrayList<>(); // todo save in db to pass between activities
 
@@ -138,9 +138,9 @@ public class CoursesFragment extends Fragment {
         firebaseInstancedb.setFirestoreSettings(settings);
 
         // todo add demo courses
-        Course infiC = new Course("אינפי", "0", Course.Type.Mandatory,"","");
+       // Course infiC = new Course("אינפי", "0", Course.Type.Mandatory,"","");
      //   Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
-        courseItems.add(infiC);
+     //   courseItems.add(infiC);
        // courseItems.add(linearitC);
 
         // Create the adapter
@@ -223,7 +223,9 @@ public class CoursesFragment extends Fragment {
              degreeTextView.setText(degreeType);
              yearTextView.setText(year);
 
-            Task<QuerySnapshot> document = firebaseInstancedb.collection("courses").document(chugId)
+
+            String ROOT_COLLECTION = "coursesTestOnlyCs";
+            Task<QuerySnapshot> document = firebaseInstancedb.collection(ROOT_COLLECTION).document(chugId)
                     .collection("maslulimInChug").document(maslulId).collection("coursesInMaslul")
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
