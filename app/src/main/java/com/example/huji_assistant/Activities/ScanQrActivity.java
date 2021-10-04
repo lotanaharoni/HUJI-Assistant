@@ -1,6 +1,7 @@
 package com.example.huji_assistant.Activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.zxing.Result;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,15 +62,22 @@ public class ScanQrActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        String[] parts = result.getText().split("-");
+//                        String[] parts = result.getText().split("-");
                         // parts = "67625-2021-15.09"
-                        if (parts.length != 3){
-                            return;
-                        }
+//                        if (parts.length != 3){
+//                            return;
+//                        }
+                        String year =  new SimpleDateFormat("yyyy").format(new Date());
+                        String day = new SimpleDateFormat("dd.MM").format(new Date());
+                        String course = result.getText();
                         StudentInfo user = db.getCurrentUser();
                         Map<String, Object> userScan = new HashMap<>();
-                        userScan.put(user.getId(), user);
-                        firestore.collection("attendance").document(parts[COURSE]).collection(parts[YEAR]).document(parts[DAY]).collection(user.getId())
+                        userScan.put(user.getEmail(), user);
+                        Map<String, Object> dummyValue = new HashMap<>();
+                        dummyValue.put("dummy", "dummy");
+                        firestore.collection("attendance").document(course).set(dummyValue);
+                        firestore.collection("attendance").document(course).collection(year).document(day).set(dummyValue);
+                        firestore.collection("attendance").document(course).collection(year).document(day).collection("dummy")
 //                        firestore.collection(parts[COURSE]).document(parts[YEAR]).collection(parts[DAY])
                                 .add(userScan)
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -121,7 +131,9 @@ public class ScanQrActivity extends AppCompatActivity {
             mCodeScanner.stopPreview();
         }
         else {
-            super.onBackPressed();
+            startActivity(new Intent(this, MainScreenActivity.class));
+            finish();
+//            super.onBackPressed();
         }
     }
 
