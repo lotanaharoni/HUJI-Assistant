@@ -4,9 +4,15 @@ import java.util.ArrayList;
 
 public class Maslul {
 
-    public String maslulId="";
-    public String title="";
-    public String chugParentId="";
+    private String maslulId="";
+    private String title="";
+    private String chugParentId="";
+    private String cornerStonesPoints="";
+    private String mandatoryChoicePoints = "";
+    private String mandatoryMathPoints = "";
+    private String mandatoryPointsTotal = "";
+    private String totalPoints = "";
+
     public ArrayList<String> degrees = new ArrayList<>();
     // todo change to private
 
@@ -31,5 +37,29 @@ public class Maslul {
 
     public String getId(){
         return maslulId;
+    }
+
+    public String getChugParentId(){
+        return chugParentId;
+    }
+
+    public String getCornerStonesPoints(){
+        return cornerStonesPoints;
+    }
+
+    public String getMandatoryChoicePoints(){
+        return mandatoryChoicePoints;
+    }
+
+    public String getMandatoryMathPoints(){
+        return mandatoryMathPoints;
+    }
+
+    public String getMandatoryPointsTotal(){
+        return mandatoryPointsTotal;
+    }
+
+    public String getTotalPoints(){
+        return totalPoints;
     }
 }

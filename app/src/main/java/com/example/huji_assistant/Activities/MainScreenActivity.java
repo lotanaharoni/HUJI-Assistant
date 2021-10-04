@@ -27,6 +27,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
+import com.example.huji_assistant.Maslul;
 import com.example.huji_assistant.Model;
 import com.example.huji_assistant.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -132,6 +133,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                     System.out.println("updated courses list: ");
                     currentStudent.printCourses();
                     getNewCoursesList();
+                    getMaslulInfo();
                 }
             });
         }
@@ -417,13 +419,39 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         startActivity(new Intent(Intent.ACTION_VIEW, url));
     }
 
+    private void getMaslulInfo(){
+        // If the sign up process was from other phone or the data was erased
+        if (dataBase.getCurrentMaslul() == null){
 
+            try{
+                String COLLECTION = "coursesTestOnlyCs";
+                Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection(COLLECTION).document(dataBase.getCurrentStudent().getChugId())
+                        .collection("maslulimInChug").document(dataBase.getCurrentStudent().getMaslulId())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot result = task.getResult();
+                                assert result != null;
+                                Maslul data = result.toObject(Maslul.class);
+                                assert data != null;
+                                String maslulName = data.getTitle();
+                                String totalPoints = data.getTotalPoints();
+                                dataBase.setCurrentMaslul(data);
+                            }
+                        });
+            }
+            catch (Exception e){
+                System.out.println("couldn't get maslul");
+            }
+        }
+    }
 
     private void getNewCoursesList(){
 
         ArrayList<String> coursesOfStudentById = dataBase.getCurrentStudent().getCourses();
         ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
         String ROOT_COLLECTION = "coursesTestOnlyCs";
+
 
         // Gets the courses of the student from firebase and updates in local data base
         Task<QuerySnapshot> courses1 = firebaseInstancedb.collection(ROOT_COLLECTION).document(dataBase.getCurrentUser().getChugId())
@@ -441,16 +469,22 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                             coursesFromFireBase.add(course);
                         }
 
+                        int currentPointsSum = 0;
+
+                        // Save the list of all courses in the student's maslul
                         dataBase.setCoursesFromFireBase(coursesFromFireBase);
 
                         for (String id : coursesOfStudentById){
                             for (Course course: coursesFromFireBase){
                                 if (course.getNumber().equals(id)){
                                     course.setIsFinished(true);
+                                    currentPointsSum += Integer.parseInt(course.getPoints());
                                     coursesOfStudentByCourse.add(course);
                                 }
                             }
                         }
+                        // Save the current points sum of the current student
+                        dataBase.setCurrentPointsSum(currentPointsSum);
                         // todo save the list of courses of current student to db
                         // show changes on course list in adapter
                         dataBase.setCoursesOfCurrentStudent(coursesOfStudentByCourse);

@@ -210,7 +210,7 @@ public class CoursesFragment extends Fragment {
                             assert result != null;
                             Maslul data = result.toObject(Maslul.class);
                             assert data != null;
-                            String maslulName = data.title;
+                            String maslulName = data.getTitle();
                             String text = maslulName + " " + maslulId;
                             maslulTextView.setText(text);
                             db.setCurrentMaslul(data);

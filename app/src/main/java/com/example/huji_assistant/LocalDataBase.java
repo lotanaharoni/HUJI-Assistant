@@ -58,6 +58,7 @@ public class LocalDataBase {
     private Faculty currentFaculty;
     private Chug currentChug;
     private Maslul currentMaslul;
+    private int currentPointsSum = 0;
     private final HashMap<String, StudentInfo> students;
 //    private final DatabaseReference usersRef;
     private final MutableLiveData<StudentInfo> currentUserMutableLiveData = new MutableLiveData<>();
@@ -150,6 +151,14 @@ public class LocalDataBase {
 
     public void setCoursesFromFireBase(ArrayList<Course> coursesToSet){
         this.coursesFromFireBase = new ArrayList<>(coursesToSet);
+    }
+
+    public void setCurrentPointsSum(int sum){
+        this.currentPointsSum = sum;
+    }
+
+    public int getCurrentPointsSum(){
+        return this.currentPointsSum;
     }
 
     public ArrayList<Course> getCoursesFromFireBase(){

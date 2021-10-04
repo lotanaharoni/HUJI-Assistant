@@ -31,6 +31,7 @@ import com.example.huji_assistant.CourseItemHolder;
 import com.example.huji_assistant.CoursesAdapter;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
+import com.example.huji_assistant.Maslul;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.StudentInfo;
 import com.example.huji_assistant.ViewModelAppMainScreen;
@@ -71,6 +72,13 @@ public class MyCoursesFragment extends Fragment {
     TextView maslulTextView;
     TextView degreeTextView;
     TextView yearTextView;
+    TextView textViewTotalPoints;
+    TextView textViewTotalPointsDegree;
+    TextView textViewTotalHovaPoints;
+    TextView textViewTotalHovaChoosePoints;
+    TextView textViewTotalChoosePoints;
+    TextView textViewTotalSuppPoints;
+    TextView textViewTotalCornerStonePoints;
     ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
 
 
@@ -128,10 +136,45 @@ public class MyCoursesFragment extends Fragment {
         chugTextView.setText(chug);
         String maslul = maslulTextView.getText() + " " + currentStudent.getMaslulId();
         maslulTextView.setText(maslul);
-        String degree = degreeTextView.getText() + " " + currentStudent.getDegree();
-        degreeTextView.setText(degree);
-        String year = yearTextView.getText() + " " + currentStudent.getYear();
-        yearTextView.setText(year);
+
+        String degree = currentStudent.getDegree();
+        if (degree != null){
+            degree = degreeTextView.getText() + " " + currentStudent.getDegree();
+            degreeTextView.setText(degree);
+        }
+
+        String year = currentStudent.getYear();
+        if (year != null) {
+            year = yearTextView.getText() + " " + currentStudent.getYear();
+            yearTextView.setText(year);
+        }
+        textViewTotalPoints = view.findViewById(R.id.textViewTotalPoints);
+        String points_desc = textViewTotalPoints.getText().toString();
+        int currentPointsSum = dataBase.getCurrentPointsSum();
+        String text = textViewTotalPoints.getText() + " " + currentPointsSum;
+        textViewTotalPoints.setText(text);
+
+        Maslul currentMaslul = dataBase.getCurrentMaslul();
+        // Total
+        String totalPoints = currentMaslul.getTotalPoints();
+        textViewTotalPointsDegree = view.findViewById(R.id.textViewTotalPointsDegree);
+        String text1 = textViewTotalPointsDegree.getText() + " " + totalPoints;
+        textViewTotalPointsDegree.setText(text1);
+        // Hova
+        textViewTotalHovaPoints = view.findViewById(R.id.textViewTotalHovaPoints);
+        String text2 = textViewTotalHovaPoints.getText() + " " + currentMaslul.getMandatoryPointsTotal();
+        textViewTotalHovaPoints.setText(text2);
+        // Choose hove
+        textViewTotalHovaChoosePoints =  view.findViewById(R.id.textViewTotalHovaChoosePoints);
+        textViewTotalChoosePoints = view.findViewById(R.id.textViewTotalChoosePoints);
+        textViewTotalSuppPoints = view.findViewById(R.id.textViewTotalSuppPoints);
+        textViewTotalCornerStonePoints = view.findViewById(R.id.textViewTotalCornerStonePoints);
+
+        String text3 = textViewTotalHovaChoosePoints.getText() + " " + currentMaslul.getMandatoryChoicePoints();
+        textViewTotalHovaChoosePoints.setText(text3);
+
+        String text4 = textViewTotalCornerStonePoints.getText() + " " + currentMaslul.getCornerStonesPoints();
+        textViewTotalCornerStonePoints.setText(text4);
 
         ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();
@@ -296,19 +339,6 @@ public class MyCoursesFragment extends Fragment {
         System.out.println("out: ++++");
         printCourses();
         ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
-        // todo add demo courses
-       // Course infiC = new Course("infi", "0", Course.Type.MandatoryChoose,"","");
-      //  Course linearitC = new Course("linearit", "1", Course.Type.Mandatory);
-      //  Course cC = new Course("c", "2", Course.Type.Choose);
-     //   Course dastC = new Course("dast", "4", Course.Type.Supplemental);
-      //  Course linearit2C = new Course("linearit 2", "6", Course.Type.CornerStones);
-       // courseItems.add(infiC);
-   //     courseItems.add(linearitC);
-     //   courseItems.add(cC);
-      //  courseItems.add(dastC);
-      //  courseItems.add(linearit2C);
-
-
 
         // Create the adapter
         adapter.addCoursesListToAdapter(courseItems);
@@ -343,6 +373,9 @@ public class MyCoursesFragment extends Fragment {
                             case DialogInterface.BUTTON_POSITIVE: {
                                 dataBase.removeCourseFromCurrentList(item.getNumber());
                                 ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
+                                int newPoints = calculateNewPointsSum(item.getPoints());
+                                String text = points_desc + " " + newPoints;
+                                textViewTotalPoints.setText(text);
                                 adapter.addCoursesListToAdapter(courseItems);
                                 adapter.notifyDataSetChanged();
                                 break;
@@ -371,6 +404,13 @@ public class MyCoursesFragment extends Fragment {
         }
     }
 
+    private int calculateNewPointsSum(String points){
+        int currentPointsSum = dataBase.getCurrentPointsSum();
+        int pointsToRemove = Integer.parseInt(points);
+        int newPoints = currentPointsSum - pointsToRemove;
+        dataBase.setCurrentPointsSum(newPoints);
+        return newPoints;
+    }
     public void collectInput(EditText txt){
         // convert edit text to string
         String getInput = txt.getText().toString();
