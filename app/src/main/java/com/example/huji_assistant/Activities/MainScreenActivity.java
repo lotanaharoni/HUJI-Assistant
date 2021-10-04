@@ -27,6 +27,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
+import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Maslul;
 import com.example.huji_assistant.Model;
 import com.example.huji_assistant.R;
@@ -197,6 +198,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
         AddCourseFragment addCourseFragment = new AddCourseFragment();
         ProfilePageFragment profilePageFragment = new ProfilePageFragment();
+        PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
         FloatingActionButton openCameraBtn = findViewById(R.id.open_camera_floating_button);
         root = FirebaseDatabase.getInstance().getReference("Image");
         reference = FirebaseStorage.getInstance().getReference();
@@ -252,6 +254,20 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         }
                     }
                 });
+
+        mainscreenfragment.coursesPlanButtonListenerBtn = new MainScreenFragment.coursesPlanButtonListenerBtn() {
+            @Override
+            public void onPlanCoursesButtonClicked() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+                        .replace(mainFragmentView.getId(), planCoursesFragment, "PLAN_COURSES_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
 
         mainscreenfragment.editInfoButtonListener = new MainScreenFragment.editInfoButtonListener(){
 
@@ -470,6 +486,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         }
 
                         int currentPointsSum = 0;
+                        int currentMandatoryPoints = 0;
+                        int currentCornerStonePoints = 0;
+                        int currentMandatoryChoosePoints = 0;
 
                         // Save the list of all courses in the student's maslul
                         dataBase.setCoursesFromFireBase(coursesFromFireBase);
@@ -479,12 +498,31 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                                 if (course.getNumber().equals(id)){
                                     course.setIsFinished(true);
                                     currentPointsSum += Integer.parseInt(course.getPoints());
+                                    String type = course.getType();
+                                    switch (type){
+                                        case "לימודי חובה":
+                                            currentMandatoryPoints += Integer.parseInt(course.getPoints());
+                                            break;
+                                        case "לימודי חובת בחירה":
+                                            currentMandatoryChoosePoints += Integer.parseInt(course.getPoints());
+                                            break;
+                                        case "קורסי בחירה":
+                                            break;
+                                        case "משלימים":
+                                            break;
+                                        case "אבני פינה":
+                                            currentCornerStonePoints += Integer.parseInt(course.getPoints());
+                                            break;
+                                    }
                                     coursesOfStudentByCourse.add(course);
                                 }
                             }
                         }
                         // Save the current points sum of the current student
                         dataBase.setCurrentPointsSum(currentPointsSum);
+                        dataBase.setCurrentMandatoryPoints(currentMandatoryPoints);
+                        dataBase.setCurrentMandatoryChoosePoints(currentMandatoryChoosePoints);
+                        dataBase.setCurrentCornerStonesPoints(currentCornerStonePoints);
                         // todo save the list of courses of current student to db
                         // show changes on course list in adapter
                         dataBase.setCoursesOfCurrentStudent(coursesOfStudentByCourse);

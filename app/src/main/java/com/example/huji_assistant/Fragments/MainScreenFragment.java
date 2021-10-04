@@ -27,9 +27,14 @@ public class MainScreenFragment extends Fragment {
     public MainScreenFragment.myCoursesButtonListener myCoursesButtonListenerBtn = null;
     public MainScreenFragment.UploadPictureButtonListener uploadPicturesButtonListenerBtn = null;
     public MainScreenFragment.editInfoButtonListener editInfoButtonListener = null;
+    public MainScreenFragment.coursesPlanButtonListenerBtn coursesPlanButtonListenerBtn = null;
 
     public interface myCoursesButtonListener{
         public void onMyCoursesButtonClicked();
+    }
+
+    public interface coursesPlanButtonListenerBtn{
+        public void onPlanCoursesButtonClicked();
     }
 
     public interface editInfoButtonListener{
@@ -46,18 +51,29 @@ public class MainScreenFragment extends Fragment {
     Button myCourses;
     Button privateInfoEditBtn;
     Button uploadPicturesButton;
+    Button coursesPlanBtn;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         myCourses = view.findViewById(R.id.myCoursesButton);
+        coursesPlanBtn = view.findViewById(R.id.coursesPlan);
         uploadPicturesButton = view.findViewById(R.id.uploadPicturesButton);
         privateInfoEditBtn = view.findViewById(R.id.privateInfoEditButton);
 
         FloatingActionButton openCameraFloatingButton = view.findViewById(R.id.open_camera_floating_button);
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
 
+        });
+
+        coursesPlanBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (coursesPlanButtonListenerBtn != null) {
+                    coursesPlanButtonListenerBtn.onPlanCoursesButtonClicked();
+                }
+            }
         });
 
         myCourses.setOnClickListener(new View.OnClickListener() {

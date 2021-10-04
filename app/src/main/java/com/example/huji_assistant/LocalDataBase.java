@@ -59,6 +59,9 @@ public class LocalDataBase {
     private Chug currentChug;
     private Maslul currentMaslul;
     private int currentPointsSum = 0;
+    private int currentMandatoryChoosePoints = 0;
+    private int currentMandatoryPoints = 0;
+    private int currentCornerStonePoints = 0;
     private final HashMap<String, StudentInfo> students;
 //    private final DatabaseReference usersRef;
     private final MutableLiveData<StudentInfo> currentUserMutableLiveData = new MutableLiveData<>();
@@ -155,6 +158,30 @@ public class LocalDataBase {
 
     public void setCurrentPointsSum(int sum){
         this.currentPointsSum = sum;
+    }
+
+    public void setCurrentMandatoryPoints(int currentMandatoryPoints_){
+        this.currentMandatoryPoints = currentMandatoryPoints_;
+    }
+
+    public void setCurrentMandatoryChoosePoints(int currentMandatoryChoosePoints_){
+        this.currentMandatoryChoosePoints = currentMandatoryChoosePoints_;
+    }
+
+    public void setCurrentCornerStonesPoints(int currentCornerStonePoints_){
+        this.currentCornerStonePoints = currentCornerStonePoints_;
+    }
+
+    public int getCurrentCornerStonesPoints(){
+        return this.currentCornerStonePoints;
+    }
+
+    public int getCurrentMandatoryPoints(){
+        return this.currentMandatoryPoints;
+    }
+
+    public int getCurrentMandatoryChoosePoints(){
+        return this.currentMandatoryChoosePoints;
     }
 
     public int getCurrentPointsSum(){

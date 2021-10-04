@@ -176,6 +176,14 @@ public class MyCoursesFragment extends Fragment {
         String text4 = textViewTotalCornerStonePoints.getText() + " " + currentMaslul.getCornerStonesPoints();
         textViewTotalCornerStonePoints.setText(text4);
 
+      //  int currentMandatoryChoosePoints = dataBase.getCurrentMandatoryChoosePoints();
+      //  int currentMandatoryPoints = dataBase.getCurrentMandatoryPoints();
+     //   int currentCornerStonePoints = dataBase.getCurrentCornerStonesPoints();
+
+
+
+
+
         ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();
         ArrayList<Course> coursesForAdapter = new ArrayList<>();
@@ -220,8 +228,6 @@ public class MyCoursesFragment extends Fragment {
          */
 
         //todo observe from db on change in courses
-
-
 
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -287,7 +293,6 @@ public class MyCoursesFragment extends Fragment {
             }
         });
 
-
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
@@ -304,8 +309,6 @@ public class MyCoursesFragment extends Fragment {
             }
         });*/
 
-
-
         if (holder == null) {
             holder = new CourseItemHolder(recyclerViewMyCourses);
         }
@@ -316,7 +319,6 @@ public class MyCoursesFragment extends Fragment {
        // ArrayList<Course>
        // ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
         StudentInfo currentUser = dataBase.getCurrentUser();
-
 
         // todo maybe observe instead
         Task<DocumentSnapshot> document =  firebaseInstancedb.collection("students").document(currentUser.getId())
