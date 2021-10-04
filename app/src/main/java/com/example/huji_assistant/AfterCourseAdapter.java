@@ -96,6 +96,11 @@ public class AfterCourseAdapter extends RecyclerView.Adapter<AfterCourseItemHold
         KdamOrAfterCourse courseItem = this.list.get(position);
         holder.name.setText(courseItem.getName());
         holder.number.setText(courseItem.getNumber());
+        //holder.group.setText(courseItem.getGroup());
+        String semesterText = " סמסטר " + courseItem.getSemester()  ;
+        holder.semester.setText(semesterText);
+        String text = courseItem.getPoints() + " נ''ז ";
+        holder.points.setText(text);
     }
 
 
