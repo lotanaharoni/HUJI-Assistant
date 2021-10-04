@@ -28,8 +28,8 @@ public class AddCourseFragment extends Fragment {
 
     private ViewModelApp viewModelApp;
 
-    SearchView searchView;
-    ListView listView;
+  //  SearchView searchView;
+  //  ListView listView;
     ArrayList list;
     ArrayAdapter adapter;
     public LocalDataBase dataBase = null;
@@ -73,30 +73,30 @@ public class AddCourseFragment extends Fragment {
         });
 
 
-        searchView = view.findViewById(R.id.searchViewNumber);
-        listView = view.findViewById(R.id.listViewNumber);
+       // searchView = view.findViewById(R.id.searchViewNumber);
+       // listView = view.findViewById(R.id.listViewNumber);
         list = new ArrayList<>(courseItems);
 
         String[] aa = {"linearit", "infi"};
 
         adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, aa);
-        listView.setAdapter(adapter);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                if(list.contains(query)){
-                    adapter.getFilter().filter(query);
-                }else{
+       // listView.setAdapter(adapter);
+      //  searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        //    @Override
+        //    public boolean onQueryTextSubmit(String query) {
+          //      if(list.contains(query)){
+           //         adapter.getFilter().filter(query);
+           //     }else{
                    // Toast.makeText(MainActivity.this, "No Match found",Toast.LENGTH_LONG).show();
-                }
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                return false;
-            }
-        });
+            //    }
+           //     return false;
+          //  }
+        //    @Override
+          //  public boolean onQueryTextChange(String newText) {
+          //      adapter.getFilter().filter(newText);
+          //      return false;
+          //  }
+      //  });
     }
 
     private void checkValidaity(String courseToAddId){
