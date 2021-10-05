@@ -199,7 +199,7 @@ public class CoursesFragment extends Fragment {
                             db.setCurrentChug(data);
                         }
                     });
-
+            System.out.println("rOO" + chugId + " " + maslulId );
             Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection("faculties").document(facultyId)
                     .collection("chugimInFaculty").document(chugId)
                     .collection("maslulimInChug").document(maslulId)

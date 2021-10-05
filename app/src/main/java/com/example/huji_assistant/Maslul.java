@@ -35,7 +35,7 @@ public class Maslul {
         return title;
     }
 
-    public String getId(){
+    public String getMaslulId(){
         return maslulId;
     }
 

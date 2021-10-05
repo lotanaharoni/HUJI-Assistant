@@ -232,7 +232,7 @@ public class InfoFragment extends Fragment {
                     checkValidation();
 
                     if (isFacultyValid && isChugValid && isMaslulValid) {
-
+                        System.out.println("set : " + maslulId);
                         currentStudent.setFacultyId(facultyId);
                         currentStudent.setChugId(chugId);
                         currentStudent.setMaslulId(maslulId);
@@ -443,7 +443,7 @@ public class InfoFragment extends Fragment {
                                 for (DocumentSnapshot document1 : documents) {
                                     // retrieve for each chug id it's name
                                     Maslul maslul = document1.toObject(Maslul.class);
-                                    maslulId = maslul.getId();
+                                    maslulId = maslul.getMaslulId();
                                     System.out.println("chosen maslul: " + maslulId);
                                 }
 

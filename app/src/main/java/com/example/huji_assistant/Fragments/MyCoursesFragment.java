@@ -165,7 +165,7 @@ public class MyCoursesFragment extends Fragment {
         String text2 = textViewTotalHovaPoints.getText() + " " + currentMaslul.getMandatoryPointsTotal();
         textViewTotalHovaPoints.setText(text2);
         // Choose hove
-        textViewTotalHovaChoosePoints =  view.findViewById(R.id.textViewTotalHovaChoosePoints);
+        textViewTotalHovaChoosePoints = view.findViewById(R.id.textViewTotalHovaChoosePoints);
         textViewTotalChoosePoints = view.findViewById(R.id.textViewTotalChoosePoints);
         textViewTotalSuppPoints = view.findViewById(R.id.textViewTotalSuppPoints);
         textViewTotalCornerStonePoints = view.findViewById(R.id.textViewTotalCornerStonePoints);
@@ -179,10 +179,6 @@ public class MyCoursesFragment extends Fragment {
       //  int currentMandatoryChoosePoints = dataBase.getCurrentMandatoryChoosePoints();
       //  int currentMandatoryPoints = dataBase.getCurrentMandatoryPoints();
      //   int currentCornerStonePoints = dataBase.getCurrentCornerStonesPoints();
-
-
-
-
 
         ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();

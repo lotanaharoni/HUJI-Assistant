@@ -127,7 +127,7 @@ public class CourseInfoFragment extends Fragment {
         // Get kdam courses
     }
 
-    private void getKdamCourses(){
+    public void getKdamCourses(){
 
         System.out.println("chug: " + db.getCurrentStudent().getChugId());
         System.out.println("maslul: " + db.getCurrentStudent().getMaslulId());
@@ -177,7 +177,7 @@ public class CourseInfoFragment extends Fragment {
         }
     }
 
-    private void getAfterCourses(){
+    public void getAfterCourses(){
         System.out.println("chug: " + db.getCurrentStudent().getChugId());
         System.out.println("maslul: " + db.getCurrentStudent().getMaslulId());
         System.out.println("course: " + courseNumber);
