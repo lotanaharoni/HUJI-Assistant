@@ -24,75 +24,37 @@ import java.util.Map;
 public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAdapter.MyViewHolder> {
 
     private ArrayList<String> mListCourses;
-    private ArrayList<AttendancyModel> mList;
     private Context context;
-    private ArrayList<String> years;
-    private String savedCourseDocument = "";
-    private int stage = 0;
-    private String savedDateDocument = "";
-    private boolean pressedBack;
-    List<String> data;
-    FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    private String savedCourseDocument;
+    private int stage;
+    private String savedDateDocument;
+    private List<String> data;
+    private FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
-    public interface OnItemClickListener {
-        public void onItemClick(View view, int position);
-    }
-
-    public ShowAttendancyAdapter(Context context, ArrayList<String> mList, int stage, String savedCourseDocument, boolean pressedBack){
+    public ShowAttendancyAdapter(Context context, ArrayList<String> mList, int stage, String savedCourseDocument){
         this.context = context;
         this.mListCourses = mList;
         this.stage = stage;
         this.savedCourseDocument = savedCourseDocument;
-        this.pressedBack = pressedBack;
+        this.savedDateDocument = "";
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.attendancy_course_item, parent, false);
-
-        final MyViewHolder viewHolder = new MyViewHolder(v);
         return new MyViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        if (stage == 0 && pressedBack){
-            data = new ArrayList<>();
-            firebaseInstancedb.collection("attendance").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            data.add(document.getId());
-                        }
-                        swap(data);
-                    }
-                }
-            });
-            pressedBack = false;
-        }
-        if (stage == 1 && pressedBack){
-            data = new ArrayList<>();
-            savedCourseDocument = holder.imageTitle.getText().toString();
-            firebaseInstancedb.collection("attendance").document(savedCourseDocument).collection("2021").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            data.add(document.getId());
-                        }
-                        swap(data);
-                    }
-                }
-            });
-            pressedBack = false;
-        }
-        years = new ArrayList<>();
         data = new ArrayList<>();
         holder.imageTitle.setText(mListCourses.get(position));
         if (stage == 2){
             holder.imageView.setImageResource(R.drawable.ic_baseline_person_24);
+        }
+        else {
+            holder.imageView.setImageResource(R.drawable.ic_baseline_folder_24);
         }
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -115,22 +77,13 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
                 }
                 else if (stage == 1){
                     savedDateDocument = holder.imageTitle.getText().toString();
-//                    holder.imageView.setImageResource(R.drawable.ic_baseline_person_24);
                     firebaseInstancedb.collection("attendance").document(savedCourseDocument).collection("2021").document(holder.imageTitle.getText().toString()).collection("dummy").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-//                                holder.studentImageView.setVisibility(View.INVISIBLE);
-//                                holder.imageView.setVisibility(View.INVISIBLE);
-//                                int id = context.getResources().getIdentifier("com.example.huji_assistant:drawable/university.png", null, null);
-
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Map<String, Object> map = document.getData();
-                                    //                                        System.out.println( key );
                                     data.addAll(map.keySet());
-
-//                                    StudentInfo student = document.toObject(StudentInfo.class);
-//                                    data.add(map.);
                                 }
                                 swap(data);
                             }
@@ -140,7 +93,6 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
                 }
             }
         });
-
     }
 
     @Override
@@ -173,5 +125,9 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
 
     public String getSavedCourseDocument(){
         return this.savedCourseDocument;
+    }
+
+    public String getSavedDate(){
+        return savedDateDocument;
     }
 }
