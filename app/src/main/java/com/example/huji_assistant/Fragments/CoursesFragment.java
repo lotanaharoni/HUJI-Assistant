@@ -177,7 +177,7 @@ public class CoursesFragment extends Fragment {
                      assert result != null;
                      Faculty data = result.toObject(Faculty.class);
                      assert data != null;
-                     String facultyName = data.title;
+                     String facultyName = data.getTitle();
                      String text = facultyName + " " + facultyId;
                      facultyTextView.setText(text);
                      db.setCurrentFaculty(data);

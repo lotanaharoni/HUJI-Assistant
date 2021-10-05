@@ -27,6 +27,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 
+import com.example.huji_assistant.Chug;
+import com.example.huji_assistant.Faculty;
 import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Maslul;
 import com.example.huji_assistant.Model;
@@ -134,6 +136,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                     System.out.println("updated courses list: ");
                     currentStudent.printCourses();
                     getNewCoursesList();
+                    getFacultyInfo();
+                    getChugInfo();
                     getMaslulInfo();
                 }
             });
@@ -435,6 +439,54 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         startActivity(new Intent(Intent.ACTION_VIEW, url));
     }
 
+    private void getChugInfo(){
+        if (dataBase.getCurrentChug() == null){
+            try{
+                String COLLECTION = "coursesTestOnlyCs";
+                Task<DocumentSnapshot> chugim1 = firebaseInstancedb.collection(COLLECTION).document(dataBase.getCurrentStudent().getChugId())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot result = task.getResult();
+                                assert result != null;
+                                Chug data = result.toObject(Chug.class);
+                                assert data != null;
+                                String chugName = data.getTitle();
+                                System.out.println("got chug: " + chugName);
+                                dataBase.setCurrentChug(data);
+                            }
+                        });
+            }
+            catch (Exception e){
+                System.out.println("couldn't get chug");
+            }
+        }
+    }
+
+    private void getFacultyInfo(){
+        if (dataBase.getCurrentFaculty() == null){
+            try{
+                String COLLECTION = "faculties";
+                Task<DocumentSnapshot> faculties1 = firebaseInstancedb.collection(COLLECTION).document(dataBase.getCurrentStudent().getFacultyId())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot result = task.getResult();
+                                assert result != null;
+                                Faculty data = result.toObject(Faculty.class);
+                                assert data != null;
+                                String facultyName = data.getTitle();
+                                System.out.println("got faculty: " + facultyName);
+                                dataBase.setCurrentFaculty(data);
+                            }
+                        });
+            }
+            catch (Exception e){
+                System.out.println("couldn't get faculty");
+            }
+        }
+    }
+
     private void getMaslulInfo(){
         // If the sign up process was from other phone or the data was erased
         if (dataBase.getCurrentMaslul() == null){
@@ -451,6 +503,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                                 Maslul data = result.toObject(Maslul.class);
                                 assert data != null;
                                 String maslulName = data.getTitle();
+                                System.out.println("got maslul: " + maslulName);
                                 String totalPoints = data.getTotalPoints();
                                 dataBase.setCurrentMaslul(data);
                             }

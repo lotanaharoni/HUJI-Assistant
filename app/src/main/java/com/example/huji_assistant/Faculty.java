@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class Faculty {
 
-    public String title="";
-    public String facultyId="";
-    public ArrayList<Chug> chugimInFaculty= new ArrayList<>();
+    private String title="";
+    private String facultyId="";
+    private ArrayList<Chug> chugimInFaculty= new ArrayList<>();
     // todo change to private
 
     public Faculty(){
@@ -29,5 +29,9 @@ public class Faculty {
 
     public String getFacultyId(){
         return facultyId;
+    }
+
+    public String getTitle(){
+        return this.title;
     }
 }

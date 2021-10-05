@@ -52,7 +52,6 @@ public class MyCoursesFragment extends Fragment {
     private ViewModelAppMainScreen viewModelAppMainScreen;
     FirebaseFirestoreSettings settings;
     FragmentMycoursesBinding binding;
-
     public CourseItemHolder holder = null;
     LinearLayoutManager coordinatorLayout;
     public CoursesAdapter adapter = null;
@@ -128,13 +127,17 @@ public class MyCoursesFragment extends Fragment {
         degreeTextView = view.findViewById(R.id.nameOfDegree);
         yearTextView = view.findViewById(R.id.yearOfDegree);
 
+        // Update data on screen
         String name = studentNameTextView.getText() +" " + currentStudent.getPersonalName() + " " + currentStudent.getFamilyName();
         studentNameTextView.setText(name);
-        String faculty = facultyTextView.getText() + " " + currentStudent.getFacultyId();
-        facultyTextView.setText(faculty); //todo change not id
-        String chug = chugTextView.getText() + " " + currentStudent.getChugId();
+
+        String faculty = facultyTextView.getText() + " " + currentStudent.getFacultyId() + " " + dataBase.getCurrentFaculty().getTitle();
+        facultyTextView.setText(faculty);
+
+        String chug = chugTextView.getText() + " " + currentStudent.getChugId() + " " + dataBase.getCurrentChug().getTitle();
         chugTextView.setText(chug);
-        String maslul = maslulTextView.getText() + " " + currentStudent.getMaslulId();
+
+        String maslul = maslulTextView.getText() + " " + currentStudent.getMaslulId() + " " + dataBase.getCurrentMaslul().getTitle();
         maslulTextView.setText(maslul);
 
         String degree = currentStudent.getDegree();
@@ -148,6 +151,8 @@ public class MyCoursesFragment extends Fragment {
             year = yearTextView.getText() + " " + currentStudent.getYear();
             yearTextView.setText(year);
         }
+
+        // Update points on screen
         textViewTotalPoints = view.findViewById(R.id.textViewTotalPoints);
         String points_desc = textViewTotalPoints.getText().toString();
         int currentPointsSum = dataBase.getCurrentPointsSum();
@@ -161,24 +166,41 @@ public class MyCoursesFragment extends Fragment {
         String text1 = textViewTotalPointsDegree.getText() + " " + totalPoints;
         textViewTotalPointsDegree.setText(text1);
         // Hova
+
         textViewTotalHovaPoints = view.findViewById(R.id.textViewTotalHovaPoints);
-        String text2 = textViewTotalHovaPoints.getText() + " " + currentMaslul.getMandatoryPointsTotal();
-        textViewTotalHovaPoints.setText(text2);
+       // String text2 = textViewTotalHovaPoints.getText() + " " + currentMaslul.getMandatoryPointsTotal();
+       // textViewTotalHovaPoints.setText(text2);
+        int currentMandatoryChoosePoints = dataBase.getCurrentMandatoryChoosePoints();
+
+        System.out.println("current mandatory choose: " + currentMandatoryChoosePoints);
+        int currentMandatoryPoints = dataBase.getCurrentMandatoryPoints();
+        System.out.println("current mandatory: " + currentMandatoryPoints);
+
+        String text5 = textViewTotalHovaPoints.getText() + " " + currentMandatoryPoints + " "
+                + "מתוך: " + currentMaslul.getMandatoryPointsTotal();
+        textViewTotalHovaPoints.setText(text5);
+
         // Choose hove
         textViewTotalHovaChoosePoints = view.findViewById(R.id.textViewTotalHovaChoosePoints);
         textViewTotalChoosePoints = view.findViewById(R.id.textViewTotalChoosePoints);
         textViewTotalSuppPoints = view.findViewById(R.id.textViewTotalSuppPoints);
         textViewTotalCornerStonePoints = view.findViewById(R.id.textViewTotalCornerStonePoints);
 
-        String text3 = textViewTotalHovaChoosePoints.getText() + " " + currentMaslul.getMandatoryChoicePoints();
-        textViewTotalHovaChoosePoints.setText(text3);
+        int totalChoose = 16; //todo set in firebase
+
 
         String text4 = textViewTotalCornerStonePoints.getText() + " " + currentMaslul.getCornerStonesPoints();
         textViewTotalCornerStonePoints.setText(text4);
 
-      //  int currentMandatoryChoosePoints = dataBase.getCurrentMandatoryChoosePoints();
-      //  int currentMandatoryPoints = dataBase.getCurrentMandatoryPoints();
-     //   int currentCornerStonePoints = dataBase.getCurrentCornerStonesPoints();
+
+     //  int currentCornerStonePoints = dataBase.getCurrentCornerStonesPoints();
+
+
+        String text3 = textViewTotalHovaChoosePoints.getText() + " " + currentMandatoryChoosePoints + " "
+                + "מתוך: " + currentMaslul.getMandatoryChoicePoints();
+        textViewTotalHovaChoosePoints.setText(text3);
+
+
 
         ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();
