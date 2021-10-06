@@ -7,18 +7,18 @@
     android:background="@drawable/backgroundimage">
 
     <!--  logo  -->
-<!--    <ImageView-->
-<!--        android:id="@+id/logo_image_in_profile"-->
-<!--        android:layout_marginTop="20dp"-->
-<!--        android:layout_width="128dp"-->
-<!--        android:layout_height="74dp"-->
-<!--        android:background="@null"-->
-<!--        android:contentDescription="@string/logo_description"-->
-<!--        android:cursorVisible="false"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:srcCompat="@drawable/university" />-->
+    <!--    <ImageView-->
+    <!--        android:id="@+id/logo_image_in_profile"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:layout_width="128dp"-->
+    <!--        android:layout_height="74dp"-->
+    <!--        android:background="@null"-->
+    <!--        android:contentDescription="@string/logo_description"-->
+    <!--        android:cursorVisible="false"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:srcCompat="@drawable/university" />-->
 
     <ScrollView
         android:id="@+id/scrollViewUserInfo"
@@ -178,34 +178,51 @@
                 android:layout_height="wrap_content"
                 android:text="עריכת נתוני תואר " />
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layouttext1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewDegreeEditInfo"
                 android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="12dp"
+                android:layout_width="200dp"
+                android:layout_gravity="right"
+                android:gravity="right"
                 android:textStyle="bold"
-                android:layout_marginRight="12dp"
+                android:layout_marginTop="22dp"
+                android:layout_marginLeft="10dp"
                 android:inputType="none"
-                android:layout_height="40dp"
+                android:textSize="14sp"
+                android:layout_height="60dp"
                 android:hint="בחר תואר"
                 android:completionHint="בחר תואר"
                 android:layout_weight="1"
                 android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layouttext2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewYearEditInfo"
                 android:background="@color/grey"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginRight="12dp"
+                android:layout_width="200dp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:textSize="14sp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
                 android:textStyle="bold"
                 android:inputType="none"
-                android:layout_height="40dp"
+                android:layout_height="60dp"
                 android:completionHint="בחר שנה לתואר"
                 android:hint="בחר שנה לתואר"
                 android:layout_weight="1"
                 android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
         </LinearLayout>

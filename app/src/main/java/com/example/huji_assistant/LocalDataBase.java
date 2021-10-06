@@ -304,6 +304,20 @@ public class LocalDataBase {
         });
     }
 
+    public void updateYear(String year){
+        this.currentStudent.setYear(year);
+        this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
+            System.out.println("upload finished");
+        });
+    }
+
+    public void updateDegree(String degree){
+        this.currentStudent.setDegree(degree);
+        this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
+            System.out.println("upload finished");
+        });
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void removeCourseFromCurrentList(String itemId){
 

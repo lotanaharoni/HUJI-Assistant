@@ -81,6 +81,7 @@ public class MyCoursesFragment extends Fragment {
     TextView textViewTotalChoosePoints;
     TextView textViewTotalSuppPoints;
     TextView textViewTotalCornerStonePoints;
+    TextView averageTxt;
     ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
 
 
@@ -211,6 +212,10 @@ public class MyCoursesFragment extends Fragment {
         String text6 = textViewTotalChoosePoints.getText() + " " + currentChoosePoints + " ";
         textViewTotalChoosePoints.setText(text6);
 
+        //int average = calculateAverage();
+        //averageTxt = view.findViewById(R.id.textViewAverage);
+       // averageTxt.setText(Integer.toString(average));
+
         ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();
         ArrayList<Course> coursesForAdapter = new ArrayList<>();
@@ -334,6 +339,8 @@ public class MyCoursesFragment extends Fragment {
                     ArrayList<Course> list = dataBase.getCoursesOfCurrentStudent();
                     adapter.addCoursesListToAdapter(list);
                     adapter.notifyDataSetChanged();
+                    arrayAdapter.getFilter().filter("");
+                    binding.autocompletechoosetype1.setAdapter(arrayAdapter);
 
                 }
                 else {
@@ -479,6 +486,15 @@ public class MyCoursesFragment extends Fragment {
             System.out.println(coursesId.get(i));
         }
     }
+
+   // private void calculateAverage(){
+    //    ArrayList<Course> currentCourses = dataBase.getCoursesOfCurrentStudent();
+    //    for (Course c : currentCourses){
+       //     int points = Integer.parseInt(c.getPoints());
+       //     int grade = Integer.parseInt(c.getGrade()); // todo option to get grade and set hashmap course id + grade
+            // todo save in fire store hashmapof grades?
+     //   }
+  //  }
 
     private int calculateNewPointsSum(String points){
         int currentPointsSum = dataBase.getCurrentPointsSum();

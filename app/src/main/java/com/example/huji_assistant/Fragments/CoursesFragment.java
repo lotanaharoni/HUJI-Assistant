@@ -302,8 +302,10 @@ public class CoursesFragment extends Fragment {
                 if (selectedValue.equals("הכל")){
                     ArrayList<Course> list = db.getCoursesRegistration();
                     adapter.addCoursesListToAdapter(list);
-                    arrayAdapter.getFilter().filter("");
+                    //arrayAdapter.getFilter().filter("");
                     adapter.notifyDataSetChanged();
+                    arrayAdapter.getFilter().filter("");
+                    binding.autocompletechoosetypeRegisterScreen.setAdapter(arrayAdapter);
 
                 }
                 else {
@@ -365,8 +367,10 @@ public class CoursesFragment extends Fragment {
                     ArrayList<Course> list = db.getCoursesRegistration();
                     adapter.addCoursesListToAdapter(list);
                     adapter.notifyDataSetChanged();
+                   // arrayAdapter1.getFilter().filter("");
+                   // arrayAdapter.getFilter().filter("");
                     arrayAdapter1.getFilter().filter("");
-                    arrayAdapter.getFilter().filter("");
+                    binding.autocompletechoosenameRegisterScreen.setAdapter(arrayAdapter1);
 
                 }
                 else {

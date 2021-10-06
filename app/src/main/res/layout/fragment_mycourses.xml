@@ -318,6 +318,27 @@
             android:text="מספר נקודות נדרש לתואר:">
 
         </TextView>
+
+        <ImageView
+            android:src="@android:drawable/divider_horizontal_dark"
+            app:layout_constraintTop_toBottomOf="@id/textViewTotalHovaChoosePoints"
+            android:background="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="48dp"
+            />
+
+        <TextView
+            android:id="@+id/textViewAverage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="230dp"
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:layout_marginTop="50dp"
+            android:text="ממוצע נוכחי: ">
+
+        </TextView>
     </androidx.cardview.widget.CardView>
 
 

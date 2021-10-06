@@ -29,7 +29,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.huji_assistant.Chug;
 import com.example.huji_assistant.Faculty;
+import com.example.huji_assistant.Fragments.EditProfileFragment;
 import com.example.huji_assistant.Fragments.PlanCoursesFragment;
+import com.example.huji_assistant.Fragments.SettingsFragment;
 import com.example.huji_assistant.Maslul;
 import com.example.huji_assistant.Model;
 import com.example.huji_assistant.R;
@@ -201,8 +203,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         MyCoursesFragment myCoursesFragment = new MyCoursesFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
         AddCourseFragment addCourseFragment = new AddCourseFragment();
-        ProfilePageFragment profilePageFragment = new ProfilePageFragment();
+       // ProfilePageFragment profilePageFragment = new ProfilePageFragment();
+        EditProfileFragment editProfileFragment = new EditProfileFragment();
         PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
+        SettingsFragment settingsFragment = new SettingsFragment();
         FloatingActionButton openCameraBtn = findViewById(R.id.open_camera_floating_button);
         root = FirebaseDatabase.getInstance().getReference("Image");
         reference = FirebaseStorage.getInstance().getReference();
@@ -218,17 +222,39 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         findViewById(R.id.settings).setOnClickListener(v -> {
             // todo handle
+            SettingsFragment myFragment = (SettingsFragment)getSupportFragmentManager().findFragmentByTag("SETTINGS_FRAGMENT");
+            if (myFragment != null && myFragment.isVisible()) {
+                // add your code here
+                return;
+            }
+
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.fade_in,  // enter
+                            R.anim.slide_out,  // exit
+                            R.anim.slide_in,   // popEnter
+                            R.anim.fade_out  // popExit
+            )
+                    .replace(mainFragmentView.getId(), settingsFragment, "SETTINGS_FRAGMENT")
+                    .addToBackStack(null)
+                    .commit();
+
+           // getSupportFragmentManager().beginTransaction().setCustomAnimations(
+            //        R.anim.fade_in,  // enter
+            //        R.anim.slide_out,  // exit
+            //        R.anim.slide_in,   // popEnter
+            //        R.anim.fade_out  // popExit
+           // )
+               //     .replace(mainFragmentView.getId(), settingsFragment, "SETTINGS_FRAGMENT").addToBackStack(null).commit();
+
             System.out.println("settings clicked");
         });
 
-        // todo for lotan
         findViewById(R.id.qrscan).setOnClickListener(v -> {
             startActivity(new Intent(this, ScanQrActivity.class));
             finish();
 //            System.out.println("qrscan clicked");
         });
 
-        // todo add code - lotan
         openCameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -284,7 +310,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         R.anim.fade_out  // popExit
                 )
                         // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
-                        .replace(mainFragmentView.getId(), profilePageFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
+                        .replace(mainFragmentView.getId(), editProfileFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
             }
         };
 
