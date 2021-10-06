@@ -109,12 +109,12 @@ public class AddCourseFragment extends Fragment {
         System.out.println("is exists: " + isExists);
 
         if (!isExists){
-            String text = "לא קיים קורס עם מספר זה";
+            String text = getResources().getString(R.string.courseDoesntExistsInFireBase);
             Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
         }
         else {
             if (courses.contains(courseToAddId)) {
-                String text = "הקורס כבר קיים ברשימת הקורסים";
+                String text = getResources().getString(R.string.courseExistsInMyCoursesList);
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
             } else {
                 isCourseIdValid = true;
@@ -123,9 +123,11 @@ public class AddCourseFragment extends Fragment {
     }
 
     private boolean checkIfExists(String courseId){
+        // todo bug - doesn't find course by id
 
         ArrayList<Course> coursesFromFireBase = dataBase.getCoursesFromFireBase();
         for (Course course : coursesFromFireBase) {
+           // System.out.println("course from firebase: " + course.toStringP());
             if (course.getNumber().equals(courseId)){
                 return true;
             }

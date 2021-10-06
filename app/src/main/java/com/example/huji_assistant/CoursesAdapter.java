@@ -9,19 +9,56 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
+public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> implements Filterable {
     private  ArrayList<Course> list;
-    class CustomFilter extends Filter {
+    private ArrayList<Course> filteredList;
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                System.out.println("char: " + charString);
+                if (charString.isEmpty()) {
+                    filteredList = list;
+                } else {
+                    ArrayList<Course> filteredList = new ArrayList<>();
+                    for (Course item : list) {
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (item.getName().toLowerCase().contains(charString.toLowerCase()) || item.getNumber().contains(charSequence)) {
+                            filteredList.add(item);
+                        }
+                    }
+                    list = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = list;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                list = (ArrayList<Course>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
+    class CustomFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
@@ -55,12 +92,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
     ArrayList<Course> filterList;
     CustomFilter filter;
 
-    public Filter getFilter(){
-        if (filter == null){
-            filter = new CustomFilter();
-        }
-        return filter;
-    }
+   // public Filter getFilter(){
+     //   if (filter == null){
+     //       filter = new CustomFilter();
+     //   }
+     //   return filter;
+   // }
 
     public CoursesAdapter(Context context){
         this.list = new ArrayList<>();
@@ -147,6 +184,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
         String text = courseItem.getPoints() + " נ''ז ";
         holder.points.setText(text);
 
+
         //holder.name.setTooltipText(courseItem.getName());
 
 
@@ -198,32 +236,16 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
             checkBoxClickListener.onCheckBoxClicked(v, courseItem);
         });
 
+        if (courseItem.getChecked()){
+            holder.checkBox.setChecked(true);
+        }
+        else{
+            holder.checkBox.setChecked(false);
+        }
+
         holder.itemView.setOnClickListener(v -> {
             itemClickListener.onClick(courseItem);
         });
-
-        /**
-        String courseType = courseItem.getType();
-        switch (courseType) {
-            case "לימודי חובה":
-                holder.type.setText("לימודי חובה");
-                break;
-            case "לימודי חובת בחירה":
-                holder.type.setText("חובת בחירה");
-                break;
-            case "קורסי בחירה":
-                holder.type.setText("קורסי בחירה");
-                break;
-            case "Supplemental":
-                holder.type.setText("משלימים");
-                break;
-            case "CornerStones":
-                holder.type.setText("אבני פינה");
-                break;
-            default:
-                break;
-        }*/
-
 
 
         if (courseItem.getType().equals("לימודי חובה")){

@@ -50,6 +50,13 @@
     <string name="new_pass_is_not_equal_to_repeat_pass">נא לחזור במדויק על הסיסמא החדשה</string>
     <string name="upload_pictures_button">העלאת סיכומים</string>
 
+
+
+    <string name="action_settings">Settings</string>
+    <string name="toolbar_title">Contacts</string>
+    <string name="action_search">Search</string>
+    <string name="search_hint">חפש קורס…</string>
+
     <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
 
     <string name="settings_drawer_header">הגדרות</string>
@@ -98,14 +105,27 @@
     </string-array>
 
     <string-array name="courseType">
-        <item value="01">חובה</item>
-        <item value="02">חובת בחירה</item>
-        <item value="03">בחירה</item>
+        <item value="01">לימודי חובה</item>
+        <item value="02">לימודי חובת בחירה</item>
+        <item value="03">קורסי בחירה</item>
         <item value="04">משלימים</item>
         <item value="05">אבני פינה</item>
+        <item value="05">הכל</item>
     </string-array>
+    <string name="searchByType">חפש לפי סוג</string>
+    <string name="searchByCourse">חפש קורס…</string>
 
-
+    <string-array name="coursePoints">
+        <item value="01">2 נז</item>
+        <item value="02">3 נז</item>
+        <item value="03">4 נז</item>
+        <item value="04">5 נז</item>
+        <item value="05">6 נז</item>
+        <item value="06">7 נז</item>
+        <item value="07">הכל</item>
+    </string-array>
+    <string name="courseDoesntExistsInFireBase">לא קיים קורס עם מספר זה</string>
+    <string name="courseExistsInMyCoursesList">הקורס כבר קיים ברשימת הקורסים</string>
 
     <string-array name="faculty">
         <item value="01">הפקולטה למדעי הרוח</item>

@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -59,6 +61,7 @@ public class MyCoursesFragment extends Fragment {
     public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
     RecyclerView recyclerViewMyCourses;
     SearchView searchView;
+    AutoCompleteTextView autocompletechoosetype;
     ArrayList<String> coursesId = new ArrayList<>();
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
     public CoursesAdapter.DeleteClickListener deleteClickListener = null;
@@ -109,6 +112,7 @@ public class MyCoursesFragment extends Fragment {
         adapter = new CoursesAdapter(getContext());
         FloatingActionButton addCourseBtn = view.findViewById(R.id.addCourseBtn);
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search1);
+        //searchView1 = view.findViewById(R.id.search1);
 
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
@@ -126,6 +130,7 @@ public class MyCoursesFragment extends Fragment {
         maslulTextView = view.findViewById(R.id.nameOfMaslul);
         degreeTextView = view.findViewById(R.id.nameOfDegree);
         yearTextView = view.findViewById(R.id.yearOfDegree);
+        autocompletechoosetype = view.findViewById(R.id.autocompletechoosetype1);
 
         // Update data on screen
         String name = studentNameTextView.getText() +" " + currentStudent.getPersonalName() + " " + currentStudent.getFamilyName();
@@ -189,10 +194,13 @@ public class MyCoursesFragment extends Fragment {
         int totalChoose = 16; //todo set in firebase
 
 
+
         String text4 = textViewTotalCornerStonePoints.getText() + " " + currentMaslul.getCornerStonesPoints();
         textViewTotalCornerStonePoints.setText(text4);
 
-
+        int currentChoosePoints = dataBase.getCurrentChoosePoints();
+        int currentSuppPoints = dataBase.getCurrentSuppPoints();
+        int currentCornerPoints = dataBase.getCurrentCornerStonePoints();
      //  int currentCornerStonePoints = dataBase.getCurrentCornerStonesPoints();
 
 
@@ -200,7 +208,8 @@ public class MyCoursesFragment extends Fragment {
                 + "מתוך: " + currentMaslul.getMandatoryChoicePoints();
         textViewTotalHovaChoosePoints.setText(text3);
 
-
+        String text6 = textViewTotalChoosePoints.getText() + " " + currentChoosePoints + " ";
+        textViewTotalChoosePoints.setText(text6);
 
         ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();
@@ -294,20 +303,60 @@ public class MyCoursesFragment extends Fragment {
             }
         });
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdownfacultyitem, getResources().getStringArray(R.array.courseType));
-        arrayAdapter.getFilter().filter("");
-        binding.autocompletechoosetype.setAdapter(arrayAdapter);
 
+        String filter = "";
         searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                System.out.println("got char: " + query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                arrayAdapter.getFilter().filter(newText);
+                adapter.getFilter().filter(newText);
+                System.out.println("got char2: " + newText);
                 return false;
+            }
+        });
+
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdowntypeitem, getResources().getStringArray(R.array.courseType));
+        arrayAdapter.getFilter().filter("");
+        binding.autocompletechoosetype1.setAdapter(arrayAdapter);
+
+        autocompletechoosetype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedValue = (String)(parent.getItemAtPosition(position));
+                if (selectedValue.equals("הכל")){
+                    ArrayList<Course> list = dataBase.getCoursesOfCurrentStudent();
+                    adapter.addCoursesListToAdapter(list);
+                    adapter.notifyDataSetChanged();
+
+                }
+                else {
+                    System.out.println("selection1 " + selectedValue);
+                    System.out.println("position1 " + position);
+                    arrayAdapter.getFilter().filter("");
+                    ArrayList<Course> newC = new ArrayList<>();
+                    // todo check
+                    ArrayList<Course> democ = dataBase.getCoursesOfCurrentStudent();
+                    for (Course demo : democ) {
+                        if (demo.getType().equals(selectedValue)) {
+                            newC.add(demo);
+                        }
+                    }
+
+                    // Create the adapter
+                    //  CoursesAdapter adapter2 = new CoursesAdapter(getContext());
+                    adapter.addCoursesListToAdapter(newC);
+                    adapter.notifyDataSetChanged();
+                    //  recyclerViewMyCourses.setAdapter(adapter);
+                    System.out.println("reached");
+                }
+
             }
         });
 
@@ -337,21 +386,28 @@ public class MyCoursesFragment extends Fragment {
        // ArrayList<Course>
        // ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
         StudentInfo currentUser = dataBase.getCurrentUser();
+        System.out.println("current user in my courses fragment: " + currentUser.getEmail());
 
         // todo maybe observe instead
-        Task<DocumentSnapshot> document =  firebaseInstancedb.collection("students").document(currentUser.getId())
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                         @Override
-                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                             DocumentSnapshot result = task.getResult();
-                             assert result != null;
-                             StudentInfo data = result.toObject(StudentInfo.class);
-                             assert data != null;
-                             coursesId = new ArrayList<>(data.getCourses());
-                             System.out.println("in+++: ");
-                             printCourses();
-                         }
-                     });
+        try {
+            Task<DocumentSnapshot> document = firebaseInstancedb.collection("students").document(currentUser.getId())
+                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            DocumentSnapshot result = task.getResult();
+                            assert result != null;
+                            StudentInfo data = result.toObject(StudentInfo.class);
+                            assert data != null;
+                            coursesId = new ArrayList<>(data.getCourses());
+                            System.out.println("in+++: ");
+                            dataBase.setCurrentStudent(data);
+                            printCourses();
+                        }
+                    });
+        }
+        catch (Exception e){
+            System.out.println("failed to get the courses of the student");
+        }
 
         ArrayList<String> coursesIds = dataBase.getCurrentUser().getCourses();
         // get the courses from fire store

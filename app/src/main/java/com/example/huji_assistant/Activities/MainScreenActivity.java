@@ -538,10 +538,12 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                             coursesFromFireBase.add(course);
                         }
 
-                        int currentPointsSum = 0;
-                        int currentMandatoryPoints = 0;
-                        int currentCornerStonePoints = 0;
-                        int currentMandatoryChoosePoints = 0;
+                        int currentPointsSum = 0; // points in degree
+                        int currentMandatoryPoints = 0; // hova points
+                        int currentCornerStonePoints = 0; // avnei pina
+                        int currentMandatoryChoosePoints = 0; // hova choose
+                        int currentChoosePoints = 0; // choose
+                        int currentSuppPoints = 0; // mashlimim
 
                         // Save the list of all courses in the student's maslul
                         dataBase.setCoursesFromFireBase(coursesFromFireBase);
@@ -560,8 +562,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                                             currentMandatoryChoosePoints += Integer.parseInt(course.getPoints());
                                             break;
                                         case "קורסי בחירה":
+                                            currentChoosePoints += Integer.parseInt(course.getPoints());
                                             break;
                                         case "משלימים":
+                                            currentSuppPoints += Integer.parseInt(course.getPoints());
                                             break;
                                         case "אבני פינה":
                                             currentCornerStonePoints += Integer.parseInt(course.getPoints());
@@ -575,6 +579,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         dataBase.setCurrentPointsSum(currentPointsSum);
                         dataBase.setCurrentMandatoryPoints(currentMandatoryPoints);
                         dataBase.setCurrentMandatoryChoosePoints(currentMandatoryChoosePoints);
+                        dataBase.setCurrentChoosePoints(currentChoosePoints);
+                        dataBase.setCurrentSuppPoints(currentSuppPoints);
                         dataBase.setCurrentCornerStonesPoints(currentCornerStonePoints);
                         // todo save the list of courses of current student to db
                         // show changes on course list in adapter

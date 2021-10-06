@@ -68,6 +68,18 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.7.0'
     implementation 'org.jetbrains:annotations:16.0.2'
     compile 'com.github.vihtarb:tooltip:0.1.9'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // ...
+
+    // recycler view
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+
+    // glide image library
+    implementation 'com.github.bumptech.glide:glide:4.3.1'
+
+    // volley http library
+    implementation 'com.android.volley:volley:1.0.0'
+    implementation 'com.google.code.gson:gson:2.6.2'
 
     // Java language implementation
 //    implementation "androidx.navigation:navigation-fragment:$nav_version"

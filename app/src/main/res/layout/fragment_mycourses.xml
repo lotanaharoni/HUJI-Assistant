@@ -151,31 +151,20 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-
         <AutoCompleteTextView
-            android:id="@+id/autocompletechoosetype"
-            android:layout_width="150dp"
-            android:layout_marginStart="70dp"
-            android:textSize="10sp"
+            android:id="@+id/autocompletechoosetype1"
+            android:layout_width="170dp"
+            android:layout_marginLeft="150dp"
+            android:textSize="12sp"
+            android:layout_gravity="right"
+            android:gravity="right"
+            android:textDirection="rtl"
+            android:inputType="none"
             android:layout_height="wrap_content"
-            android:hint="חפש לפי סוג"
+            android:hint="@string/searchByType"
              />
         </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layouttext2"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
 
-            <AutoCompleteTextView
-                android:id="@+id/autocompletechoosename"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="0dp"
-                android:hint="חפש לפי קורס"
-                android:textSize="10sp" />
-        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -203,7 +192,6 @@
             android:layout_height="wrap_content"
             android:text="" />
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewMyCourses"
             android:layout_width="match_parent"
@@ -220,20 +208,28 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/search1"
+            android:paddingRight="2dp"
+            android:layout_marginLeft="10dp"
+            app:queryHint="@string/searchByCourse"
+            android:paddingLeft="2dp"
+            android:textDirection="rtl"
+            android:layout_gravity="right"
+            android:gravity="right"
+            app:searchHintIcon="@drawable/ic_baseline_search_24"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="30dp"/>
 
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewTotalPoints"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         app:cardBackgroundColor="@color/lightorange2"
         android:background="@color/lightorange2"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/linearlayout2"
-        app:layout_constraintBottom_toBottomOf="parent">
+        >
 
         <TextView
             android:id="@+id/textViewTotalHovaPoints"
@@ -332,6 +328,7 @@
         android:layout_marginTop="0dp"
         android:layout_height="wrap_content"
         app:borderWidth="16dp"
+        android:paddingLeft="2dp"
         android:foregroundGravity="center"
         android:background="@color/lightorange"
         style="@style/ShapeAppearance.MaterialComponents.MediumComponent"

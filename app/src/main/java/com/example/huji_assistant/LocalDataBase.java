@@ -62,6 +62,9 @@ public class LocalDataBase {
     private int currentMandatoryChoosePoints = 0;
     private int currentMandatoryPoints = 0;
     private int currentCornerStonePoints = 0;
+    private int currentChoosePoints = 0;
+    private int currentSuppPoints = 0;
+    private ArrayList<Course> coursesRegistration;
     private final HashMap<String, StudentInfo> students;
 //    private final DatabaseReference usersRef;
     private final MutableLiveData<StudentInfo> currentUserMutableLiveData = new MutableLiveData<>();
@@ -116,6 +119,22 @@ public class LocalDataBase {
             ArrayList<String> courses = this.currentStudent.getCourses();
             courses.add(courseId);
             this.currentStudent.setCourses(courses);
+
+           // Course toAdd = null;
+
+            // Adds the course to the list of courses
+            for (Course course : this.coursesFromFireBase){
+                if (course.getNumber().equals(courseId)){
+                   //toAdd = course;
+                    this.coursesOfCurrentStudent.add(course);
+                }
+            }
+
+          //  SharedPreferences.Editor editor = sp.edit();
+           // if (toAdd != null) {
+           //     editor.putString("course", toAdd.getNumber());
+           // }
+           // editor.apply();
 
             this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
                 System.out.println("upload finished");
@@ -188,6 +207,27 @@ public class LocalDataBase {
         return this.currentPointsSum;
     }
 
+    public void setCoursesRegistration(ArrayList<Course>list)
+    {
+        this.coursesRegistration = new ArrayList<>(list);
+    }
+
+    public int getCurrentChoosePoints(){
+        return this.currentChoosePoints;
+    }
+
+    public int getCurrentCornerStonePoints(){
+        return this.currentCornerStonePoints;
+    }
+
+    public int getCurrentSuppPoints(){
+        return this.currentSuppPoints;
+    }
+
+    public ArrayList<Course> getCoursesRegistration(){
+        return new ArrayList<>(this.coursesRegistration);
+    }
+
     public ArrayList<Course> getCoursesFromFireBase(){
         return new ArrayList<>(this.coursesFromFireBase);
     }
@@ -225,6 +265,14 @@ public class LocalDataBase {
         return false;
     }
 
+    public void setCurrentChoosePoints(int currentChoosePoints_){
+        this.currentChoosePoints = currentChoosePoints_;
+    }
+
+    public  void setCurrentSuppPoints(int currentSuppPoints_){
+        this.currentSuppPoints = currentSuppPoints_;
+    }
+
     public void addStudent(String studentId, String email, String personalName,
                            String familyName, String facultyId, String chugId, String maslulId,
                            String degreeType, String year, String beginYear, String beginSemester,
@@ -235,6 +283,7 @@ public class LocalDataBase {
                 courses);
 
         Map<String, StudentInfo> newUser = new HashMap<>();
+        setCurrentStudent(newStudent); // todo check
         newUser.put(newStudent.getId(), newStudent);
         this.studentsCollection.document(newStudent.getId()).set(newStudent);
         // todo when loading main screen doesnt have time to set new student

@@ -21,4 +21,7 @@
     <color name="lightblue5">#9EDDD7</color>
     <color name="lightred">#EC3023</color>
 
+    <color name="colorPrimaryDark">#FFF</color>
+    <color name="contact_name">#333333</color>
+    <color name="contact_number">#8c8c8c</color>
 </resources>

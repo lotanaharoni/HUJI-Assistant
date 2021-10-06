@@ -102,8 +102,9 @@
             android:textSize="12sp"
             android:layoutDirection="ltr"
             android:singleLine="true"
+            android:inputType="none"
             android:layout_height="wrap_content"
-            android:text="חפש לפי סוג" />
+            android:hint="@string/searchByType" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,10 +119,12 @@
             android:id="@+id/autocompletechoosenameRegisterScreen"
             android:layout_width="wrap_content"
             android:textSize="12sp"
+            android:inputType="none"
             android:singleLine="true"
             android:layoutDirection="rtl"
             android:layout_height="wrap_content"
-            android:text="חפש לפי שם קורס" />
+            android:hint="חפש לפי נ''ז"
+            />
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

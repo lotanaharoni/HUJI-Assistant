@@ -8,6 +8,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -85,6 +88,8 @@ public class CoursesFragment extends Fragment {
     TextView degreeTextView;
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
+    AutoCompleteTextView dropdowntype;
+    AutoCompleteTextView dropdownpoints;
 
     //FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
    // FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
@@ -122,6 +127,8 @@ public class CoursesFragment extends Fragment {
         degreeTextView = view.findViewById(R.id.degreeType);
         recyclerViewCourses = view.findViewById(R.id.recycleViewCourses);
         adapter = new CoursesAdapter(getContext());
+        dropdowntype = view.findViewById(R.id.autocompletechoosetypeRegisterScreen);
+        dropdownpoints = view.findViewById(R.id.autocompletechoosenameRegisterScreen);
 
         if (holder == null) {
             holder = new CourseItemHolder(recyclerViewCourses);
@@ -136,22 +143,6 @@ public class CoursesFragment extends Fragment {
                 .setPersistenceEnabled(true)
                 .build();
         firebaseInstancedb.setFirestoreSettings(settings);
-
-        // todo add demo courses
-       // Course infiC = new Course("אינפי", "0", Course.Type.Mandatory,"","");
-     //   Course linearitC = new Course("לינארית", "1", Course.Type.Mandatory);
-     //   courseItems.add(infiC);
-       // courseItems.add(linearitC);
-
-        // Create the adapter
-       // adapter.addCoursesListToAdapter(courseItems);
-       // recyclerViewCourses.setAdapter(adapter);
-
-       //   coordinatorLayout = new LinearLayoutManager(getContext(),
-        //        RecyclerView.VERTICAL, false);
-
-        //recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
-        //        RecyclerView.VERTICAL, false));
 
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
              email = item.getEmail();
@@ -183,9 +174,9 @@ public class CoursesFragment extends Fragment {
                      db.setCurrentFaculty(data);
                  }
              });
-
-            Task<DocumentSnapshot> chugim1 = firebaseInstancedb.collection("faculties").document(facultyId)
-                    .collection("chugimInFaculty").document(chugId)
+            String COLLECTION = "coursesTestOnlyCs";
+            Task<DocumentSnapshot> chugim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
+                   // .collection("chugimInFaculty").document(chugId)
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -200,8 +191,8 @@ public class CoursesFragment extends Fragment {
                         }
                     });
             System.out.println("rOO" + chugId + " " + maslulId );
-            Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection("faculties").document(facultyId)
-                    .collection("chugimInFaculty").document(chugId)
+            Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
+                    //.collection("chugimInFaculty").document(chugId)
                     .collection("maslulimInChug").document(maslulId)
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
@@ -256,6 +247,8 @@ public class CoursesFragment extends Fragment {
                                 coursesInMaslul.add(course);
                             }
 
+                            db.setCoursesRegistration(coursesInMaslul);
+
                             // show results in recycle view
                             // Create the adapter
                             adapter.addCoursesListToAdapter(coursesInMaslul);
@@ -296,6 +289,119 @@ public class CoursesFragment extends Fragment {
                  }
              });
  */
+        });
+
+        ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdowntypeitem, getResources().getStringArray(R.array.courseType));
+        arrayAdapter.getFilter().filter("");
+        binding.autocompletechoosetypeRegisterScreen.setAdapter(arrayAdapter);
+
+        dropdowntype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedValue = (String)(parent.getItemAtPosition(position));
+                if (selectedValue.equals("הכל")){
+                    ArrayList<Course> list = db.getCoursesRegistration();
+                    adapter.addCoursesListToAdapter(list);
+                    arrayAdapter.getFilter().filter("");
+                    adapter.notifyDataSetChanged();
+
+                }
+                else {
+                    System.out.println("selection1 " + selectedValue);
+                    System.out.println("position1 " + position);
+                    arrayAdapter.getFilter().filter("");
+                    ArrayList<Course> newC = new ArrayList<>();
+                    // todo check
+
+
+                    ArrayList<Course> democ = db.getCoursesRegistration();
+                    for (Course demo : democ) {
+                        if (demo.getType().equals(selectedValue)) {
+                            newC.add(demo);
+                        }
+                    }
+
+                    for (Course c : newC ) {
+                        if (c.getType().equals(selectedValue)) {
+                            if (!dropdownpoints.getText().toString().equals("")) {
+                                String pointsToFilter = dropdownpoints.getText().toString();
+                                if (c.getType().equals(pointsToFilter)) {
+                                    newC.add(c);
+                                }
+                            }
+                            else {
+
+                                newC.add(c);
+                            }
+                        }
+                    }
+
+                    // Create the adapter
+                    //  CoursesAdapter adapter2 = new CoursesAdapter(getContext());
+                    adapter.addCoursesListToAdapter(newC);
+                    adapter.notifyDataSetChanged();
+                    //  recyclerViewMyCourses.setAdapter(adapter);
+                    System.out.println("reached");
+                }
+
+            }
+        });
+
+        ArrayAdapter arrayAdapter1 = new ArrayAdapter(requireContext(), R.layout.dropdowntypeitem, getResources().getStringArray(R.array.coursePoints));
+        arrayAdapter1.getFilter().filter("");
+        arrayAdapter.getFilter().filter("");
+        binding.autocompletechoosenameRegisterScreen.setAdapter(arrayAdapter1);
+
+        dropdownpoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String selectedValue = (String)(parent.getItemAtPosition(position));
+                String onlyNumber = selectedValue.replaceAll("נז", "");
+                String onlyNumber2 = onlyNumber.replaceAll(" ", "");
+                System.out.println("number3: " + onlyNumber2);
+                arrayAdapter1.getFilter().filter("");
+                arrayAdapter.getFilter().filter("");
+                if (selectedValue.equals("הכל")){
+                    ArrayList<Course> list = db.getCoursesRegistration();
+                    adapter.addCoursesListToAdapter(list);
+                    adapter.notifyDataSetChanged();
+                    arrayAdapter1.getFilter().filter("");
+                    arrayAdapter.getFilter().filter("");
+
+                }
+                else {
+                    System.out.println("selection1 " + selectedValue);
+                    System.out.println("position1 " + position);
+                    arrayAdapter.getFilter().filter("");
+                    ArrayList<Course> newC = new ArrayList<>();
+                    // todo check
+                    ArrayList<Course> democ = db.getCoursesRegistration();
+                    for (Course demo : democ) {
+                        if (demo.getPoints().equals(onlyNumber2)) {
+                            boolean b = dropdowntype.getText().toString().equals("");
+                            System.out.println("c " + dropdowntype.getText().toString());
+                            System.out.println("b " + b);
+                            if ((!dropdowntype.getText().toString().equals("")) || (!dropdowntype.getText().toString().equals("הכל"))){
+                                String typeToFilter = dropdowntype.getText().toString();
+                                if (demo.getType().equals(typeToFilter)){
+                                    newC.add(demo);
+                                }
+                            }
+                            else {
+                                newC.add(demo);
+                            }
+                        }
+                    }
+
+                    // Create the adapter
+                    //  CoursesAdapter adapter2 = new CoursesAdapter(getContext());
+                    adapter.addCoursesListToAdapter(newC);
+                    adapter.notifyDataSetChanged();
+                    //  recyclerViewMyCourses.setAdapter(adapter);
+                    System.out.println("reached");
+                }
+
+            }
         });
 
         adapter.setItemClickListener(new CoursesAdapter.OnItemClickListener() {
@@ -422,10 +528,20 @@ public class CoursesFragment extends Fragment {
                                         printCourses();
                                         System.out.println("size: " + coursesOfStudent.size());
 
+                                        assert user != null;
+
+                                        StudentInfo newStudent = new StudentInfo(user.getUid(), email, personalName, familyName,
+                                                facultyId, chugId, maslulId, degreeType, year, beginnigYearOfDegree, beginSemesterOfDegree,
+                                                coursesOfStudent);
+
                                         db.addStudent(user.getUid(), email, personalName, familyName,
                                                 facultyId, chugId, maslulId, degreeType, year, beginnigYearOfDegree, beginSemesterOfDegree,
                                                 coursesOfStudent);
+
                                         db.setCurrentUser(user);
+
+                                        db.setCurrentStudent(newStudent); // todo check
+
                                       //  StudentInfo newStudent = new StudentInfo(email.getText().toString(),
                                        //         personalName.getText().toString(), familyName.getText().toString());
                                        // viewModelApp.setStudent(newStudent);
