@@ -89,7 +89,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="5sp"
                 android:gravity="fill"
-                android:text="תכנון לימודים"
+                android:text="@string/curriculum_planning"
                 android:textDirection="rtl"
                 android:textSize="14sp" />
 
@@ -103,7 +103,7 @@
                 android:layout_columnWeight="1"
                 android:layout_margin="5sp"
                 android:gravity="fill"
-                android:text="הקורסים שלי"
+                android:text="@string/my_courses"
                 android:textDirection="rtl" />
 
             <Button
@@ -127,7 +127,7 @@
                 android:layout_margin="5sp"
                 android:textSize="14sp"
                 android:gravity="fill"
-                android:text="עריכת פרטים אישיים"
+                android:text="@string/editing_personal_details"
                 android:textDirection="rtl" />
 
             <Button
@@ -151,7 +151,7 @@
                 android:layout_margin="5sp"
                 android:gravity="fill"
                 android:textSize="14sp"
-                android:text="מערכת שעות"
+                android:text="@string/schedule"
                 android:textDirection="rtl"
                 android:visibility="visible" />
 

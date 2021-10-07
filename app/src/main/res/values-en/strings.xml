@@ -1,56 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HUJI Assistant</string>
-    <string name="scan_something">קדימה לסרוק!</string>
-    <string name="camera">צילום</string>
-    <string name="gallery">העלה מהגלרייה</string>
-    <string name="image_title">הוסף תיאור לתמונה</string>
-    <string name="aguda">אגודת הסטודנטים</string>
-    <string name="kolzchut">אתר כל-זכות</string>
-    <string name="link_to_drive">דרייברים של חוגים</string>
-    <string name="rishumnet">רישום.נט</string>
-    <string name="recommendations">המלצות על קורסים</string>
-    <string name="drawer_header"><b><u><i>קישורים שימושיים</i></u></b></string>
-    <string name="upload_button">העלאה</string>
-    <string name="show_all_pictures_button">הצג תמונות</string>
-    <string name="show_all_pdf_button">הצג מסמכים</string>
+    <string name="scan_something">Start scanning!</string>
+    <string name="camera">Take a picture</string>
+    <string name="gallery">Upload from gallery</string>
+    <string name="image_title">Add a description to the image</string>
+    <string name="aguda">Student Association</string>
+    <string name="kolzchut">Kol-Zchut site</string>
+    <string name="link_to_drive">Drivers of circles</string>
+    <string name="rishumnet">Rishum-net</string>
+    <string name="recommendations">Course recommendations</string>
+    <string name="drawer_header"><b><u><i>Useful Links</i></u></b></string>
+    <string name="upload_button">Upload</string>
+    <string name="show_all_pictures_button">View photos</string>
+    <string name="show_all_pdf_button">View documents</string>
     <string name="pdf_name">שם</string>
-    <string name="loading">טוען…</string>
-    <string name="logo_description">לוגו</string>
-    <string name="reset_image">האם להשליך את השינויים שנעשו?</string>
-    <string name="delete_course_alert">האם אתה בטוח שברצונך למחוק את הקורס? הפעולה אינה ניתנת לביטול</string>
-    <string name="positive_answer">כן</string>
-    <string name="negative_answer">לא</string>
-    <string name="upload_Successfully_message">הועלה בהצלחה</string>
-    <string name="upload_failed_message">היתה בעיה בהעלאה</string>
-    <string name="close_app">האם לסגור את האפליקציה?</string>
-    <string name="please_wait_message">בבקשה המתן…</string>
-    <string name="user_exist_message">קיים במערכת משתמש עם האימייל הנ״ל</string>
-    <string name="scan_Successfully_message">הסריקה בוצעה בהצלחה</string>
-    <string name="scan_failed_message">היתה בעיה בסריקה</string>
-    <string name="reset_password">האם לאפס את הסיסמא?</string>
-    <string name="enter_email_for_reset_password">הכנס את המייל שלך כדי לקבל קישור לאיפוס הסיסמא</string>
-    <string name="check_your_mail_for_reset_link_message">בדוק את המייל לקבלת קישור לאיפוס הסיסמא</string>
-    <string name="try_again_later_message">היתה בעיה, נסה שוב מאוחר יותר</string>
-    <string name="incorrect_username">שם משתמש וסיסמה לא נכונים. נסה להזין שוב או להירשם בתור משתמש חדש</string>
-    <string name="logout">האם אתה בטוח שברצונך להתנתק?</string>
-    <string name="insert_grade">הזן ציון בקורס:</string>
-    <string name="approve_btn">אישור</string>
-    <string name="register_Successfully_message">נרשמת בהצלחה!</string>
-    <string name="register_failed_message">היתה בעיה ברישום, אנא נסה שנית מאוחר יותר</string>
-    <string name="change_password">הקלד סיסמא חדשה</string>
-    <string name="change_password2">הקלד שנית את הסיסמא חדשה</string>
-    <string name="old_password">הקלד סיסמא ישנה</string>
-    <string name="password_updated_Successfully_message">הסיסמא עודכנה בהצלחה</string>
-    <string name="password_failed_to_update_message">היתה בעיה בעדכון, אנא נסה שנית מאוחר יותר</string>
-    <string name="incorrect_old_password">סיסמא ישנה שגויה</string>
-    <string name="hello_message">שלום</string>
-    <string name="old_password_is_empty">נא להזין סיסמא ישנה</string>
-    <string name="new_password_is_empty">נא להזין סיסמא חדשה</string>
-    <string name="repeat_password_is_empty">נא לחזור על הסיסמא החדשה</string>
-    <string name="new_pass_is_not_equal_to_repeat_pass">נא לחזור במדויק על הסיסמא החדשה</string>
-    <string name="upload_pictures_button">העלאת סיכומים</string>
-    <string name="enter_course_number">הזן מספר קורס</string>
-    <string name="show_attendance">צפייה ברשימת נוכחות</string>
+    <string name="loading">Loading…</string>
+    <string name="logo_description">Logo</string>
+    <string name="reset_image">Should the changes made be discarded?</string>
+    <string name="delete_course_alert">Are you sure you want to delete the course? The operation can not be undone</string>
+    <string name="positive_answer">Yes</string>
+    <string name="negative_answer">No</string>
+    <string name="upload_Successfully_message">Uploaded successfully</string>
+    <string name="upload_failed_message">There was a problem uploading</string>
+    <string name="close_app">Close the app?</string>
+    <string name="please_wait_message">Please wait…</string>
+    <string name="user_exist_message">Exists in the user system with the above email</string>
+    <string name="scan_Successfully_message">The scan was performed successfully</string>
+    <string name="scan_failed_message">There was a problem scanning</string>
+    <string name="reset_password">Reset password?</string>
+    <string name="enter_email_for_reset_password">Enter your email to get a link to reset your password</string>
+    <string name="check_your_mail_for_reset_link_message">Check your email for a password reset link</string>
+    <string name="try_again_later_message">There was a problem, please try again later</string>
+    <string name="incorrect_username">Incorrect username and password. Try entering again or registering as a new user</string>
+    <string name="logout">Are you sure you want to log out?</string>
+    <string name="insert_grade">Enter a course grade:</string>
+    <string name="approve_btn">OK</string>
+    <string name="register_Successfully_message">You have successfully registered!</string>
+    <string name="register_failed_message">There was a problem registering, please try again later</string>
+    <string name="change_password">Type a new password</string>
+    <string name="change_password2">Type the new password again</string>
+    <string name="old_password">Type an old password</string>
+    <string name="password_updated_Successfully_message">Password updated successfully</string>
+    <string name="password_failed_to_update_message">There was a problem updating, please try again later</string>
+    <string name="incorrect_old_password">Old password is incorrect</string>
+    <string name="hello_message">Hello</string>
+    <string name="old_password_is_empty">Please enter an old password</string>
+    <string name="new_password_is_empty">Please enter a new password</string>
+    <string name="repeat_password_is_empty">Please repeat the new password</string>
+    <string name="new_pass_is_not_equal_to_repeat_pass">Please repeat the new password accurately</string>
+    <string name="upload_pictures_button">Uploading summaries</string>
+    <string name="enter_course_number">Enter a course number</string>
+    <string name="show_attendance">View attendance list</string>
     <string name="change_language">Change language</string>
 
 
@@ -60,32 +61,32 @@
     <string name="action_settings">Settings</string>
     <string name="toolbar_title">Contacts</string>
     <string name="action_search">Search</string>
-    <string name="search_hint">חפש קורס…</string>
+    <string name="search_hint">Search for a course…</string>
 
     <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
 
-    <string name="settings_drawer_header">הגדרות</string>
+    <string name="settings_drawer_header">Settings</string>
 
-    <string name="email_not_valid_message">כתובת אימייל לא תקינה</string>
-    <string name="email_field">כתובת מייל</string>
-    <string name="user_first_name_field">שם פרטי</string>
-    <string name="user_last_name_field">שם משפחה</string>
+    <string name="email_not_valid_message">Invalid email address</string>
+    <string name="email_field">mail address</string>
+    <string name="user_first_name_field">First name</string>
+    <string name="user_last_name_field">Last name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="schedule">מערכת שעות</string>
-    <string name="editing_personal_details">עריכת פרטים אישיים</string>
-    <string name="my_courses">הקורסים שלי</string>
-    <string name="curriculum_planning">תכנון לימודים</string>
-    <string name="please_enter_password_msg">נא להכניס סיסמא בת לפחות 8 תווים</string>
-    <string name="please_enter_email_msg">נא להכניס כתובת דואר אלקטרוני</string>
-    <string name="please_enter_personal_name_msg">נא להזין שם פרטי</string>
-    <string name="please_enter_family_name_msg">נא להזין שם משפחה</string>
-    <string name="please_enter_faculty_msg">נא להזין פקולטה</string>
-    <string name="please_enter_chug_msg">נא להזין חוג</string>
-    <string name="please_enter_maslul_msg">נא להזין מסלול</string>
-    <string name="email_address_field">כתובת דואר אלקטרוני</string>
-    <string name="password_address_field">סיסמא</string>
+    <string name="schedule">Schedule</string>
+    <string name="editing_personal_details">Editing personal details</string>
+    <string name="curriculum_planning">Curriculum planning</string>
+    <string name="my_courses">My courses</string>
+    <string name="please_enter_password_msg">Please enter a password of at least 8 characters</string>
+    <string name="please_enter_email_msg">Please enter an email address</string>
+    <string name="please_enter_personal_name_msg">Please enter a First name</string>
+    <string name="please_enter_family_name_msg">Please enter a last name</string>
+    <string name="please_enter_faculty_msg">Please enter a faculty</string>
+    <string name="please_enter_chug_msg">Please enter a circle</string>
+    <string name="please_enter_maslul_msg">Please enter a route</string>
+    <string name="email_address_field">E-mail address</string>
+    <string name="password_address_field">Password</string>
     <string-array name="degreeTypesList">
         <item value="01">בוגר</item>
         <item value="02">מוסמך</item>
@@ -121,8 +122,8 @@
         <item value="05">אבני פינה</item>
         <item value="05">הכל</item>
     </string-array>
-    <string name="searchByType">חפש לפי סוג</string>
-    <string name="searchByCourse">חפש קורס…</string>
+    <string name="searchByType">Search by type</string>
+    <string name="searchByCourse">Search for a course…</string>
 
     <string-array name="coursePoints">
         <item value="01">2 נז</item>
@@ -133,8 +134,8 @@
         <item value="06">7 נז</item>
         <item value="07">הכל</item>
     </string-array>
-    <string name="courseDoesntExistsInFireBase">לא קיים קורס עם מספר זה</string>
-    <string name="courseExistsInMyCoursesList">הקורס כבר קיים ברשימת הקורסים</string>
+    <string name="courseDoesntExistsInFireBase">There is no course with this number</string>
+    <string name="courseExistsInMyCoursesList">The course already exists in the list of courses</string>
 
     <string-array name="faculty">
         <item value="01">הפקולטה למדעי הרוח</item>
@@ -264,4 +265,3 @@
         <item value="1069" label="תכנית למסטרנטים מצטיינים">תכנית למסטרנטים מצטיינים</item>
     </string-array>
 </resources>
-
