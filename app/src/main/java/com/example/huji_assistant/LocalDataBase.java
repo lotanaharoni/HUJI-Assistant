@@ -149,6 +149,17 @@ public class LocalDataBase {
         context.sendBroadcast(broadcast);
     }
 
+    public void saveLocale(String lang){
+        SharedPreferences.Editor editor = context.getSharedPreferences("settings", context.MODE_PRIVATE).edit();
+        editor.putString("My_lang", lang);
+        editor.apply();
+    }
+
+    public String loadLocale(){
+        SharedPreferences prefs = context.getSharedPreferences("settings", context.MODE_PRIVATE);
+         return prefs.getString("My_lang", "");
+    }
+
     public HashMap<String, String> getRuach_faculty_values_names_map() {
         return ruach_faculty_values_names_map;
     }

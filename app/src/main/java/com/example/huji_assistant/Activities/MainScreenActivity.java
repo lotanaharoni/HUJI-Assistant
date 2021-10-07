@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -71,6 +72,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Locale;
+import android.content.res.Configuration;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -92,6 +96,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     String currentPhotoPath;
     private DrawerLayout moreInfoDrawerLayout;
     private ImageView logoutImageView;
+    private TextView changeLanguageTextView;
    // ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
     ListenerRegistration listener;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
@@ -179,6 +184,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         logoutImageView = findViewById(R.id.logoutImageView);
         progressBar = findViewById(R.id.progressBar1);
         progressBar.setVisibility(View.INVISIBLE); // todo revert
+        changeLanguageTextView = findViewById(R.id.change_language_textView);
 
         //   logoutImageView.setVisibility(View.VISIBLE);
      //   logoutImageView.setEnabled(true);
@@ -469,6 +475,35 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         });
 
+        changeLanguageTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChangeLanguageDialog();
+            }
+        });
+
+    }
+
+    private void showChangeLanguageDialog() {
+        final String[] listItems = {"English", "עברית"};
+        AlertDialog.Builder mbuilder = new AlertDialog.Builder(MainScreenActivity.this);
+        mbuilder.setTitle("Choose Languae...");
+        mbuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0){
+                    setLocale("en");
+                }
+                else if (which == 1){
+                    setLocale("he");
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog mDialog = mbuilder.create();
+        mDialog.show();
     }
 
     private void goToUrl(String s) {
@@ -745,5 +780,17 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         );
         currentPhotoPath = image.getAbsolutePath();
         return image;
+    }
+
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getBaseContext().getResources().updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
+        dataBase.saveLocale(lang);
+        Intent refresh = new Intent(this, MainScreenActivity.class);
+        startActivity(refresh);
+        finish();
     }
 }
