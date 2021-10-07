@@ -42,7 +42,8 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
-                android:text="שם הסטודנט:" />
+                android:text="@string/nameOfStudentMyCoursesScreen"
+                />
 
             <ImageView
                 android:src="@android:drawable/divider_horizontal_dark"
@@ -59,7 +60,7 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="פקולטה:" />
+                android:text="@string/nameOfFacultyMyCoursesScreen" />
             <ImageView
                 android:src="@android:drawable/divider_horizontal_dark"
                 android:background="@color/red"
@@ -75,7 +76,8 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="חוג:" />
+                android:text="@string/nameOfChugMyCoursesScreen"
+                 />
             <ImageView
                 android:src="@android:drawable/divider_horizontal_dark"
                 android:background="@color/red"
@@ -91,7 +93,8 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="מסלול:" />
+                android:text="@string/nameOfMaslulMyCoursesScreen"
+                 />
             <ImageView
                 android:src="@android:drawable/divider_horizontal_dark"
                 android:background="@color/red"
@@ -107,7 +110,7 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="תואר:" />
+                android:text="@string/degreeTypeMyCoursesScreen"/>
 
             <ImageView
                 android:src="@android:drawable/divider_horizontal_dark"
@@ -124,7 +127,7 @@
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="שנה לתואר:" />
+                android:text="@string/yearOfDegreeMyCoursesScreen" />
 
             <ImageView
                 android:src="@android:drawable/divider_horizontal_dark"
@@ -215,6 +218,7 @@
             android:textDirection="rtl"
             android:layout_gravity="right"
             android:gravity="right"
+            android:background="@color/lightorange"
             app:searchHintIcon="@drawable/ic_baseline_search_24"
             android:layout_width="match_parent"
             android:layout_height="30dp"/>

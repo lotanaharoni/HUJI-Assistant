@@ -52,9 +52,15 @@
     <string name="upload_pictures_button">Uploading summaries</string>
     <string name="enter_course_number">Enter a course number</string>
     <string name="show_attendance">View attendance list</string>
-    <string name="change_language">Change language</string>
+    <string name="change_language">הגדרות שפה</string>
 
 
+    <string name="nameOfStudentMyCoursesScreen">Name of student: </string>
+    <string name="nameOfFacultyMyCoursesScreen">Name of faculty: </string>
+    <string name="nameOfChugMyCoursesScreen">Name of department: </string>
+    <string name="nameOfMaslulMyCoursesScreen">Name of sub-department: </string>
+    <string name="degreeTypeMyCoursesScreen">First / advanced degree: </string>
+    <string name="yearOfDegreeMyCoursesScreen">Year of degree: </string>
 
 
 
@@ -124,6 +130,7 @@
     </string-array>
     <string name="searchByType">Search by type</string>
     <string name="searchByCourse">Search for a course…</string>
+    <string name="endRegistration">End registration</string>
 
     <string-array name="coursePoints">
         <item value="01">2 נז</item>

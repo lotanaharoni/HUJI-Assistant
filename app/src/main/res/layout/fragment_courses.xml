@@ -127,7 +127,11 @@
             />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
     </LinearLayout>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewCourses"
@@ -143,11 +147,26 @@
         android:background="@color/lightorange2"
         tools:layout_editor_absoluteX="142dp" />
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchCoursesScreen"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_gravity="right"
+        android:gravity="right"
+        android:background="@color/lightorange"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:textDirection="rtl"
+        app:layout_constraintTop_toBottomOf="@id/recycleViewCourses"
+        app:queryHint="@string/searchByCourse"
+        app:searchHintIcon="@drawable/ic_baseline_search_24"
+        tools:layout_editor_absoluteX="-7dp" />
+
     <Button
         android:id="@+id/buttonEndRegistration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="סיום הרשמה"
+        android:text="@string/endRegistration"
         android:layout_marginBottom="40dp"
         android:layout_marginStart="10dp"
         app:layout_constraintLeft_toLeftOf="parent"

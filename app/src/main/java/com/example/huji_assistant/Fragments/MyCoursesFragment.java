@@ -308,22 +308,16 @@ public class MyCoursesFragment extends Fragment {
             }
         });
 
-
-        String filter = "";
         searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
-                System.out.println("got char: " + query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-               // if (!newText.equals("")) {
                     adapter.getFilter().filter(newText);
-                    System.out.println("got char2: " + newText);
-               // }
                 return false;
             }
         });

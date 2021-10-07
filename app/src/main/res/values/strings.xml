@@ -86,6 +86,16 @@
     <string name="please_enter_maslul_msg">נא להזין מסלול</string>
     <string name="email_address_field">כתובת דואר אלקטרוני</string>
     <string name="password_address_field">סיסמא</string>
+
+    <string name="nameOfStudentMyCoursesScreen">שם הסטודנט: </string>
+    <string name="nameOfFacultyMyCoursesScreen">פקולטה: </string>
+    <string name="nameOfChugMyCoursesScreen">חוג: </string>
+    <string name="nameOfMaslulMyCoursesScreen">מסלול: </string>
+    <string name="degreeTypeMyCoursesScreen">תואר: </string>
+    <string name="yearOfDegreeMyCoursesScreen">שנה לתואר: </string>
+
+
+
     <string-array name="degreeTypesList">
         <item value="01">בוגר</item>
         <item value="02">מוסמך</item>
@@ -123,6 +133,7 @@
     </string-array>
     <string name="searchByType">חפש לפי סוג</string>
     <string name="searchByCourse">חפש קורס…</string>
+    <string name="endRegistration">סיום הרשמה</string>
 
     <string-array name="coursePoints">
         <item value="01">2 נז</item>

@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +73,7 @@ public class CoursesFragment extends Fragment {
     private String personalName;
     private String familyName;
     FirebaseFirestoreSettings settings;
+    androidx.appcompat.widget.SearchView searchView;
     String facultyId;
     String chugId;
     String maslulId;
@@ -126,9 +128,11 @@ public class CoursesFragment extends Fragment {
         yearTextView = view.findViewById(R.id.year);
         degreeTextView = view.findViewById(R.id.degreeType);
         recyclerViewCourses = view.findViewById(R.id.recycleViewCourses);
+        System.out.println("reached adapetr bbb");
         adapter = new CoursesAdapter(getContext());
         dropdowntype = view.findViewById(R.id.autocompletechoosetypeRegisterScreen);
         dropdownpoints = view.findViewById(R.id.autocompletechoosenameRegisterScreen);
+        searchView = view.findViewById(R.id.searchCoursesScreen);
 
         if (holder == null) {
             holder = new CourseItemHolder(recyclerViewCourses);
@@ -246,6 +250,10 @@ public class CoursesFragment extends Fragment {
                                 System.out.println("print_of_course" + course.toStringP());
                                 coursesInMaslul.add(course);
                             }
+                            System.out.println("in between");
+                            for (Course c: coursesInMaslul){
+                                System.out.println("course55: " + c.toStringP());
+                            }
 
                             db.setCoursesRegistration(coursesInMaslul);
 
@@ -289,6 +297,23 @@ public class CoursesFragment extends Fragment {
                  }
              });
  */
+        });
+
+        String filter = "";
+        searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                System.out.println("got char: " + query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                System.out.println("got char2: " + newText);
+                return false;
+            }
         });
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdowntypeitem, getResources().getStringArray(R.array.courseType));
