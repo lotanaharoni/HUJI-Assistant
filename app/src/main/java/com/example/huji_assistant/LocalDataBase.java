@@ -323,6 +323,7 @@ public class LocalDataBase {
 
         ArrayList<String> coursesIdList = new ArrayList<>(this.currentStudent.getCourses());
         coursesIdList.remove(itemId); // todo check if exists?
+        this.currentStudent.setCourses(coursesIdList);
 
         Course toDelete = null;
         for (Course item : this.coursesOfCurrentStudent){
@@ -344,7 +345,7 @@ public class LocalDataBase {
         //mutableLiveData.setValue(new ArrayList<Course>(this.coursesOfCurrentStudent));
 //        sendBroadcastDbChanged();
         // update firebase
-        this.currentStudent.setCourses(coursesIdList);
+      //  this.currentStudent.setCourses(coursesIdList);
         this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
            System.out.println("upload finished");
         });

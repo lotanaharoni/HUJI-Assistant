@@ -547,7 +547,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
         String ROOT_COLLECTION = "coursesTestOnlyCs";
 
-
         // Gets the courses of the student from firebase and updates in local data base
         Task<QuerySnapshot> courses1 = firebaseInstancedb.collection(ROOT_COLLECTION).document(dataBase.getCurrentUser().getChugId())
                 .collection("maslulimInChug").document(dataBase.getCurrentUser().getMaslulId())
@@ -560,7 +559,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         for (DocumentSnapshot document1 : documents){
                             Course course = document1.toObject(Course.class);
                             System.out.println("course2 "+ course.toStringP());
-                            // todo kdam - get data from firebse by course
                             coursesFromFireBase.add(course);
                         }
 

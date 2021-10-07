@@ -101,7 +101,10 @@ public class AddCourseFragment extends Fragment {
 
     private void checkValidaity(String courseToAddId){
         ArrayList<String> courses = dataBase.getCurrentStudent().getCourses();
-        // todo check if the id is a real course id
+        System.out.println("courses in id list in check validity ");
+        for (String id : courses){
+            System.out.println("id: " + id);
+        }
         ArrayList<Course> coursesFromFireBase = dataBase.getCoursesFromFireBase();
 
         // go to firebase to check if course exists
@@ -111,11 +114,13 @@ public class AddCourseFragment extends Fragment {
         if (!isExists){
             String text = getResources().getString(R.string.courseDoesntExistsInFireBase);
             Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+            isCourseIdValid = false;
         }
         else {
             if (courses.contains(courseToAddId)) {
                 String text = getResources().getString(R.string.courseExistsInMyCoursesList);
                 Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                isCourseIdValid = false;
             } else {
                 isCourseIdValid = true;
             }

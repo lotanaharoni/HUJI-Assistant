@@ -220,7 +220,6 @@ public class MyCoursesFragment extends Fragment {
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();
         ArrayList<Course> coursesForAdapter = new ArrayList<>();
 
-      //  String courseNumber = "64304";
         // Gets all courses from firestore
         /**
         // todo show courses of student - using firebase
@@ -454,13 +453,57 @@ public class MyCoursesFragment extends Fragment {
                     DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE: {
-                                dataBase.removeCourseFromCurrentList(item.getNumber());
+                                dataBase.removeCourseFromCurrentList(item.getNumber()); // remove from courses list in db and upload to firebase
+                                // Calculate points
                                 ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
                                 int newPoints = calculateNewPointsSum(item.getPoints());
                                 String text = points_desc + " " + newPoints;
                                 textViewTotalPoints.setText(text);
                                 adapter.addCoursesListToAdapter(courseItems);
                                 adapter.notifyDataSetChanged();
+                                Maslul currentMaslul = dataBase.getCurrentMaslul();
+
+                                int pointsToReduce = Integer.parseInt(item.getPoints()); // Get the number of points to reduce
+                                String type = item.getType();
+                                switch (type){
+                                    case "לימודי חובה":
+                                        int currentMandatoryPoints1 = dataBase.getCurrentMandatoryPoints();
+                                        int newMandatoryPoints = currentMandatoryPoints1 - pointsToReduce;
+                                        String textToSet = "חובה: " + newMandatoryPoints + " מתוך: " + currentMaslul.getMandatoryPointsTotal();
+                                        textViewTotalHovaPoints.setText(textToSet);
+                                        dataBase.setCurrentMandatoryPoints(newMandatoryPoints);
+                                        break;
+                                    case "לימודי חובת בחירה":
+                                        int currentMandatoryChoosePoints1 = dataBase.getCurrentMandatoryChoosePoints();
+                                        int newMandatoryChoosePoints = currentMandatoryChoosePoints1 - pointsToReduce;
+                                        textToSet = "חובת בחירה: " + newMandatoryChoosePoints + " מתוך: " + currentMaslul.getMandatoryChoicePoints();
+                                        textViewTotalHovaChoosePoints.setText(textToSet);
+                                        dataBase.setCurrentMandatoryChoosePoints(newMandatoryChoosePoints);
+                                        break;
+                                    case "קורסי בחירה":
+                                        int currentChoosePoints1 = dataBase.getCurrentChoosePoints();
+                                        int newChoosePoints = currentChoosePoints1 - pointsToReduce;
+                                        textToSet = "בחירה: " + newChoosePoints;
+                                        textViewTotalChoosePoints.setText(textToSet);
+                                        dataBase.setCurrentChoosePoints(newChoosePoints);
+                                        break;
+                                    case "משלימים":
+                                        int currentSuppPoints1 = dataBase.getCurrentSuppPoints();
+                                        int newSuppPoints = currentSuppPoints1 - pointsToReduce;
+                                        textToSet = "משלימים: " + newSuppPoints;
+                                        textViewTotalSuppPoints.setText(textToSet);
+                                        dataBase.setCurrentSuppPoints(newSuppPoints);
+                                        break;
+                                    case "אבני פינה":
+                                        int currentCornerStonePoints1 = dataBase.getCurrentCornerStonesPoints();
+                                        int newCSPoints = currentCornerStonePoints1 - pointsToReduce;
+                                        textToSet = "אבני פינה: " + newCSPoints;
+                                        textViewTotalCornerStonePoints.setText(textToSet);
+                                        dataBase.setCurrentCornerStonesPoints(newCSPoints);
+                                        break;
+                                    default:
+                                        break;
+                                } // end of switch case
                                 break;
                             }
                             case DialogInterface.BUTTON_NEGATIVE:
