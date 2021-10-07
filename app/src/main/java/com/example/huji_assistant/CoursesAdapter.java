@@ -33,10 +33,15 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
                 System.out.println("char: " + charString);
-                if (charString.isEmpty()) {
-                    filteredList = list;
-                } else {
-                    ArrayList<Course> filteredList = new ArrayList<>();
+                ArrayList<Course> filteredList = new ArrayList<>();
+                if (charSequence == null || charSequence.length() == 0){
+                    filteredList.addAll(listFull);
+                }
+
+               // if (charString.isEmpty()) {
+               //     filteredList = list;
+                else {
+                   // ArrayList<Course> filteredList = new ArrayList<>();
                     for (Course item : list) {
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
@@ -44,10 +49,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
                             filteredList.add(item);
                         }
                     }
-                    list = filteredList;
+                   // list = filteredList;
                 }
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = list;
+                filterResults.values = filteredList;
                 return filterResults;
             }
 
