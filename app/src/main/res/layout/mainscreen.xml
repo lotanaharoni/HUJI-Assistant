@@ -44,6 +44,7 @@
             android:layout_below="@+id/searchViewMainScreen"
             android:divider="#ad5"
             android:dividerHeight="2dp" />
+
         <SearchView
             android:id="@+id/searchViewMainScreen"
             android:layout_width="match_parent"
@@ -51,6 +52,15 @@
             android:queryHint="חפש קורס.."
             android:iconifiedByDefault="false"
             android:layout_alignParentTop="true"/>
+
+        <ImageView
+            android:id="@+id/logo_wait_screen"
+            android:layout_width="174dp"
+            android:layout_height="153dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="120dp"
+            android:contentDescription="@string/logo_description"
+            app:srcCompat="@drawable/university" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -63,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10sp"
             android:layout_marginTop="270dp"
-            android:background="@color/white"
+            android:background="@color/lightyellow"
             android:columnCount="2"
             app:layout_constraintTop_toBottomOf="@id/fff"
             android:paddingLeft="1dp"
