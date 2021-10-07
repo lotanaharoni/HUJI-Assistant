@@ -155,6 +155,17 @@ public class LocalDataBase {
         editor.apply();
     }
 
+    public int getLanguageIndex(){
+        SharedPreferences prefs = context.getSharedPreferences("settings", context.MODE_PRIVATE);
+        String lang = prefs.getString("My_lang", "");
+        if (lang.equals("he")){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
     public String loadLocale(){
         SharedPreferences prefs = context.getSharedPreferences("settings", context.MODE_PRIVATE);
          return prefs.getString("My_lang", "");

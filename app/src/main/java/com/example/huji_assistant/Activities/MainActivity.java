@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -37,6 +40,8 @@ import com.example.huji_assistant.R;
 import com.example.huji_assistant.Fragments.RegisterFragment;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
    // private static final float GESTURE_THRESHOLD_DP = 16.0f;
@@ -55,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout moreInfoDrawerLayout;
     public LocalDataBase dataBase = null;
     String grade;
+    private TextView changeLanguageTextView;
+
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (dataBase == null) {
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         // Get all chugim and maslulim
         ///FireStoreReader fire = new FireStoreReader();
@@ -90,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Gets fragments
         FragmentContainerView loginFragment = findViewById(R.id.loginfragment);
         FragmentContainerView topF = findViewById(R.id.topFragment);
+        changeLanguageTextView = findViewById(R.id.change_language_textView);
         TopFragment f = new TopFragment();
         FirstFragment firstFragment = new FirstFragment();
         TextViewFragment secondFragment = new TextViewFragment();
@@ -240,6 +251,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(loginFragment.getId(), courseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
             }
         };
+
+        changeLanguageTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChangeLanguageDialog();
+            }
+        });
     }
 
 
@@ -352,5 +370,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 super.onBackPressed();
             }
         }
+    }
+
+    private void showChangeLanguageDialog() {
+        final String[] listItems = {"English", "עברית"};
+        AlertDialog.Builder mbuilder = new AlertDialog.Builder(MainActivity.this);
+        mbuilder.setTitle("Choose Languae...");
+        int languageIndex = dataBase.getLanguageIndex();
+        mbuilder.setSingleChoiceItems(listItems, languageIndex, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0){
+                    setLocale("en");
+                }
+                else if (which == 1){
+                    setLocale("he");
+                }
+
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog mDialog = mbuilder.create();
+        mDialog.show();
+    }
+
+    private void setLocale(String lang) {
+        Locale locale = new Locale(lang);
+        locale.setDefault(locale);
+        Configuration configuration = new Configuration();
+        configuration.locale = locale;
+        getBaseContext().getResources().updateConfiguration(configuration, getBaseContext().getResources().getDisplayMetrics());
+        dataBase.saveLocale(lang);
+        Intent refresh = new Intent(this, MainActivity.class);
+        startActivity(refresh);
+        finish();
     }
 }

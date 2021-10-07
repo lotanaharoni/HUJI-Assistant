@@ -116,6 +116,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 .build();
         firebaseInstancedb.setFirestoreSettings(settings);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
         // application singleton
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
 
@@ -488,7 +491,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         final String[] listItems = {"English", "עברית"};
         AlertDialog.Builder mbuilder = new AlertDialog.Builder(MainScreenActivity.this);
         mbuilder.setTitle("Choose Languae...");
-        mbuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
+        int languageIndex = dataBase.getLanguageIndex();
+        mbuilder.setSingleChoiceItems(listItems, languageIndex, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0){
