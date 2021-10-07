@@ -115,6 +115,7 @@ public class MyCoursesFragment extends Fragment {
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search1);
         //searchView1 = view.findViewById(R.id.search1);
 
+
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
@@ -319,8 +320,10 @@ public class MyCoursesFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                System.out.println("got char2: " + newText);
+               // if (!newText.equals("")) {
+                    adapter.getFilter().filter(newText);
+                    System.out.println("got char2: " + newText);
+               // }
                 return false;
             }
         });

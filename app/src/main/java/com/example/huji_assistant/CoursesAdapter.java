@@ -23,7 +23,8 @@ import java.util.List;
 
 public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> implements Filterable {
     private  ArrayList<Course> list;
-    private ArrayList<Course> filteredList;
+    private ArrayList<Course> filteredList = new ArrayList<>();
+    private ArrayList<Course> listFull;
 
     @Override
     public Filter getFilter() {
@@ -57,7 +58,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             }
         };
     }
-
+/**
     class CustomFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -86,11 +87,11 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             list = (ArrayList<Course>) results.values;
             notifyDataSetChanged();
         }
-    }
+    }*/
 
     private Context mContext;
     ArrayList<Course> filterList;
-    CustomFilter filter;
+   // CustomFilter filter;
 
    // public Filter getFilter(){
      //   if (filter == null){
@@ -102,11 +103,14 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     public CoursesAdapter(Context context){
         this.list = new ArrayList<>();
         this.filterList = list;
+       // this.filterList = new ArrayList<>(list); // todo keep?
         this.mContext = context;
+      //  this.listFull = new ArrayList<>();
     }
 
     public void addCoursesListToAdapter(ArrayList<Course> newList){
         this.list.clear();
+        this.listFull = new ArrayList<>(newList);
         this.list.addAll(newList);
         notifyDataSetChanged();
     }
@@ -150,11 +154,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         public void onClick(Course item);
     }
 
-   // public interface OnTextBoxClickListener {
-        //  public void onClick(View view, int position);
-   //     public void onTextBoxClick(Course item);
-   // }
-
     public void setItemClickListener(OnItemClickListener listener){
         this.itemClickListener = listener;
     }
@@ -166,10 +165,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     public void setDeleteListener(DeleteClickListener listener){
         this.deleteListener = listener;
     }
-
-   // public void setTextBoxClickListener(OnTextBoxClickListener listener){
-   ///     this.textBoxClickListener = listener;
-  //  }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
