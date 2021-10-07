@@ -260,13 +260,13 @@ public class CoursesFragment extends Fragment {
                                 //  holder = new CourseItemHolder(recyclerViewCourses);
                                 //}
                                 adapter.addCoursesListToAdapter(coursesInMaslul);
-                                 recyclerViewCourses.setAdapter(adapter);
+                                // recyclerViewCourses.setAdapter(adapter);
 
-                                 coordinatorLayout = new LinearLayoutManager(getContext(),
-                                          RecyclerView.VERTICAL, false);
+                               //  coordinatorLayout = new LinearLayoutManager(getContext(),
+                               //           RecyclerView.VERTICAL, false);
 
-                                 recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
-                                         RecyclerView.VERTICAL, false));
+                               //  recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+                                //         RecyclerView.VERTICAL, false));
                             }
                         });
             }
@@ -275,13 +275,13 @@ public class CoursesFragment extends Fragment {
             }
 
             //adapter.addCoursesListToAdapter(db.getCoursesRegistration());
-           // recyclerViewCourses.setAdapter(adapter);
+            recyclerViewCourses.setAdapter(adapter);
 
-           // coordinatorLayout = new LinearLayoutManager(getContext(),
-             //       RecyclerView.VERTICAL, false);
+            coordinatorLayout = new LinearLayoutManager(getContext(),
+                    RecyclerView.VERTICAL, false);
 
-           // recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
-            //        RecyclerView.VERTICAL, false));
+            recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+                    RecyclerView.VERTICAL, false));
         }); // end of observe
 
         // Search filter
@@ -504,13 +504,9 @@ public class CoursesFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(false) {
             @Override
             public void handleOnBackPressed() {
-
             }
         };
 
-        //spinner
-       // dropdown = view.findViewById(R.id.coursespinner);
-        String[] items = new String[]{"1", "2", "three"};
         //  ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, dropdown, items);
         viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
             @Override

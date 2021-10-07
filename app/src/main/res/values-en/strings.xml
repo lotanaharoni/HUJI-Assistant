@@ -86,6 +86,9 @@
     <string name="private_name">Private name </string>
     <string name="second_name">Family name </string>
     <string name="continue_btn">Continue</string>
+    <string name="bottommenusettings">Settings</string>
+    <string name="bottommenuqrscan">QR Scan</string>
+
 
     <string name="user_exist">Existing user</string>
     <string name="new_user">New user</string>

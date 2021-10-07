@@ -79,6 +79,9 @@
     <string name="private_name">שם פרטי</string>
     <string name="second_name">שם משפחה</string>
     <string name="continue_btn">המשך</string>
+    <string name="bottommenusettings">הגדרות</string>
+    <string name="bottommenuqrscan">סריקת QR</string>
+
 
     <string name="new_user">משתמש חדש</string>
     <string name="user_exist">משתמש קיים</string>

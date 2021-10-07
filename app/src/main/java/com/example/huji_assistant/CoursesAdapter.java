@@ -115,6 +115,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     }
 
     public void addCoursesListToAdapter(ArrayList<Course> newList){
+        if (this.list == null){
+            this.list = new ArrayList<>();
+        }
         this.list.clear();
         this.listFull = new ArrayList<>(newList);
         this.list.addAll(newList);
@@ -276,7 +279,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     }
 
     public int getItemCount() {
-        return this.list.size();
+        if (this.list != null) {
+            return this.list.size();
+        }
+        else{
+            return 0;
+        }
     }
 
     public ArrayList<Course> getItems(){
