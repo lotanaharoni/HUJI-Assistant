@@ -53,6 +53,9 @@
     <string name="enter_course_number">Enter a course number</string>
     <string name="show_attendance">View attendance list</string>
     <string name="change_language">הגדרות שפה</string>
+    <string name="next">Next</string>
+    <string name="registration_process_description">System Registration Screen - Step 1 of 3</string>
+    <string name="new_registration_process_description">New user registration screen Screen 1 of 3</string>
 
 
     <string name="nameOfStudentMyCoursesScreen">Name of student: </string>

@@ -52,6 +52,9 @@
     <string name="enter_course_number">הזן מספר קורס</string>
     <string name="show_attendance">צפייה ברשימת נוכחות</string>
     <string name="change_language">Change language</string>
+    <string name="next">המשך</string>
+    <string name="registration_process_description">מסך הרשמה למערכת - שלב 1 מתוך 3</string>
+    <string name="new_registration_process_description">מסך רישום משתמש חדש מסך 1 מתוך 3</string>
 
 
 
