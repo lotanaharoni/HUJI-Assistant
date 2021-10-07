@@ -38,7 +38,7 @@ import java.util.List;
 public class InfoFragment extends Fragment {
 
     public InfoFragment(){
-        super(R.layout.personalinfofragment);
+        super(R.layout.personalinfofragment_delete);
     }
 
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();

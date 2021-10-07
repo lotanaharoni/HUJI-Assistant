@@ -31,7 +31,7 @@ public class PersonalInfoFragment extends Fragment {
     public PersonalInfoFragment.continueButtonClickListener continueListener = null;
 
     public PersonalInfoFragment(){
-        super(R.layout.personalinfofragment);
+        super(R.layout.personalinfofragment_delete);
     }
 
     @Override

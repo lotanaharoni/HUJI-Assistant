@@ -108,7 +108,6 @@ public class CoursesFragment extends Fragment {
     public CoursesFragment(){
         super(R.layout.fragment_courses);
     }
-    Spinner dropdown;
 
     @Nullable
     @Override
@@ -161,157 +160,141 @@ public class CoursesFragment extends Fragment {
              beginnigYearOfDegree = item.getBeginYear();
              beginSemesterOfDegree = item.getBeginSemester();
 
-             System.out.println("begin year: " + beginnigYearOfDegree);
-             System.out.println("begin semester: " + beginSemesterOfDegree);
+             try {
+                 // Get the faculty
+                 Task<DocumentSnapshot> faculties1 = firebaseInstancedb.collection("faculties").document(facultyId)
+                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                             @Override
+                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                 DocumentSnapshot result = task.getResult();
+                                 assert result != null;
+                                 Faculty data = result.toObject(Faculty.class);
+                                 assert data != null;
+                                 String facultyName = data.getTitle();
+                                 String text = facultyName + " " + facultyId;
+                                 facultyTextView.setText(text);
+                                 db.setCurrentFaculty(data);
+                             }
+                         });
+             }
+             catch (Exception e){
+                 System.out.println("error faculties");
+             }
 
-            Task<DocumentSnapshot> faculties1 = firebaseInstancedb.collection("faculties").document(facultyId)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                 @Override
-                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                     DocumentSnapshot result = task.getResult();
-                     assert result != null;
-                     Faculty data = result.toObject(Faculty.class);
-                     assert data != null;
-                     String facultyName = data.getTitle();
-                     String text = facultyName + " " + facultyId;
-                     facultyTextView.setText(text);
-                     db.setCurrentFaculty(data);
-                 }
-             });
             String COLLECTION = "coursesTestOnlyCs";
-            Task<DocumentSnapshot> chugim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
-                   // .collection("chugimInFaculty").document(chugId)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            DocumentSnapshot result = task.getResult();
-                            assert result != null;
-                            Chug data = result.toObject(Chug.class);
-                            assert data != null;
-                            String chugName = data.title;
-                            String text = chugName + " " + chugId;
-                            chugTextView.setText(text);
-                            db.setCurrentChug(data);
-                        }
-                    });
-            System.out.println("rOO" + chugId + " " + maslulId );
-            Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
-                    //.collection("chugimInFaculty").document(chugId)
-                    .collection("maslulimInChug").document(maslulId)
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            DocumentSnapshot result = task.getResult();
-                            assert result != null;
-                            Maslul data = result.toObject(Maslul.class);
-                            assert data != null;
-                            String maslulName = data.getTitle();
-                            String text = maslulName + " " + maslulId;
-                            maslulTextView.setText(text);
-                            db.setCurrentMaslul(data);
-                        }
-                    });
+             try {
+                 // Get the chug
+                 Task<DocumentSnapshot> chugim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
+                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                             @Override
+                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                 DocumentSnapshot result = task.getResult();
+                                 assert result != null;
+                                 Chug data = result.toObject(Chug.class);
+                                 assert data != null;
+                                 String chugName = data.title;
+                                 String text = chugName + " " + chugId;
+                                 chugTextView.setText(text);
+                                 db.setCurrentChug(data);
+                             }
+                         });
+             }
+             catch (Exception e){
+                 System.out.println("error chugim");
+             }
 
-             //facultyTextView.setText(facultyId);
-           //  chugTextView.setText(chugId);
-             //maslulTextView.setText(maslulId);
+             try {
+                 // Get the maslul
+                 Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
+                         .collection("maslulimInChug").document(maslulId)
+                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                             @Override
+                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                 DocumentSnapshot result = task.getResult();
+                                 assert result != null;
+                                 Maslul data = result.toObject(Maslul.class);
+                                 assert data != null;
+                                 String maslulName = data.getTitle();
+                                 String text = maslulName + " " + maslulId;
+                                 maslulTextView.setText(text);
+                                 db.setCurrentMaslul(data);
+                             }
+                         });
+             }
+             catch (Exception e){
+                 System.out.println("error maslulim");
+             }
              degreeTextView.setText(degreeType);
              yearTextView.setText(year);
 
-
+            ArrayList<Course> coursesInMaslul = new ArrayList<>();
             String ROOT_COLLECTION = "coursesTestOnlyCs";
-            Task<QuerySnapshot> document = firebaseInstancedb.collection(ROOT_COLLECTION).document(chugId)
-                    .collection("maslulimInChug").document(maslulId).collection("coursesInMaslul")
-                    .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                     //   }
-                   // })
 
-            // Get the list of courses from firebase
-        //    Task<QuerySnapshot> document = firebaseInstancedb.collection("courses").document(chugId)
-                  //  .collection("maslulim").document(maslulId).collection("coursesInMaslul")
-                  //  .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                     //   @Override
-                    //    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                          //  List<DocumentSnapshot> documents = task.getResult().getDocuments();
+            try {
+                // Get the courses
+                Task<QuerySnapshot> document = firebaseInstancedb.collection(ROOT_COLLECTION).document(chugId)
+                        .collection("maslulimInChug").document(maslulId).collection("coursesInMaslul")
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                                // ArrayList<Course> coursesInMaslul = new ArrayList<>();
+                                for (DocumentSnapshot document1 : documents) {
+                                    // retrieve for each chug id it's name
+                                    Course course = document1.toObject(Course.class);
+                                    assert course != null;
+                                    System.out.println("print_of_course" + course.toStringP());
+                                    coursesInMaslul.add(course);
+                                }
+                                System.out.println("in between");
+                                for (Course c : coursesInMaslul) {
+                                    System.out.println("course55: " + c.toStringP());
+                                }
 
-                            ArrayList<Course> coursesInMaslul = new ArrayList<>();
+                                db.setCoursesRegistration(coursesInMaslul);
 
-                            for (DocumentSnapshot document1 : documents){
-                                // retrieve for each chug id it's name
-                                Course course = document1.toObject(Course.class);
-                                assert course != null;
-                                String courseTitle = course.getName();
-                                String courseNumber = course.getNumber();
-                                String coursePoints = course.getPoints();
-                                String courseType = course.getType();
-                                System.out.println("print_of_course" + course.toStringP());
-                                coursesInMaslul.add(course);
+                                // show results in recycle view
+                                // Create the adapter
+                               // adapter = new CoursesAdapter(getContext()); // todo erase?
+                                // if (holder == null) {
+                                //  holder = new CourseItemHolder(recyclerViewCourses);
+                                //}
+                                adapter.addCoursesListToAdapter(coursesInMaslul);
+                                 recyclerViewCourses.setAdapter(adapter);
+
+                                 coordinatorLayout = new LinearLayoutManager(getContext(),
+                                          RecyclerView.VERTICAL, false);
+
+                                 recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+                                         RecyclerView.VERTICAL, false));
                             }
-                            System.out.println("in between");
-                            for (Course c: coursesInMaslul){
-                                System.out.println("course55: " + c.toStringP());
-                            }
+                        });
+            }
+            catch (Exception e){
+                System.out.println("error courses");
+            }
 
-                            db.setCoursesRegistration(coursesInMaslul);
+            //adapter.addCoursesListToAdapter(db.getCoursesRegistration());
+           // recyclerViewCourses.setAdapter(adapter);
 
-                            // show results in recycle view
-                            // Create the adapter
-                            adapter.addCoursesListToAdapter(coursesInMaslul);
-                            recyclerViewCourses.setAdapter(adapter);
+           // coordinatorLayout = new LinearLayoutManager(getContext(),
+             //       RecyclerView.VERTICAL, false);
 
-                            coordinatorLayout = new LinearLayoutManager(getContext(),
-                                    RecyclerView.VERTICAL, false);
+           // recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+            //        RecyclerView.VERTICAL, false));
+        }); // end of observe
 
-                            recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
-                                    RecyclerView.VERTICAL, false));
-                        }
-                    });
-
-
-
-             /**
-             firebaseInstancedb.collection("courses").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                 @Override
-                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                     List<DocumentSnapshot> documents = task.getResult().getDocuments();
-
-                     for (DocumentSnapshot doc : documents) {
-                       //  Chug chug = doc.toObject(Chug.class);
-                       //  System.out.println(chug.getTitle());
-                         String s = doc.getId().toString();
-                         System.out.println(s);
-
-                     }
-                 }
-             });
-              */
-/**
-             firebaseInstancedb.collection("courses").whereArrayContains(chugId, chugId)
-                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                 @Override
-                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-                 }
-             });
- */
-        });
-
-        String filter = "";
+        // Search filter
         searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
-                System.out.println("got char: " + query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
-                System.out.println("got char2: " + newText);
                 return false;
             }
         });
@@ -500,7 +483,7 @@ public class CoursesFragment extends Fragment {
 
 
 
-        //beginnigYearOfDegree = "2022"; // todo change
+
 
 
 
@@ -588,20 +571,10 @@ public class CoursesFragment extends Fragment {
 
                         }
                     });
-                    // TODO create an object studentInfo
                 }
             }
         });
-
-
-
-//create an adapter to describe how the items are displayed, adapters are used in several places in android.
-//There are multiple variations of this, but this is the basic variant.
-        //  ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-//set the spinners adapter to the previously created one.
-        // dropdown.setAdapter(adapter);
-
-    }
+    } // end of on create view
 
     public void showPopup(View anchorView) {
 

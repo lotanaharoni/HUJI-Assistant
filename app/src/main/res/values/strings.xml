@@ -73,6 +73,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="register1out3">מסך הרשמה למערכת - שלב 1 מתוך 3</string>
+    <string name="register2out3">מסך הרשמה למערכת - שלב 2 מתוך 3</string>
+    <string name="register3out3">מסך הרשמה למערכת - שלב 3 מתוך 3</string>
+    <string name="private_name">שם פרטי</string>
+    <string name="second_name">שם משפחה</string>
+    <string name="continue_btn">המשך</string>
+
     <string name="new_user">משתמש חדש</string>
     <string name="user_exist">משתמש קיים</string>
     <string name="schedule">מערכת שעות</string>

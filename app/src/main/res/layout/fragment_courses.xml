@@ -28,7 +28,7 @@
                 android:layout_marginTop="0dp"
                 android:paddingRight="2dp"
                 android:textColor="@color/black"
-                android:text="מסך הרשמה למערכת - שלב 3 מתוך 3   -   הוסף קורסים לרשימה" />
+                android:text="@string/register3out3"  />
 
             <TextView
                 android:id="@+id/faculty"
