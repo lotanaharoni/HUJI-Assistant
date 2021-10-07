@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
     <TextView
         android:id="@+id/hujiapptextview"
         android:layout_width="wrap_content"
@@ -23,7 +21,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewTop"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="200dp"
         android:layout_width="match_parent"
         android:layout_height="550dp"
         android:layoutDirection="ltr"
@@ -31,79 +29,12 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="115dp">
 
-        <LinearLayout
-            android:id="@+id/linearlayout5"
+        <ScrollView
+            android:id="@+id/fff"
+            android:layout_marginBottom="30dp"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="170dp"
-            android:background="@color/white"
-            app:layout_constraintTop_toBottomOf="@id/fff"
-            android:orientation="vertical">
-
-        <Button
-            android:id="@+id/coursesPlan"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp"
-            android:textSize="12dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="150dp"
-            android:textDirection="ltr"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:text="תכנון לימודים" />
-
-        <Button
-            android:id="@+id/myCoursesButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textDirection="ltr"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:layout_marginRight="150dp"
-            android:text="הקורסים שלי" />
-
-        <Button
-            android:id="@+id/uploadPicturesButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textDirection="ltr"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:layout_marginRight="150dp"
-            android:text="@string/upload_pictures_button" />
-
-        <Button
-            android:id="@+id/circulumButton"
-            android:layout_width="wrap_content"
-            android:layout_height="49dp"
-            android:textSize="12dp"
-            android:layout_marginRight="150dp"
-            android:textDirection="ltr"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:text="מערכת שעות" />
-
-        <Button
-            android:id="@+id/privateInfoEditButton"
-            android:textDirection="ltr"
-            android:layout_gravity="right"
-            android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_marginRight="150dp"
-            android:layout_height="wrap_content"
-            android:text="עריכת פרטים אישיים" />
-
-            <Button
-                android:id="@+id/showAttendanceButton"
-                android:textDirection="ltr"
-                android:layout_gravity="right"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_marginRight="150dp"
-                android:layout_height="wrap_content"
-                android:text="@string/show_attendance" />
-
-        </LinearLayout>
+            android:layout_height="20dp">
+        </ScrollView>
 
         <ListView
             android:id="@+id/listViewMainScreen"
@@ -121,10 +52,102 @@
             android:layout_alignParentTop="true"/>
 
         <ScrollView
-            android:id="@+id/fff"
             android:layout_width="match_parent"
-            android:layout_height="20dp">
+            android:layout_marginTop="210dp"
+            android:layout_height="300dp">
+
+        <GridLayout
+            android:id="@+id/gridlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10sp"
+            android:layout_marginTop="270dp"
+            android:background="@color/white"
+            android:columnCount="2"
+            app:layout_constraintTop_toBottomOf="@id/fff"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:rowCount="3"
+            >
+
+            <Button
+                android:id="@+id/coursesPlan"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="5sp"
+                android:gravity="fill"
+                android:text="תכנון לימודים"
+                android:textDirection="rtl"
+                android:textSize="14sp" />
+
+
+            <Button
+                android:id="@+id/myCoursesButton"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_rowWeight="1"
+                android:textSize="14sp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5sp"
+                android:gravity="fill"
+                android:text="הקורסים שלי"
+                android:textDirection="rtl" />
+
+            <Button
+                android:id="@+id/uploadPicturesButton"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_rowWeight="1"
+                android:textSize="14sp"
+                android:layout_columnWeight="1"
+                android:layout_margin="5sp"
+                android:gravity="fill"
+                android:text="@string/upload_pictures_button"
+                android:textDirection="rtl" />
+
+            <Button
+                android:id="@+id/privateInfoEditButton"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="5sp"
+                android:textSize="14sp"
+                android:gravity="fill"
+                android:text="עריכת פרטים אישיים"
+                android:textDirection="rtl" />
+
+            <Button
+                android:id="@+id/showAttendanceButton"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="5sp"
+                android:gravity="fill"
+                android:textSize="14sp"
+                android:text="@string/show_attendance"
+                android:textDirection="rtl" />
+
+            <Button
+                android:id="@+id/circulumButton"
+                android:layout_width="50dp"
+                android:layout_height="60dp"
+                android:layout_rowWeight="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="5sp"
+                android:gravity="fill"
+                android:textSize="14sp"
+                android:text="מערכת שעות"
+                android:textDirection="rtl"
+                android:visibility="visible" />
+
+
+        </GridLayout>
         </ScrollView>
+
     </androidx.cardview.widget.CardView>
 
 

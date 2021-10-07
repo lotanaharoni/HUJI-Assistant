@@ -62,12 +62,6 @@ public class PlanCoursesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
-        // viewModelAppCourse = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
-        // facultyTextView = view.findViewById(R.id.faculty);
-//        chugTextView = view.findViewById(R.id.chugName);
-//        maslulTextView = view.findViewById(R.id.maslulName);
-//        yearTextView = view.findViewById(R.id.year);
-//        degreeTextView = view.findViewById(R.id.degreeType);
         recyclerViewMyPlanCourses = view.findViewById(R.id.recycleViewPlanCourses);
         adapter = new PlanCourseAdapter(getContext());
 

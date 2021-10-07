@@ -110,6 +110,22 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
+        editDegreeTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrayAdapter.getFilter().filter("");
+                binding.autoCompleteTextViewDegreeEditInfo.setAdapter(arrayAdapter);
+            }
+        });
+
+        editDegreeYearTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                arrayAdapter.getFilter().filter("");
+                binding.autoCompleteTextViewYearEditInfo.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownyearitem, yearArray));
+            }
+        });
+
         editDegreeYearTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -180,7 +196,7 @@ public class EditProfileFragment extends Fragment {
     private void setViewsContentByUser(StudentInfo user) {
 //        userFirstNameEditText.setText(user.getPersonalName()); //todo: first name
 //        userLastNameEditText.setText(user.getFamilyName()); //todo: last name
-        String message = "Hello" + " " + user.getPersonalName() + " " + user.getFamilyName();
+        String message = "שלום" + " " + user.getPersonalName() + " " + user.getFamilyName();
         helloMessage.setText(message);
         emailEditText.setText(user.getEmail());
     }
