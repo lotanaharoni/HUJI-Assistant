@@ -30,6 +30,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.example.huji_assistant.Course;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.Model;
@@ -60,7 +61,7 @@ public class CaptureImageActivity extends AppCompatActivity {
     private StorageReference reference;
     private Uri imageUri, classContentUri;
     private LocalDataBase dataBase = null;
-    EditText imageTitle;
+    EditText imageTitle, courseNumber;
     String currentPhotoPath;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
@@ -80,6 +81,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         uploadBtn = findViewById(R.id.upload_btn);
         uploadBtn.setEnabled(false);
         showAllBtn = findViewById(R.id.showall_btn);
+        courseNumber = findViewById(R.id.courseNumberEditText);
         progressBar = findViewById(R.id.progressBar2);
         imageView = findViewById(R.id.uploadFromGallery);
         root = FirebaseDatabase.getInstance().getReference("Image");
@@ -123,14 +125,14 @@ public class CaptureImageActivity extends AppCompatActivity {
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (uploadChoose == GALLERY_TYPE){
-                    uploadToFirebase(imageUri, GALLERY_REQUEST_CODE, imageTitle.getText().toString());
-                }
-                else if (uploadChoose == CAMERA_TYPE){
-                    uploadToFirebase(classContentUri, CAMERA_REQUEST_CODE, fName);
-                }
-                else if (uploadChoose == PDF_TYPE){
-                    uploadToFirebase(imageUri, DOCUMENTS_REQUEST_CODE, messagePushId);
+                if (checkCourseNumberValidation()) {
+                    if (uploadChoose == GALLERY_TYPE) {
+                        uploadToFirebase(imageUri, GALLERY_REQUEST_CODE, imageTitle.getText().toString());
+                    } else if (uploadChoose == CAMERA_TYPE) {
+                        uploadToFirebase(classContentUri, CAMERA_REQUEST_CODE, fName);
+                    } else if (uploadChoose == PDF_TYPE) {
+                        uploadToFirebase(imageUri, DOCUMENTS_REQUEST_CODE, messagePushId);
+                    }
                 }
             }
         });
@@ -232,6 +234,17 @@ public class CaptureImageActivity extends AppCompatActivity {
 //                startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE);
             }
         });
+    }
+
+    private boolean checkCourseNumberValidation() {
+        if (courseNumber.getText().toString().isEmpty()){
+            return false;
+        }
+        if (!dataBase.getCurrentStudent().getCourses().contains(courseNumber.getText().toString())){
+            return false;
+        }
+        // todo: check courses
+        return true;
     }
 
     private void uploadToFirebase(Uri uri, int source, String name) {
