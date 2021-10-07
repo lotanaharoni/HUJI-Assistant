@@ -3,6 +3,7 @@ package com.example.huji_assistant.Activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -46,6 +47,10 @@ public class ScanQrActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qr);
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
         mCodeScanner = new CodeScanner(this, scannerView);
         db = HujiAssistentApplication.getInstance().getDataBase();
         verifyPermissions();

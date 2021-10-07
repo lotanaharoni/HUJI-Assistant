@@ -116,6 +116,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 .build();
         firebaseInstancedb.setFirestoreSettings(settings);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
         // application singleton
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
 

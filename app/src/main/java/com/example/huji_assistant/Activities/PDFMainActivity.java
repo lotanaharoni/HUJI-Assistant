@@ -1,6 +1,8 @@
 package com.example.huji_assistant.Activities;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,9 @@ public class PDFMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_pdf);
         final ListView lv= (ListView) findViewById(R.id.lv);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+            getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         DatabaseReference root = FirebaseDatabase.getInstance().getReference("Image");
         pdfDocs = new ArrayList<>();
