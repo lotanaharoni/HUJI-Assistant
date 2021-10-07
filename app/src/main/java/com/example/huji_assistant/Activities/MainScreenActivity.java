@@ -14,12 +14,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
@@ -63,7 +59,6 @@ import com.example.huji_assistant.Fragments.CourseInfoFragment;
 import com.example.huji_assistant.Fragments.CoursesFragment;
 import com.example.huji_assistant.Fragments.MainScreenFragment;
 import com.example.huji_assistant.Fragments.MyCoursesFragment;
-import com.example.huji_assistant.Fragments.ProfilePageFragment;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.StudentInfo;
@@ -311,6 +306,22 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 )
                         // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
                         .replace(mainFragmentView.getId(), editProfileFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        mainscreenfragment.showAttendanceButtonListener = new MainScreenFragment.showAttendanceButtonListener(){
+
+            @Override
+            public void onShowAttendanceButtonClicked() {
+                startActivity(new Intent(MainScreenActivity.this, ShowAttendanceActivity.class));
+                finish();
+//                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+//                        R.anim.fade_in,  // enter
+//                        R.anim.slide_out,  // exit
+//                        R.anim.slide_in,   // popEnter
+//                        R.anim.fade_out  // popExit
+//                )
+//                        .replace(mainFragmentView.getId(), editProfileFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
             }
         };
 

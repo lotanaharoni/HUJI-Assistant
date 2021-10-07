@@ -28,6 +28,7 @@ public class MainScreenFragment extends Fragment {
     public MainScreenFragment.UploadPictureButtonListener uploadPicturesButtonListenerBtn = null;
     public MainScreenFragment.editInfoButtonListener editInfoButtonListener = null;
     public MainScreenFragment.coursesPlanButtonListenerBtn coursesPlanButtonListenerBtn = null;
+    public MainScreenFragment.showAttendanceButtonListener showAttendanceButtonListener = null;
 
     public interface myCoursesButtonListener{
         public void onMyCoursesButtonClicked();
@@ -41,6 +42,10 @@ public class MainScreenFragment extends Fragment {
         public void onEditInfoButtonClicked();
     }
 
+    public interface showAttendanceButtonListener{
+        public void onShowAttendanceButtonClicked();
+    }
+
     public interface UploadPictureButtonListener{
         public void onUploadPictureButtonClicked();
     }
@@ -52,6 +57,7 @@ public class MainScreenFragment extends Fragment {
     Button privateInfoEditBtn;
     Button uploadPicturesButton;
     Button coursesPlanBtn;
+    Button showAttendanceButton;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -61,6 +67,7 @@ public class MainScreenFragment extends Fragment {
         coursesPlanBtn = view.findViewById(R.id.coursesPlan);
         uploadPicturesButton = view.findViewById(R.id.uploadPicturesButton);
         privateInfoEditBtn = view.findViewById(R.id.privateInfoEditButton);
+        showAttendanceButton = view.findViewById(R.id.showAttendanceButton);
 
         FloatingActionButton openCameraFloatingButton = view.findViewById(R.id.open_camera_floating_button);
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
@@ -99,6 +106,15 @@ public class MainScreenFragment extends Fragment {
             public void onClick(View v) {
                 if (editInfoButtonListener != null) {
                     editInfoButtonListener.onEditInfoButtonClicked();
+                }
+            }
+        });
+
+        showAttendanceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showAttendanceButtonListener != null) {
+                    showAttendanceButtonListener.onShowAttendanceButtonClicked();
                 }
             }
         });

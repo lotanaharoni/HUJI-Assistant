@@ -49,6 +49,9 @@
     <string name="repeat_password_is_empty">נא לחזור על הסיסמא החדשה</string>
     <string name="new_pass_is_not_equal_to_repeat_pass">נא לחזור במדויק על הסיסמא החדשה</string>
     <string name="upload_pictures_button">העלאת סיכומים</string>
+    <string name="enter_course_number">הזן מספר קורס</string>
+    <string name="show_attendance">צפייה ברשימת נוכחות</string>
+
 
 
 
