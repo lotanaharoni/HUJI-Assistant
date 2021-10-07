@@ -1,5 +1,6 @@
 package com.example.huji_assistant.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.huji_assistant.AttendancyModel;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.ShowAttendancyAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,7 +18,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class ShowAttendancyActivity extends AppCompatActivity {
+public class ShowAttendanceActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<String> courses;
@@ -58,7 +58,7 @@ public class ShowAttendancyActivity extends AppCompatActivity {
         String savedCourseDocument = adapter.getSavedCourseDocument();
 
         if (stage == 0){
-            super.onBackPressed();
+            startActivity(new Intent(ShowAttendanceActivity.this, MainScreenActivity.class));
             finish();
         }
         else if (stage == 1){

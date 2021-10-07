@@ -93,6 +93,16 @@
             android:layout_height="wrap_content"
             android:text="עריכת פרטים אישיים" />
 
+            <Button
+                android:id="@+id/showAttendanceButton"
+                android:textDirection="ltr"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_marginRight="150dp"
+                android:layout_height="wrap_content"
+                android:text="@string/show_attendance" />
+
         </LinearLayout>
 
         <ListView
