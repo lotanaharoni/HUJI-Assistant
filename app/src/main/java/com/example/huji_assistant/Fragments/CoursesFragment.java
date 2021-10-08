@@ -1,6 +1,5 @@
 package com.example.huji_assistant.Fragments;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,8 +13,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +53,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CoursesFragment extends Fragment {
     private ViewModelApp viewModelApp;
@@ -64,7 +62,8 @@ public class CoursesFragment extends Fragment {
     public CourseItemHolder holder = null;
     public CoursesAdapter adapter = null;
     private LocalDataBase db = null;
-    public interface endRegistrationButtonClickListener{
+
+    public interface endRegistrationButtonClickListener {
         public void onEndRegistrationBtnClicked();
     }
 
@@ -94,7 +93,7 @@ public class CoursesFragment extends Fragment {
     AutoCompleteTextView dropdownpoints;
 
     //FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
-   // FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
+    // FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
     ArrayList<String> coursesOfStudent = new ArrayList<>(); // todo save in db to pass between activities
@@ -103,9 +102,9 @@ public class CoursesFragment extends Fragment {
 
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
     public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
-  //  public CoursesAdapter.OnTextBoxClickListener onTextBoxClickListener = null;
+    //  public CoursesAdapter.OnTextBoxClickListener onTextBoxClickListener = null;
 
-    public CoursesFragment(){
+    public CoursesFragment() {
         super(R.layout.fragment_courses);
     }
 
@@ -133,6 +132,11 @@ public class CoursesFragment extends Fragment {
         dropdownpoints = view.findViewById(R.id.autocompletechoosenameRegisterScreen);
         searchView = view.findViewById(R.id.searchCoursesScreen);
 
+        System.out.println("courses currently in list: ");
+        for (String id : coursesOfStudent) {
+            System.out.println("88888888" + id);
+        }
+
         if (holder == null) {
             holder = new CourseItemHolder(recyclerViewCourses);
         }
@@ -147,85 +151,88 @@ public class CoursesFragment extends Fragment {
                 .build();
         firebaseInstancedb.setFirestoreSettings(settings);
 
-        viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
-             email = item.getEmail();
-             password = item.getPassword();
-             personalName = item.getPersonalName();
-             familyName = item.getFamilyName();
-             facultyId = item.getFacultyId();
-             chugId = item.getChugId();
-             maslulId = item.getMaslulId();
-             degreeType = item.getDegree();
-             year = item.getYear();
-             beginnigYearOfDegree = item.getBeginYear();
-             beginSemesterOfDegree = item.getBeginSemester();
+       // AtomicReference<String> email=null;
 
-             try {
-                 // Get the faculty
-                 Task<DocumentSnapshot> faculties1 = firebaseInstancedb.collection("faculties").document(facultyId)
-                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                             @Override
-                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                 DocumentSnapshot result = task.getResult();
-                                 assert result != null;
-                                 Faculty data = result.toObject(Faculty.class);
-                                 assert data != null;
-                                 String facultyName = data.getTitle();
-                                 String text = facultyName + " " + facultyId;
-                                 facultyTextView.setText(text);
-                                 db.setCurrentFaculty(data);
-                             }
-                         });
-             }
-             catch (Exception e){
-                 System.out.println("error faculties");
-             }
+        viewModelApp.getStudent().observe(getViewLifecycleOwner(), item -> {
+            email = item.getEmail();
+            password = item.getPassword();
+            personalName = item.getPersonalName();
+            familyName = item.getFamilyName();
+            facultyId = item.getFacultyId();
+            chugId = item.getChugId();
+            maslulId = item.getMaslulId();
+            degreeType = item.getDegree();
+            year = item.getYear();
+            beginnigYearOfDegree = item.getBeginYear();
+            beginSemesterOfDegree = item.getBeginSemester();
+
+            System.out.println("facultyliora" + facultyId);
+            System.out.println("ch" + chugId);
+            System.out.println("ma" + maslulId);
+
+            try {
+                // Get the faculty
+                Task<DocumentSnapshot> faculties1 = firebaseInstancedb.collection("faculties").document(facultyId)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot result = task.getResult();
+                                assert result != null;
+                                Faculty data = result.toObject(Faculty.class);
+                                assert data != null;
+                                String facultyName = data.getTitle();
+                                String text = facultyName + " " + facultyId;
+                                facultyTextView.setText(text);
+                                db.setCurrentFaculty(data);
+                            }
+                        });
+            } catch (Exception e) {
+                System.out.println("error faculties");
+            }
 
             String COLLECTION = "coursesTestOnlyCs";
-             try {
-                 // Get the chug
-                 Task<DocumentSnapshot> chugim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
-                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                             @Override
-                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                 DocumentSnapshot result = task.getResult();
-                                 assert result != null;
-                                 Chug data = result.toObject(Chug.class);
-                                 assert data != null;
-                                 String chugName = data.title;
-                                 String text = chugName + " " + chugId;
-                                 chugTextView.setText(text);
-                                 db.setCurrentChug(data);
-                             }
-                         });
-             }
-             catch (Exception e){
-                 System.out.println("error chugim");
-             }
+            try {
+                // Get the chug
+                Task<DocumentSnapshot> chugim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot result = task.getResult();
+                                assert result != null;
+                                Chug data = result.toObject(Chug.class);
+                                assert data != null;
+                                String chugName = data.title;
+                                String text = chugName + " " + chugId;
+                                chugTextView.setText(text);
+                                db.setCurrentChug(data);
+                            }
+                        });
+            } catch (Exception e) {
+                System.out.println("error chugim");
+            }
 
-             try {
-                 // Get the maslul
-                 Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
-                         .collection("maslulimInChug").document(maslulId)
-                         .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                             @Override
-                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                 DocumentSnapshot result = task.getResult();
-                                 assert result != null;
-                                 Maslul data = result.toObject(Maslul.class);
-                                 assert data != null;
-                                 String maslulName = data.getTitle();
-                                 String text = maslulName + " " + maslulId;
-                                 maslulTextView.setText(text);
-                                 db.setCurrentMaslul(data);
-                             }
-                         });
-             }
-             catch (Exception e){
-                 System.out.println("error maslulim");
-             }
-             degreeTextView.setText(degreeType);
-             yearTextView.setText(year);
+            try {
+                // Get the maslul
+                Task<DocumentSnapshot> maslulim1 = firebaseInstancedb.collection(COLLECTION).document(chugId)
+                        .collection("maslulimInChug").document(maslulId)
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot result = task.getResult();
+                                assert result != null;
+                                Maslul data = result.toObject(Maslul.class);
+                                assert data != null;
+                                String maslulName = data.getTitle();
+                                String text = maslulName + " " + maslulId;
+                                maslulTextView.setText(text);
+                                db.setCurrentMaslul(data);
+                            }
+                        });
+            } catch (Exception e) {
+                System.out.println("error maslulim");
+            }
+            degreeTextView.setText(degreeType);
+            yearTextView.setText(year);
 
             ArrayList<Course> coursesInMaslul = new ArrayList<>();
             String ROOT_COLLECTION = "coursesTestOnlyCs";
@@ -255,22 +262,21 @@ public class CoursesFragment extends Fragment {
 
                                 // show results in recycle view
                                 // Create the adapter
-                               // adapter = new CoursesAdapter(getContext()); // todo erase?
+                                // adapter = new CoursesAdapter(getContext()); // todo erase?
                                 // if (holder == null) {
                                 //  holder = new CourseItemHolder(recyclerViewCourses);
                                 //}
                                 adapter.addCoursesListToAdapter(coursesInMaslul);
                                 // recyclerViewCourses.setAdapter(adapter);
 
-                               //  coordinatorLayout = new LinearLayoutManager(getContext(),
-                               //           RecyclerView.VERTICAL, false);
+                                //  coordinatorLayout = new LinearLayoutManager(getContext(),
+                                //           RecyclerView.VERTICAL, false);
 
-                               //  recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
+                                //  recyclerViewCourses.setLayoutManager(new LinearLayoutManager(getContext(),
                                 //         RecyclerView.VERTICAL, false));
                             }
                         });
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("error courses");
             }
 
@@ -306,8 +312,8 @@ public class CoursesFragment extends Fragment {
         dropdowntype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedValue = (String)(parent.getItemAtPosition(position));
-                if (selectedValue.equals("הכל")){
+                String selectedValue = (String) (parent.getItemAtPosition(position));
+                if (selectedValue.equals("הכל")) {
                     ArrayList<Course> list = db.getCoursesRegistration();
                     adapter.addCoursesListToAdapter(list);
                     //arrayAdapter.getFilter().filter("");
@@ -315,8 +321,7 @@ public class CoursesFragment extends Fragment {
                     arrayAdapter.getFilter().filter("");
                     binding.autocompletechoosetypeRegisterScreen.setAdapter(arrayAdapter);
 
-                }
-                else {
+                } else {
                     System.out.println("selection1 " + selectedValue);
                     System.out.println("position1 " + position);
                     arrayAdapter.getFilter().filter("");
@@ -331,15 +336,14 @@ public class CoursesFragment extends Fragment {
                         }
                     }
 
-                    for (Course c : newC ) {
+                    for (Course c : newC) {
                         if (c.getType().equals(selectedValue)) {
                             if (!dropdownpoints.getText().toString().equals("")) {
                                 String pointsToFilter = dropdownpoints.getText().toString();
                                 if (c.getType().equals(pointsToFilter)) {
                                     newC.add(c);
                                 }
-                            }
-                            else {
+                            } else {
 
                                 newC.add(c);
                             }
@@ -365,23 +369,22 @@ public class CoursesFragment extends Fragment {
         dropdownpoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedValue = (String)(parent.getItemAtPosition(position));
+                String selectedValue = (String) (parent.getItemAtPosition(position));
                 String onlyNumber = selectedValue.replaceAll("נז", "");
                 String onlyNumber2 = onlyNumber.replaceAll(" ", "");
                 System.out.println("number3: " + onlyNumber2);
                 arrayAdapter1.getFilter().filter("");
                 arrayAdapter.getFilter().filter("");
-                if (selectedValue.equals("הכל")){
+                if (selectedValue.equals("הכל")) {
                     ArrayList<Course> list = db.getCoursesRegistration();
                     adapter.addCoursesListToAdapter(list);
                     adapter.notifyDataSetChanged();
-                   // arrayAdapter1.getFilter().filter("");
-                   // arrayAdapter.getFilter().filter("");
+                    // arrayAdapter1.getFilter().filter("");
+                    // arrayAdapter.getFilter().filter("");
                     arrayAdapter1.getFilter().filter("");
                     binding.autocompletechoosenameRegisterScreen.setAdapter(arrayAdapter1);
 
-                }
-                else {
+                } else {
                     System.out.println("selection1 " + selectedValue);
                     System.out.println("position1 " + position);
                     arrayAdapter.getFilter().filter("");
@@ -393,13 +396,12 @@ public class CoursesFragment extends Fragment {
                             boolean b = dropdowntype.getText().toString().equals("");
                             System.out.println("c " + dropdowntype.getText().toString());
                             System.out.println("b " + b);
-                            if ((!dropdowntype.getText().toString().equals("")) || (!dropdowntype.getText().toString().equals("הכל"))){
+                            if ((!dropdowntype.getText().toString().equals("")) || (!dropdowntype.getText().toString().equals("הכל"))) {
                                 String typeToFilter = dropdowntype.getText().toString();
-                                if (demo.getType().equals(typeToFilter)){
+                                if (demo.getType().equals(typeToFilter)) {
                                     newC.add(demo);
                                 }
-                            }
-                            else {
+                            } else {
                                 newC.add(demo);
                             }
                         }
@@ -419,45 +421,50 @@ public class CoursesFragment extends Fragment {
         adapter.setItemClickListener(new CoursesAdapter.OnItemClickListener() {
             @Override
             public void onClick(Course item) {
-                if (onItemClickListener != null){
+                if (onItemClickListener != null) {
                     viewModelAppCourse.set(item);
                     onItemClickListener.onClick(item);
                 }
 
-              //  adapter.notifyDataSetChanged();
+                //  adapter.notifyDataSetChanged();
             }
         });
 
         adapter.setItemCheckBoxListener(new CoursesAdapter.OnCheckBoxClickListener() {
             @Override
             public void onCheckBoxClicked(View v, Course item) {
-                if (onCheckBoxClickListener != null){
-                   // viewModelAppCourse.set(item);
+                if (onCheckBoxClickListener != null) {
+                    // viewModelAppCourse.set(item);
                     // todo show here pop up?
                     System.out.println("item: " + item.toStringP());
 
 
-                   // Intent i = new Intent(getActivity(), PopUp.class);
-                  //  startActivity(i);
+                    // Intent i = new Intent(getActivity(), PopUp.class);
+                    //  startActivity(i);
                     //showPopup(v); //todo check
-                   // grade="";
-                  //  System.out.println("grade: " + grade);
+                    // grade="";
+                    //  System.out.println("grade: " + grade);
 
-                  //  if (!grade.equals("")) {
-                   //     int gradeInt = Integer.parseInt(grade);
-                   //     item.setGrade(gradeInt); // todo check
-                  //  }
+                    //  if (!grade.equals("")) {
+                    //     int gradeInt = Integer.parseInt(grade);
+                    //     item.setGrade(gradeInt); // todo check
+                    //  }
                     // todo validation on grade
 
 
-                    if (item.getChecked()){
-                        coursesOfStudent.add(item.getNumber());
-                        String text = "קורס מספר: " + item.getNumber() + " נוסף לרשימת הקורסים";
-                        item.setChecked(true);
-                        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
-                        System.out.println("added: " + item.getNumber());
-                    }
-                    else{
+                    if (item.getChecked()) {
+                        if (!coursesOfStudent.contains(item.getNumber())) {
+                            coursesOfStudent.add(item.getNumber());
+                            String text = "קורס מספר: " + item.getNumber() + " נוסף לרשימת הקורסים";
+                            item.setChecked(true);
+                            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                            System.out.println("added: " + item.getNumber());
+                        } else {
+                            String text = "קורס מספר: " + item.getNumber() + " קיים ברשימת הקורסים";
+                            item.setChecked(true);
+                            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
                         coursesOfStudent.remove(item.getNumber()); //todo check if contains?
                         item.setChecked(false);
                         String text = "קורס מספר: " + item.getNumber() + " הוסר מרשימת הקורסים";
@@ -472,33 +479,24 @@ public class CoursesFragment extends Fragment {
             }
         });
 
-     //   adapter.setTextBoxClickListener(new CoursesAdapter.OnTextBoxClickListener() {
-         //   @Override
-         //   public void onTextBoxClick(Course item) {
-            //    if (onTextBoxClickListener != null){
-             //       onTextBoxClickListener.onTextBoxClick(item);
-            //    }
-          //  }
-       // });
-
-
-
-
-
-
-
-
+        //   adapter.setTextBoxClickListener(new CoursesAdapter.OnTextBoxClickListener() {
+        //   @Override
+        //   public void onTextBoxClick(Course item) {
+        //    if (onTextBoxClickListener != null){
+        //       onTextBoxClickListener.onTextBoxClick(item);
+        //    }
+        //  }
+        // });
 
 
         /**
-        viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
-            @Override
-            public void onChanged(StudentInfo studentInfo) {
-                StudentInfo currentStudent = viewModelApp.studentInfoMutableLiveData.getValue();
-                String name = currentStudent.getName();
-             //   TextView nameTextView = view.findViewById(R.id.studentNameTextView);
-              //  nameTextView.setText(name);
-            }
+         viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
+        @Override public void onChanged(StudentInfo studentInfo) {
+        StudentInfo currentStudent = viewModelApp.studentInfoMutableLiveData.getValue();
+        String name = currentStudent.getName();
+        //   TextView nameTextView = view.findViewById(R.id.studentNameTextView);
+        //  nameTextView.setText(name);
+        }
         });*/
 
         OnBackPressedCallback callback = new OnBackPressedCallback(false) {
@@ -520,7 +518,7 @@ public class CoursesFragment extends Fragment {
         endRegistrationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (endRegistrationBtnListener != null){
+                if (endRegistrationBtnListener != null) {
 
                     FirebaseAuth auth = db.getUsersAuthenticator();
                     auth.createUserWithEmailAndPassword(email, password)
@@ -550,13 +548,13 @@ public class CoursesFragment extends Fragment {
 
                                         db.setCurrentStudent(newStudent); // todo check
 
-                                      //  StudentInfo newStudent = new StudentInfo(email.getText().toString(),
-                                       //         personalName.getText().toString(), familyName.getText().toString());
-                                       // viewModelApp.setStudent(newStudent);
+                                        //  StudentInfo newStudent = new StudentInfo(email.getText().toString(),
+                                        //         personalName.getText().toString(), familyName.getText().toString());
+                                        // viewModelApp.setStudent(newStudent);
 
 
                                         endRegistrationBtnListener.onEndRegistrationBtnClicked();
-                                    }else{
+                                    } else {
                                         Log.w("RegisterActivity", "registerWithEmail:failure", task.getException());
                                         Toast.makeText(getActivity(), R.string.register_failed_message, Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
                                     }
@@ -611,8 +609,8 @@ public class CoursesFragment extends Fragment {
     }
 
 
-    private void printCourses(){
-        for (int i = 0; i < coursesOfStudent.size(); i++){
+    private void printCourses() {
+        for (int i = 0; i < coursesOfStudent.size(); i++) {
             System.out.println(coursesOfStudent.get(i));
         }
     }
@@ -630,6 +628,6 @@ public class CoursesFragment extends Fragment {
             }
         };
         ItemTouchHelper itemTouchhelper = new ItemTouchHelper(swipeToDelete);
-       // ItemTouchHelper.attachToRecyclerView(recyclerViewCourses);
+        // ItemTouchHelper.attachToRecyclerView(recyclerViewCourses);
     }
 }

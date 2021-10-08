@@ -63,7 +63,7 @@ public class AddCourseFragment extends Fragment {
                 checkValidaity(courseIdToAdd);
 
                 if (isCourseIdValid) {
-                    String text = "קורס מספר: " + courseIdToAdd + " נוסף בהצלחה";
+                    String text = getResources().getString(R.string.numberofcoursetoast) + " " +  courseIdToAdd +" "+getResources().getString(R.string.addingcoursemsgsuccess);
                     Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                     dataBase.addCourseId(courseIdToAdd);
                     courseIdTextView.setText("");

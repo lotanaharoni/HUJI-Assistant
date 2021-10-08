@@ -84,6 +84,22 @@
     <string name="continue_btn">המשך</string>
     <string name="bottommenusettings">הגדרות</string>
     <string name="bottommenuqrscan">סריקת QR</string>
+    <string name="mycoursestitle">הקורסים שלי</string>
+    <string name="addcoursebtn">הוספת קורס</string>
+    <string name="addcoursehint">הכנס מספר קורס להוספה…</string>
+    <string name="addcoursemsg">הוספה</string>
+    <string name="mandatory">חובה:</string>
+    <string name="mandatorychoose">חובת בחירה:</string>
+    <string name="choose">בחירה:</string>
+    <string name="suppcourses">משלימים:</string>
+    <string name="cornerstonescourses">אבני פינה:</string>
+    <string name="outof">מתוך:</string>
+    <string name="numberofcoursetoast">קורס מספר:</string>
+    <string name="addingcoursemsgsuccess">נוסף בהצלחה</string>
+
+
+
+
 
 
     <string name="new_user">משתמש חדש</string>
@@ -161,6 +177,20 @@
     </string-array>
     <string name="courseDoesntExistsInFireBase">לא קיים קורס עם מספר זה</string>
     <string name="courseExistsInMyCoursesList">הקורס כבר קיים ברשימת הקורסים</string>
+    <string name="totalpoints">מספר נקודות כולל:</string>
+    <string name="totalpointsfordegree">מספר נקודות נדרש לתואר:</string>
+
+    <string name="courseinfonumber">מספר הקורס:</string>
+    <string name="courseinfoname">שם הקורס:</string>
+    <string name="courseinfotype">סוג הקורס</string>
+    <string name="courseinfopoints">נקודות זכות</string>
+    <string name="courseinfoyear">ניתן בשנה</string>
+    <string name="courseinfosemester">ניתן בסמסטר</string>
+    <string name="kdamcoursestitle">קורסי קדם</string>
+    <string name="nokdamcoursesmsg">לקורס הנוכחי לא קיימים קורסי קדם</string>
+    <string name="aftercoursestitle">קדם לקורסים הבאים</string>
+    <string name="okbtn">אישור</string>
+
 
     <string-array name="faculty">
         <item value="01">הפקולטה למדעי הרוח</item>

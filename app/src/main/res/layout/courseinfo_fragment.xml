@@ -25,25 +25,24 @@
 
             <TextView
                 android:id="@+id/courseInfoNumber"
-                android:layout_width="100dp"
-                android:layout_marginLeft="90dp"
-                android:textSize="16sp"
-                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:textSize="14sp"
+                android:layout_gravity="left"
                 android:textStyle="bold"
                 android:layout_marginTop="6dp"
                 android:layout_height="wrap_content"
-                android:text="מספר הקורס" />
+                android:text="@string/courseinfonumber" />
 
             <TextView
                 android:id="@+id/courseInfoName"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:singleLine="false"
                 android:layout_marginTop="6dp"
-                android:layout_marginLeft="100dp"
-                android:text="שם הקורס"
-                android:textSize="16sp"
+                android:layout_marginLeft="130dp"
+                android:text="@string/courseinfoname"
+                android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -74,7 +73,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="6dp"
                 android:layout_gravity="right"
-                android:text="סוג הקורס"
+                android:text="@string/courseinfotype"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -86,7 +85,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="6dp"
                 android:layout_gravity="right"
-                android:text="נקודות זכות"
+                android:text="@string/courseinfopoints"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -98,7 +97,7 @@
                 android:layout_gravity="right"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="6dp"
-                android:text="ניתן בשנה"
+                android:text="@string/courseinfoyear"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -110,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="6dp"
-                android:text="ניתן בסמסטר"
+                android:text="@string/courseinfosemester"
                 android:textSize="14sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -128,12 +127,12 @@
 
     <TextView
             android:layout_width="wrap_content"
-            android:layout_marginLeft="290dp"
+            android:layout_gravity="center"
             android:textStyle="italic"
-        android:background="@color/lightorange"
+            android:background="@color/lightorange"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_height="wrap_content"
-            android:text="קורסי קדם"
+            android:text="@string/kdamcoursestitle"
             />
 
         <TextView
@@ -144,7 +143,7 @@
             android:visibility="gone"
             android:textColor="@color/lightred"
             android:layout_height="wrap_content"
-            android:text="לקורס הנוכחי לא קיימים קורסי קדם"
+            android:text="@string/nokdamcoursesmsg"
             />
     </androidx.cardview.widget.CardView>
 
@@ -166,6 +165,8 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:minHeight="1dp"
+            android:paddingRight="2dp"
+            android:paddingLeft="2dp"
             android:maxHeight="160dp"
             tools:layout_editor_absoluteX="287dp"
             tools:layout_editor_absoluteY="253dp">
@@ -185,12 +186,13 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_marginLeft="270dp"
+            android:layout_gravity="center"
             android:background="@color/lightorange"
             android:textStyle="italic"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_height="wrap_content"
-            android:text="קדם לקורסים הבאים"
+            android:singleLine="true"
+            android:text="@string/aftercoursestitle"
             />
     </androidx.cardview.widget.CardView>
 
@@ -211,6 +213,8 @@
             android:layout_height="160dp"
             android:minHeight="1dp"
             android:maxHeight="160dp"
+            android:paddingRight="2dp"
+            android:paddingLeft="2dp"
             tools:layout_editor_absoluteX="287dp"
             tools:layout_editor_absoluteY="253dp">
         </androidx.recyclerview.widget.RecyclerView>
@@ -230,7 +234,7 @@
             android:layout_width="match_parent"
             android:visibility="visible"
             android:layout_height="wrap_content"
-            android:text="אישור"
+            android:text="@string/okbtn"
             />
     </androidx.cardview.widget.CardView>
 

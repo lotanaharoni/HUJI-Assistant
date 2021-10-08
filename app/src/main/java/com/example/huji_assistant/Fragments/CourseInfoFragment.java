@@ -112,12 +112,18 @@ public class CourseInfoFragment extends Fragment {
             type = item.getType();
             semester = item.getSemester();
             year = item.getYear();
-            courseNameTextView.setText(courseName);
-            courseNumberTextView.setText(courseNumber);
-            courseTypeTextView.setText(courseTypeTextView.getText() + ": " + type);
-            coursePointsTextView.setText(coursePointsTextView.getText() + ": " + coursePoints);
-            courseYearTextView.setText(courseYearTextView.getText() + ": " + year);
-            courseSemesterTextView.setText(courseSemesterTextView.getText() + ": " + semester);
+            String nametext = courseNameTextView.getText() + " " + courseName;
+            courseNameTextView.setText(nametext);
+            String numbertext = courseNumberTextView.getText() + " " + courseNumber;
+            courseNumberTextView.setText(numbertext);
+            String coursetypetext = courseTypeTextView.getText() + ": " + type;
+            courseTypeTextView.setText(coursetypetext);
+            String coursepointstext = coursePointsTextView.getText() + ": " + coursePoints;
+            coursePointsTextView.setText(coursepointstext);
+            String courseyearstext= courseYearTextView.getText() + ": " + year;
+            courseYearTextView.setText(courseyearstext);
+            String coursesemesterstext = courseSemesterTextView.getText() + ": " + semester;
+            courseSemesterTextView.setText(coursesemesterstext);
 
             getKdamCourses();
             getAfterCourses();

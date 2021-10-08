@@ -107,7 +107,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
 
     public CoursesAdapter(Context context){
         this.list = new ArrayList<>();
-        System.out.println("adapter rrrr");
+      //  System.out.println("adapter rrrr");
        // this.filterList = list;
         this.filterList = new ArrayList<>(list); // todo keep?
         this.mContext = context;
@@ -115,9 +115,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     }
 
     public void addCoursesListToAdapter(ArrayList<Course> newList){
-        if (this.list == null){
+      //  if (this.list == null){
             this.list = new ArrayList<>();
-        }
+      //  }
         this.list.clear();
         this.listFull = new ArrayList<>(newList);
         this.list.addAll(newList);

@@ -14,7 +14,8 @@
         android:textColor="@color/white"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:text="הוספת קורס" />
+        android:text="@string/addcoursebtn"
+         />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewTopAddCourse"
@@ -41,9 +42,9 @@
             android:layout_height="wrap_content"
             android:inputType="number"
             android:textSize="14sp"
-
-            android:hint="הכנס מספר קורס להוספה.."
-            android:layout_marginLeft="80dp"
+            android:layout_gravity="center"
+            android:hint="@string/addcoursehint"
+            android:layout_marginLeft="0dp"
             />
 
         <Button
@@ -52,7 +53,8 @@
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_height="wrap_content"
-            android:text="הוספה" />
+            android:text="@string/addcoursemsg"
+            />
 
     </LinearLayout>
     </androidx.cardview.widget.CardView>

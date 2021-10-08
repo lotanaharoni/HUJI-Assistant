@@ -184,7 +184,7 @@ public class MyCoursesFragment extends Fragment {
         System.out.println("current mandatory: " + currentMandatoryPoints);
 
         String text5 = textViewTotalHovaPoints.getText() + " " + currentMandatoryPoints + " "
-                + "מתוך: " + currentMaslul.getMandatoryPointsTotal();
+                + getResources().getString(R.string.outof) +  " " +currentMaslul.getMandatoryPointsTotal();
         textViewTotalHovaPoints.setText(text5);
 
         // Choose hove
@@ -207,7 +207,7 @@ public class MyCoursesFragment extends Fragment {
 
 
         String text3 = textViewTotalHovaChoosePoints.getText() + " " + currentMandatoryChoosePoints + " "
-                + "מתוך: " + currentMaslul.getMandatoryChoicePoints();
+                + getResources().getString(R.string.outof) + " " + currentMaslul.getMandatoryChoicePoints();
         textViewTotalHovaChoosePoints.setText(text3);
 
         String text6 = textViewTotalChoosePoints.getText() + " " + currentChoosePoints + " ";
@@ -466,35 +466,35 @@ public class MyCoursesFragment extends Fragment {
                                     case "לימודי חובה":
                                         int currentMandatoryPoints1 = dataBase.getCurrentMandatoryPoints();
                                         int newMandatoryPoints = currentMandatoryPoints1 - pointsToReduce;
-                                        String textToSet = "חובה: " + newMandatoryPoints + " מתוך: " + currentMaslul.getMandatoryPointsTotal();
+                                        String textToSet = getResources().getString(R.string.mandatory) +" " + newMandatoryPoints + " " +getResources().getString(R.string.outof) +  " " + currentMaslul.getMandatoryPointsTotal();
                                         textViewTotalHovaPoints.setText(textToSet);
                                         dataBase.setCurrentMandatoryPoints(newMandatoryPoints);
                                         break;
                                     case "לימודי חובת בחירה":
                                         int currentMandatoryChoosePoints1 = dataBase.getCurrentMandatoryChoosePoints();
                                         int newMandatoryChoosePoints = currentMandatoryChoosePoints1 - pointsToReduce;
-                                        textToSet = "חובת בחירה: " + newMandatoryChoosePoints + " מתוך: " + currentMaslul.getMandatoryChoicePoints();
+                                        textToSet = getResources().getString(R.string.mandatorychoose) +" "+ newMandatoryChoosePoints +  " " +getResources().getString(R.string.outof) +  " " + currentMaslul.getMandatoryChoicePoints();
                                         textViewTotalHovaChoosePoints.setText(textToSet);
                                         dataBase.setCurrentMandatoryChoosePoints(newMandatoryChoosePoints);
                                         break;
                                     case "קורסי בחירה":
                                         int currentChoosePoints1 = dataBase.getCurrentChoosePoints();
                                         int newChoosePoints = currentChoosePoints1 - pointsToReduce;
-                                        textToSet = "בחירה: " + newChoosePoints;
+                                        textToSet = getResources().getString(R.string.choose) +" " + newChoosePoints;
                                         textViewTotalChoosePoints.setText(textToSet);
                                         dataBase.setCurrentChoosePoints(newChoosePoints);
                                         break;
                                     case "משלימים":
                                         int currentSuppPoints1 = dataBase.getCurrentSuppPoints();
                                         int newSuppPoints = currentSuppPoints1 - pointsToReduce;
-                                        textToSet = "משלימים: " + newSuppPoints;
+                                        textToSet = getResources().getString(R.string.suppcourses) +" " + newSuppPoints;
                                         textViewTotalSuppPoints.setText(textToSet);
                                         dataBase.setCurrentSuppPoints(newSuppPoints);
                                         break;
                                     case "אבני פינה":
                                         int currentCornerStonePoints1 = dataBase.getCurrentCornerStonesPoints();
                                         int newCSPoints = currentCornerStonePoints1 - pointsToReduce;
-                                        textToSet = "אבני פינה: " + newCSPoints;
+                                        textToSet =getResources().getString(R.string.cornerstonescourses) +" " + newCSPoints;
                                         textViewTotalCornerStonePoints.setText(textToSet);
                                         dataBase.setCurrentCornerStonesPoints(newCSPoints);
                                         break;

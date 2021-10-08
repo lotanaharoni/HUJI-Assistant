@@ -91,6 +91,7 @@
     <string name="continue_btn">Continue</string>
     <string name="bottommenusettings">Settings</string>
     <string name="bottommenuqrscan">QR Scan</string>
+    <string name="mycoursestitle">My courses</string>
 
 
     <string name="user_exist">Existing user</string>
@@ -158,6 +159,30 @@
     </string-array>
     <string name="courseDoesntExistsInFireBase">There is no course with this number</string>
     <string name="courseExistsInMyCoursesList">The course already exists in the list of courses</string>
+    <string name="addcoursebtn">Add a new course</string>
+    <string name="addcoursehint">Enter the number of the course</string>
+    <string name="addcoursemsg">Add</string>
+    <string name="mandatory">Mandatory:</string>
+    <string name="mandatorychoose">Mandatory choose:</string>
+    <string name="choose">Choose:</string>
+    <string name="suppcourses">Supplemental</string>
+    <string name="cornerstonescourses">Corner stone:</string>
+    <string name="outof">out of:</string>
+    <string name="numberofcoursetoast">Course number:</string>
+    <string name="addingcoursemsgsuccess">was successfully added</string>
+    <string name="totalpoints">Total points:</string>
+    <string name="totalpointsfordegree">Total points for degree:</string>
+
+    <string name="courseinfonumber">Number of course:</string>
+    <string name="courseinfoname">Name of course:</string>
+    <string name="courseinfotype">Type of course</string>
+    <string name="courseinfopoints">Points</string>
+    <string name="courseinfoyear">Given in year</string>
+    <string name="courseinfosemester">Given in semester</string>
+    <string name="kdamcoursestitle">Previous courses</string>
+    <string name="nokdamcoursesmsg">There are no previous courses for this course</string>
+    <string name="aftercoursestitle">Pre for the following courses</string>
+    <string name="okbtn">OK</string>
 
     <string-array name="faculty">
         <item value="01">הפקולטה למדעי הרוח</item>
