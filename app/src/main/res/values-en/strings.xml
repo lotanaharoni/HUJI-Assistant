@@ -56,6 +56,9 @@
     <string name="next">Next</string>
     <string name="registration_process_description">System Registration Screen - Step 1 of 3</string>
     <string name="new_registration_process_description">New user registration screen Screen 1 of 3</string>
+    <string name="course_number_is_empty">Please enter a course number to which the file is relevant</string>
+    <string name="image_description_is_empty">Please enter a description for the file</string>
+    <string name="course_number_is_not_valid">Incorrect course number</string>
 
 
     <string name="nameOfStudentMyCoursesScreen">Name of student: </string>

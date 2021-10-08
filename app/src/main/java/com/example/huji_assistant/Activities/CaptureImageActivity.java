@@ -129,13 +129,24 @@ public class CaptureImageActivity extends AppCompatActivity {
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkCourseNumberValidation()) {
-                    if (uploadChoose == GALLERY_TYPE) {
-                        uploadToFirebase(imageUri, GALLERY_REQUEST_CODE, imageTitle.getText().toString());
-                    } else if (uploadChoose == CAMERA_TYPE) {
-                        uploadToFirebase(classContentUri, CAMERA_REQUEST_CODE, fName);
-                    } else if (uploadChoose == PDF_TYPE) {
-                        uploadToFirebase(imageUri, DOCUMENTS_REQUEST_CODE, messagePushId);
+                if (courseNumber.getText().toString().isEmpty()) {
+                    Toast.makeText(CaptureImageActivity.this, R.string.course_number_is_empty, Toast.LENGTH_SHORT).show();
+                }
+                else if (imageTitle.getText().toString().isEmpty()) {
+                    Toast.makeText(CaptureImageActivity.this, R.string.image_description_is_empty, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    if (checkCourseNumberValidation()) {
+                        if (uploadChoose == GALLERY_TYPE) {
+                            uploadToFirebase(imageUri, GALLERY_REQUEST_CODE, imageTitle.getText().toString());
+                        } else if (uploadChoose == CAMERA_TYPE) {
+                            uploadToFirebase(classContentUri, CAMERA_REQUEST_CODE, fName);
+                        } else if (uploadChoose == PDF_TYPE) {
+                            uploadToFirebase(imageUri, DOCUMENTS_REQUEST_CODE, messagePushId);
+                        }
+                    }
+                    else{
+                        Toast.makeText(CaptureImageActivity.this, R.string.course_number_is_not_valid, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -241,12 +252,9 @@ public class CaptureImageActivity extends AppCompatActivity {
     }
 
     private boolean checkCourseNumberValidation() {
-        if (courseNumber.getText().toString().isEmpty()){
-            return false;
-        }
-        if (!dataBase.getCurrentStudent().getCourses().contains(courseNumber.getText().toString())){
-            return false;
-        }
+//        if (!dataBase.getCurrentStudent().getCourses().contains(courseNumber.getText().toString())){
+//            return false;
+//        }
         // todo: check courses
         return true;
     }
@@ -289,6 +297,7 @@ public class CaptureImageActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         root.child(modelId).setValue(model);
                         imageTitle.setText("");
+                        courseNumber.setText("");
                         uploadBtn.setEnabled(false);
                         showButtonsAfterChooseImage();
                         Toast.makeText(CaptureImageActivity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
