@@ -194,6 +194,10 @@
     <string name="aftercoursestitle">קדם לקורסים הבאים</string>
     <string name="okbtn">אישור</string>
 
+    <string name="settingsinvitefriends">הזמן חברים</string>
+    <string name="enteramail">הקלד כתובת דואר אלקטרוני לשליחה. ניתן להקליד מספר כתובות, יש להפריד ביניהן בעזרת פסיק</string>
+    <string name="sendmailbtn">שלח</string>
+
 
     <string-array name="faculty">
         <item value="01">הפקולטה למדעי הרוח</item>

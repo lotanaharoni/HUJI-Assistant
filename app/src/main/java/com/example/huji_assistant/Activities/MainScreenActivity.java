@@ -1,6 +1,7 @@
 package com.example.huji_assistant.Activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -72,6 +73,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Arrays;
 import java.util.Locale;
 import android.content.res.Configuration;
 
@@ -443,6 +445,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         };
 
+        settingsFragment.sendEmailBtnListener = new SettingsFragment.sendEmailBtnListener() {
+            @Override
+            public void onSendEmailBtnClicked(String email) {
+                sendEmail(email);
+            }
+        };
+
         myCoursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override
             public void onClick(Course item) {
@@ -513,6 +522,35 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     private void goToUrl(String s) {
         Uri url = Uri.parse(s);
         startActivity(new Intent(Intent.ACTION_VIEW, url));
+    }
+
+    @SuppressLint("IntentReset")
+    private void sendEmail(String email){
+        String [] emailList = email.split(",");
+
+        StudentInfo currentUser = dataBase.getCurrentStudent();
+        String[] CC = {""};
+        String link = "link"; // todo set link
+        String emailSubject = "הזמנה לאפליקציה" + " " + " Huji assistent";
+        String emailFrom = currentUser.getPersonalName() + " " + currentUser.getFamilyName();
+        String emailText = "שלום! החבר שלך" + " " + emailFrom + " " + " רוצה להזמין אותך להצטרף לאפליקציה"
+                + " " + "Huji assistent!" + " " +  "קישור לאפליקציה:" + " " + link;
+
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("message/rfc822");
+
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, emailList);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, emailSubject);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, emailText);
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "There is no email client installed.", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void getChugInfo(){

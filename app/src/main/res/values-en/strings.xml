@@ -187,6 +187,10 @@
     <string name="aftercoursestitle">Pre for the following courses</string>
     <string name="okbtn">OK</string>
 
+    <string name="settingsinvitefriends">Invite friends</string>
+    <string name="enteramail">Please enter an email address…</string>
+    <string name="sendmailbtn">Send</string>
+
     <string-array name="faculty">
         <item value="01">הפקולטה למדעי הרוח</item>
         <item number="02">הפקולטה למדעי הטבע</item>
