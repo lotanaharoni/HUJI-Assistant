@@ -71,6 +71,9 @@ public class RegisterFragment extends Fragment {
         personalName = view.findViewById(R.id.editTextPersonalName);
         familyName = view.findViewById(R.id.editTextSecondName);
 
+        TextView textView = requireActivity().findViewById(R.id.change_language_textView);
+        textView.setVisibility(View.INVISIBLE);
+
         // Set view model - singleton
         ViewModelApp vm = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
 

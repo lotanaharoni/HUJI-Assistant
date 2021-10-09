@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -104,6 +105,9 @@ public class InfoFragment extends Fragment {
                 .setPersistenceEnabled(true)
                 .build();
         firebaseInstancedb.setFirestoreSettings(settings);
+
+        TextView textView = requireActivity().findViewById(R.id.change_language_textView);
+        textView.setVisibility(View.INVISIBLE);
 
         // Get values recourse
         String[] facultyArray = getResources().getStringArray(R.array.faculty);

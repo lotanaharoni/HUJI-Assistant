@@ -2,6 +2,7 @@ package com.example.huji_assistant.Fragments;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,9 @@ public class FirstFragment extends Fragment {
 
         //ViewModelApp viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         ViewModelApp viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
+
+        TextView textView = requireActivity().findViewById(R.id.change_language_textView);
+        textView.setVisibility(View.VISIBLE);
 
         view.findViewById(R.id.newUser).setOnClickListener(new View.OnClickListener() {
             @Override
