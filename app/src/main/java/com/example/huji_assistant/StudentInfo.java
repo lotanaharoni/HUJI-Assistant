@@ -1,6 +1,8 @@
 package com.example.huji_assistant;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class StudentInfo {
@@ -24,7 +26,7 @@ public class StudentInfo {
     private ArrayList<String> courses = new ArrayList<>();
     private ArrayList<String> coursesMadeByStudent; // list of course id's
     private ArrayList<String> coursesPlannedByStudent;
-
+    private HashMap<String, String> coursesGrades=null;
 
     public StudentInfo(){
 
@@ -84,6 +86,9 @@ public class StudentInfo {
         this.beginSemester = beginSemester_;
         this.id = id_;
         this.courses = new ArrayList<>(courses_);
+        this.coursesGrades = new HashMap<>(); // todo check
+        // todo in registration this map is null
+
     }
 
 
@@ -120,6 +125,14 @@ public class StudentInfo {
 
     public void setCourses(ArrayList<String> courses){
         this.courses = new ArrayList<>(courses);
+    }
+
+    public void setCoursesGrades(HashMap<String, String> coursesGrades){
+        this.coursesGrades = new HashMap<>(coursesGrades);
+    }
+
+    public HashMap<String, String> getCoursesGrades(){
+        return new HashMap<>(this.coursesGrades);
     }
 
     public ArrayList<String> getCourses(){

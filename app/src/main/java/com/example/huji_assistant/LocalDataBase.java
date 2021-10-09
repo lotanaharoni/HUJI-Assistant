@@ -76,6 +76,7 @@ public class LocalDataBase {
     private ArrayList<Course> coursesOfCurrentStudent = new ArrayList<>();
     FirebaseFirestore db;
     CollectionReference studentsCollection;
+    private HashMap<String, String> gradesOfStudent = new HashMap<>();
 
     // Courses db
     private final MutableLiveData<List<Course>> mutableLiveDataMyCourses = new MutableLiveData<>();
@@ -140,6 +141,32 @@ public class LocalDataBase {
                 System.out.println("upload finished");
             });
         }
+    }
+
+    public void updateGrade(String number, String grade){
+        this.gradesOfStudent.put(number, grade); // save in local
+        // upload to firebase
+        this.currentStudent.setCoursesGrades(new HashMap<>(this.gradesOfStudent));
+        this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
+            System.out.println("upload of grade finished");
+        });
+    }
+
+    public void removeCourseGrade(String number){
+        this.gradesOfStudent.remove(number);
+
+        this.currentStudent.setCoursesGrades(new HashMap<>(this.gradesOfStudent));
+        this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
+            System.out.println("upload of grade finished");
+        });
+    }
+
+    public void setGradesOfStudentMap(HashMap<String, String> grades){
+        this.gradesOfStudent = new HashMap<>(grades);
+    }
+
+    public HashMap<String, String> getGradesOfStudent(){
+        return new HashMap<>(this.gradesOfStudent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

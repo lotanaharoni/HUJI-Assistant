@@ -99,7 +99,8 @@
     <string name="outof">מתוך:</string>
     <string name="numberofcoursetoast">קורס מספר:</string>
     <string name="addingcoursemsgsuccess">נוסף בהצלחה</string>
-
+    <string name="average">ממוצע כולל לתואר:</string>
+    <string name="grade_tooltip">לחץ על הציון על מנת לשנות אותו</string>
 
 
 
@@ -181,7 +182,8 @@
     <string name="courseDoesntExistsInFireBase">לא קיים קורס עם מספר זה</string>
     <string name="courseExistsInMyCoursesList">הקורס כבר קיים ברשימת הקורסים</string>
     <string name="totalpoints">מספר נקודות כולל:</string>
-    <string name="totalpointsfordegree">מספר נקודות נדרש לתואר:</string>
+    <string name="totalpointsfordegree">מספר נקודות נדרש:</string>
+    <string name="gradeAdded">הציון נשמר בהצלחה</string>
 
     <string name="courseinfonumber">מספר הקורס:</string>
     <string name="courseinfoname">שם הקורס:</string>
@@ -196,7 +198,7 @@
 
     <string name="settingsinvitefriends">הזמן חברים</string>
     <string name="enteramail">הקלד כתובת דואר אלקטרוני לשליחה. ניתן להקליד מספר כתובות, יש להפריד ביניהן בעזרת פסיק</string>
-    <string name="sendmailbtn">שלח</string>
+    <string name="sendmailbtn">שליחה</string>
 
 
     <string-array name="faculty">

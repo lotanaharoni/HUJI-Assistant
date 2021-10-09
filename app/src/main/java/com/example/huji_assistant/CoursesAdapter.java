@@ -4,12 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -25,6 +28,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     private  ArrayList<Course> list;
     private ArrayList<Course> filteredList = new ArrayList<>();
     private ArrayList<Course> listFull;
+    public LocalDataBase dataBase = HujiAssistentApplication.getInstance().getDataBase();
 
     @Override
     public Filter getFilter() {
@@ -138,6 +142,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     }
 
     public DeleteClickListener deleteListener;
+    public AddGradeListener addGradeListener;
     public CancelClickListener cancelListener;
     public OnItemClickListener itemClickListener;
     public OnCheckBoxClickListener checkBoxClickListener;
@@ -163,6 +168,11 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         public void onClick(Course item);
     }
 
+    public interface AddGradeListener {
+        //  public void onClick(View view, int position);
+        public void onAddGradeClick(Course item, String grade);
+    }
+
     public void setItemClickListener(OnItemClickListener listener){
         this.itemClickListener = listener;
     }
@@ -175,6 +185,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         this.deleteListener = listener;
     }
 
+    public void setGradeListener(AddGradeListener listener){
+        this.addGradeListener = listener;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
@@ -185,21 +199,20 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         holder.type.setText(courseItem.getType());
         holder.grade.setVisibility(View.INVISIBLE);
         holder.deleteButton.setVisibility(View.INVISIBLE);
+        holder.gradeAddBtn.setVisibility(View.INVISIBLE);
+        holder.gradeAddBtn.setEnabled(true);
         String text = courseItem.getPoints() + " נ''ז ";
         holder.points.setText(text);
 
-
-        //holder.name.setTooltipText(courseItem.getName());
-
-
-        /**
-        Tooltip tooltip = new Tooltip.Builder(holder.itemView)
-                .setText(courseItem.getName())
-                .show();*/
-
-
-
-
+        // todo check if get the local grade
+        // Checks if the grade of the current course exists in the map of grades
+        if (dataBase.getGradesOfStudent().containsKey(courseItem.getNumber())) {
+            String grade = dataBase.getGradesOfStudent().get(courseItem.getNumber());
+            holder.gradeAddBtn.setText(grade);
+        }
+        else{ // The grade doesn't exist in the map of grades
+            holder.gradeAddBtn.setText("");
+        }
 
         // Show the grade only for my fragment courses
         if (courseItem.getGrade() != -1) {
@@ -212,7 +225,64 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         if (courseItem.getIsFinished()){
             holder.checkBox.setVisibility(View.INVISIBLE);
             holder.deleteButton.setVisibility(View.VISIBLE);
+            holder.gradeAddBtn.setVisibility(View.VISIBLE);
         }
+
+        holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //addGradeListener.onAddGradeClick(v, courseItem);
+            }
+        });
+
+        // This method runs when the text in grade edit text is changed
+        holder.gradeAddBtn.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
+                // todo validity check >=0 && <=100 checkValidity(grade);
+                // if (isValidGrade){
+                addGradeListener.onAddGradeClick(courseItem, grade); // todo check
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("grade clicked");
+                holder.gradeAddBtn.setEnabled(true);
+            }
+        });
+
+        holder.gradeAddBtn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                System.out.println("long clicked");
+                holder.gradeAddBtn.setEnabled(true);
+                return false;
+            }
+        });
+
+        holder.gradeAddBtn.setOnHoverListener(new View.OnHoverListener() {
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                Tooltip tooltip = new Tooltip.Builder(holder.itemView)
+                        .setText(R.string.grade_tooltip)
+                        .show();
+                return false;
+            }
+        });
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +303,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             System.out.println("check box clicked");
             if (holder.checkBox.isChecked()){
                 courseItem.setChecked(true);
+              //  holder.gradeAddBtn.setVisibility(View.VISIBLE); //todo delete
             }
             else{
                 courseItem.setChecked(false);
@@ -242,6 +313,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
 
         if (courseItem.getChecked()){
             holder.checkBox.setChecked(true);
+            // todo can enter grade only if selected this course
+            // and it exists in the list of courses
+            holder.gradeAddBtn.setVisibility(View.VISIBLE);
+            holder.gradeAddBtn.setEnabled(false);
         }
         else{
             holder.checkBox.setChecked(false);

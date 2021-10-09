@@ -45,7 +45,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +62,7 @@ public class MyCoursesFragment extends Fragment {
     public CoursesAdapter adapter = null;
     public LocalDataBase dataBase = null;
     public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
+    public CoursesAdapter.AddGradeListener addGradeListener = null;
     RecyclerView recyclerViewMyCourses;
     SearchView searchView;
     AutoCompleteTextView autocompletechoosetype;
@@ -84,11 +88,6 @@ public class MyCoursesFragment extends Fragment {
     TextView averageTxt;
     ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
 
-
-    //public interface endRegistrationButtonClickListener{
-     //   public void onEndRegistrationBtnClicked();
-   // }
-
     public interface addCourseButtonClickListener{
         public void addCourseBtnClicked();
     }
@@ -97,6 +96,7 @@ public class MyCoursesFragment extends Fragment {
         super(R.layout.fragment_mycourses);
     }
     public MyCoursesFragment.addCourseButtonClickListener addCourseListener = null;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -113,8 +113,7 @@ public class MyCoursesFragment extends Fragment {
         adapter = new CoursesAdapter(getContext());
         FloatingActionButton addCourseBtn = view.findViewById(R.id.addCourseBtn);
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search1);
-        //searchView1 = view.findViewById(R.id.search1);
-
+        averageTxt = view.findViewById(R.id.textViewDegreeAverage);
 
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
@@ -172,19 +171,17 @@ public class MyCoursesFragment extends Fragment {
         textViewTotalPointsDegree = view.findViewById(R.id.textViewTotalPointsDegree);
         String text1 = textViewTotalPointsDegree.getText() + " " + totalPoints;
         textViewTotalPointsDegree.setText(text1);
-        // Hova
 
+        // Hova
         textViewTotalHovaPoints = view.findViewById(R.id.textViewTotalHovaPoints);
-       // String text2 = textViewTotalHovaPoints.getText() + " " + currentMaslul.getMandatoryPointsTotal();
-       // textViewTotalHovaPoints.setText(text2);
         int currentMandatoryChoosePoints = dataBase.getCurrentMandatoryChoosePoints();
 
         System.out.println("current mandatory choose: " + currentMandatoryChoosePoints);
         int currentMandatoryPoints = dataBase.getCurrentMandatoryPoints();
         System.out.println("current mandatory: " + currentMandatoryPoints);
 
-        String text5 = textViewTotalHovaPoints.getText() + " " + currentMandatoryPoints + " "
-                + getResources().getString(R.string.outof) +  " " +currentMaslul.getMandatoryPointsTotal();
+        String text5 = textViewTotalHovaPoints.getText() + " " + currentMandatoryPoints + " " + getResources().getString(R.string.outof)
+                 +  " " + currentMaslul.getMandatoryPointsTotal();
         textViewTotalHovaPoints.setText(text5);
 
         // Choose hove
@@ -206,8 +203,8 @@ public class MyCoursesFragment extends Fragment {
      //  int currentCornerStonePoints = dataBase.getCurrentCornerStonesPoints();
 
 
-        String text3 = textViewTotalHovaChoosePoints.getText() + " " + currentMandatoryChoosePoints + " "
-                + getResources().getString(R.string.outof) + " " + currentMaslul.getMandatoryChoicePoints();
+        String text3 = textViewTotalHovaChoosePoints.getText() + " " + currentMandatoryChoosePoints + " " + getResources().getString(R.string.outof)
+                + " " + currentMaslul.getMandatoryChoicePoints();
         textViewTotalHovaChoosePoints.setText(text3);
 
         String text6 = textViewTotalChoosePoints.getText() + " " + currentChoosePoints + " ";
@@ -216,6 +213,10 @@ public class MyCoursesFragment extends Fragment {
         //int average = calculateAverage();
         //averageTxt = view.findViewById(R.id.textViewAverage);
        // averageTxt.setText(Integer.toString(average));
+
+        double average = calculateAverage();
+        String averageText = getResources().getString(R.string.average) + " " + average;
+        averageTxt.setText(averageText);
 
         ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();
@@ -258,6 +259,25 @@ public class MyCoursesFragment extends Fragment {
                     }
                 });
          */
+
+        adapter.setGradeListener(new CoursesAdapter.AddGradeListener() {
+            @Override
+            public void onAddGradeClick(Course item, String grade) {
+                if (addGradeListener != null) {
+                    viewModelAppMainScreen.set(item);
+                    //int grade = item.getGrade();
+                   // item.setGrade(Integer.parseInt(grade)); // todo not a field of this class, saved in map
+                    // todo fix toast
+                   // Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
+
+                    dataBase.updateGrade(item.getNumber(), grade);
+                    double average = calculateAverage();
+                    String averageText = getResources().getString(R.string.average) + " " + average;
+                    averageTxt.setText(averageText);
+                   // addGradeListener.onAddGradeClick(v,item);
+                }
+            }
+        });
 
         //todo observe from db on change in courses
 
@@ -453,6 +473,15 @@ public class MyCoursesFragment extends Fragment {
                                 dataBase.removeCourseFromCurrentList(item.getNumber()); // remove from courses list in db and upload to firebase
                                 // Calculate points
                                 ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
+                             //   HashMap<String, String> grades = dataBase.getGradesOfStudent();
+                               // grades.remove(item.getNumber());
+                               // dataBase.setGradesOfStudentMap(grades);
+                                dataBase.removeCourseGrade(item.getNumber());
+
+                                double average = calculateAverage();
+                                String averageText = getResources().getString(R.string.average) + " " + average;
+                                averageTxt.setText(averageText);
+
                                 int newPoints = calculateNewPointsSum(item.getPoints());
                                 String text = points_desc + " " + newPoints;
                                 textViewTotalPoints.setText(text);
@@ -543,6 +572,50 @@ public class MyCoursesFragment extends Fragment {
         dataBase.setCurrentPointsSum(newPoints);
         return newPoints;
     }
+
+    private double calculateAverage(){
+        // If there are no grades, return 0
+        if (dataBase.getGradesOfStudent().size() == 0){
+            return 0;
+        }
+        double average = 0;
+        int numberOfCourses = 0;
+        int totalPointsSum = 0;
+
+        // else, get the grades and calculate average
+        ArrayList<Course> coursesOfCurrentStudent = dataBase.getCoursesOfCurrentStudent();
+       // numberOfCourses = coursesOfCurrentStudent.size();
+        // number should be the number of courses that have a grade
+        numberOfCourses = dataBase.getGradesOfStudent().size();
+
+        for (Course course : coursesOfCurrentStudent){
+            int calculated = 0;
+            int points = Integer.parseInt(course.getPoints()); // 5
+            String gradeStr = dataBase.getGradesOfStudent().get(course.getNumber());
+        if ((gradeStr != null) && (!(gradeStr.equals("")))) {
+                int grade = Integer.parseInt(gradeStr);
+                calculated = points * grade;
+                average += calculated;
+                totalPointsSum += points;
+            }
+        }
+       // double averageCalculation = (average / totalPointsSum);
+        //String averageStr = Double.toString(averageCalculation);
+
+      //  NumberFormat nf = NumberFormat.getInstance(); // get instance
+       //nf.setMaximumFractionDigits(2); // set decimal places
+        //String s = nf.format(averageStr);
+      //  String s;
+      //  NumberFormat formatter = new DecimalFormat("#0.00");
+        //s=formatter.format(averageStr);
+
+       // double result = Double.parseDouble(s);
+
+        System.out.println("number_of_courses: " + numberOfCourses);
+        double averageCalculation = Math.round((double)(average / totalPointsSum));
+        return averageCalculation;
+    }
+
     public void collectInput(EditText txt){
         // convert edit text to string
         String getInput = txt.getText().toString();

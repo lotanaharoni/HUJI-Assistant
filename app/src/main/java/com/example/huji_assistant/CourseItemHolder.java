@@ -3,6 +3,7 @@ package com.example.huji_assistant;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -23,6 +24,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
     CheckBox checkBox;
     TextView textView;
     TextView grade;
+    EditText gradeAddBtn;
     TextView deleteButton;
 
     public CourseItemHolder(View view) {
@@ -38,6 +40,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
         textView = view.findViewById(R.id.textViewParent);
         grade = view.findViewById(R.id.coursegradeHolder);
         deleteButton = view.findViewById(R.id.deleteButton);
+        gradeAddBtn = view.findViewById(R.id.textViewAddGrade);
     }
 
     public ArrayList<Course> getCurrentItems() {

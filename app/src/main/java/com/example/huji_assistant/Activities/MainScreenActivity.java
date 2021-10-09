@@ -28,6 +28,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.example.huji_assistant.Chug;
 import com.example.huji_assistant.Faculty;
 import com.example.huji_assistant.Fragments.EditProfileFragment;
+import com.example.huji_assistant.Fragments.GradeFragment;
 import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Fragments.SettingsFragment;
 import com.example.huji_assistant.Maslul;
@@ -139,6 +140,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                     assert currentStudent != null;
                     // todo set as current student
                     dataBase.setCurrentStudent(currentStudent);
+                    dataBase.setGradesOfStudentMap(currentStudent.getCoursesGrades()); // todo check
+                    // todo the data from firebase should be saved in local
                     System.out.println("updated student: " + currentStudent.toStringP());
                     System.out.println("updated courses list: ");
                     currentStudent.printCourses();
@@ -213,6 +216,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         EditProfileFragment editProfileFragment = new EditProfileFragment();
         PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
         SettingsFragment settingsFragment = new SettingsFragment();
+        GradeFragment gradeFragment = new GradeFragment();
         FloatingActionButton openCameraBtn = findViewById(R.id.open_camera_floating_button);
         root = FirebaseDatabase.getInstance().getReference("Image");
         reference = FirebaseStorage.getInstance().getReference();
@@ -326,32 +330,31 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             public void onShowAttendanceButtonClicked() {
                 startActivity(new Intent(MainScreenActivity.this, ShowAttendanceActivity.class));
                 finish();
-//                getSupportFragmentManager().beginTransaction().setCustomAnimations(
-//                        R.anim.fade_in,  // enter
-//                        R.anim.slide_out,  // exit
-//                        R.anim.slide_in,   // popEnter
-//                        R.anim.fade_out  // popExit
-//                )
-//                        .replace(mainFragmentView.getId(), editProfileFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
             }
         };
 
         mainscreenfragment.uploadPicturesButtonListenerBtn = new MainScreenFragment.UploadPictureButtonListener(){
-
             @Override
             public void onUploadPictureButtonClicked() {
                 startActivity(new Intent(MainScreenActivity.this, CaptureImageActivity.class));
                 finish();
-//                getSupportFragmentManager().beginTransaction().setCustomAnimations(
-//                        R.anim.fade_in,  // enter
-//                        R.anim.slide_out,  // exit
-//                        R.anim.slide_in,   // popEnter
-//                        R.anim.fade_out  // popExit
-//                )
-//                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
-//                        .replace(mainFragmentView.getId(), profilePageFragment, "EDIT_INFO_FRAGMENT").addToBackStack(null).commit();
             }
         };
+
+        // todo remove
+        myCoursesFragment.addGradeListener= new CoursesAdapter.AddGradeListener() {
+            @Override
+            public void onAddGradeClick(Course item, String grade) {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(mainFragmentView.getId(), gradeFragment,"GRADE_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
 
         myCoursesFragment.addCourseListener = new MyCoursesFragment.addCourseButtonClickListener() {
             @Override

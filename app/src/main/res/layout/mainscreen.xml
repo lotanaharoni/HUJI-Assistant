@@ -201,6 +201,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:contentDescription=""
+            app:borderWidth="16dp"
             app:srcCompat="@drawable/ic_baseline_camera_alt_24"
             app:layout_anchorGravity="center" />
 

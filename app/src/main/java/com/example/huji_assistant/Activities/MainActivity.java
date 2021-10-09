@@ -30,6 +30,7 @@ import com.example.huji_assistant.CoursesAdapter;
 import com.example.huji_assistant.Fragments.CourseInfoFragment;
 import com.example.huji_assistant.Fragments.CoursesFragment;
 import com.example.huji_assistant.Fragments.FirstFragment;
+import com.example.huji_assistant.Fragments.GradeFragment;
 import com.example.huji_assistant.Fragments.InfoFragment;
 import com.example.huji_assistant.Fragments.MainScreenFragment;
 import com.example.huji_assistant.Fragments.TextViewFragment;
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         InfoFragment infoFragment = new InfoFragment();
         MainScreenFragment mainScreenFragment = new MainScreenFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
+        GradeFragment gradeFragment = new GradeFragment();
 
         getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment, "FIRST_FRAGMENT")
                 .commit();
@@ -142,6 +144,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ).replace(loginFragment.getId(), secondFragment, "LOGIN_FRAGMENT").addToBackStack(null).commit();
             }
         };
+
+        /**
+        coursesFragment.addGradeListener = new CoursesFragment.addGradeListener() {
+            @Override
+            public void onAddGradeClicked(Course item) {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(loginFragment.getId(), gradeFragment,"GRADE_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+         */
 
         secondFragment.continueButtonListener = new TextViewFragment.continueButtonListener() {
             @Override

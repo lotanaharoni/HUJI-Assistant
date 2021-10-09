@@ -175,6 +175,10 @@
     <string name="addingcoursemsgsuccess">was successfully added</string>
     <string name="totalpoints">Total points:</string>
     <string name="totalpointsfordegree">Total points for degree:</string>
+    <string name="average">Total Average:</string>
+    <string name="grade_tooltip">Press on the grade to edit it</string>
+    <string name="gradeAdded">The grade was successfully updated</string>
+
 
     <string name="courseinfonumber">Number of course:</string>
     <string name="courseinfoname">Name of course:</string>
@@ -188,7 +192,7 @@
     <string name="okbtn">OK</string>
 
     <string name="settingsinvitefriends">Invite friends</string>
-    <string name="enteramail">Please enter an email address…</string>
+    <string name="enteramail">Please enter an email address. It is possible to enter many email addresses, separated by comma</string>
     <string name="sendmailbtn">Send</string>
 
     <string-array name="faculty">

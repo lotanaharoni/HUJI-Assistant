@@ -66,7 +66,7 @@ public class CoursesFragment extends Fragment {
     public interface endRegistrationButtonClickListener {
         public void onEndRegistrationBtnClicked();
     }
-
+    public CoursesFragment.addGradeListener addGradeListener = null;
     private String email;
     private String password;
     private String personalName;
@@ -87,10 +87,15 @@ public class CoursesFragment extends Fragment {
     TextView maslulTextView;
     TextView yearTextView;
     TextView degreeTextView;
+    TextView addGradeBtn;
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
     AutoCompleteTextView dropdowntype;
     AutoCompleteTextView dropdownpoints;
+
+    public interface addGradeListener{
+        public void onAddGradeClicked(Course item);
+    }
 
     //FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
     // FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
@@ -99,8 +104,8 @@ public class CoursesFragment extends Fragment {
     ArrayList<String> coursesOfStudent = new ArrayList<>(); // todo save in db to pass between activities
 
     public CoursesFragment.endRegistrationButtonClickListener endRegistrationBtnListener = null;
-
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
+    public  CoursesAdapter.AddGradeListener addGradeListenerAdapter = null;
     public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
     //  public CoursesAdapter.OnTextBoxClickListener onTextBoxClickListener = null;
 
@@ -131,6 +136,7 @@ public class CoursesFragment extends Fragment {
         dropdowntype = view.findViewById(R.id.autocompletechoosetypeRegisterScreen);
         dropdownpoints = view.findViewById(R.id.autocompletechoosenameRegisterScreen);
         searchView = view.findViewById(R.id.searchCoursesScreen);
+     //   addGradeBtn = view.findViewById(R.id.textViewAddGrade);
 
         System.out.println("courses currently in list: ");
         for (String id : coursesOfStudent) {
@@ -418,6 +424,16 @@ public class CoursesFragment extends Fragment {
             }
         });
 
+        adapter.setGradeListener(new CoursesAdapter.AddGradeListener() {
+            @Override
+            public void onAddGradeClick(Course item, String grade) {
+                if (addGradeListener != null) {
+                    viewModelAppCourse.set(item);
+                   // addGradeListener.onAddGradeClicked(item);//todo
+                }
+            }
+        });
+
         adapter.setItemClickListener(new CoursesAdapter.OnItemClickListener() {
             @Override
             public void onClick(Course item) {
@@ -527,7 +543,7 @@ public class CoursesFragment extends Fragment {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         Log.d("RegisterActivity", "registerWithEmail:success");
-                                        Toast.makeText(getActivity(), R.string.register_Successfully_message, Toast.LENGTH_LONG).show();                                            //todo: don't allow to continue
+                                        Toast.makeText(getActivity(), R.string.register_Successfully_message, Toast.LENGTH_LONG).show();
                                         FirebaseUser user = auth.getCurrentUser();
                                         // todo upload courses
 
