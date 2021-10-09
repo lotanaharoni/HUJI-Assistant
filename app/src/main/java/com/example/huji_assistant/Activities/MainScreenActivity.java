@@ -106,6 +106,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     SettingsFragment settingsFragment2;
     PlanCoursesFragment planCoursesFragment;
     PlanCoursesFragment planCoursesFragment2;
+    AddCourseFragment addCourseFragment;
+    AddCourseFragment addCourseFragment2;
     ProgressBar progressBar;
     FirebaseFirestoreSettings settings;
     private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
@@ -223,8 +225,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         myCoursesFragment = new MyCoursesFragment();
         myCoursesFragment2 = new MyCoursesFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
-        AddCourseFragment addCourseFragment = new AddCourseFragment();
-       // ProfilePageFragment profilePageFragment = new ProfilePageFragment();
+        addCourseFragment = new AddCourseFragment();
+        addCourseFragment2 = new AddCourseFragment();
+        // ProfilePageFragment profilePageFragment = new ProfilePageFragment();
         editProfileFragment = new EditProfileFragment();
         editProfileFragment2 = new EditProfileFragment();
         planCoursesFragment = new PlanCoursesFragment();
@@ -384,6 +387,19 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         .replace(mainFragmentView.getId(), addCourseFragment, "ADD_COURSES_FRAGMENT").addToBackStack(null).commit();
             }
         };
+
+        myCoursesFragment2.addCourseListener = new MyCoursesFragment.addCourseButtonClickListener() {
+            @Override
+            public void addCourseBtnClicked() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(mainFragmentView.getId(), addCourseFragment, "ADD_COURSES_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
 /**
         addCourseFragment.addCourseToListButtonClickListener = new AddCourseFragment.addCourseToListButtonClickListener() {
             @Override
@@ -464,6 +480,14 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         };
 
+        myCoursesFragment2.deleteClickListener = new CoursesAdapter.DeleteClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onDeleteClick(View v, Course item) {
+                System.out.println("delete button in main activity");
+            }
+        };
+
         settingsFragment.sendEmailBtnListener = new SettingsFragment.sendEmailBtnListener() {
             @Override
             public void onSendEmailBtnClicked(String email) {
@@ -472,6 +496,19 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         };
 
         myCoursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Course item) {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(mainFragmentView.getId(), courseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        myCoursesFragment2.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override
             public void onClick(Course item) {
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(
@@ -757,6 +794,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             MyCoursesFragment myCoursesFragment2 = (MyCoursesFragment) getSupportFragmentManager().findFragmentByTag("MY_COURSES_FRAGMENT2");
             PlanCoursesFragment planCoursesFragment = (PlanCoursesFragment) getSupportFragmentManager().findFragmentByTag("PLAN_COURSES_FRAGMENT");
             PlanCoursesFragment planCoursesFragment2 = (PlanCoursesFragment) getSupportFragmentManager().findFragmentByTag("PLAN_COURSES_FRAGMENT2");
+            AddCourseFragment addCourseFragment = (AddCourseFragment) getSupportFragmentManager().findFragmentByTag("ADD_COURSES_FRAGMENT");
+            AddCourseFragment addCourseFragment2 = (AddCourseFragment) getSupportFragmentManager().findFragmentByTag("ADD_COURSES_FRAGMENT2");
+
 
             if (myFragment != null && myFragment.isVisible()) {
                 DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
@@ -793,6 +833,11 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 changePlanCoursesFragment(planCoursesFragment, mainscreenfragment, "MAIN_FRAGMENT");}
             else if ((planCoursesFragment2 != null && planCoursesFragment2.isVisible())){
                 changePlanCoursesFragment(planCoursesFragment2, mainscreenfragment, "MAIN_FRAGMENT");}
+            //
+            else if ((addCourseFragment != null && addCourseFragment.isVisible())){
+                changeAddCoursesFragment(addCourseFragment, myCoursesFragment, "MY_COURSES_FRAGMENT");}
+            else if ((addCourseFragment2 != null && addCourseFragment2.isVisible())){
+                changeAddCoursesFragment(addCourseFragment2, myCoursesFragment, "MY_COURSES_FRAGMENT");}
             //
             else {
                 super.onBackPressed();
@@ -986,6 +1031,30 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             startActivity(refresh);
             finish();
         }
+
+        // addCourseFragment
+        AddCourseFragment addCourseFragment4 = (AddCourseFragment) getSupportFragmentManager().findFragmentByTag("ADD_COURSES_FRAGMENT");
+        AddCourseFragment addCourseFragment3 = (AddCourseFragment) getSupportFragmentManager().findFragmentByTag("ADD_COURSES_FRAGMENT2");
+
+        if (addCourseFragment3 != null && addCourseFragment3.isVisible()) {
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.fade_in,  // enter
+                    R.anim.slide_out,  // exit
+                    R.anim.slide_in,   // popEnter
+                    R.anim.fade_out  // popExit
+            )
+                    .replace(addCourseFragment3.getId(), addCourseFragment, "ADD_COURSES_FRAGMENT").addToBackStack(null).commit();
+        }
+
+        if (addCourseFragment4 != null && addCourseFragment4.isVisible()) {
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.fade_in,  // enter
+                    R.anim.slide_out,  // exit
+                    R.anim.slide_in,   // popEnter
+                    R.anim.fade_out  // popExit
+            )
+                    .replace(addCourseFragment4.getId(), addCourseFragment2, "ADD_COURSES_FRAGMENT2").addToBackStack(null).commit();
+        }
     }
 
 
@@ -1026,6 +1095,18 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     }
 
     private void changePlanCoursesFragment(PlanCoursesFragment fragmentFrom, MainScreenFragment fragmentTo, String tag){
+        if (fragmentFrom != null && fragmentFrom.isVisible()) {
+            getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                    R.anim.fade_in,  // enter
+                    R.anim.slide_out,  // exit
+                    R.anim.slide_in,   // popEnter
+                    R.anim.fade_out  // popExits
+            )
+                    .replace(fragmentFrom.getId(), fragmentTo, tag).addToBackStack(null).commit();
+        }
+    }
+
+    private void changeAddCoursesFragment(AddCourseFragment fragmentFrom, MyCoursesFragment fragmentTo, String tag){
         if (fragmentFrom != null && fragmentFrom.isVisible()) {
             getSupportFragmentManager().beginTransaction().setCustomAnimations(
                     R.anim.fade_in,  // enter
