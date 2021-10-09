@@ -14,10 +14,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class CaptureImageActivity extends AppCompatActivity {
@@ -62,7 +65,8 @@ public class CaptureImageActivity extends AppCompatActivity {
     private StorageReference reference;
     private Uri imageUri, classContentUri;
     private LocalDataBase dataBase = null;
-    EditText imageTitle, courseNumber;
+    Spinner dropdown;
+    EditText imageTitle;
     String currentPhotoPath;
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
@@ -85,7 +89,6 @@ public class CaptureImageActivity extends AppCompatActivity {
         uploadBtn = findViewById(R.id.upload_btn);
         uploadBtn.setEnabled(false);
         showAllBtn = findViewById(R.id.showall_btn);
-        courseNumber = findViewById(R.id.courseNumberEditText);
         progressBar = findViewById(R.id.progressBar2);
         imageView = findViewById(R.id.uploadFromGallery);
         root = FirebaseDatabase.getInstance().getReference("Image");
@@ -108,6 +111,14 @@ public class CaptureImageActivity extends AppCompatActivity {
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
 
+        ArrayList<String> courses = dataBase.getCurrentStudent().getCourses();
+        courses.add(0, getString(R.string.choose_a_course));
+        courses.add(getString(R.string.other));
+
+        dropdown = findViewById(R.id.spinner1);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, courses);
+        dropdown.setAdapter(adapter);
+
         cameraImageUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,10 +140,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (courseNumber.getText().toString().isEmpty()) {
-                    Toast.makeText(CaptureImageActivity.this, R.string.course_number_is_empty, Toast.LENGTH_SHORT).show();
-                }
-                else if (imageTitle.getText().toString().isEmpty()) {
+                if (imageTitle.getText().toString().isEmpty()) {
                     Toast.makeText(CaptureImageActivity.this, R.string.image_description_is_empty, Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -252,11 +260,7 @@ public class CaptureImageActivity extends AppCompatActivity {
     }
 
     private boolean checkCourseNumberValidation() {
-//        if (!dataBase.getCurrentStudent().getCourses().contains(courseNumber.getText().toString())){
-//            return false;
-//        }
-        // todo: check courses
-        return true;
+        return !dropdown.getSelectedItem().toString().equals(R.string.choose_a_course);
     }
 
     private void uploadToFirebase(Uri uri, int source, String name) {
@@ -297,7 +301,7 @@ public class CaptureImageActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         root.child(modelId).setValue(model);
                         imageTitle.setText("");
-                        courseNumber.setText("");
+                        dropdown.setSelection(0); //todo: check!
                         uploadBtn.setEnabled(false);
                         showButtonsAfterChooseImage();
                         Toast.makeText(CaptureImageActivity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();

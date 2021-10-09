@@ -80,6 +80,9 @@ public class CourseInfoFragment extends Fragment {
         courseYearTextView  = view.findViewById(R.id.courseInfoYear1);
         courseSemesterTextView  = view.findViewById(R.id.courseInfoSemester1);
 
+        TextView textView = requireActivity().findViewById(R.id.change_language_textView);
+        textView.setVisibility(View.INVISIBLE);
+
         recyclerViewKdamCourses = view.findViewById(R.id.kdamcoursessrecycleview);
         kdamCoursesAdapter = new KdamCoursesAdapter(getContext());
         noKdamCoursesTextView = view.findViewById(R.id.noKdamCoursesTextView);
