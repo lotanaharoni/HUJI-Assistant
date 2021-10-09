@@ -4,6 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.13854166666666667" />
+        <entry key="..\:/Users/yuval/Desktop/Post PC final project/HUJI-Assistant2/HUJI-Assistant/app/src/main/res/layout/courseinfo_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/yuval/Desktop/Post PC final project/HUJI-Assistant2/HUJI-Assistant/app/src/main/res/layout/courseitem.xml" value="0.67" />
+        <entry key="..\:/Users/yuval/Desktop/Post PC final project/HUJI-Assistant2/HUJI-Assistant/app/src/main/res/layout/dropdownfacultyitem.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/yuval/Desktop/Post PC final project/HUJI-Assistant2/HUJI-Assistant/app/src/main/res/layout/fragment_courses.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/yuval/Desktop/Post PC final project/HUJI-Assistant2/HUJI-Assistant/app/src/main/res/layout/fragment_mycourses.xml" value="0.33" />
+        <entry key="..\:/Users/yuval/Desktop/Post PC final project/HUJI-Assistant2/HUJI-Assistant/app/src/main/res/layout/fragment_plancourses.xml" value="0.33" />
+        <entry key="..\:/Users/yuval/Desktop/Post PC final project/HUJI-Assistant2/HUJI-Assistant/app/src/main/res/layout/plancourseinfo_fragment.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/drawable/ic_baseline_exit_to_app_24.xml" value="0.2351851851851852" />
         <entry key="app/src/main/res/drawable/ic_baseline_folder_24.xml" value="0.12037037037037036" />
         <entry key="app/src/main/res/drawable/ic_baseline_navigation_24.xml" value="0.19635416666666666" />

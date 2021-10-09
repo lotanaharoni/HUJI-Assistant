@@ -29,9 +29,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.example.huji_assistant.Chug;
 import com.example.huji_assistant.Faculty;
+import com.example.huji_assistant.Fragments.PlanCourseInfoFragment;
 import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Maslul;
 import com.example.huji_assistant.Model;
+import com.example.huji_assistant.PlanCoursesAdapter;
 import com.example.huji_assistant.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -61,6 +63,7 @@ import com.example.huji_assistant.Fragments.CourseInfoFragment;
 import com.example.huji_assistant.Fragments.CoursesFragment;
 import com.example.huji_assistant.Fragments.MainScreenFragment;
 import com.example.huji_assistant.Fragments.MyCoursesFragment;
+import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Fragments.ProfilePageFragment;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
@@ -199,7 +202,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         FragmentContainerView mainFragmentView = findViewById(R.id.mainfragment);
         CoursesFragment coursesFragment = new CoursesFragment();
         MyCoursesFragment myCoursesFragment = new MyCoursesFragment();
+        PlanCoursesFragment PlanCoursesFragment = new PlanCoursesFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
+        PlanCourseInfoFragment planCoursesInfoFragment = new PlanCourseInfoFragment();
         AddCourseFragment addCourseFragment = new AddCourseFragment();
         ProfilePageFragment profilePageFragment = new ProfilePageFragment();
         PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
@@ -317,6 +322,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         .replace(mainFragmentView.getId(), addCourseFragment, "ADD_COURSES_FRAGMENT").addToBackStack(null).commit();
             }
         };
+
 /**
         addCourseFragment.addCourseToListButtonClickListener = new AddCourseFragment.addCourseToListButtonClickListener() {
             @Override
@@ -349,6 +355,21 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 )
                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
                   .replace(mainFragmentView.getId(), myCoursesFragment, "MY_COURSES_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        mainscreenfragment.coursesPlanButtonListenerBtn = new MainScreenFragment.coursesPlanButtonListenerBtn() {
+            @Override
+            public void onPlanCoursesButtonClicked() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+                        .replace(mainFragmentView.getId(), planCoursesFragment, "PLAN_COURSES_FRAGMENT").addToBackStack(null).commit();
+
             }
         };
 /**
@@ -397,6 +418,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         };
 
+
+
         myCoursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override
             public void onClick(Course item) {
@@ -409,6 +432,41 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         .replace(mainFragmentView.getId(), courseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
             }
         };
+
+        planCoursesFragment.onItemClickListener = new PlanCoursesAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Course item) {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(mainFragmentView.getId(), planCoursesInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        planCoursesFragment.onCheckBoxClickListener = new PlanCoursesAdapter.OnCheckBoxClickListener() {
+            @Override
+            public void onCheckBoxClicked(View v, Course item) {
+                StudentInfo currentStudent = dataBase.getCurrentStudent();
+                if (!item.isPlanned()) {
+                    if (!currentStudent.getCoursesPlannedByStudent().contains(item.getNumber())) {
+                        currentStudent.addCoursePlannedByStudent(item.getNumber());
+                        item.setPlanned(true);
+                        Toast.makeText(getApplicationContext(), "Course " + item.getName() + " added to your plan", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Course " + item.getName() + " already in your plan", Toast.LENGTH_LONG).show();
+                    }
+                } else{
+                    item.setPlanned(false);
+                    currentStudent.removeCoursePlannedByStudent(item.getNumber());
+                    Toast.makeText(getApplicationContext(), "Course " + item.getName() + " removed from your plan", Toast.LENGTH_LONG).show();
+                }
+            }
+        };
+
+
      // end of on create
 
         logoutImageView.setOnClickListener(new View.OnClickListener() {

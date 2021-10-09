@@ -10,12 +10,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.Toast;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -24,42 +26,54 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.Course;
 import com.example.huji_assistant.CoursesAdapter;
+import com.example.huji_assistant.CoursesFetcher;
 import com.example.huji_assistant.Fragments.CourseInfoFragment;
 import com.example.huji_assistant.Fragments.CoursesFragment;
 import com.example.huji_assistant.Fragments.FirstFragment;
 import com.example.huji_assistant.Fragments.InfoFragment;
 import com.example.huji_assistant.Fragments.MainScreenFragment;
+import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Fragments.TextViewFragment;
 import com.example.huji_assistant.Fragments.TopFragment;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
+import com.example.huji_assistant.PlanCoursesAdapter;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.Fragments.RegisterFragment;
+import com.example.huji_assistant.StudentInfo;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-   // private static final float GESTURE_THRESHOLD_DP = 16.0f;
+    // private static final float GESTURE_THRESHOLD_DP = 16.0f;
 
     // Get the screen's density scale
 //    final float scale = getResources().getDisplayMetrics().density;
 // Convert the dps to pixels, based on density scale
-  //  int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
-   // private static final int GESTURE_THRESHOLD_DP = ViewConfiguration.get(myContext).getScaledTouchSlop();
+    //  int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
+    // private static final int GESTURE_THRESHOLD_DP = ViewConfiguration.get(myContext).getScaledTouchSlop();
 
 
-    public interface PopUpInterface
-    {
+    public interface PopUpInterface {
         public String grade(String grade);
     }
+
     private DrawerLayout moreInfoDrawerLayout;
     public LocalDataBase dataBase = null;
     String grade;
-    @SuppressLint("SetJavaScriptEnabled")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
+
+
+//        CoursesFetcher fetcher = new CoursesFetcher();
+//        fetcher.execute();
+
+
 
         //FirebaseFirestore.getInstance()
 
@@ -68,9 +82,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
 
+
         // Get all chugim and maslulim
         ///FireStoreReader fire = new FireStoreReader();
-      //  fire.work();
+        //  fire.work();
 
         //Fetcher fe = new Fetcher();
         //fe.execute();
@@ -95,9 +110,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextViewFragment secondFragment = new TextViewFragment();
         RegisterFragment registerFragment = new RegisterFragment();
         CoursesFragment coursesFragment = new CoursesFragment();
+        PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
         InfoFragment infoFragment = new InfoFragment();
         MainScreenFragment mainScreenFragment = new MainScreenFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
+
 
         getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment, "FIRST_FRAGMENT")
                 .commit();
@@ -136,12 +153,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onContinueButtonClick() {
                 getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                                  R.anim.fade_in,  // enter
-                                 R.anim.slide_out,  // exit
-                                 R.anim.slide_in,   // popEnter
-                                 R.anim.fade_out  // popExit
-                          )
-                                 .replace(loginFragment.getId(), infoFragment).addToBackStack(null).commit();
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(loginFragment.getId(), infoFragment).addToBackStack(null).commit();
             }
         };
 
@@ -172,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
 
 
-
         infoFragment.continueListener = new InfoFragment.continueButtonClickListener() {
             @Override
             public void continueBtnClicked() {
@@ -199,34 +215,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         };
 
 
-
         coursesFragment.onCheckBoxClickListener = new CoursesAdapter.OnCheckBoxClickListener() {
             @Override
             public void onCheckBoxClicked(View v, Course item) {
                 System.out.println("----------------item checked: " + item.toStringP());
                 // todo show here pop up?
-               // if (item.getChecked()) {
-                 //   grade = "";
+                // if (item.getChecked()) {
+                //   grade = "";
 
-                  //  Intent i = new Intent();
-                  //  PopUpWindowActivity popUpWindow = new PopUpWindowActivity();
-                 //   popUpWindow.showPopup(v); //todo check
-                    // todo get the string value
+                //  Intent i = new Intent();
+                //  PopUpWindowActivity popUpWindow = new PopUpWindowActivity();
+                //   popUpWindow.showPopup(v); //todo check
+                // todo get the string value
 
 
-                  //  System.out.println("grade of course: " + item.getGrade());
-                  //  System.out.println("gg");
-               // }
+                //  System.out.println("grade of course: " + item.getGrade());
+                //  System.out.println("gg");
+                // }
             }
         };
 
 
-      //  coursesFragment.onTextBoxClickListener = new CoursesAdapter.OnTextBoxClickListener() {
+        //  coursesFragment.onTextBoxClickListener = new CoursesAdapter.OnTextBoxClickListener() {
         //    @Override
         //    public void onTextBoxClick(Course item) {
         //        System.out.println("----------------textbox clicked: " + item.toStringP());
         //    }
-     //   };
+        //   };
 
         coursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override
@@ -241,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
     }
+
+
 
 
     private void goToUrl(String s) {
@@ -313,8 +330,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     grade = gradeTextView.getText().toString();
                     //   grade1[0] = grade;
                     System.out.println("grade1111: " + grade);
-                   // item.setGrade(Integer.parseInt(grade));
-                   // System.out.println("items grade: " + item.getGrade());
+                    // item.setGrade(Integer.parseInt(grade));
+                    // System.out.println("items grade: " + item.getGrade());
                     //intent.putExtra("grade", grade);
                     popUpInterface.grade(grade);
                     popupWindow.dismiss();

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -23,7 +24,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import androidx.annotation.Nullable;
+
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.CollectionReference;
@@ -39,6 +42,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LocalDataBase {
 
@@ -63,7 +67,7 @@ public class LocalDataBase {
     private int currentMandatoryPoints = 0;
     private int currentCornerStonePoints = 0;
     private final HashMap<String, StudentInfo> students;
-//    private final DatabaseReference usersRef;
+    //    private final DatabaseReference usersRef;
     private final MutableLiveData<StudentInfo> currentUserMutableLiveData = new MutableLiveData<>();
     public final LiveData<StudentInfo> currentUserLiveData = currentUserMutableLiveData;
     private final MutableLiveData<Boolean> firstLoadFlagMutableLiveData = new MutableLiveData<>();
@@ -82,7 +86,7 @@ public class LocalDataBase {
     private final FirebaseAuth mAuth;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public LocalDataBase(Context context){
+    public LocalDataBase(Context context) {
         this.context = context;
         this.sp = context.getSharedPreferences("local_db_calculation_items", Context.MODE_PRIVATE);
         this.mAuth = FirebaseAuth.getInstance();
@@ -106,13 +110,13 @@ public class LocalDataBase {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public ArrayList<Course> getMyCoursesList(){
+    public ArrayList<Course> getMyCoursesList() {
         sortCourseItems();
         return new ArrayList<>(listOfCourses);
     }
 
-    public void addCourseId(String courseId){
-        if (courseId != null){
+    public void addCourseId(String courseId) {
+        if (courseId != null) {
             ArrayList<String> courses = this.currentStudent.getCourses();
             courses.add(courseId);
             this.currentStudent.setCourses(courses);
@@ -124,7 +128,7 @@ public class LocalDataBase {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void sendBroadcastDbChanged(){
+    private void sendBroadcastDbChanged() {
         Intent broadcast = new Intent("changed_db");
         broadcast.putExtra("new_list", getMyCoursesList());
         context.sendBroadcast(broadcast);
@@ -138,64 +142,67 @@ public class LocalDataBase {
         return mAuth;
     }
 
-    public void setCurrentFaculty(Faculty faculty){
+    public void setCurrentFaculty(Faculty faculty) {
         this.currentFaculty = faculty;
     }
-    public Faculty getCurrentFaculty(){
+
+    public Faculty getCurrentFaculty() {
         return this.currentFaculty;
     }
 
-    public void setCurrentChug(Chug chug){
+    public void setCurrentChug(Chug chug) {
         this.currentChug = chug;
     }
-    public Chug getCurrentChug(){
+
+    public Chug getCurrentChug() {
         return this.currentChug;
     }
 
-    public void setCoursesFromFireBase(ArrayList<Course> coursesToSet){
+    public void setCoursesFromFireBase(ArrayList<Course> coursesToSet) {
         this.coursesFromFireBase = new ArrayList<>(coursesToSet);
     }
 
-    public void setCurrentPointsSum(int sum){
+    public void setCurrentPointsSum(int sum) {
         this.currentPointsSum = sum;
     }
 
-    public void setCurrentMandatoryPoints(int currentMandatoryPoints_){
+    public void setCurrentMandatoryPoints(int currentMandatoryPoints_) {
         this.currentMandatoryPoints = currentMandatoryPoints_;
     }
 
-    public void setCurrentMandatoryChoosePoints(int currentMandatoryChoosePoints_){
+    public void setCurrentMandatoryChoosePoints(int currentMandatoryChoosePoints_) {
         this.currentMandatoryChoosePoints = currentMandatoryChoosePoints_;
     }
 
-    public void setCurrentCornerStonesPoints(int currentCornerStonePoints_){
+    public void setCurrentCornerStonesPoints(int currentCornerStonePoints_) {
         this.currentCornerStonePoints = currentCornerStonePoints_;
     }
 
-    public int getCurrentCornerStonesPoints(){
+    public int getCurrentCornerStonesPoints() {
         return this.currentCornerStonePoints;
     }
 
-    public int getCurrentMandatoryPoints(){
+    public int getCurrentMandatoryPoints() {
         return this.currentMandatoryPoints;
     }
 
-    public int getCurrentMandatoryChoosePoints(){
+    public int getCurrentMandatoryChoosePoints() {
         return this.currentMandatoryChoosePoints;
     }
 
-    public int getCurrentPointsSum(){
+    public int getCurrentPointsSum() {
         return this.currentPointsSum;
     }
 
-    public ArrayList<Course> getCoursesFromFireBase(){
+    public ArrayList<Course> getCoursesFromFireBase() {
         return new ArrayList<>(this.coursesFromFireBase);
     }
 
-    public void setCurrentMaslul(Maslul maslul){
+    public void setCurrentMaslul(Maslul maslul) {
         this.currentMaslul = maslul;
     }
-    public Maslul getCurrentMaslul(){
+
+    public Maslul getCurrentMaslul() {
         return this.currentMaslul;
     }
 
@@ -228,7 +235,7 @@ public class LocalDataBase {
     public void addStudent(String studentId, String email, String personalName,
                            String familyName, String facultyId, String chugId, String maslulId,
                            String degreeType, String year, String beginYear, String beginSemester,
-                           ArrayList<String> courses){
+                           ArrayList<String> courses) {
 
         StudentInfo newStudent = new StudentInfo(studentId, email, personalName, familyName,
                 facultyId, chugId, maslulId, degreeType, year, beginYear, beginSemester,
@@ -239,11 +246,12 @@ public class LocalDataBase {
         this.studentsCollection.document(newStudent.getId()).set(newStudent);
         // todo when loading main screen doesnt have time to set new student
     }
+
     // todo fix
     public void updateStudent(String name, String email, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
-       // StudentInfo newUser = new StudentInfo(name, email, facultyId, chugId, maslulId, degree, year, id);
+        // StudentInfo newUser = new StudentInfo(name, email, facultyId, chugId, maslulId, degree, year, id);
         // todo fix
-        StudentInfo newUser = new StudentInfo(name,name, email, facultyId, chugId, maslulId, degree, year, id);
+        StudentInfo newUser = new StudentInfo(name, name, email, facultyId, chugId, maslulId, degree, year, id);
         Map<String, StudentInfo> updatedUser = new HashMap<>();
         updatedUser.put(newUser.getId(), newUser);
         this.studentsCollection.document(newUser.getId()).set(updatedUser).addOnSuccessListener(aVoid -> {
@@ -256,19 +264,19 @@ public class LocalDataBase {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void removeCourseFromCurrentList(String itemId){
+    public void removeCourseFromCurrentList(String itemId) {
 
         ArrayList<String> coursesIdList = new ArrayList<>(this.currentStudent.getCourses());
         coursesIdList.remove(itemId); // todo check if exists?
 
         Course toDelete = null;
-        for (Course item : this.coursesOfCurrentStudent){
-            if (item.getNumber().equals(itemId)){
+        for (Course item : this.coursesOfCurrentStudent) {
+            if (item.getNumber().equals(itemId)) {
                 toDelete = item;
                 break;
             }
         }
-        if (toDelete != null){
+        if (toDelete != null) {
             this.coursesOfCurrentStudent.remove(toDelete);
         }
 
@@ -283,7 +291,7 @@ public class LocalDataBase {
         // update firebase
         this.currentStudent.setCourses(coursesIdList);
         this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
-           System.out.println("upload finished");
+            System.out.println("upload finished");
         });
 
     }
@@ -298,7 +306,7 @@ public class LocalDataBase {
         }
     }
 
-    public void readDataIdsInUse4(){
+    public void readDataIdsInUse4() {
         db.collection("students")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -321,27 +329,27 @@ public class LocalDataBase {
                 });
     }
 
-    public void setCurrentStudent(StudentInfo studentInfo){
+    public void setCurrentStudent(StudentInfo studentInfo) {
         this.currentStudent = studentInfo;
     }
 
-    public void setCoursesOfCurrentStudent(ArrayList<Course> courses){
+    public void setCoursesOfCurrentStudent(ArrayList<Course> courses) {
         this.coursesOfCurrentStudent = courses;
     }
 
-    public ArrayList<Course> getCoursesOfCurrentStudent(){
+    public ArrayList<Course> getCoursesOfCurrentStudent() {
         return new ArrayList<Course>(this.coursesOfCurrentStudent);
     }
 
-    public void AddCourse(){
+    public void AddCourse() {
 
     }
 
-    public void deleteCourse(){
+    public void deleteCourse() {
 
     }
 
-    public StudentInfo getCurrentStudent(){
+    public StudentInfo getCurrentStudent() {
         return this.currentStudent;
     }
 
@@ -353,7 +361,7 @@ public class LocalDataBase {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void sortCourseItems(){
+    private void sortCourseItems() {
         this.listOfCourses.sort(new Comparator<Course>() {
             @Override
             public int compare(Course o1, Course o2) {
@@ -361,8 +369,7 @@ public class LocalDataBase {
                     String num1 = o1.getPoints();
                     String num2 = o2.getPoints();
                     return num2.compareTo(num1);
-                }
-                else if (o1.getType().equals(Course.Type.MandatoryChoose.toString()) && o2.getType().equals(Course.Type.Mandatory.toString())){
+                } else if (o1.getType().equals(Course.Type.MandatoryChoose.toString()) && o2.getType().equals(Course.Type.Mandatory.toString())) {
                     String num1 = o1.getPoints();
                     String num2 = o2.getPoints();
                     return num1.compareTo(num2);
@@ -372,67 +379,137 @@ public class LocalDataBase {
         });
     }
 
-    public FirebaseFirestore getFirestoreDB(){
+    public FirebaseFirestore getFirestoreDB() {
         return db;
     }
 
-    //    private void readDataIdsInUse(FirebaseUsersUpdateCallback firebaseCallback) {
-//        ValueEventListener valueEventListenerUsers = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                students.clear();
-//                ArrayList<StudentInfo> unapproved = new ArrayList<>();
-//                for (DataSnapshot ds : snapshot.getChildren()) {
-//                    if (ds != null) {
-//                        StudentInfo user = ds.getValue(StudentInfo.class);
-//                        assert user != null;
-//                        students.put(user.getId(), user);
-//                    }
-//                }
-//                setCurrentUser(currentFbUser);
-//                firebaseCallback.onCallback(students);
-//                firstLoadFlagMutableLiveData.postValue(firstUsersLoad);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        };
-//        // update data and relevant liveData
-//        usersRef.addValueEventListener(valueEventListenerUsers);
-//
-//        // notifies first load
-//        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                firstUsersLoad = true;
-//                firstLoadFlagMutableLiveData.postValue(true);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
-//    }
+    public ArrayList<Course> getCoursesToComplete() {
+        /**
+         * Returns all the courses of the current Student which Still need to be Done.
+         */
+        ArrayList<Course> coursesToComplete = (ArrayList<Course>) this.coursesFromFireBase.clone();
+        coursesToComplete.removeAll(this.coursesOfCurrentStudent);
+        return coursesToComplete;
+    }
 
-    //    public void addStudentFirebase(String studentId, String email, String password) {
-//        StudentInfo newStudent = new StudentInfo(studentId, email, password);
-//        this.usersRef.child(newStudent.getId()).setValue(newStudent);
-//    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToComplete_PerYear(String year) {
+        /**
+         * Returns all the courses the student has to complete from given year and prior years.
+         * currently deprecated, you may use getCoursesToPlan(year, null, null)
+         */
 
-    //    public void updateStudentFirebase(String name, String email, String password, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
-//        StudentInfo newUser = new StudentInfo(name, email, password, facultyId, chugId, maslulId, degree, year, id);
-//        this.usersRef.child(id).setValue(newUser).addOnSuccessListener(aVoid -> {
-//            if (newUser.getId().equals(currentStudent.getId())) {
-//                currentStudent = newUser;
-//            } else {
-//                Log.d("sameUserCheck", "not the current user");
-//            }
-//        });
-//    }
+        ArrayList<String> years = new ArrayList<>();
 
-    //    public void refreshDataUsers() {
-//        readDataIdsInUse((students) -> {
-//        });
-//    }
+        switch (year) {
+
+            case "שנה ו": // is there case like this?
+                years.add(year);
+                break;
+            case "שנה ה":
+                years.add("שנה ה");
+                break;
+            case "שנה ד":
+                years.add("שנה ד");
+                break;
+            case "שנה ג":
+                years.add("שנה ג");
+                break;
+            case "שנה ב":
+                years.add("שנה ב");
+                break;
+            case "שנה א":
+                years.add("שנה א");
+                break;
+        }
+
+        ArrayList<Course> coursesToComplete = getCoursesToComplete();
+        ArrayList<Course> coursesToComplete_ThisYear = new ArrayList<>();
+
+        for (String currYear : years) {
+            coursesToComplete_ThisYear.addAll(coursesToComplete.stream().filter(Course -> Course.getYear().equals(currYear)).collect(Collectors.toCollection(ArrayList::new)));
+        }
+
+        return coursesToComplete_ThisYear;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToComplete_PerSemester(String year, String semester) {
+        /**
+         * Returns all the courses the student has to complete occurring at specific semester
+         * at specific year.
+         * currently deprecated, you may use getCoursesToPlan(null, semester, null)
+         */
+
+        ArrayList<Course> coursesToComplete_perYear = getCoursesToComplete_PerYear(year);
+
+        if (semester.equals("all")) return coursesToComplete_perYear;
+
+        ArrayList<Course> coursesToComplete_ThisSemester = coursesToComplete_perYear.stream().filter(Course -> Course.getSemester().equals(semester)).collect(Collectors.toCollection(ArrayList::new));
+        if (!semester.equals("א' או ב'"))
+            coursesToComplete_ThisSemester.addAll(coursesToComplete_perYear.stream().filter(Course -> Course.getSemester().equals("א' או ב'")).collect(Collectors.toCollection(ArrayList::new)));
+
+        return coursesToComplete_ThisSemester;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToComplete_byPoints(String points) {
+        /**
+         * Returns all the courses the student need to complete by their points value.
+         * currently deprecated, you may use getCoursesToPlan(null, null, points)
+         */
+        ArrayList<Course> coursesToComplete = getCoursesToComplete();
+        ArrayList<Course> coursesToComplete_byPoints = coursesToComplete.stream().filter(Course -> Course.getPoints().equals(points)).collect(Collectors.toCollection(ArrayList::new));
+        return coursesToComplete_byPoints;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToComplete_byPoints(String points, ArrayList<Course> coursesToFilter) {
+        /**
+         * Returns all the courses the student need to complete by their points value, for a specific
+         * courses list.
+         */
+        ArrayList<Course> coursesToComplete = ((ArrayList<Course>) coursesToFilter.clone());
+
+        if (points.equals("הכל")) return coursesToComplete;
+
+        ArrayList<Course> coursesToComplete_byPoints = coursesToComplete.stream().filter(Course -> Course.getPoints().equals(points)).collect(Collectors.toCollection(ArrayList::new));
+        return coursesToComplete_byPoints;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToPlan(String year, String semester, String points) {
+        ArrayList<Course> coursesToComplete = getCoursesToComplete();
+        ArrayList<Course> filterBySemester = new ArrayList<>();
+        if (year != null) {
+            coursesToComplete = coursesToComplete.stream().filter(Course -> Course.getYear().equals(year)).collect(Collectors.toCollection(ArrayList::new));
+        }
+        if (semester != null){
+            ArrayList<Course> temp = coursesToComplete.stream().filter(Course -> Course.getSemester().equals(semester)).collect(Collectors.toCollection(ArrayList::new));
+            coursesToComplete.removeAll(temp);
+            if  (!(semester.equals("קורס שנתי") || semester.equals("א' או ב'"))){
+                ArrayList<Course> aAndBCourses = coursesToComplete.stream().filter(Course -> Course.getSemester().equals("א' או ב'")).collect(Collectors.toCollection(ArrayList::new));
+                filterBySemester.addAll(aAndBCourses);
+            }
+            filterBySemester.addAll(0,temp);
+            coursesToComplete = filterBySemester;
+        }
+        if (points != null){
+            if (points.equals("ה")){ // הכל
+                ArrayList<Course> temp = new ArrayList<>();
+                for (int i = 1; i < 8; i++) {
+                    int finalI = i;
+                    temp.addAll(coursesToComplete.stream().filter(Course -> Course.getPoints().equals(""+ finalI)) .collect(Collectors.toCollection(ArrayList::new)));
+                    coursesToComplete.removeAll(temp);
+                }
+                coursesToComplete.addAll(temp);
+            }
+            else {
+                coursesToComplete = coursesToComplete.stream().filter(Course -> Course.getPoints().equals(points)).collect(Collectors.toCollection(ArrayList::new));
+            }
+        }
+
+        return coursesToComplete;
+    }
+
 }

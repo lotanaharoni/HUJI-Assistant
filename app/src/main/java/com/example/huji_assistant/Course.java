@@ -19,6 +19,7 @@ public class Course {
     private boolean isMandatory;
     private String nameOfDegree;
     private boolean isChecked = false;
+    private boolean isPlanned = false;
 
     public enum Type{
         Mandatory, MandatoryChoose, Choose, Supplemental, CornerStones
@@ -39,6 +40,14 @@ public class Course {
         type = type_.toString();
         this.points = points_;
         this.semester = semester_;
+    }
+
+    public boolean isPlanned() {
+        return isPlanned;
+    }
+
+    public void setPlanned(boolean planned) {
+        isPlanned = planned;
     }
 
     public void setChecked(boolean val){

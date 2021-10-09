@@ -54,6 +54,10 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
     private final HashMap<UploadChug, ArrayList<UploadMaslul>> chugMaslulHashMap = new HashMap<>(); // HashMap between Chug Object to all the Masluls at the Chug as Objects
     private final HashMap<UploadMaslul, ArrayList<UploadCourse>> maslulCourseHashMap = new HashMap<>(); // HashMap between Maslul Object to all the Courses at the Maslul as Objects
 
+//    ArrayList<String> ignoreChugs = new ArrayList<>(Arrays.asList("0511","0520","0521","0529","0530","0531"));
+//    ArrayList<String> ignoreChugs = new ArrayList<>(Arrays.asList("0570","0573","0575","0576","0577","0579","0581"));
+    ArrayList<String> ignoreChugs = new ArrayList<>(Arrays.asList("0570"));
+//    ArrayList<String> ignoreChugs = new ArrayList<>(Arrays.asList("0589","0590","0591","0592","0595","05960"));
 
     ArrayList<String> data = new ArrayList<>();
 
@@ -134,7 +138,6 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
             faculties.put("30", "תוכניות מיוחדות");
 
             for (String value : faculty) {
-
                 ArrayList<UploadChug> chugsInFaculty = new ArrayList<>();
 
                 String name = faculties.get(value);
@@ -199,7 +202,12 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
                     String replace1 = fline.replace("</a", "");
                     String title = replace1.replace("רשימת כל המסלולים בחוג", "");
 
-                    if (specificChugFlag && !chugId.equals(specificChugNumber)) { // ignore any chug that isn't the desired one.
+//                    if (specificChugFlag && !chugId.equals(specificChugNumber)) { // ignore any chug that isn't the desired one.
+//                        line = bufferedReader.readLine();
+//                        continue;
+//                    }
+
+                    if (!ignoreChugs.contains(chugId)){
                         line = bufferedReader.readLine();
                         continue;
                     }
@@ -217,7 +225,7 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
                                 Log.e("exists", "This chug already exists :" + chugId);
                             } else {
                                 document.set(newUploadChug).addOnCompleteListener(aVoid -> {
-                                    Log.i("new", "added a new chug to firestore db : " + chugId);
+                                    Log.d("new", "added a new chug to firestore db : " + chugId);
                                 });
                             }
                         }
@@ -290,7 +298,7 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
                                     Log.e("exists", "This maslul already exists :" + chugId + " -> " + maslulId);
                                 } else {
                                     document.set(newUploadMaslul).addOnSuccessListener(aVoid -> {
-                                        Log.i("new", "added a new maslul to firestore db : " + chugId + " -> " + maslulId);
+                                        Log.d("new", "added a new maslul to firestore db : " + chugId + " -> " + maslulId);
                                     });
                                 }
                             }
@@ -417,7 +425,7 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
                                             currUploadMaslul.setTotalPoints(value);
 
                                             DocumentReference document = firebaseInstancedb.collection(collection_name).document(chugId).collection("maslulimInChug").document(maslulId);
-                                            document.set(currUploadMaslul).addOnCompleteListener(task -> Log.i("maslulData", "points data updated on " + chugId + " -> " + maslulId));
+                                            document.set(currUploadMaslul).addOnCompleteListener(task -> Log.d("maslulData", "points data updated on " + chugId + " -> " + maslulId));
                                             break;
                                         default:
                                             break;
@@ -452,7 +460,7 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
                                         Log.e("exists", "This course already exists :" + chugId + " -> " + maslulId + " -> " + newUploadUploadCourse.getNumber());
                                     } else {
                                         document.set(newUploadUploadCourse).addOnSuccessListener(aVoid -> {
-                                            Log.i("new", "added a new course to firestore db: " + chug + " -> " + maslul + " -> " + newUploadUploadCourse.getNumber());
+                                            Log.d("new", "added a new course to firestore db: " + chugId + " -> " + maslulId + " -> " + newUploadUploadCourse.getNumber());
                                         });
                                     }
                                 }
@@ -602,7 +610,7 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
                                                 Log.e("exists", "This schedule already exists :" + chugId + " -> " + maslulId + " -> " + courseId + " -> " + entry.toString());
                                             } else {
                                                 document.set(entry).addOnSuccessListener(aVoid -> {
-                                                    Log.i("new", "added a new schedule entry to firestore db: " + chugId + " -> " + maslulId + " -> " + courseId + " -> " + entry.toString());
+                                                    Log.d("new", "added a new schedule entry to firestore db: " + chugId + " -> " + maslulId + " -> " + courseId + " -> " + entry.toString());
                                                 });
                                             }
                                         }
@@ -637,7 +645,7 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
                                                 Log.e("exists", "This kdam course already exists :" + chugId + " -> " + maslulId + " -> " + courseId);
                                             } else {
                                                 document.set(newKdamOrAfterCourse).addOnSuccessListener(aVoid -> {
-                                                    Log.i("new", "added a new courseKdam or after to firestore db: " + chugId + " -> " + maslulId + " -> " + courseId);
+                                                    Log.d("new", "added a new courseKdam or after to firestore db: " + chugId + " -> " + maslulId + " -> " + courseId);
                                                 });
                                             }
                                         }
@@ -648,6 +656,7 @@ public class CoursesFetcher extends AsyncTask<Void, Void, Void> {
                             }
                             line = bufferedReader.readLine();
                         }
+                        
                         inputStream.close();
                         bufferedReader.close();
 

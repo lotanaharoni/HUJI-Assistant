@@ -2,6 +2,7 @@ package com.example.huji_assistant;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder>{
-
+public class PlanCoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> {
     private ArrayList<Course> list;
+
     class CustomFilter extends Filter {
 
         @Override
@@ -52,26 +59,26 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
     ArrayList<Course> filterList;
     CustomFilter filter;
 
-    public Filter getFilter(){
-        if (filter == null){
+    public Filter getFilter() {
+        if (filter == null) {
             filter = new CustomFilter();
         }
         return filter;
     }
 
-    public PlanCourseAdapter(Context context){
+    public PlanCoursesAdapter(Context context) {
         this.list = new ArrayList<>();
         this.filterList = list;
         this.mContext = context;
     }
 
-    public void addCoursesListToAdapter(ArrayList<Course> newList){
+    public void addCoursesListToAdapter(ArrayList<Course> newList) {
         this.list.clear();
         this.list.addAll(newList);
         notifyDataSetChanged();
     }
 
-    public void removeCourseFromAdapter(Course course){
+    public void removeCourseFromAdapter(Course course) {
         //list.remove(course);
         this.list.remove(course);
         notifyDataSetChanged();
@@ -79,12 +86,11 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
 
     @NonNull
     @Override
-    public PlanCourseItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CourseItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.courseitem, parent, false);
-        return new PlanCourseItemHolder(view);
+        return new CourseItemHolder(view);
     }
 
-    public DeleteClickListener deleteListener;
     public CancelClickListener cancelListener;
     public OnItemClickListener itemClickListener;
     public OnCheckBoxClickListener checkBoxClickListener;
@@ -92,22 +98,17 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
 
 
     // Create an interface
-    public interface DeleteClickListener{
-        void onDeleteClick(View v, Course item);
-    }
-
-    // Create an interface
-    public interface CancelClickListener{
+    public interface CancelClickListener {
         void onCancelClick(Course item);
     }
 
-    public interface OnCheckBoxClickListener{
+    public interface OnCheckBoxClickListener {
         void onCheckBoxClicked(View v, Course item);
     }
 
     public interface OnItemClickListener {
         //  public void onClick(View view, int position);
-        public void onClick(Course item);
+        void onClick(Course item);
     }
 
     // public interface OnTextBoxClickListener {
@@ -115,17 +116,14 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
     //     public void onTextBoxClick(Course item);
     // }
 
-    public void setItemClickListener(OnItemClickListener listener){
+    public void setItemClickListener(OnItemClickListener listener) {
         this.itemClickListener = listener;
     }
 
-    public void setItemCheckBoxListener(OnCheckBoxClickListener listener){
+    public void setItemCheckBoxListener(OnCheckBoxClickListener listener) {
         this.checkBoxClickListener = listener;
     }
 
-    public void setDeleteListener(DeleteClickListener listener){
-        this.deleteListener = listener;
-    }
 
     // public void setTextBoxClickListener(OnTextBoxClickListener listener){
     ///     this.textBoxClickListener = listener;
@@ -134,15 +132,39 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(@NonNull PlanCourseItemHolder holder, int position) {
+    public void onBindViewHolder(@NonNull CourseItemHolder holder, int position) {
+        LocalDataBase db = HujiAssistentApplication.getInstance().getDataBase();
+        FirebaseFirestore firebaseInstancedb = db.getFirestoreDB();
         Course courseItem = this.list.get(position);
+        holder.checkBox.setChecked(courseItem.isPlanned());
         holder.name.setText(courseItem.getName());
         holder.number.setText(courseItem.getNumber());
         holder.type.setText(courseItem.getType());
         holder.grade.setVisibility(View.INVISIBLE);
-        holder.deleteButton.setVisibility(View.INVISIBLE);
         String text = courseItem.getPoints() + " נ''ז ";
         holder.points.setText(text);
+
+        try {
+            //TODO: this need to be more group oriented, need only on course of group ** and one of ** ** and so on, need to be fixed.
+            Task<QuerySnapshot> document = firebaseInstancedb.collection("coursesTestOnlyCs").document(db.getCurrentStudent().getChugId())
+                    .collection("maslulimInChug").document(db.getCurrentStudent().getMaslulId()).collection("coursesInMaslul")
+                    .document(courseItem.getNumber())
+                    .collection("kdamCourses")
+                    .get().addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            List<DocumentSnapshot> documents = task.getResult().getDocuments();
+                            for (DocumentSnapshot document1 : documents) {
+                                KdamOrAfterCourse course = document1.toObject(KdamOrAfterCourse.class);
+                                if (!HujiAssistentApplication.getInstance().getDataBase().getCurrentStudent().getCourses().contains(course.getNumber())) {
+                                    holder.name.setTextColor(Color.RED);
+                                    break; // one course missing is enough for now
+                                }
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            System.out.println("failed to get kdam courses2");
+        }
 
         //holder.name.setTooltipText(courseItem.getName());
 
@@ -153,43 +175,23 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
          .show();*/
 
 
-
-
-
         // Show the grade only for my fragment courses
         if (courseItem.getGrade() != -1) {
             holder.grade.setVisibility(View.VISIBLE);
-            //  holder.grade.setText(courseItem.getGrade()); // todo check
             holder.grade.setText("");
         }
 
         // todo check - when added courses write is finished == true
-        if (courseItem.getIsFinished()){
+        if (courseItem.getIsFinished()) {
             holder.checkBox.setVisibility(View.INVISIBLE);
-            holder.deleteButton.setVisibility(View.VISIBLE);
         }
 
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("delete button clicked");
-                deleteListener.onDeleteClick(v, courseItem);
-            }
-        });
-
-        // todo - enable edit grade?
-
-        //todo remove
-        // holder.textView.setOnClickListener(v -> {
-        //     System.out.println("text box clicked");
-        // });
 
         holder.checkBox.setOnClickListener(v -> {
             System.out.println("check box clicked");
-            if (holder.checkBox.isChecked()){
+            if (holder.checkBox.isChecked()) {
                 courseItem.setChecked(true);
-            }
-            else{
+            } else {
                 courseItem.setChecked(false);
             }
             checkBoxClickListener.onCheckBoxClicked(v, courseItem);
@@ -199,52 +201,30 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
             itemClickListener.onClick(courseItem);
         });
 
-        /**
-         String courseType = courseItem.getType();
-         switch (courseType) {
-         case "לימודי חובה":
-         holder.type.setText("לימודי חובה");
-         break;
-         case "לימודי חובת בחירה":
-         holder.type.setText("חובת בחירה");
-         break;
-         case "קורסי בחירה":
-         holder.type.setText("קורסי בחירה");
-         break;
-         case "Supplemental":
-         holder.type.setText("משלימים");
-         break;
-         case "CornerStones":
-         holder.type.setText("אבני פינה");
-         break;
-         default:
-         break;
-         }*/
 
-
-
-        if (courseItem.getType().equals("לימודי חובה")){
-            // holder.itemView.setBackgroundColor(R.color.colorAccent);
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue1));
-        }
-        else if (courseItem.getType().equals("לימודי חובת בחירה")){
-            // holder.itemView.setBackgroundColor(R.color.light_teal);
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue2));
-        }
-        else if (courseItem.getType().equals("קורסי בחירה")){
-            //   holder.itemView.setBackgroundColor(R.color.purple_200);
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue3));
-        }
-        else if (courseItem.getType().equals("משלימים")){
-            // holder.itemView.setBackgroundColor(R.color.purple_500);
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue4));
-        }
-        else if (courseItem.getType().equals("אבני פינה")){
-            //    holder.itemView.setBackgroundColor(R.color.purple_700);
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue5));
-        }
-        else{
-
+        switch (courseItem.getType()) {
+            case "לימודי חובה":
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue1));
+                break;
+            case "או": // plaster
+            case "וגם": // plaster
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue1));
+                holder.type.setText("לימודי חובה");
+                break;
+            case "לימודי חובת בחירה":
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue2));
+                break;
+            case "קורסי בחירה":
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue3));
+                break;
+            case "משלימים":
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue4));
+                break;
+            case "אבני פינה":
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue5));
+                break;
+            default:
+                break;
         }
 
     }
@@ -253,7 +233,7 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
         return this.list.size();
     }
 
-    public ArrayList<Course> getItems(){
+    public ArrayList<Course> getItems() {
         return list;
     }
 }
