@@ -176,7 +176,7 @@
                 android:drawablePadding="10dp"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
-                android:text="עריכת נתוני תואר " />
+                android:text="@string/edit_degree_data" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/layouttext1"
@@ -195,8 +195,8 @@
                 android:inputType="none"
                 android:textSize="14sp"
                 android:layout_height="60dp"
-                android:hint="בחר תואר"
-                android:completionHint="בחר תואר"
+                android:hint="@string/choose_a_degree"
+                android:completionHint="@string/choose_a_degree"
                 android:layout_weight="1"
                 android:text="" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -218,8 +218,8 @@
                 android:textStyle="bold"
                 android:inputType="none"
                 android:layout_height="60dp"
-                android:completionHint="בחר שנה לתואר"
-                android:hint="בחר שנה לתואר"
+                android:completionHint="@string/choose_a_year_for_the_degree"
+                android:hint="@string/choose_a_year_for_the_degree"
                 android:layout_weight="1"
                 android:text="" />
             </com.google.android.material.textfield.TextInputLayout>

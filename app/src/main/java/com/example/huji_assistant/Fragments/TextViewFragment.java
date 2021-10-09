@@ -69,6 +69,10 @@ public class TextViewFragment extends Fragment {
         if (view != null) {
 
         }
+
+        TextView textView = requireActivity().findViewById(R.id.change_language_textView);
+        textView.setVisibility(View.INVISIBLE);
+
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
         //personalName = view.findViewById(R.id.editTextPersonalName);

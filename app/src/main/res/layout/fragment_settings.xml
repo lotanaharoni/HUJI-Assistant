@@ -17,7 +17,7 @@
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:text="הגדרות" />
+        android:text="@string/settings_drawer_header" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardviewtop"
@@ -49,7 +49,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:text="גרסה: 1.0" />
+            android:text="@string/version" />
 
         <ImageView
             android:src="@android:drawable/divider_horizontal_dark"
@@ -68,7 +68,7 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:layout_height="wrap_content"
-            android:text="שם משתמש: " />
+            android:text="@string/username" />
 
             <ImageView
                 android:src="@android:drawable/divider_horizontal_dark"
@@ -90,7 +90,7 @@
                 android:background="@color/grey"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"
-                android:text="התנתק" />
+                android:text="@string/logout_textview" />
 
             <ImageView
                 android:id="@+id/logoutImageView"
