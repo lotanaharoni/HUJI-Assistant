@@ -226,6 +226,7 @@ public class MyCoursesFragment extends Fragment {
             public void onClick(View v) {
                 // upload grades to firebase
                 Toast.makeText(getContext(), getResources().getString(R.string.savedsuccessfully), Toast.LENGTH_LONG).show();
+                calculateAverage();
                 dataBase.uploadGrades();
             }
         });
