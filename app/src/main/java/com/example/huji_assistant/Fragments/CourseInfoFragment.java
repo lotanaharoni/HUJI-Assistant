@@ -64,6 +64,7 @@ public class CourseInfoFragment extends Fragment {
     LinearLayoutManager coordinatorLayout2;
     String ROOT_COLLECTION = "coursesTestOnlyCs";
     TextView noKdamCoursesTextView;
+    TextView noAfterCoursesTextView;
 
     public CourseInfoFragment(){
         super(R.layout.courseinfo_fragment);
@@ -86,6 +87,7 @@ public class CourseInfoFragment extends Fragment {
         recyclerViewKdamCourses = view.findViewById(R.id.kdamcoursessrecycleview);
         kdamCoursesAdapter = new KdamCoursesAdapter(getContext());
         noKdamCoursesTextView = view.findViewById(R.id.noKdamCoursesTextView);
+        noAfterCoursesTextView = view.findViewById(R.id.noAfterCoursesTextView);
 
         afterCoursesAdapter = new AfterCourseAdapter(getContext());
         recyclerViewAfterCourses = view.findViewById(R.id.aftercoursessrecycleview);
@@ -171,6 +173,10 @@ public class CourseInfoFragment extends Fragment {
 
                             recyclerViewKdamCourses.setLayoutManager(new LinearLayoutManager(getContext(),
                                     RecyclerView.VERTICAL, false));
+
+                            if (kdamCourses.size() == 0){
+                                noKdamCoursesTextView.setVisibility(View.VISIBLE);
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -211,7 +217,7 @@ public class CourseInfoFragment extends Fragment {
                                 System.out.println("kdam course: " + course.getNumber() + " " + course.getName());
                                 afterCourses.add(course);
                             }
-
+                            // todo change matod name
                             afterCoursesAdapter.addKdamCoursesListToAdapter(afterCourses);
                             recyclerViewAfterCourses.setAdapter(afterCoursesAdapter);
 
@@ -220,18 +226,22 @@ public class CourseInfoFragment extends Fragment {
 
                             recyclerViewAfterCourses.setLayoutManager(new LinearLayoutManager(getContext(),
                                     RecyclerView.VERTICAL, false));
+
+                            if (afterCourses.size() == 0){
+                                noAfterCoursesTextView.setVisibility(View.VISIBLE);
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            noKdamCoursesTextView.setVisibility(View.VISIBLE);
-                            System.out.println("failed to get kdam courses1");
+                            noAfterCoursesTextView.setVisibility(View.VISIBLE);
+                            System.out.println("failed to get after courses1");
                         }
                     });
         }
         catch (Exception e){
-            noKdamCoursesTextView.setVisibility(View.VISIBLE);
-            System.out.println("failed to get kdam courses2");
+            noAfterCoursesTextView.setVisibility(View.VISIBLE);
+            System.out.println("failed to get after courses2");
         }
     }
 }

@@ -70,6 +70,12 @@
     <string name="other">אחר</string>
     <string name="version">גרסה 1.0</string>
     <string name="username">שם משתמש: </string>
+    <string name="course_number_txt">קורס מספר:</string>
+    <string name="added_to_the_list_of_courses">נוסף לרשימת הקורסים</string>
+    <string name="exists_in_the_list_of_courses">קיים ברשימת הקורסים</string>
+    <string name="removed_from_the_list_of_courses">הוסר מרשימת הקורסים</string>
+    <string name="noAftercoursesmsg">קורס זה אינו קורס קדם לקורסים אחרים</string>
+
 
     <string name="action_settings">הגדרות</string>
     <string name="toolbar_title">Contacts</string>

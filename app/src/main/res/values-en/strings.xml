@@ -81,6 +81,10 @@
     <string name="wait_screen_page_title"><b>HUJI-Asisstant</b></string>
 
     <string name="settings_drawer_header">Settings</string>
+    <string name="course_number_txt">Course number:</string>
+    <string name="added_to_the_list_of_courses">Was added to the list of courses</string>
+    <string name="exists_in_the_list_of_courses">Already exists in the list of courses</string>
+    <string name="removed_from_the_list_of_courses">Was removed from the list of courses</string>
 
     <string name="email_not_valid_message">Invalid email address</string>
     <string name="email_field">mail address</string>
@@ -194,7 +198,7 @@
     <string name="gradeAdded">The grade was successfully updated</string>
     <string name="invalidGrade">Please enter a grade in the range 0 – 100</string>
     <string name="gradeDescription">grade: </string>
-
+    <string name="noAftercoursesmsg">This course is not pre course for other courses</string>
 
     <string name="courseinfonumber">Number of course:</string>
     <string name="courseinfoname">Name of course:</string>

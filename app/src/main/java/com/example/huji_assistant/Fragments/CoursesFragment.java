@@ -490,12 +490,15 @@ public class CoursesFragment extends Fragment {
                         if (!coursesOfStudent.contains(item.getNumber())) {
                             coursesOfStudent.add(item.getNumber());
                             db.setCoursesRegistrationById(coursesOfStudent);
-                            String text = "קורס מספר: " + item.getNumber() + " נוסף לרשימת הקורסים";
+
+                            String text = getActivity().getResources().getString(R.string.course_number_txt) + " " +
+                                    item.getNumber() + " " + getActivity().getResources().getString(R.string.added_to_the_list_of_courses);
                             item.setChecked(true);
                             Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                             System.out.println("added: " + item.getNumber());
                         } else {
-                            String text = "קורס מספר: " + item.getNumber() + " קיים ברשימת הקורסים";
+                            String text = getActivity().getResources().getString(R.string.course_number_txt) + " "
+                                    + item.getNumber() + " " + getActivity().getResources().getString(R.string.exists_in_the_list_of_courses);
                             item.setChecked(true);
                             Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                         }
@@ -503,7 +506,8 @@ public class CoursesFragment extends Fragment {
                         coursesOfStudent.remove(item.getNumber()); //todo check if contains?
                         db.setCoursesRegistrationById(coursesOfStudent);
                         item.setChecked(false);
-                        String text = "קורס מספר: " + item.getNumber() + " הוסר מרשימת הקורסים";
+                        String text = getActivity().getResources().getString(R.string.course_number_txt) + " "
+                                + item.getNumber() + " " + getActivity().getResources().getString(R.string.removed_from_the_list_of_courses);
                         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                         System.out.println("removed: " + item.getNumber());
                     }

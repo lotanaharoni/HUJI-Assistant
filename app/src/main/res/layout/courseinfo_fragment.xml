@@ -138,9 +138,11 @@
         <TextView
             android:id="@+id/noKdamCoursesTextView"
             android:layout_width="wrap_content"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="100dp"
             android:textStyle="italic"
             android:visibility="gone"
+            android:layout_marginTop="30dp"
+            android:paddingRight="10dp"
             android:textColor="@color/lightred"
             android:layout_height="wrap_content"
             android:text="@string/nokdamcoursesmsg"
@@ -193,6 +195,19 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text="@string/aftercoursestitle"
+            />
+
+        <TextView
+            android:id="@+id/noAfterCoursesTextView"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:textStyle="italic"
+            android:visibility="gone"
+            android:layout_marginTop="40dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/lightred"
+            android:layout_height="wrap_content"
+            android:text="@string/noAftercoursesmsg"
             />
     </androidx.cardview.widget.CardView>
 
