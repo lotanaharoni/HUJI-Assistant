@@ -267,39 +267,50 @@ public class CaptureImageActivity extends AppCompatActivity {
         name =  new SimpleDateFormat("dd-MM-yyyy").format(new Date()) +
                 "_" + dataBase.getCurrentStudent().getPersonalName() + "_" +
                 dataBase.getCurrentStudent().getFamilyName();
+        String course = dropdown.getSelectedItem().toString();
+        String year = new SimpleDateFormat("yyyy").format(new Date());
+
         if (!imageTitle.getText().toString().equals("")){
             name =  imageTitle.getText().toString() + "_" + name;
         }
         StorageReference fileRef;
         int type;
         String fileName;
+        String nameToUpload = "";
         if (source == GALLERY_REQUEST_CODE){
-            fileRef = reference.child("Gallery_files/" + name + "." + getFileExtension(uri));
+//            fileRef = reference.child("Gallery_files/" + name + "." + getFileExtension(uri));
+            fileRef = reference.child(course).child(year).child(name + "." + getFileExtension(uri));
+            nameToUpload = name + "." + getFileExtension(uri);
             fileName = System.currentTimeMillis() + "." + getFileExtension(uri);
             type = GALLERY_TYPE;
         }
         else if (source == CAMERA_REQUEST_CODE){
             fileRef = reference.child("Camera_images/" + name + ".png");
+            nameToUpload = name + ".png";
             type = CAMERA_TYPE;
             fileName = name;
         }
         else{
             fileRef = reference.child("Documents/" + name + ".pdf");
+            nameToUpload = name + ".pdf";
             type = PDF_TYPE;
             fileName = name;
         }
         StorageReference finalFileRef = fileRef;
+        String finalNameToUpload = nameToUpload;
         fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 finalFileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Model model = new Model(uri.toString(), fileName,type);
-                        String modelId = root.push().getKey();
-                        assert modelId != null;
+                        Model model = new Model(uri.toString(), finalNameToUpload,type);
+//                        String modelId = root.push().getKsey();
+//                        String modelId = root.child(course).child(year).push().getKey();
+//                        assert modelId != null;
                         progressBar.setVisibility(View.INVISIBLE);
-                        root.child(modelId).setValue(model);
+//                        root.child(modelId).setValue(model);
+                        root.child(course).child(year).push().setValue(model);
                         imageTitle.setText("");
                         dropdown.setSelection(0); //todo: check!
                         uploadBtn.setEnabled(false);
