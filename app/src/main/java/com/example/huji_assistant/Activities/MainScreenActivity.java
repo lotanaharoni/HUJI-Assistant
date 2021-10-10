@@ -558,7 +558,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         settingsFragment.changeLanguageBtnListener = new SettingsFragment.changeLanguageBtnListener() {
             @Override
             public void onClickChangeLanguage() {
-                System.out.println("change language clicked");
+                showChangeLanguageDialog();
             }
         };
 
