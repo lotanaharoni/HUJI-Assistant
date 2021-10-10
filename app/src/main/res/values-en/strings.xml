@@ -208,7 +208,6 @@
     <string name="infofragment_degreeSemesterhint">Start semester</string>
     <string name="infofragment_startYearhint">Start year of degree</string>
 
-
     <string name="courseinfonumber">Number of course:</string>
     <string name="courseinfoname">Name of course:</string>
     <string name="courseinfotype">Type of course</string>
@@ -219,6 +218,11 @@
     <string name="nokdamcoursesmsg">There are no previous courses for this course</string>
     <string name="aftercoursestitle">Pre for the following courses</string>
     <string name="okbtn">OK</string>
+
+    <string name="hellomail">Hello! your friend</string>
+    <string name="invitationmail">sent you an invitation for the app:</string>
+    <string name="linkmail">Link to the apps page in Play Store:</string>
+    <string name="mailheader">An invitation to the app:</string>
 
     <string name="settingsinvitefriends">Invite friends</string>
     <string name="enteramail">Please enter an email address. It is possible to enter many email addresses, separated by comma</string>

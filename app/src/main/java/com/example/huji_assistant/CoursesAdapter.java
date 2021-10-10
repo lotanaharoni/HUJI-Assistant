@@ -206,8 +206,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
 
         // todo check if get the local grade
         // Checks if the grade of the current course exists in the map of grades
-        System.out.println("bind: " + courseItem.getNumber());
         // TODO
+
         if (dataBase.getGradesOfStudent().containsKey(courseItem.getNumber())) {
             String grade = dataBase.getGradesOfStudent().get(courseItem.getNumber());
             holder.gradeAddBtn.setText(grade);

@@ -642,10 +642,10 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         StudentInfo currentUser = dataBase.getCurrentStudent();
         String[] CC = {""};
         String link = "link"; // todo set link
-        String emailSubject = "הזמנה לאפליקציה" + " " + " Huji assistent";
+        String emailSubject = getResources().getString(R.string.mailheader) + " " + " Huji assistent";
         String emailFrom = currentUser.getPersonalName() + " " + currentUser.getFamilyName();
-        String emailText = "שלום! החבר שלך" + " " + emailFrom + " " + " רוצה להזמין אותך להצטרף לאפליקציה"
-                + " " + "Huji assistent!" + " " +  "קישור לאפליקציה:" + " " + link;
+        String emailText = getResources().getString(R.string.hellomail) + " " + emailFrom + " " + getResources().getString(R.string.invitationmail)
+                + " " + "Huji assistent!" + " " +  getResources().getString(R.string.linkmail) + " " + link;
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));

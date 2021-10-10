@@ -75,6 +75,7 @@
     <string name="exists_in_the_list_of_courses">קיים ברשימת הקורסים</string>
     <string name="removed_from_the_list_of_courses">הוסר מרשימת הקורסים</string>
     <string name="noAftercoursesmsg">קורס זה אינו קורס קדם לקורסים אחרים</string>
+    <string name="points_field">נקודות זכות</string>
 
     <string name="infofragment_facultyhint">בחר פקולטה/בית ספר</string>
     <string name="infofragment_chughint">בחר חוג</string>
@@ -83,6 +84,11 @@
     <string name="infofragment_degreeYearhint">בחר שנה לתואר</string>
     <string name="infofragment_degreeSemesterhint">סמסטר התחלה</string>
     <string name="infofragment_startYearhint">שנת התחלת התואר</string>
+
+    <string name="hellomail">שלום! החבר שלך</string>
+    <string name="invitationmail">רוצה להזמין אותך להצטרף לאפליקציה</string>
+    <string name="linkmail">קישור לאפליקציה:</string>
+    <string name="mailheader">הזמנה לאפליקציה</string>
 
 
     <string name="action_settings">הגדרות</string>
