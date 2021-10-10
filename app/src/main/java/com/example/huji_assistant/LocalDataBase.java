@@ -76,6 +76,7 @@ public class LocalDataBase {
     FirebaseFirestoreSettings settings;
     private ArrayList<Course> coursesOfCurrentStudent = new ArrayList<>();
     FirebaseFirestore db;
+    private ArrayList<String> coursesRegistrationById = new ArrayList<>();
     CollectionReference studentsCollection;
     private HashMap<String, String> gradesOfStudent = new HashMap<>();
 
@@ -151,6 +152,14 @@ public class LocalDataBase {
         this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
             System.out.println("upload of grade finished");
         });
+    }
+
+    public void setCoursesRegistrationById(ArrayList<String> coursesRegistrationById_){
+        this.coursesRegistrationById = new ArrayList<>(coursesRegistrationById_);
+    }
+
+    public ArrayList<String> getCoursesRegistrationById(){
+        return new ArrayList<>(this.coursesRegistrationById);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

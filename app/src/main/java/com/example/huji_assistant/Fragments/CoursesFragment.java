@@ -91,7 +91,7 @@ public class CoursesFragment extends Fragment {
     RecyclerView recyclerViewCourses;
     LinearLayoutManager coordinatorLayout;
     AutoCompleteTextView dropdowntype;
-    AutoCompleteTextView dropdownpoints;
+  //  AutoCompleteTextView dropdownpoints;
 
     public interface addGradeListener{
         public void onAddGradeClicked(Course item);
@@ -134,9 +134,13 @@ public class CoursesFragment extends Fragment {
         System.out.println("reached adapetr bbb");
         adapter = new CoursesAdapter(getContext());
         dropdowntype = view.findViewById(R.id.autocompletechoosetypeRegisterScreen);
-        dropdownpoints = view.findViewById(R.id.autocompletechoosenameRegisterScreen);
+     //   dropdownpoints = view.findViewById(R.id.autocompletechoosenameRegisterScreen);
         searchView = view.findViewById(R.id.searchCoursesScreen);
+
+
      //   addGradeBtn = view.findViewById(R.id.textViewAddGrade);
+
+
 
         System.out.println("courses currently in list: ");
         for (String id : coursesOfStudent) {
@@ -158,6 +162,17 @@ public class CoursesFragment extends Fragment {
         firebaseInstancedb.setFirestoreSettings(settings);
 
        // AtomicReference<String> email=null;
+
+        ArrayList<String> coursesRegistrationById = db.getCoursesRegistrationById();
+        if ((coursesRegistrationById != null) && (coursesRegistrationById.size()!=0))
+        {
+            this.coursesOfStudent = new ArrayList<>(coursesRegistrationById);
+            System.out.println("courses from db registraion ");
+            for (String c : coursesOfStudent){
+
+            }
+        }
+
 
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item -> {
             email = item.getEmail();
@@ -342,19 +357,19 @@ public class CoursesFragment extends Fragment {
                         }
                     }
 
-                    for (Course c : newC) {
-                        if (c.getType().equals(selectedValue)) {
-                            if (!dropdownpoints.getText().toString().equals("")) {
-                                String pointsToFilter = dropdownpoints.getText().toString();
-                                if (c.getType().equals(pointsToFilter)) {
-                                    newC.add(c);
-                                }
-                            } else {
+                   // for (Course c : newC) {
+                      //  if (c.getType().equals(selectedValue)) {
+                           // if (!dropdownpoints.getText().toString().equals("")) {
+                            //    String pointsToFilter = dropdownpoints.getText().toString();
+                             //   if (c.getType().equals(pointsToFilter)) {
+                             //       newC.add(c);
+                              //  }
+                          //  } else {
 
-                                newC.add(c);
-                            }
-                        }
-                    }
+                             //   newC.add(c);
+                          //  }
+                       // }
+                  //  }
 
                     // Create the adapter
                     //  CoursesAdapter adapter2 = new CoursesAdapter(getContext());
@@ -370,8 +385,10 @@ public class CoursesFragment extends Fragment {
         ArrayAdapter arrayAdapter1 = new ArrayAdapter(requireContext(), R.layout.dropdowntypeitem, getResources().getStringArray(R.array.coursePoints));
         arrayAdapter1.getFilter().filter("");
         arrayAdapter.getFilter().filter("");
-        binding.autocompletechoosenameRegisterScreen.setAdapter(arrayAdapter1);
+       // binding.autocompletechoosenameRegisterScreen.setAdapter(arrayAdapter1);
 
+
+        /**
         dropdownpoints.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -388,7 +405,7 @@ public class CoursesFragment extends Fragment {
                     // arrayAdapter1.getFilter().filter("");
                     // arrayAdapter.getFilter().filter("");
                     arrayAdapter1.getFilter().filter("");
-                    binding.autocompletechoosenameRegisterScreen.setAdapter(arrayAdapter1);
+                  //  binding.autocompletechoosenameRegisterScreen.setAdapter(arrayAdapter1);
 
                 } else {
                     System.out.println("selection1 " + selectedValue);
@@ -423,7 +440,7 @@ public class CoursesFragment extends Fragment {
 
             }
         });
-
+*/
         adapter.setGradeListener(new CoursesAdapter.AddGradeListener() {
             @Override
             public void onAddGradeClick(Course item, String grade) {
@@ -439,6 +456,7 @@ public class CoursesFragment extends Fragment {
             public void onClick(Course item) {
                 if (onItemClickListener != null) {
                     viewModelAppCourse.set(item);
+                    db.setCoursesRegistrationById(coursesOfStudent);
                     onItemClickListener.onClick(item);
                 }
 
@@ -471,6 +489,7 @@ public class CoursesFragment extends Fragment {
                     if (item.getChecked()) {
                         if (!coursesOfStudent.contains(item.getNumber())) {
                             coursesOfStudent.add(item.getNumber());
+                            db.setCoursesRegistrationById(coursesOfStudent);
                             String text = "קורס מספר: " + item.getNumber() + " נוסף לרשימת הקורסים";
                             item.setChecked(true);
                             Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
@@ -482,6 +501,7 @@ public class CoursesFragment extends Fragment {
                         }
                     } else {
                         coursesOfStudent.remove(item.getNumber()); //todo check if contains?
+                        db.setCoursesRegistrationById(coursesOfStudent);
                         item.setChecked(false);
                         String text = "קורס מספר: " + item.getNumber() + " הוסר מרשימת הקורסים";
                         Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();

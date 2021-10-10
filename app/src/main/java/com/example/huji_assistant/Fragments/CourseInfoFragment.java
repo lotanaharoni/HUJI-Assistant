@@ -75,13 +75,13 @@ public class CourseInfoFragment extends Fragment {
         viewModelAppMainScreen = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         courseNameTextView = view.findViewById(R.id.courseInfoName);
         courseNumberTextView = view.findViewById(R.id.courseInfoNumber);
-        courseTypeTextView  = view.findViewById(R.id.courseInfoType1);
-        coursePointsTextView  = view.findViewById(R.id.courseInfoPoints1);
-        courseYearTextView  = view.findViewById(R.id.courseInfoYear1);
-        courseSemesterTextView  = view.findViewById(R.id.courseInfoSemester1);
+        courseTypeTextView = view.findViewById(R.id.courseInfoType1);
+        coursePointsTextView = view.findViewById(R.id.courseInfoPoints1);
+        courseYearTextView = view.findViewById(R.id.courseInfoYear1);
+        courseSemesterTextView = view.findViewById(R.id.courseInfoSemester1);
 
-        TextView textView = requireActivity().findViewById(R.id.change_language_textView);
-        textView.setVisibility(View.INVISIBLE);
+      //  TextView textView = requireActivity().findViewById(R.id.change_language_textView);
+      //  textView.setVisibility(View.INVISIBLE);
 
         recyclerViewKdamCourses = view.findViewById(R.id.kdamcoursessrecycleview);
         kdamCoursesAdapter = new KdamCoursesAdapter(getContext());

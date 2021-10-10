@@ -91,7 +91,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layouttext7"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="180dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -100,6 +100,7 @@
             android:id="@+id/autocompletechoosetypeRegisterScreen"
             android:layout_width="wrap_content"
             android:textSize="12sp"
+            android:layout_gravity="center"
             android:layoutDirection="ltr"
             android:singleLine="true"
             android:inputType="none"
@@ -107,27 +108,6 @@
             android:hint="@string/searchByType" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layouttext8"
-            android:layout_marginLeft="80dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        <AutoCompleteTextView
-            android:id="@+id/autocompletechoosenameRegisterScreen"
-            android:layout_width="wrap_content"
-            android:textSize="12sp"
-            android:inputType="none"
-            android:singleLine="true"
-            android:layoutDirection="rtl"
-            android:layout_height="wrap_content"
-            android:hint="חפש לפי נ''ז"
-            />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
 
     </LinearLayout>
 
