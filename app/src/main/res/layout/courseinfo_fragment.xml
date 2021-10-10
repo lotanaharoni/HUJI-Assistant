@@ -21,15 +21,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/lightorange"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/courseInfoNumber"
                 android:layout_width="wrap_content"
-                android:layout_marginLeft="30dp"
                 android:textSize="14sp"
-                android:layout_gravity="left"
+                android:layout_gravity="right"
                 android:textStyle="bold"
+                android:paddingRight="10dp"
                 android:layout_marginTop="6dp"
                 android:layout_height="wrap_content"
                 android:text="@string/courseinfonumber" />
@@ -39,8 +39,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:paddingRight="10dp"
                 android:layout_marginTop="6dp"
-                android:layout_marginLeft="130dp"
                 android:text="@string/courseinfoname"
                 android:textSize="14sp"
                 android:textStyle="bold" />

@@ -44,9 +44,9 @@
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="14dp"
                 android:inputType="none"
-                android:completionHint="בחר פקולטה/ביה''ס"
+                android:completionHint="@string/infofragment_facultyhint"
                 android:layout_height="match_parent"
-                android:hint="בחר פקולטה/ביה''ס"
+                android:hint="@string/infofragment_facultyhint"
                 android:layout_weight="1"
                 android:text="" />
 
@@ -68,9 +68,9 @@
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="98dp"
                 android:inputType="none"
-                android:completionHint="בחר חוג"
+                android:completionHint="@string/infofragment_chughint"
                 android:layout_height="match_parent"
-                android:hint="בחר חוג"
+                android:hint="@string/infofragment_chughint"
                 android:layout_weight="1"
                 android:text="" />
 
@@ -93,8 +93,8 @@
                 android:layout_marginTop="185dp"
                 android:inputType="none"
                 android:layout_height="match_parent"
-                android:hint="בחר מסלול"
-                android:completionHint="בחר מסלול"
+                android:hint="@string/infofragment_maslulhint"
+                android:completionHint="@string/infofragment_maslulhint"
                 android:layout_weight="1"
                 android:text="" />
 
@@ -109,8 +109,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-
-
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextViewDegree"
                 android:background="@drawable/backgroundimage"
@@ -121,8 +119,8 @@
                 android:layout_marginTop="272dp"
                 android:inputType="none"
                 android:layout_height="match_parent"
-                android:hint="בחר תואר"
-                android:completionHint="בחר תואר"
+                android:hint="@string/infofragment_degreehint"
+                android:completionHint="@string/infofragment_degreehint"
                 android:layout_weight="1"
                 android:text="" />
 
@@ -146,8 +144,8 @@
                 android:layout_marginTop="360dp"
                 android:inputType="none"
                 android:layout_height="match_parent"
-                android:completionHint="בחר שנה לתואר"
-                android:hint="בחר שנה לתואר"
+                android:hint="@string/infofragment_degreeYearhint"
+                android:completionHint="@string/infofragment_degreeYearhint"
                 android:layout_weight="1"
                 android:text="" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -189,10 +187,10 @@
                 android:textStyle="bold"
                 android:inputType="none"
                 android:layout_height="match_parent"
-                android:completionHint="בחר שנה לתואר"
-                android:hint="סמסטר התחלה"
+                android:hint="@string/infofragment_degreeSemesterhint"
+                android:completionHint="@string/infofragment_degreeSemesterhint"
                 android:layout_weight="1"
-                android:text="סמסטר התחלה" />
+                android:text="" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -210,8 +208,8 @@
                     android:layout_marginRight="12dp"
                     android:layout_weight="1"
                     android:background="@color/white"
-                    android:completionHint="בחר שנה לתואר"
-                    android:hint="שנת התחלת התואר"
+                    android:hint="@string/infofragment_startYearhint"
+                    android:completionHint="@string/infofragment_startYearhint"
                     android:inputType="none"
                     android:text=""
                     android:textStyle="bold" />
@@ -227,7 +225,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="המשך"
+        android:text="@string/continue_btn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardViewBottom"
 
