@@ -157,11 +157,11 @@ public class PlanCourseAdapter extends RecyclerView.Adapter<PlanCourseItemHolder
 
 
         // Show the grade only for my fragment courses
-        if (courseItem.getGrade() != -1) {
-            holder.grade.setVisibility(View.VISIBLE);
+     //   if (courseItem.getGrade() != -1) {
+        //    holder.grade.setVisibility(View.VISIBLE);
             //  holder.grade.setText(courseItem.getGrade()); // todo check
-            holder.grade.setText("");
-        }
+       //     holder.grade.setText("");
+      //  }
 
         // todo check - when added courses write is finished == true
         if (courseItem.getIsFinished()){

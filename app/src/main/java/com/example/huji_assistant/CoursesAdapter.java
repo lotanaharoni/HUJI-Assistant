@@ -189,6 +189,16 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         this.addGradeListener = listener;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
@@ -197,6 +207,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         holder.name.setText(courseItem.getName());
         holder.number.setText(courseItem.getNumber());
         holder.type.setText(courseItem.getType());
+        holder.gradeAddBtn.setText(dataBase.getGradesOfStudent().get(courseItem.getNumber()));
         holder.grade.setVisibility(View.INVISIBLE);
         holder.deleteButton.setVisibility(View.INVISIBLE);
         holder.gradeAddBtn.setVisibility(View.INVISIBLE);
@@ -207,21 +218,23 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         // todo check if get the local grade
         // Checks if the grade of the current course exists in the map of grades
         // TODO
+      //  holder.gradeAddBtn.setText(courseItem.getGradeFromDb());
+
+      //  holder.gradeAddBtn.setText(courseItem.getGrade());
 
         if (dataBase.getGradesOfStudent().containsKey(courseItem.getNumber())) {
-            String grade = dataBase.getGradesOfStudent().get(courseItem.getNumber());
-            holder.gradeAddBtn.setText(grade);
+            holder.gradeAddBtn.setText(dataBase.getGradesOfStudent().get(courseItem.getNumber()));
         }
         else{ // The grade doesn't exist in the map of grades
             holder.gradeAddBtn.setText("");
         }
 
         // Show the grade only for my fragment courses
-        if (courseItem.getGrade() != -1) {
-            holder.grade.setVisibility(View.VISIBLE);
+      //  if (courseItem.getGrade() != -1) {
+         //   holder.grade.setVisibility(View.VISIBLE);
           //  holder.grade.setText(courseItem.getGrade()); // todo check
-            holder.grade.setText("");
-        }
+         //   holder.grade.setText("");
+      //  }
 
         // todo check - when added courses write is finished == true
         if (courseItem.getIsFinished()){
@@ -229,6 +242,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             holder.deleteButton.setVisibility(View.VISIBLE);
             holder.gradeAddBtn.setVisibility(View.VISIBLE);
             holder.gradeDescription.setVisibility(View.VISIBLE);
+         //   holder.saveTextiew.setVisibility(View.VISIBLE);
         }
 
         holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
@@ -254,7 +268,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
               //  if (!grade.isEmpty()) {//todo check
                 addGradeListener.onAddGradeClick(courseItem, grade); // todo check
               //  }
-
             }
 
             @Override
@@ -333,31 +346,24 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             itemClickListener.onClick(courseItem);
         });
 
-
         if (courseItem.getType().equals("לימודי חובה")){
-          // holder.itemView.setBackgroundColor(R.color.colorAccent);
            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue1));
         }
         else if (courseItem.getType().equals("לימודי חובת בחירה")){
-           // holder.itemView.setBackgroundColor(R.color.light_teal);
             holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue2));
         }
         else if (courseItem.getType().equals("קורסי בחירה")){
-         //   holder.itemView.setBackgroundColor(R.color.purple_200);
             holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue3));
         }
         else if (courseItem.getType().equals("משלימים")){
-           // holder.itemView.setBackgroundColor(R.color.purple_500);
             holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue4));
         }
         else if (courseItem.getType().equals("אבני פינה")){
-        //    holder.itemView.setBackgroundColor(R.color.purple_700);
             holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue5));
         }
         else{
 
         }
-
     }
 
     public int getItemCount() {
