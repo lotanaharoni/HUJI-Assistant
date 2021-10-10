@@ -285,7 +285,9 @@ public class MyCoursesFragment extends Fragment {
                         }
                     }
                     catch (Exception e){
-                        Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
+                        if (!grade.equals("")) {
+                            Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
+                        }
                         System.out.println("error parsing grade");
                     }
                 }

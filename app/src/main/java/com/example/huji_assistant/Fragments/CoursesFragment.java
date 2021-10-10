@@ -457,7 +457,7 @@ public class CoursesFragment extends Fragment {
                 if (onItemClickListener != null) {
                    // viewModelAppCourse.set(item);
                    // db.setCoursesRegistrationById(coursesOfStudent);
-                   // onItemClickListener.onClick(item);//todo change 
+                   // onItemClickListener.onClick(item);//todo change
                 }
 
                 //  adapter.notifyDataSetChanged();
