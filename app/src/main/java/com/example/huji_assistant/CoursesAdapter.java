@@ -206,6 +206,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
 
         // todo check if get the local grade
         // Checks if the grade of the current course exists in the map of grades
+        System.out.println("bind: " + courseItem.getNumber());
+        // TODO
         if (dataBase.getGradesOfStudent().containsKey(courseItem.getNumber())) {
             String grade = dataBase.getGradesOfStudent().get(courseItem.getNumber());
             holder.gradeAddBtn.setText(grade);
@@ -226,6 +228,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             holder.checkBox.setVisibility(View.INVISIBLE);
             holder.deleteButton.setVisibility(View.VISIBLE);
             holder.gradeAddBtn.setVisibility(View.VISIBLE);
+            holder.gradeDescription.setVisibility(View.VISIBLE);
         }
 
         holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
@@ -247,13 +250,17 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
                 String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
                 // todo validity check >=0 && <=100 checkValidity(grade);
                 // if (isValidGrade){
+
+              //  if (!grade.isEmpty()) {//todo check
                 addGradeListener.onAddGradeClick(courseItem, grade); // todo check
+              //  }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+               // String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
+                //addGradeListener.onAddGradeClick(courseItem, grade); // todo check
             }
         });
 

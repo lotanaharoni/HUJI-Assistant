@@ -47,7 +47,7 @@ public class PlanCoursesFragment extends Fragment {
 
     LinearLayoutManager coordinatorLayout;
 
-    public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
+    public PlanCourseAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
     RecyclerView recyclerViewMyPlanCourses;
     ArrayList<String> coursesId = new ArrayList<>();
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;

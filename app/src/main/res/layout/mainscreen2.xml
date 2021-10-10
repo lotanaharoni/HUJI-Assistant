@@ -113,12 +113,7 @@
                     android:layout_marginStart="150dp"
                     android:layout_marginTop="300dp" />
 
-                <TextView
-                    android:id="@+id/change_language_textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/change_language"
-                    android:textColor="@color/white"/>
+
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

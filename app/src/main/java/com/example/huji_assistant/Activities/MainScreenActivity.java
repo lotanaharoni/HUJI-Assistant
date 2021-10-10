@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ import com.example.huji_assistant.Fragments.GradeFragment;
 import com.example.huji_assistant.Fragments.FirstFragment;
 
 import com.example.huji_assistant.Fragments.PlanCoursesFragment;
+import com.example.huji_assistant.Fragments.PlannedCoursesFragment;
 import com.example.huji_assistant.Fragments.SettingsFragment;
 import com.example.huji_assistant.Fragments.TextViewFragment;
 import com.example.huji_assistant.Maslul;
@@ -112,6 +114,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     PlanCoursesFragment planCoursesFragment2;
     AddCourseFragment addCourseFragment;
     AddCourseFragment addCourseFragment2;
+    PlannedCoursesFragment plannedCoursesFragment;
     ProgressBar progressBar;
     FirebaseFirestoreSettings settings;
     private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
@@ -233,11 +236,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
 
         AddCourseFragment addCourseFragment = new AddCourseFragment();
+        PlannedCoursesFragment plannedCoursesFragment = new PlannedCoursesFragment();
        // ProfilePageFragment profilePageFragment = new ProfilePageFragment();
         EditProfileFragment editProfileFragment = new EditProfileFragment();
         PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
         SettingsFragment settingsFragment = new SettingsFragment();
         GradeFragment gradeFragment = new GradeFragment();
+        CourseInfoFragment courseInfoFragment1 = new CourseInfoFragment();
 
        // addCourseFragment = new AddCourseFragment();
         addCourseFragment2 = new AddCourseFragment();
@@ -339,6 +344,34 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 )
                         // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
                         .replace(mainFragmentView.getId(), planCoursesFragment, "PLAN_COURSES_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        mainscreenfragment.onSearchClickListener = new MainScreenFragment.onSearchClickListener() {
+            @Override
+            public void onSearchClick() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+                        .replace(mainFragmentView.getId(), courseInfoFragment1, "INFO_COURSE_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        mainscreenfragment.coursesPlanScreenListenerBtn = new MainScreenFragment.coursesPlanScreenListenerBtn() {
+            @Override
+            public void onPlanCoursesScreenClicked() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+                        .replace(mainFragmentView.getId(), plannedCoursesFragment, "PLAN_SCREEN_FRAGMENT").addToBackStack(null).commit();
             }
         };
 
@@ -522,6 +555,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         };
 
+        settingsFragment.changeLanguageBtnListener = new SettingsFragment.changeLanguageBtnListener() {
+            @Override
+            public void onClickChangeLanguage() {
+                System.out.println("change language clicked");
+            }
+        };
+
         myCoursesFragment2.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override
             public void onClick(Course item) {
@@ -557,12 +597,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         });
 
-        changeLanguageTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChangeLanguageDialog();
-            }
-        });
+        // todo maybe reset
+        //changeLanguageTextView.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+          //  public void onClick(View v) {
+          //      showChangeLanguageDialog();
+         //   }
+       // });
 
     }
 

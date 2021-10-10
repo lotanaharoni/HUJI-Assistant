@@ -206,7 +206,7 @@
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleViewMyCourses"
+            android:id="@+id/recycleViewPlannedCourses2"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_marginTop="16dp"
@@ -259,7 +259,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginTop="0dp"
-                android:paddingRight="20dp"
+                android:paddingRight="2dp"
                 android:text="@string/mandatory"
                 android:textSize="12sp">
 
@@ -271,7 +271,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginTop="5dp"
-                android:paddingRight="20dp"
+                android:paddingRight="2dp"
                 android:text="@string/mandatorychoose"
                 android:textSize="12sp">
 
@@ -283,7 +283,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_marginTop="10dp"
-                android:paddingRight="20dp"
+                android:paddingRight="2dp"
                 android:text="@string/choose"
                 android:textSize="12sp">
 
@@ -340,7 +340,7 @@
             android:layout_marginLeft="270dp"
             android:layout_gravity="right"
             android:layout_marginTop="90dp"
-            android:paddingRight="8dp"
+            android:paddingRight="2dp"
             android:text="@string/totalpointsfordegree"
             android:textSize="12sp">
 

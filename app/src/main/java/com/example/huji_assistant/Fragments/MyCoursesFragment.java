@@ -265,16 +265,29 @@ public class MyCoursesFragment extends Fragment {
             public void onAddGradeClick(Course item, String grade) {
                 if (addGradeListener != null) {
                     viewModelAppMainScreen.set(item);
-                    //int grade = item.getGrade();
-                   // item.setGrade(Integer.parseInt(grade)); // todo not a field of this class, saved in map
-                    // todo fix toast
-                   // Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
 
-                    dataBase.updateGrade(item.getNumber(), grade);
-                    double average = calculateAverage();
-                    String averageText = getResources().getString(R.string.average) + " " + average;
-                    averageTxt.setText(averageText);
-                   // addGradeListener.onAddGradeClick(v,item);
+                    try {
+                        int gradeNumber = Integer.parseInt(grade);
+                        if (gradeNumber < 0 || gradeNumber > 100){
+                            Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            //int grade = item.getGrade();
+                            // item.setGrade(Integer.parseInt(grade)); // todo not a field of this class, saved in map
+                            // todo fix toast
+                            System.out.println("got to update grade: " + grade+ "in " + item.getNumber());
+                            dataBase.updateGrade(item.getNumber(), grade);
+                            double average = calculateAverage();
+                            String averageText = getResources().getString(R.string.average) + " " + average;
+                            averageTxt.setText(averageText);
+                            //Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
+                            // addGradeListener.onAddGradeClick(v,item);
+                        }
+                    }
+                    catch (Exception e){
+                        Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
+                        System.out.println("error parsing grade");
+                    }
                 }
             }
         });

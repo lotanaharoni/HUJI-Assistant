@@ -192,6 +192,8 @@
     <string name="average">Total Average:</string>
     <string name="grade_tooltip">Press on the grade to edit it</string>
     <string name="gradeAdded">The grade was successfully updated</string>
+    <string name="invalidGrade">Please enter a grade in the range 0 – 100</string>
+    <string name="gradeDescription">grade: </string>
 
 
     <string name="courseinfonumber">Number of course:</string>

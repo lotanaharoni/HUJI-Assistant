@@ -106,6 +106,15 @@
                 app:srcCompat="@drawable/ic_baseline_exit_to_app_24" />
 
             <TextView
+                android:id="@+id/change_language_textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/change_language"
+                android:layout_gravity="right"
+                android:visibility="visible"
+                android:textColor="@color/black"/>
+
+            <TextView
                 android:drawableRight="@drawable/ic_baseline_email_24"
                 android:id="@+id/inviteFriendsBtn"
                 android:layout_width="120dp"

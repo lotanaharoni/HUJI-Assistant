@@ -26,6 +26,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
     TextView grade;
     EditText gradeAddBtn;
     TextView deleteButton;
+    TextView gradeDescription;
 
     public CourseItemHolder(View view) {
         super(view);
@@ -41,6 +42,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
         grade = view.findViewById(R.id.coursegradeHolder);
         deleteButton = view.findViewById(R.id.deleteButton);
         gradeAddBtn = view.findViewById(R.id.textViewAddGrade);
+        gradeDescription = view.findViewById(R.id.textviewgrade);
     }
 
     public ArrayList<Course> getCurrentItems() {

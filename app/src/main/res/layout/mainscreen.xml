@@ -47,12 +47,22 @@
 
         <SearchView
             android:id="@+id/searchViewMainScreen"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:queryHint="@string/search_course"
             android:layoutDirection="rtl"
+            android:layout_gravity="right"
             android:iconifiedByDefault="false"
             android:layout_alignParentTop="true"/>
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text="@string/action_search"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/searchBtnMainScreen"
+            android:textDirection="rtl"/>
 
         <ImageView
             android:id="@+id/logo_wait_screen"

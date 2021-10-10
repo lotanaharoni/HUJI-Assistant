@@ -37,6 +37,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -152,8 +153,10 @@ public class LocalDataBase {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void removeCourseGrade(String number){
         this.gradesOfStudent.remove(number);
+        System.out.println("removed: " + number);
 
         this.currentStudent.setCoursesGrades(new HashMap<>(this.gradesOfStudent));
         this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {

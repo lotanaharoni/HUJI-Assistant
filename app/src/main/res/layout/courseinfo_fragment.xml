@@ -232,7 +232,7 @@
         <Button
             android:id="@+id/addToCourseListBtn"
             android:layout_width="match_parent"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:text="@string/okbtn"
             />

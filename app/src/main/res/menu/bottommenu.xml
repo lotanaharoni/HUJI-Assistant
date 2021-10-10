@@ -11,5 +11,4 @@
     android:title="@string/bottommenuqrscan"
     android:icon="@drawable/ic_baseline_qr_code_scanner_24"/>
 
-
 </menu>

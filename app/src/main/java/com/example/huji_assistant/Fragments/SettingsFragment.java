@@ -41,15 +41,20 @@ public class SettingsFragment extends Fragment {
     TextView currentUserTxt;
     TextView inviteFriendsBtn;
     ImageView logoutImageView;
+    TextView changeLanguageTxt;
     EditText entermailedittext;
     Button sendmailbtn;
     StudentInfo currentUser;
     boolean isEmailValid = false;
 
+    public SettingsFragment.changeLanguageBtnListener changeLanguageBtnListener = null;
     public interface sendEmailBtnListener{
         public void onSendEmailBtnClicked(String email);
     }
 
+    public interface changeLanguageBtnListener{
+        public void onClickChangeLanguage();
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -66,6 +71,7 @@ public class SettingsFragment extends Fragment {
         inviteFriendsBtn = view.findViewById(R.id.inviteFriendsBtn);
         entermailedittext = view.findViewById(R.id.inviteFriendsEditMail);
         sendmailbtn = view.findViewById(R.id.sendemailbtn);
+        changeLanguageTxt = view.findViewById(R.id.change_language_textView2);
 
         currentUser = db.getCurrentUser();
         String email = currentUser.getEmail();
@@ -77,6 +83,15 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 entermailedittext.setVisibility(View.VISIBLE);
                 sendmailbtn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        changeLanguageTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (changeLanguageBtnListener != null){
+                    changeLanguageBtnListener.onClickChangeLanguage();
+                }
             }
         });
 
