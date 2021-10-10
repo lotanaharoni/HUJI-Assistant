@@ -129,7 +129,7 @@ public class CourseInfoFragment extends Fragment {
             courseYearTextView.setText(courseyearstext);
             String coursesemesterstext = courseSemesterTextView.getText() + ": " + semester;
             courseSemesterTextView.setText(coursesemesterstext);
-
+            System.out.println("reached view model33");
             getKdamCourses();
             getAfterCourses();
 
@@ -140,9 +140,9 @@ public class CourseInfoFragment extends Fragment {
 
     public void getKdamCourses(){
 
-        System.out.println("chug: " + db.getCurrentStudent().getChugId());
-        System.out.println("maslul: " + db.getCurrentStudent().getMaslulId());
-        System.out.println("course: " + courseNumber);
+        System.out.println("chug33: " + db.getCurrentStudent().getChugId());// bug - no current student yet
+        System.out.println("maslul33: " + db.getCurrentStudent().getMaslulId());
+        System.out.println("course33: " + courseNumber);
 
         try {
             Task<QuerySnapshot> document = firebaseInstancedb.collection(ROOT_COLLECTION).document(db.getCurrentStudent().getChugId())

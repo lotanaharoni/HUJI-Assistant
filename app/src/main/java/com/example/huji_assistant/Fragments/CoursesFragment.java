@@ -455,9 +455,9 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(Course item) {
                 if (onItemClickListener != null) {
-                    viewModelAppCourse.set(item);
-                    db.setCoursesRegistrationById(coursesOfStudent);
-                    onItemClickListener.onClick(item);
+                   // viewModelAppCourse.set(item);
+                   // db.setCoursesRegistrationById(coursesOfStudent);
+                   // onItemClickListener.onClick(item);//todo change 
                 }
 
                 //  adapter.notifyDataSetChanged();
