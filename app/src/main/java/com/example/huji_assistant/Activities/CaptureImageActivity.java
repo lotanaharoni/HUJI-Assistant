@@ -237,7 +237,7 @@ public class CaptureImageActivity extends AppCompatActivity {
     }
 
     private boolean checkCourseNumberValidation() {
-        return !dropdown.getSelectedItem().toString().equals(R.string.choose_a_course);
+        return !dropdown.getSelectedItem().toString().equals(getString(R.string.choose_a_course));
     }
 
     private void uploadToFirebase(Uri uri, int source, String name) {
