@@ -131,7 +131,7 @@
                 android:textDirection="rtl" />
 
             <Button
-                android:id="@+id/privateInfoEditButton"
+                android:id="@+id/filesButton"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_rowWeight="1"
@@ -139,7 +139,7 @@
                 android:layout_margin="5sp"
                 android:textSize="14sp"
                 android:gravity="fill"
-                android:text="@string/editing_personal_details"
+                android:text="@string/showFilesBtn"
                 android:textDirection="rtl" />
 
             <Button
@@ -155,7 +155,7 @@
                 android:textDirection="rtl" />
 
             <Button
-                android:id="@+id/filesButton"
+                android:id="@+id/privateInfoEditButton"
                 android:layout_width="50dp"
                 android:layout_height="60dp"
                 android:layout_rowWeight="1"
@@ -163,7 +163,7 @@
                 android:layout_margin="5sp"
                 android:gravity="fill"
                 android:textSize="14sp"
-                android:text="@string/showFilesBtn"
+                android:text="@string/editing_personal_details"
                 android:textDirection="rtl"
                 android:visibility="visible" />
 
