@@ -76,6 +76,8 @@
     <string name="removed_from_the_list_of_courses">הוסר מרשימת הקורסים</string>
     <string name="noAftercoursesmsg">קורס זה אינו קורס קדם לקורסים אחרים</string>
     <string name="points_field">נקודות זכות</string>
+    <string name="saveBtn">שמירה</string>
+    <string name="savedsuccessfully">השינויים נשמרו בהצלחה</string>
 
     <string name="infofragment_facultyhint">בחר פקולטה/בית ספר</string>
     <string name="infofragment_chughint">בחר חוג</string>

@@ -121,6 +121,17 @@
             android:visibility="visible" />
 
         <TextView
+            android:id="@+id/saveTextView"
+            android:drawableRight="@drawable/ic_baseline_save_16"
+            android:layout_width="34dp"
+            android:paddingRight="2dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="305sp"
+            android:text=""
+            android:layout_gravity="right"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/textviewgrade"
             android:layout_width="40dp"
             android:layout_height="wrap_content"

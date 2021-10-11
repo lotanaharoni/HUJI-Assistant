@@ -218,6 +218,9 @@
     <string name="nokdamcoursesmsg">There are no previous courses for this course</string>
     <string name="aftercoursestitle">Pre for the following courses</string>
     <string name="okbtn">OK</string>
+    <string name="saveBtn">Save</string>
+    <string name="points_field">Points</string>
+    <string name="savedsuccessfully">Changes were successfully saved</string>
 
     <string name="hellomail">Hello! your friend</string>
     <string name="invitationmail">sent you an invitation for the app:</string>

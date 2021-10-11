@@ -177,13 +177,6 @@ public class PlanCoursesAdapter extends RecyclerView.Adapter<PlanCourseItemHolde
          .setText(courseItem.getName())
          .show();*/
 
-
-        // Show the grade only for my fragment courses
-        if (courseItem.getGrade() != -1) {
-            holder.grade.setVisibility(View.VISIBLE);
-            holder.grade.setText("");
-        }
-
         // todo check - when added courses write is finished == true
         // todo: delete? courses that are finished won't show in the recycleViewer anyway
         if (courseItem.getIsFinished()) {

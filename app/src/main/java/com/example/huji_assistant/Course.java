@@ -11,8 +11,9 @@ public class Course {
     private String semester = "";
     private String type = "";
     private String year = "";
-
+   // public LocalDataBase dataBase = HujiAssistentApplication.getInstance().getDataBase();
     private int grade = -1;
+    private String gradeS;
     private boolean isFinished = false; // is the course done
 
     private ArrayList<Course> prevCourses;
@@ -24,7 +25,15 @@ public class Course {
     public enum Type{
         Mandatory, MandatoryChoose, Choose, Supplemental, CornerStones
     }
-
+    /**
+    public String getGradeFromDb(){
+        if (dataBase.getGradesOfStudent().containsKey(number)) {
+            //  String grade = dataBase.getGradesOfStudent().get(courseItem.getNumber());
+            return dataBase.getGradesOfStudent().get(number);
+        }
+        return "";
+    }
+*/
     public Course(){
 
     }
@@ -81,12 +90,12 @@ public class Course {
         return year;
     }
 
-    public int getGrade(){
-        return grade;
+    public String getGrade(){
+        return gradeS;
     }
 
-    public void setGrade(int grade_){
-        grade=grade_;
+    public void setGrade(String grade_){
+        gradeS=grade_;
     }
 
     public void setType(String type_){

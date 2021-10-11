@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
@@ -86,6 +87,7 @@ public class MyCoursesFragment extends Fragment {
     TextView textViewTotalSuppPoints;
     TextView textViewTotalCornerStonePoints;
     TextView averageTxt;
+    TextView saveBtn;
     ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
 
     public interface addCourseButtonClickListener{
@@ -114,6 +116,7 @@ public class MyCoursesFragment extends Fragment {
         FloatingActionButton addCourseBtn = view.findViewById(R.id.addCourseBtn);
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search1);
         averageTxt = view.findViewById(R.id.textViewDegreeAverage);
+        saveBtn = view.findViewById(R.id.coursesSaveBtn);
 
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
@@ -192,16 +195,12 @@ public class MyCoursesFragment extends Fragment {
 
         int totalChoose = 16; //todo set in firebase
 
-
-
         String text4 = textViewTotalCornerStonePoints.getText() + " " + currentMaslul.getCornerStonesPoints();
         textViewTotalCornerStonePoints.setText(text4);
 
         int currentChoosePoints = dataBase.getCurrentChoosePoints();
         int currentSuppPoints = dataBase.getCurrentSuppPoints();
         int currentCornerPoints = dataBase.getCurrentCornerStonePoints();
-     //  int currentCornerStonePoints = dataBase.getCurrentCornerStonesPoints();
-
 
         String text3 = textViewTotalHovaChoosePoints.getText() + " " + currentMandatoryChoosePoints + " " + getResources().getString(R.string.outof)
                 + " " + currentMaslul.getMandatoryChoicePoints();
@@ -221,6 +220,16 @@ public class MyCoursesFragment extends Fragment {
         ArrayList<String> coursesOfStudentById = currentStudent.getCourses();
         ArrayList<Course> coursesFromFireBase = new ArrayList<>();
         ArrayList<Course> coursesForAdapter = new ArrayList<>();
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // upload grades to firebase
+                Toast.makeText(getContext(), getResources().getString(R.string.savedsuccessfully), Toast.LENGTH_LONG).show();
+                calculateAverage();
+                dataBase.uploadGrades();
+            }
+        });
 
         // Gets all courses from firestore
         /**
@@ -454,6 +463,19 @@ public class MyCoursesFragment extends Fragment {
         printCourses();
         ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
 
+        // todo check here
+        /**
+        for (Course c : courseItems){
+            if (dataBase.getGradesOfStudent().containsKey(c.getNumber())) {
+                //  String grade = dataBase.getGradesOfStudent().get(courseItem.getNumber());
+                c.setGrade(dataBase.getGradesOfStudent().get(c.getNumber()));
+            }
+            else{ // The grade doesn't exist in the map of grades
+                c.setGrade("");
+            }
+        }*/
+
+
         // Create the adapter
         adapter.addCoursesListToAdapter(courseItems);
         adapter.notifyDataSetChanged();
@@ -639,7 +661,7 @@ public class MyCoursesFragment extends Fragment {
         if (getInput ==null || getInput.trim().equals("")){
             Toast.makeText(getContext(), "Please add a group name", Toast.LENGTH_LONG).show();
         }
-        // add input into an data collection arraylist
+        // add input into an data collection array list
         else {
             arrayListCollection.add(getInput);
             adapter.notifyDataSetChanged();
