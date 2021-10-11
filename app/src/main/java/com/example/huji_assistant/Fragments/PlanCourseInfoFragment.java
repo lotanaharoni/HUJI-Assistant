@@ -100,8 +100,10 @@ public class PlanCourseInfoFragment extends Fragment {
             type = item.getType();
             semester = item.getSemester();
             year = item.getYear();
-            courseNameTextView.setText(courseName);
-            courseNumberTextView.setText(courseNumber);
+            String name = courseNameTextView.getText() + " " + courseName;
+            courseNameTextView.setText(name);
+            String number = courseNumberTextView.getText() + " " + courseNumber;
+            courseNumberTextView.setText(number);
             courseTypeTextView.setText(courseTypeTextView.getText() + ": " + type);
             coursePointsTextView.setText(coursePointsTextView.getText() + ": " + coursePoints);
             courseYearTextView.setText(courseYearTextView.getText() + ": " + year);

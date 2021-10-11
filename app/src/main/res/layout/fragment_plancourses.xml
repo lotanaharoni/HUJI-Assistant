@@ -10,7 +10,7 @@
         android:id="@+id/myCoursesTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="תכנון קורסים"
+        android:text="@string/planning_courses_title"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/cardViewTop"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -40,7 +40,7 @@
                 android:id="@+id/nameOfStudentTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="שם הסטודנט:"
+                android:text="@string/nameOfStudentMyCoursesScreen"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -59,7 +59,7 @@
                 android:id="@+id/nameOfFaculty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="פקולטה:"
+                android:text="@string/nameOfFacultyMyCoursesScreen"
                 android:textStyle="bold" />
 
             <ImageView
@@ -77,7 +77,7 @@
                 android:id="@+id/nameOfChug"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="חוג:"
+                android:text="@string/nameOfChugMyCoursesScreen"
                 android:textStyle="bold" />
 
             <ImageView
@@ -95,7 +95,7 @@
                 android:id="@+id/nameOfMaslul"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="מסלול:"
+                android:text="@string/nameOfMaslulMyCoursesScreen"
                 android:textStyle="bold" />
 
             <ImageView
@@ -113,7 +113,7 @@
                 android:id="@+id/nameOfDegree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="תואר:"
+                android:text="@string/degreeTypeMyCoursesScreen"
                 android:textStyle="bold" />
 
             <ImageView
@@ -131,7 +131,7 @@
                 android:id="@+id/yearOfDegree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="שנה לתואר:"
+                android:text="@string/yearOfDegreeMyCoursesScreen"
                 android:textStyle="bold" />
 
             <ImageView
@@ -165,7 +165,8 @@
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:hint="נקודות זכות"
+                android:completionHint="@string/points_field"
+               android:hint="@string/points_field"
                 android:textSize="10sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -181,7 +182,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
-                android:hint="סמסטר"
+                android:completionHint="@string/semester"
+               android:hint="@string/semester"
                 android:textSize="10sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -197,7 +199,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="0dp"
-                android:hint="שנה לתואר"
+                android:completionHint="@string/yearOfDegreePlannedCoursesScreen"
+                android:hint="@string/yearOfDegreePlannedCoursesScreen"
                 android:textSize="10sp" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
@@ -248,10 +251,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="0dp"
-            android:text="הצג מסומנים בלבד" />
-
+            android:text="@string/show_only_selected" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

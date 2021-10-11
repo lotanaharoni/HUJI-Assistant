@@ -111,13 +111,13 @@
     <string name="other">Other</string>
     <string name="version">Version 1.0</string>
     <string name="username">Username: </string>
-
-
-
-
+    <string name="show_only_selected">Show only selected items</string>
+    <string name="yearOfDegreePlannedCoursesScreen">Year of degree</string>
+    <string name="semester">Semester</string>
+    <string name="planning_courses_title">Planned courses</string>
     <string name="user_exist">Existing user</string>
     <string name="new_user">New user</string>
-    <string name="schedule">Schedule</string>
+    <string name="schedule_plan">Schedule</string>
     <string name="editing_personal_details">Editing personal details</string>
     <string name="curriculum_planning">Curriculum planning</string>
     <string name="my_courses">My courses</string>

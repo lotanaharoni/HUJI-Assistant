@@ -65,7 +65,7 @@
     <string name="choose_course">בחר קורס שהקובץ מיועד אליו</string>
     <string name="edit_degree_data">עריכת נתוני תואר</string>
     <string name="choose_a_degree">בחר תואר</string>
-    <string name="choose_a_year_for_the_degree">בחר תואר</string>
+    <string name="choose_a_year_for_the_degree">בחר שנה לתואר</string>
     <string name="choose_a_course">בחר קורס</string>
     <string name="other">אחר</string>
     <string name="version">גרסה 1.0</string>
@@ -79,6 +79,9 @@
     <string name="saveBtn">שמירה</string>
     <string name="savedsuccessfully">השינויים נשמרו בהצלחה</string>
     <string name="popup_addgrade">הזן ציון בקורס: </string>
+    <string name="schedule_plan">לוח זמנים</string>
+    <string name="planning_courses_title">תכנון קורסים</string>
+    <string name="semester">סמסטר</string>
 
     <string name="infofragment_facultyhint">בחר פקולטה/בית ספר</string>
     <string name="infofragment_chughint">בחר חוג</string>
@@ -159,6 +162,8 @@
     <string name="nameOfMaslulMyCoursesScreen">מסלול: </string>
     <string name="degreeTypeMyCoursesScreen">תואר: </string>
     <string name="yearOfDegreeMyCoursesScreen">שנה לתואר: </string>
+    <string name="yearOfDegreePlannedCoursesScreen">שנה לתואר</string>
+    <string name="show_only_selected">הצג מסומנים בלבד</string>
 
 
 
