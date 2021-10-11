@@ -33,8 +33,6 @@ public class FirstFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        //ViewModelApp viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         ViewModelApp viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
 
         TextView textView = requireActivity().findViewById(R.id.change_language_textView);

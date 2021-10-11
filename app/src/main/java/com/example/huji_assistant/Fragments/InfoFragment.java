@@ -111,17 +111,11 @@ public class InfoFragment extends Fragment {
 
         // Get values recourse
         String[] facultyArray = getResources().getStringArray(R.array.faculty);
-        //String[] degreeArray = getResources().getStringArray(R.array.degreeTypesList);
 
         // Get items to show in drop down faculty
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdownfacultyitem, facultyArray);
         arrayAdapter.getFilter().filter("");
         binding.autoCompleteTextViewFaculty.setAdapter(arrayAdapter);
-
-        //binding.autoCompleteTextViewFaculty.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownfacultyitem, facultyArray));
-
-        // binding.autoCompleteTextViewChug.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownhugimitem, computerScienceHugimArray));
-
         return binding.getRoot();
     }
 
@@ -153,14 +147,6 @@ public class InfoFragment extends Fragment {
                 }
             }
         }
-
-
-
-
-       // int facultySelectedItem = dropdownFaculty.getListSelection();
-
-
-        System.out.println("faculty: " + facultyId + "chug: " + chugId + "maslul: "+ maslulId);
     }
 
     @Override
@@ -176,7 +162,6 @@ public class InfoFragment extends Fragment {
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdownfacultyitem, facultyArray);
         arrayAdapter.getFilter().filter("");
         binding.autoCompleteTextViewFaculty.setAdapter(arrayAdapter);
-
 
         String[] beginSemesterArray = getResources().getStringArray(R.array.beginsemesterarray);
         binding.autoCompleteSemesterBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginsemesteritem, beginSemesterArray));
@@ -209,39 +194,17 @@ public class InfoFragment extends Fragment {
                     currentStudent = viewModelApp.getStudent().getValue();
                 });
 
-       // viewModelApp.studentInfoMutableLiveData.observe(getViewLifecycleOwner(), new Observer<StudentInfo>() {
-       //     @Override
-        ////    public void onChanged(StudentInfo studentInfo) {
-           //     currentStudent = studentInfo;
-
-          //  }
-     //   });
-
         view.findViewById(R.id.continuePersBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (continueListener != null) {
-                  //  StudentInfo currentStudent = viewModelApp.getStudent().getValue();
-
-                    //  currentStudent.setName(nameEditText.getText().toString());
-                    // currentStudent.setYear(yearEditText.getText().toString());
-                    //  currentStudent.setDegreeName(degreeNameEditText.getText().toString());
-                    // todo validation check for inserted values
-                    // todo bar
-
-
-                    System.out.println("student info: personal name: " + currentStudent.getPersonalName() + " family name: "
-                    + currentStudent.getFamilyName() + " email: " + currentStudent.getEmail());
 
                     checkValidation();
 
                     if (isFacultyValid && isChugValid && isMaslulValid) {
-                        System.out.println("set : " + maslulId);
                         currentStudent.setFacultyId(facultyId);
                         currentStudent.setChugId(chugId);
                         currentStudent.setMaslulId(maslulId);
-
-                        // todo take info from the rest of the fields and pass to current student
 
                         if (!dropdowndegree.getText().toString().isEmpty()){
                             selectedDegree = dropdowndegree.getText().toString();
@@ -259,9 +222,6 @@ public class InfoFragment extends Fragment {
                             selectedBeginSemester = dropdownsemesterbegindegree.getText().toString();
                             currentStudent.setBeginSemester(selectedBeginSemester);
                         }
-
-                        System.out.println(currentStudent.toStringP()); // todo remove
-
 
                        // StudentInfo newStudent = new StudentInfo(facultyId, chugId, maslulId, selectedDegree, selectedYear, selectedBeginYear, selectedBeginSemester);
                         viewModelApp.setStudent(currentStudent);
@@ -287,15 +247,8 @@ public class InfoFragment extends Fragment {
                 arrayAdapter.getFilter().filter("");
                 autoCompleteTextViewChug.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownhujiitem, s));
 
-               // dropdownHugim.clearListSelection();
-               // dropdownHugim.setText("");
-               // dropdownMaslulim.setText("");
                 progressBar.setVisibility(View.VISIBLE);
-
-
-               // autoCompleteTextViewChug.setEnabled(true);
                 facultyId = faculties_position_map.get(position);
-                //System.out.println("faculty id " + facultyId);
 
                 Task<QuerySnapshot> document = firebaseInstancedb.collection("faculties").document(facultyId)
                         .collection("chugimInFaculty").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -303,18 +256,14 @@ public class InfoFragment extends Fragment {
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                                 progressBar.setVisibility(View.INVISIBLE);
-
                                 autoCompleteTextViewChug.setEnabled(true);
                                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
-
                                 ArrayList<String> chugimInFaculty = new ArrayList<>();
 
                                 for (DocumentSnapshot document1 : documents){
                                     // retrieve for each chug id it's name
                                     String docId  = document1.getId().toString();
                                     Chug chug = document1.toObject(Chug.class);
-                                    // chugId = chug.getId();
-                                    //  System.out.println("chug "+ chug.toStringP());
                                     String chugTitle = chug.getTitle();
                                     chugimInFaculty.add(chugTitle);
                                 }
@@ -322,49 +271,6 @@ public class InfoFragment extends Fragment {
                                 binding.autoCompleteTextViewChug.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownhujiitem, chugimInFaculty));
                             }
                         });
-                /**
-
-                // Gets chugim list from firebase
-                Task<QuerySnapshot> document = firebaseInstancedb.collection("faculties").whereEqualTo("title", selection).get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                autoCompleteTextViewFaculty.setEnabled(true);
-                                List<DocumentSnapshot> documents = task.getResult().getDocuments();
-
-                                for (DocumentSnapshot document1 : documents){
-                                    Faculty faculty = document1.toObject(Faculty.class);
-                                    facultyId = faculty.getFacultyId();
-                                    System.out.println("chosen faculty: " + facultyId);
-
-                                    Task<QuerySnapshot> document = firebaseInstancedb.collection("faculties").document(facultyId)
-                                            .collection("chugimInFaculty").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                    autoCompleteTextViewChug.setEnabled(true);
-                                                    List<DocumentSnapshot> documents = task.getResult().getDocuments();
-
-                                                    ArrayList<String> chugimInFaculty = new ArrayList<>();
-
-                                                    for (DocumentSnapshot document1 : documents){
-                                                        // retrieve for each chug id it's name
-                                                        String docId  = document1.getId().toString();
-                                                        Chug chug = document1.toObject(Chug.class);
-                                                        // chugId = chug.getId();
-                                                        //  System.out.println("chug "+ chug.toStringP());
-                                                        String chugTitle = chug.getTitle();
-                                                        chugimInFaculty.add(chugTitle);
-                                                    }
-
-                                                    binding.autoCompleteTextViewChug.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownhujiitem, chugimInFaculty));
-                                                }
-                                            });
-
-
-                                }
-                            }
-                        });*/
-
             }
         });
 
@@ -373,14 +279,9 @@ public class InfoFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 progressBar.setVisibility(View.VISIBLE);
                 String selection = (String)parent.getItemAtPosition(position);
-                //dropdownMaslulim = view.findViewById(R.id.autoCompleteTextViewMaslul); //todo here
-                //autoCompleteTextViewMaslul.setEnabled(true);
-               // dropdownMaslulim.setText("");
                 ArrayList<String> s = new ArrayList<>();
                 arrayAdapter.getFilter().filter("");
                 autoCompleteTextViewMaslul.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownmaslulitem, s));
-
-               // dropdownMaslulim.clearListSelection();
 
                 // Get the chosen document
                 Task<QuerySnapshot> document = firebaseInstancedb.collection("faculties").
@@ -397,8 +298,6 @@ public class InfoFragment extends Fragment {
                                     // retrieve for each chug id it's name
                                     Chug chug = document1.toObject(Chug.class);
                                     chugId = chug.getId();
-                                    System.out.println("chosen chug: " + chugId);
-
 
                                     Task<QuerySnapshot> querySnapshotTask = firebaseInstancedb.collection("faculties").document(facultyId)
                                             .collection("chugimInFaculty").document(document1.getId().toString())
@@ -406,13 +305,10 @@ public class InfoFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                     List<DocumentSnapshot> documents1 = task.getResult().getDocuments();
-
                                                     ArrayList<String> maslulimInFaculty = new ArrayList<>();
 
                                                     for (DocumentSnapshot document2 : documents1){
-                                                       // String docId  = document1.getId().toString();
                                                         Maslul maslul = document2.toObject(Maslul.class);
-                                                        System.out.println("maslul "+ maslul.toStringP());
                                                         String maslulTitle = maslul.getTitle();
                                                         maslulimInFaculty.add(maslulTitle);
                                                     }
@@ -430,8 +326,6 @@ public class InfoFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
-                System.out.println("selection " + selection);
-                System.out.println("position " + position);
 
                 // Save id's
                 Task<QuerySnapshot> document = firebaseInstancedb.collection("faculties").
@@ -448,9 +342,7 @@ public class InfoFragment extends Fragment {
                                     // retrieve for each chug id it's name
                                     Maslul maslul = document1.toObject(Maslul.class);
                                     maslulId = maslul.getMaslulId();
-                                    System.out.println("chosen maslul: " + maslulId);
                                 }
-
                                 String[] degreeArray = getResources().getStringArray(R.array.degreeTypesList);
                                 binding.autoCompleteTextViewDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdowndegreeitem, degreeArray));
                             }
@@ -462,8 +354,6 @@ public class InfoFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedDegree = (String) parent.getItemAtPosition(position);
-                System.out.println("selection " + selectedDegree);
-                System.out.println("position " + position);
                 autoCompleteTextViewYear.setEnabled(true);
                 String[] yearArray = getResources().getStringArray(R.array.yearArray);
                 arrayAdapter.getFilter().filter("");

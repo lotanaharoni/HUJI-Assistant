@@ -95,8 +95,10 @@
     <string name="showSummariesBtn">Show summaries</string>
     <string name="showImagesBtn">Show photos</string>
     <string name="showfilestitle">Show files</string>
+    <string name="no_courses">No courses found</string>
+    <string name="hello">Hello</string>
     <string name="files_screen_desc">View your photos and summaries</string>
-
+    <string name="uploadCoursesTitle">Upload files screeb</string>
     <string name="register1out3">Registration screen - 1 out of 3</string>
     <string name="register2out3">Registration screen - 2 out of 3</string>
     <string name="register3out3">Registration screen - 3 out of 3</string>

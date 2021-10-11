@@ -46,7 +46,6 @@ public class PlanCoursesFragment extends Fragment {
     private String filterSemester = null;
     private String filterPoints = null;
 
-
     FirebaseFirestoreSettings settings;
     FragmentPlancoursesBinding binding;
     LinearLayoutManager coordinatorLayout;
@@ -93,7 +92,6 @@ public class PlanCoursesFragment extends Fragment {
         recyclerViewMyCourses = view.findViewById(R.id.recycleViewMyCourses);
         showOnlyChosePlanned = view.findViewById(R.id.showPlanedOnlyCheckBox);
         studentNameTextView = view.findViewById(R.id.nameOfStudentTextView);
-
         viewModelAppMainScreen = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         adapter = new PlanCoursesAdapter(getContext());
 
@@ -135,7 +133,6 @@ public class PlanCoursesFragment extends Fragment {
             yearTextView.setText(year);
         }
 
-
         // Year Choose
         ArrayAdapter arrayYearAdapter = new ArrayAdapter(requireContext(), R.layout.dropdownfacultyitem, getResources().getStringArray(R.array.yearArray));
         arrayYearAdapter.getFilter().filter("");
@@ -151,7 +148,7 @@ public class PlanCoursesFragment extends Fragment {
                 adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(list));
                 adapter.notifyDataSetChanged();
                 if (list.size() == 0)
-                    Toast.makeText(getContext(), "אין קורסים תחת סינון זה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.no_courses), Toast.LENGTH_SHORT).show();
 
                 if (showOnlyChosePlanned.isChecked()){ // check if onlyShowPlaned is clicked, and if so response accordingly
                     showOnlyPlanedLogic();
@@ -171,17 +168,17 @@ public class PlanCoursesFragment extends Fragment {
                 if (!(filterSemester.equals("קורס שנתי") || filterSemester.equals("הכל"))) {
                     if (filterSemester.equals("סמסטר א או ב")) {
                         filterSemester = "א' או ב'";
-                    } else filterSemester = filterSemester.substring(6) + "'"; // סמסטר ב -> ב'
+                    } else filterSemester = filterSemester.substring(6) + "'";
                 }
 
-                dataBase.getCurrentStudent().getCourses(); // courses the student finished in string array --------------------------------------------
+                dataBase.getCurrentStudent().getCourses(); // courses the student finished in string array
                 ArrayList<Course> list = dataBase.getCoursesToPlan(filterYear, filterSemester, filterPoints);
 
                 coursesToShow = list;
                 adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(list));
                 adapter.notifyDataSetChanged();
                 if (list.size() == 0)
-                    Toast.makeText(getContext(), "אין קורסים תחת סינון זה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.no_courses), Toast.LENGTH_SHORT).show();
 
                 if (showOnlyChosePlanned.isChecked()){ // check if onlyShowPlaned is clicked, and if so response accordingly
                     showOnlyPlanedLogic();
@@ -204,14 +201,13 @@ public class PlanCoursesFragment extends Fragment {
                 adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(list));
                 adapter.notifyDataSetChanged();
                 if (list.size() == 0)
-                    Toast.makeText(getContext(), "אין קורסים תחת סינון זה", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.no_courses), Toast.LENGTH_SHORT).show();
 
                 if (showOnlyChosePlanned.isChecked()){ // check if onlyShowPlaned is clicked, and if so response accordingly
                     showOnlyPlanedLogic();
                 }
             }
         });
-
 
         // Create the adapter
         adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(coursesToShow)); // courses List To Show --------------------------
@@ -241,7 +237,6 @@ public class PlanCoursesFragment extends Fragment {
 
         //adding new course to planned courses by checkbox
         adapter.setItemCheckBoxListener(new PlanCoursesAdapter.OnCheckBoxClickListener() {
-            // TODO: when works, if a course kdam is missing will show a popup
             @Override
             public void onCheckBoxClicked(View v, Course item) {
                 if (onCheckBoxClickListener != null) {
@@ -257,7 +252,6 @@ public class PlanCoursesFragment extends Fragment {
             }
         });
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

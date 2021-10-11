@@ -133,7 +133,6 @@ public class EditProfileFragment extends Fragment {
             }
         });
 
-
         // initialize screen appearance
         setViewsByState(false);
         setViewsContentByUser(currentUser);
@@ -171,10 +170,6 @@ public class EditProfileFragment extends Fragment {
                                 }
                             }
                         });
-//                dataBase.updateStudent(userFirstNameEditText.getText().toString(),
-//                        emailEditText.getText().toString(), currentUser.getFacultyId(),
-//                        currentUser.getChugId(), currentUser.getMaslulId(),
-//                        currentUser.getDegree(), currentUser.getYear(), currentUser.getId());
             } else {
 //                emailBeforeEdit = emailEditText.getText().toString();
             }
@@ -190,32 +185,10 @@ public class EditProfileFragment extends Fragment {
      * sets the views content as the given user fields
      */
     private void setViewsContentByUser(StudentInfo user) {
-//        userFirstNameEditText.setText(user.getPersonalName()); //todo: first name
-//        userLastNameEditText.setText(user.getFamilyName()); //todo: last name
-        String message = "שלום" + " " + user.getPersonalName() + " " + user.getFamilyName();
+        String message = getResources().getString(R.string.hello) + " " + user.getPersonalName() + " " + user.getFamilyName();
         helloMessage.setText(message);
         emailEditText.setText(user.getEmail());
     }
-
-    /**
-     @Override
-     protected void onSaveInstanceState(@NonNull Bundle outState) {
-     super.onSaveInstanceState(outState);
-     outState.putBoolean("is_edit", isEdit);
-     outState.putString("user_first_name", userFirstNameEditText.getText().toString());
-     outState.putString("user_last_name", userLastNameEditText.getText().toString());
-     outState.putString("email", emailEditText.getText().toString());
-     }
-
-     @Override
-     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-     super.onRestoreInstanceState(savedInstanceState);
-     isEdit = savedInstanceState.getBoolean("is_edit");
-     userFirstNameEditText.setText(savedInstanceState.getString("user_first_name"));
-     userLastNameEditText.setText(savedInstanceState.getString("user_last_name"));
-     emailEditText.setText(savedInstanceState.getString("email"));
-     setViewsByState(isEdit);
-     }*/
 
     private void cancelEditing() {
         //        emailEditText.setText(emailBeforeEdit);
@@ -242,22 +215,6 @@ public class EditProfileFragment extends Fragment {
         int edit_ic = isEditState ? R.drawable.ic_save_profile : R.drawable.ic_edit_profile;
         btnEditProfile.setImageResource(edit_ic);
     }
-    /**
-     @Override
-     public void onBackPressed() {
-     if (isEdit) {
-     cancelEditing();
-     }
-     }*/
-
-
-
-
-   // @Nullable
-   // @Override
-  //  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-   //     return super.onCreateView(inflater, container, savedInstanceState);
-  //  }
 
     private boolean checkValidation(){
         String oldPass = oldPassword.getText().toString();

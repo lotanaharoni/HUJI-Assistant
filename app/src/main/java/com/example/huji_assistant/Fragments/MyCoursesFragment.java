@@ -405,7 +405,6 @@ public class MyCoursesFragment extends Fragment {
             }
         });
 
-
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdowntypeitem, getResources().getStringArray(R.array.courseType));
         arrayAdapter.getFilter().filter("");
         binding.autocompletechoosetype1.setAdapter(arrayAdapter);
@@ -424,7 +423,7 @@ public class MyCoursesFragment extends Fragment {
                 else {
                     arrayAdapter.getFilter().filter("");
                     ArrayList<Course> newC = new ArrayList<>();
-                    // todo check
+
                     ArrayList<Course> democ = dataBase.getCoursesOfCurrentStudent();
                     for (Course demo : democ) {
                         if (demo.getType().equals(selectedValue)) {

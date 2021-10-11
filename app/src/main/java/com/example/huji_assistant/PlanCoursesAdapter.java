@@ -198,9 +198,7 @@ public class PlanCoursesAdapter extends RecyclerView.Adapter<PlanCourseItemHolde
                 holder.checkBox.setVisibility(View.INVISIBLE);
             }
 
-
             holder.checkBox.setOnClickListener(v -> {
-//                System.out.println("check box clicked");
                 if (holder.checkBox.isChecked()) {
                     courseItem.setChecked(true);// TODO: to Liora, do you need it?
                     courseItem.setPlanned(true);

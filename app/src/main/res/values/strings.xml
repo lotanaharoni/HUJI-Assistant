@@ -135,8 +135,8 @@
     <string name="addingcoursemsgsuccess">נוסף בהצלחה</string>
     <string name="average">ממוצע כולל לתואר:</string>
     <string name="grade_tooltip">לחץ על הציון על מנת לשנות אותו</string>
-
-
+    <string name="hello">שלום</string>
+    <string name="uploadCoursesTitle">מסך העלאת מסמכים</string>
     <string name="showFilesBtn">הצגת קבצים</string>
     <string name="showSummariesBtn">הצג מסמכים</string>
     <string name="showImagesBtn">הצג תמונות</string>
@@ -144,6 +144,7 @@
     <string name="new_user">משתמש חדש</string>
     <string name="user_exist">משתמש קיים</string>
     <string name="schedule">מערכת שעות</string>
+    <string name="no_courses">אין קורסים תחת סינון זה</string>
     <string name="editing_personal_details">עריכת פרטים אישיים</string>
     <string name="my_courses">הקורסים שלי</string>
     <string name="curriculum_planning">תכנון לימודים</string>
