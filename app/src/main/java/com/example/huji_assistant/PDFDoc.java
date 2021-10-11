@@ -15,7 +15,6 @@ public class PDFDoc {
         this.name = name;
     }
 
-
     public String getPath() {
         return path;
     }

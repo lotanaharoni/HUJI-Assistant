@@ -42,7 +42,7 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.attendancy_course_item, parent, false);
+        View v = LayoutInflater.from(context).inflate(R.layout.attendance_course_item, parent, false);
         return new MyViewHolder(v);
     }
 

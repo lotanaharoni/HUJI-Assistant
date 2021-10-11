@@ -221,13 +221,4 @@ public class RegisterFragment extends Fragment {
             // the values are valid
         }
     }
-
-
-   // @Override
-   // public void onSaveInstanceState(@NonNull Bundle outState) {
- //       super.onSaveInstanceState(outState);
-        // todo fix bug
-   //     outState.putString("email", email.getText().toString());
-   //     outState.putString("password", password.getText().toString());
-   // }
 }

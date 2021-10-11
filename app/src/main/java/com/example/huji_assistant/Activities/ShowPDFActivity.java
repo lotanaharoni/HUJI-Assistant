@@ -27,7 +27,6 @@ public class ShowPDFActivity extends AppCompatActivity {
 
     private PDFCustomerAdapter adapter;
     private DatabaseReference root;
-    private static final int PDF_TYPE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +73,6 @@ public class ShowPDFActivity extends AppCompatActivity {
 
         if (stage == 0){
             super.onBackPressed();
-//            startActivity(new Intent(ShowPDFActivity.this, MainScreenActivity.class));
-//            finish();
         }
         else if (stage == 1){
             adapter = new PDFCustomerAdapter(this, list, 0, "");
@@ -93,7 +90,6 @@ public class ShowPDFActivity extends AppCompatActivity {
                         PDFDoc pdfDoc = new PDFDoc();
                         pdfDoc.setName(course);
                         list.add(pdfDoc);
-//                        list.add(new Model("", course, 0));
                     }
                     adapter.swapImages(list);
                 }
@@ -106,12 +102,10 @@ public class ShowPDFActivity extends AppCompatActivity {
         }
 
         else if (stage == 2){
-//            courses = new ArrayList<>();
             adapter = new PDFCustomerAdapter(this, list, 1, savedCourse);
             recyclerView.setAdapter(adapter);
             list = new ArrayList<>();
 
-            //
             String path = "Documents" + "/" + savedCourse;
             root = FirebaseDatabase.getInstance().getReference(path);
 
@@ -123,7 +117,6 @@ public class ShowPDFActivity extends AppCompatActivity {
                         PDFDoc pdfDoc = new PDFDoc();
                         pdfDoc.setName(course);
                         list.add(pdfDoc);
-//                        list.add(new Model("", course, 0));
                     }
                     adapter.swapImages(list);
                 }

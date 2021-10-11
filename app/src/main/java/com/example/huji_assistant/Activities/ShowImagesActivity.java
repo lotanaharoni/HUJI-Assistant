@@ -1,6 +1,5 @@
 package com.example.huji_assistant.Activities;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -28,7 +27,6 @@ public class ShowImagesActivity extends AppCompatActivity {
 
     private ShowImagesAdapter adapter;
     private DatabaseReference root;
-    private static final int PDF_TYPE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +71,6 @@ public class ShowImagesActivity extends AppCompatActivity {
 
         if (stage == 0){
             super.onBackPressed();
-//            startActivity(new Intent(ShowImagesActivity.this, MainScreenActivity.class));
-//            finish();
         }
         else if (stage == 1){
             adapter = new ShowImagesAdapter(this, list, 0, "");
@@ -102,12 +98,10 @@ public class ShowImagesActivity extends AppCompatActivity {
         }
 
         else if (stage == 2){
-//            courses = new ArrayList<>();
             adapter = new ShowImagesAdapter(this, list, 1, savedCourse);
             recyclerView.setAdapter(adapter);
             list = new ArrayList<>();
 
-            //
             String path = "Image" + "/" + savedCourse;
             root = FirebaseDatabase.getInstance().getReference(path);
 

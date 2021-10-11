@@ -33,7 +33,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import com.example.huji_assistant.Course;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.Model;
@@ -253,25 +252,21 @@ public class CaptureImageActivity extends AppCompatActivity {
         }
         StorageReference fileRef;
         int type;
-        String fileName;
         String nameToUpload = "";
         if (source == GALLERY_REQUEST_CODE){
             fileRef = reference.child(course).child(year).child(name + "." + getFileExtension(uri));
             nameToUpload = name + "." + getFileExtension(uri);
-            fileName = System.currentTimeMillis() + "." + getFileExtension(uri);
             type = GALLERY_TYPE;
         }
         else if (source == CAMERA_REQUEST_CODE){
             fileRef = reference.child("Camera_images/" + name + ".png");
             nameToUpload = name + ".png";
             type = CAMERA_TYPE;
-            fileName = name;
         }
         else{
             fileRef = reference.child("Documents/" + name + ".pdf");
             nameToUpload = name + ".pdf";
             type = PDF_TYPE;
-            fileName = name;
         }
         StorageReference finalFileRef = fileRef;
         String finalNameToUpload = nameToUpload;
@@ -343,7 +338,6 @@ public class CaptureImageActivity extends AppCompatActivity {
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 cameraUploadActivityResultLauncher.launch(takePictureIntent);
-//                startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
         }
     }
@@ -365,7 +359,6 @@ public class CaptureImageActivity extends AppCompatActivity {
                 storageDir      /* directory */
         );
 
-//     Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
         return image;
     }
@@ -431,7 +424,6 @@ public class CaptureImageActivity extends AppCompatActivity {
         else{
             startActivity(new Intent(this, MainScreenActivity.class));
             finish();
-//            super.onBackPressed();
         }
     }
 }

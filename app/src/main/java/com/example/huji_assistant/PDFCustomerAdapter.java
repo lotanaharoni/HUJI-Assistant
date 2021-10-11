@@ -32,7 +32,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
     private String savedDate;
     private DatabaseReference root;
     private List<PDFDoc> dataImages;
-    private String savedId;
     private static final int PDF_TYPE = 2;
 
 
@@ -42,7 +41,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
         this.stage = stage;
         this.savedCourse = savedCourse;
         this.savedDate = "";
-        this.savedId = "";
     }
 
     @NonNull
@@ -58,7 +56,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
 
         if (stage == 2){
             holder.imageView.setImageResource(R.drawable.ic_pdf_icon);
-//            Glide.with(context).load(mModels.get(position).getImageUrl()).into(holder.imageView);
             holder.imageTitle.setText(pdfDocs.get(position).getName());
         }
         else {
@@ -82,7 +79,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                                 PDFDoc pdfDoc = new PDFDoc();
                                 pdfDoc.setName(course);
                                 dataImages.add(pdfDoc);
-//                                dataImages.add(new Model("", course, 0));
                             }
                             swapImages(dataImages);
                             stage = 1;
@@ -103,9 +99,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                String id2 = dataSnapshot.getKey();
-                                savedId = dataSnapshot.getKey();
-                                holder.id = dataSnapshot.getKey();
                                 Model model = dataSnapshot.getValue(Model.class);
                                 assert model != null;
                                 String course = model.getName();
@@ -113,13 +106,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                                 pdfDoc.setName(course);
                                 pdfDoc.setId(dataSnapshot.getKey());
                                 dataImages.add(pdfDoc);
-//                                PDFDoc pdfDoc = dataSnapshot.getValue(PDFDoc.class);
-//                                Model model = dataSnapshot.getValue(Model.class);
-//                                assert model != null;
-//                                dataImages.add(pdfDoc);
-//                                if (model.getType() == PDF_TYPE){
-//                                    dataImages.add(model);
-//                                }
                             }
                             swapImages(dataImages);
                             stage = 2;
@@ -132,11 +118,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                     });
                 }
                 else if (stage == 2){
-                    String name = holder.imageTitle.getText().toString();
-                    String id2 = holder.id;
-
-                    //
-//                    String path = "Documents" + "/" + savedCourse + "/" + savedDate + "/" + name;
                     String path = "Documents" + "/" + savedCourse + "/" + savedDate;
 
                     root = FirebaseDatabase.getInstance().getReference(path);
@@ -146,8 +127,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                                String s = dataSnapshot.getKey();
-//                                Object s2 = dataSnapshot.getValue();
                                 if (dataSnapshot.getKey().equals(pdfDocs.get(position).getId())){
                                     Model model = dataSnapshot.getValue(Model.class);
                                     assert model != null;
@@ -155,32 +134,11 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                                         PDFDoc pdfDoc = new PDFDoc();
                                         pdfDoc.setName(model.getName());
                                         pdfDoc.setPath(model.getImageUrl());
-//                                        dataImages.add(pdfDoc);
                                         openPDFView(pdfDoc.getPath());
                                         break;
                                     }
                                 }
-//                                PDFDoc pdfDoc = new PDFDoc();
-//                                pdfDoc.setName(dataSnapshot.getValue());
-//                                PDFDoc pdfDoc = dataSnapshot.getValue(PDFDoc.class);
-
-//                                String course = dataSnapshot.getKey();
-//                                PDFDoc pdfDoc = new PDFDoc();
-//                                pdfDoc.setName(course);
-//                                dataImages.add(pdfDoc);
-//                                PDFDoc pdfDoc = dataSnapshot.getValue(PDFDoc.class);
-//                                Model model = dataSnapshot.getValue(Model.class);
-//                                assert model != null;
-//                                dataImages.add(pdfDoc);
-//                                if (model.getType() == PDF_TYPE){
-//                                    dataImages.add(model);
-//                                }
                             }
-//                            stage = 3;
-//                            swapImages(dataImages);
-//                            final PDFDoc pdfDoc2 = (PDFDoc) getItem(position);
-//                            final PDFDoc pdfDoc2 = (PDFDoc) dataImages.get(position);
-//                            openPDFView(pdfDoc2.getPath());
                         }
 
                         @Override
@@ -188,8 +146,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
 
                         }
                     });
-                    //
-//                    final PDFDoc pdfDoc= (PDFDoc) pdfDocs.get(position);
                 }
             }
         });
@@ -225,12 +181,6 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
     public int getStage(){
         return stage;
     }
-
-    public Object getItem(int i) {
-        return pdfDocs.get(i);
-    }
-
-
 
     public String getSavedCourse(){
         return savedCourse;
