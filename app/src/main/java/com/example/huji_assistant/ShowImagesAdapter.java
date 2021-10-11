@@ -44,7 +44,15 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        View v;
+//        v = LayoutInflater.from(context).inflate(R.layout.model_pdf, parent, false);
+
+        if (stage == 3){
+            v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        }
+        else{
+            v = LayoutInflater.from(context).inflate(R.layout.model_pdf, parent, false);
+        }
         return new MyViewHolder(v);
     }
 
@@ -57,7 +65,7 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
             holder.imageTitle.setText(mModels.get(position).getName());
         }
         else {
-            holder.imageView.setImageResource(R.drawable.ic_baseline_folder_24);
+            holder.imageView.setImageResource(R.drawable.ic_baseline_folder_256);
             holder.imageTitle.setText(mModels.get(position).getName());
         }
 

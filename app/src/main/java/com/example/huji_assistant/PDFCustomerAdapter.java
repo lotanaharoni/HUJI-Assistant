@@ -163,8 +163,8 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
         String id;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.pdfImage);
-            imageTitle = itemView.findViewById(R.id.nameTxt);
+            imageView = itemView.findViewById(R.id.m_image);
+            imageTitle = itemView.findViewById(R.id.info_text);
             id = "";
             imageTitle.setTypeface(null, Typeface.BOLD_ITALIC);
 
