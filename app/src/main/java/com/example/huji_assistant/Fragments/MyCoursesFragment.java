@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
-//<<<<<<< HEAD:app/src/main/java/com/example/huji_assistant/MyCoursesFragment.java
 import android.widget.TextView;
 import android.widget.Toast;
-
-//>>>>>>> bf2892270b275fb497ce423d915c8af6ed29de96:app/src/main/java/com/example/huji_assistant/Fragments/MyCoursesFragment.java
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -45,7 +42,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -65,13 +61,11 @@ public class MyCoursesFragment extends Fragment {
     public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
     public CoursesAdapter.AddGradeListener addGradeListener = null;
     RecyclerView recyclerViewMyCourses;
-    SearchView searchView;
     AutoCompleteTextView autocompletechoosetype;
     ArrayList<String> coursesId = new ArrayList<>();
     public CoursesAdapter.OnItemClickListener onItemClickListener = null;
     public CoursesAdapter.DeleteClickListener deleteClickListener = null;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
-//    FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     TextView studentNameTextView;
     TextView facultyTextView;
@@ -179,9 +173,8 @@ public class MyCoursesFragment extends Fragment {
         textViewTotalHovaPoints = view.findViewById(R.id.textViewTotalHovaPoints);
         int currentMandatoryChoosePoints = dataBase.getCurrentMandatoryChoosePoints();
 
-        System.out.println("current mandatory choose: " + currentMandatoryChoosePoints);
+
         int currentMandatoryPoints = dataBase.getCurrentMandatoryPoints();
-        System.out.println("current mandatory: " + currentMandatoryPoints);
 
         String text5 = textViewTotalHovaPoints.getText() + " " + currentMandatoryPoints + " " + getResources().getString(R.string.outof)
                  +  " " + currentMaslul.getMandatoryPointsTotal();
@@ -231,48 +224,9 @@ public class MyCoursesFragment extends Fragment {
             }
         });
 
-        // Gets all courses from firestore
-        /**
-        // todo show courses of student - using firebase
-        Task<QuerySnapshot> courses1 = firebaseInstancedb.collection("courses").document(currentStudent.getChugId())
-                .collection("maslulimInChug").document(currentStudent.getMaslulId())
-                .collection("coursesInMaslul")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                        ArrayList<Course> coursesFromFireBase = new ArrayList<>();
-
-                        for (DocumentSnapshot document1 : documents){
-                            // retrieve for each chug id it's name
-                            String docId  = document1.getId().toString();
-                            Course course = document1.toObject(Course.class);
-                            // chugId = chug.getId();
-                            System.out.println("course "+ course.toStringP());
-                            coursesFromFireBase.add(course);
-                        }
-
-                        for (String id : coursesOfStudentById){
-                            for (Course course: coursesFromFireBase){
-                                if (course.getNumber().equals(id)){
-                                    coursesForAdapter.add(course);
-                                }
-                            }
-                        }
-                        // todo save the list of courses of current student to db
-                        // show changes on course list in adapter
-                        dataBase.setCoursesOfCurrentStudent(coursesForAdapter);
-                      //  adapter.addCoursesListToAdapter(coursesForAdapter);
-                      //  adapter.notifyDataSetChanged();
-                      //  recyclerViewMyCourses.setAdapter(adapter);
-                    }
-                });
-         */
-
         adapter.setOnPopUpListener(new CoursesAdapter.OnPopUpApproveListener() {
             @Override
             public void OnPopUpClick(String item_number, String grade) {
-                System.out.println("inside my courses: "+ item_number + " " + grade);
 
                 try {
                     int gradeNumber = Integer.parseInt(grade);
@@ -298,13 +252,7 @@ public class MyCoursesFragment extends Fragment {
                     if (!grade.equals("")) {
                         Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
                     }
-                    System.out.println("error parsing grade");
                 }
-
-              //  dataBase.updateGrade(item_number, grade);
-              //  double average = calculateAverage();
-              //  String averageText = getResources().getString(R.string.average) + " " + average;
-             //   averageTxt.setText(averageText); //todo keep?
             }
         });
 
@@ -320,73 +268,23 @@ public class MyCoursesFragment extends Fragment {
                             Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
                         }
                         else {
-                            //int grade = item.getGrade();
-                            // item.setGrade(Integer.parseInt(grade)); // todo not a field of this class, saved in map
-                            // todo fix toast
-                            System.out.println("got to update grade: " + grade+ "in " + item.getNumber());
-                          //  dataBase.updateGrade(item.getNumber(), grade);
                             double average = calculateAverage();
                             String averageText = getResources().getString(R.string.average) + " " + average;
                             averageTxt.setText(averageText);
-                           // Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
-                            // addGradeListener.onAddGradeClick(item, grade);
                         }
                     }
                     catch (Exception e){
                         if (!grade.equals("")) {
                             Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
                         }
-                        System.out.println("error parsing grade");
                     }
                 }
             }
         });
 
-        //todo observe from db on change in courses
-
         addCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /**
-                AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
-                EditText editTextName1 = new EditText(getContext());
-                alert.setTitle(" Alert Dialog Title");
-                alert.setView(editTextName1);
-
-                LinearLayout layoutName = new LinearLayout(getContext());
-                layoutName.setOrientation(LinearLayout.VERTICAL);
-                layoutName.addView(editTextName1); // displays the user input bar
-                alert.setView(layoutName);
-
-                /**
-               // ArrayList<CharSequence> arrayListCollection = new ArrayList<>();
-                ArrayAdapter<CharSequence> adapter;
-                EditText txt; // user input bar
-                AlertDialog.Builder alertName = new AlertDialog.Builder(getActivity());
-                final EditText editTextName1 = new EditText(getContext());
-                alertName.setTitle(" Alert Dialog Title");
-                // titles can be used regardless of a custom layout or not
-                alertName.setView(editTextName1);
-                LinearLayout layoutName = new LinearLayout(getContext());
-                layoutName.setOrientation(LinearLayout.VERTICAL);
-                layoutName.addView(editTextName1); // displays the user input bar
-                alertName.setView(layoutName);
-
-                alertName.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                      // txt = editTextName1; // variable to collect user input
-                        collectInput(editTextName1); // analyze input (txt) in this method
-                    }
-                });
-
-                alertName.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        dialog.cancel(); // closes dialog
-                        alertName.show(); // display the dialog
-                    }
-                });
-*/
-
                 addCourseListener.addCourseBtnClicked();
             }
         });
@@ -448,15 +346,8 @@ public class MyCoursesFragment extends Fragment {
             holder = new CourseItemHolder(recyclerViewMyCourses);
         }
 
-       // ImageView logoutImageView = view.findViewById(R.id.logoutImageView);
-      //  logoutImageView.setEnabled(false);
-
-       // ArrayList<Course>
-       // ArrayList<Course> courseItems = new ArrayList<>(); // Saves the current courses list
         StudentInfo currentUser = dataBase.getCurrentUser();
-        System.out.println("current user in my courses fragment: " + currentUser.getEmail());
 
-        // todo maybe observe instead
         try {
             Task<DocumentSnapshot> document = firebaseInstancedb.collection("students").document(currentUser.getId())
                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -467,35 +358,19 @@ public class MyCoursesFragment extends Fragment {
                             StudentInfo data = result.toObject(StudentInfo.class);
                             assert data != null;
                             coursesId = new ArrayList<>(data.getCourses());
-                            System.out.println("in+++: ");
                             dataBase.setCurrentStudent(data);
-                            printCourses();
+                          //  printCourses();
                         }
                     });
         }
         catch (Exception e){
-            System.out.println("failed to get the courses of the student");
+            Log.i("ERROR", "failed to get the courses of the student");
         }
 
         ArrayList<String> coursesIds = dataBase.getCurrentUser().getCourses();
         // get the courses from fire store
-
-        System.out.println("out: ++++");
-        printCourses();
+      //  printCourses();
         ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
-
-        // todo check here
-        /**
-        for (Course c : courseItems){
-            if (dataBase.getGradesOfStudent().containsKey(c.getNumber())) {
-                //  String grade = dataBase.getGradesOfStudent().get(courseItem.getNumber());
-                c.setGrade(dataBase.getGradesOfStudent().get(c.getNumber()));
-            }
-            else{ // The grade doesn't exist in the map of grades
-                c.setGrade("");
-            }
-        }*/
-
 
         // Create the adapter
         ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(courseItems);
@@ -525,16 +400,12 @@ public class MyCoursesFragment extends Fragment {
             public void onDeleteClick(View v, Course item) {
                 if (deleteClickListener != null){
                     deleteClickListener.onDeleteClick(v, item);
-                    System.out.println("delete button in fragment");
                     DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE: {
                                 dataBase.removeCourseFromCurrentList(item.getNumber()); // remove from courses list in db and upload to firebase
                                 // Calculate points
                                 ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
-                             //   HashMap<String, String> grades = dataBase.getGradesOfStudent();
-                               // grades.remove(item.getNumber());
-                               // dataBase.setGradesOfStudentMap(grades);
                                 dataBase.removeCourseGrade(item.getNumber());
 
                                 double average = calculateAverage();
@@ -599,11 +470,6 @@ public class MyCoursesFragment extends Fragment {
                     builder.setMessage(getResources().getString(R.string.delete_course_alert))
                             .setPositiveButton(R.string.positive_answer, dialogClickListener)
                             .setNegativeButton(R.string.negative_answer, dialogClickListener).show();
-
-                    //dataBase.removeCourseFromCurrentList(item.getNumber());
-                  //  ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
-                    //adapter.addCoursesListToAdapter(courseItems);
-                    //adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -611,18 +477,9 @@ public class MyCoursesFragment extends Fragment {
 
     private void printCourses(){
         for (int i = 0; i < coursesId.size(); i++){
-            System.out.println(coursesId.get(i));
+            //System.out.println(coursesId.get(i));
         }
     }
-
-   // private void calculateAverage(){
-    //    ArrayList<Course> currentCourses = dataBase.getCoursesOfCurrentStudent();
-    //    for (Course c : currentCourses){
-       //     int points = Integer.parseInt(c.getPoints());
-       //     int grade = Integer.parseInt(c.getGrade()); // todo option to get grade and set hashmap course id + grade
-            // todo save in fire store hashmapof grades?
-     //   }
-  //  }
 
     private int calculateNewPointsSum(String points){
         int currentPointsSum = dataBase.getCurrentPointsSum();
@@ -643,7 +500,6 @@ public class MyCoursesFragment extends Fragment {
 
         // else, get the grades and calculate average
         ArrayList<Course> coursesOfCurrentStudent = dataBase.getCoursesOfCurrentStudent();
-       // numberOfCourses = coursesOfCurrentStudent.size();
         // number should be the number of courses that have a grade
         numberOfCourses = dataBase.getGradesOfStudent().size();
 
@@ -658,19 +514,7 @@ public class MyCoursesFragment extends Fragment {
                 totalPointsSum += points;
             }
         }
-       // double averageCalculation = (average / totalPointsSum);
-        //String averageStr = Double.toString(averageCalculation);
 
-      //  NumberFormat nf = NumberFormat.getInstance(); // get instance
-       //nf.setMaximumFractionDigits(2); // set decimal places
-        //String s = nf.format(averageStr);
-      //  String s;
-      //  NumberFormat formatter = new DecimalFormat("#0.00");
-        //s=formatter.format(averageStr);
-
-       // double result = Double.parseDouble(s);
-
-        System.out.println("number_of_courses: " + numberOfCourses);
         double averageCalculation = Math.round((double)(average / totalPointsSum));
         return averageCalculation;
     }

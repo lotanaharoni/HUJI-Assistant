@@ -74,7 +74,6 @@ public class MainScreenFragment extends Fragment {
         public void onSearchClick();
     }
 
-
     public interface UploadPictureButtonListener{
         public void onUploadPictureButtonClicked();
     }
@@ -88,7 +87,6 @@ public class MainScreenFragment extends Fragment {
     Button coursesPlanBtn;
     FirebaseFirestoreSettings settings;
     Button showAttendanceButton;
-  //  Button circulumButtonBtn;
     Button showCourseInfo;
     SearchView seachViewMainFragment;
     public onSearchClickListener onSearchClickListener = null;
@@ -108,7 +106,6 @@ public class MainScreenFragment extends Fragment {
         showAttendanceButton = view.findViewById(R.id.showAttendanceButton);
         showFilesButton = view.findViewById(R.id.filesButton);
         seachViewMainFragment = view.findViewById(R.id.searchViewMainScreen);
-        //androidx.appcompat.widget.SearchView searchView
         showCourseInfo = view.findViewById(R.id.searchBtnMainScreen);
         showCourseInfo.setEnabled(false);
 
@@ -123,7 +120,6 @@ public class MainScreenFragment extends Fragment {
 
         FloatingActionButton openCameraFloatingButton = view.findViewById(R.id.open_camera_floating_button);
         viewModelApp.getStudent().observe(getViewLifecycleOwner(), item->{
-
         });
 
         showCourseInfo.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +156,6 @@ public class MainScreenFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                // todo if text valid enable btn
                 textToSearch = newText;
                 showCourseInfo.setEnabled(true);
                 return false;
@@ -175,15 +170,6 @@ public class MainScreenFragment extends Fragment {
                 }
             }
         });
-
-        //circulumButtonBtn.setOnClickListener(new View.OnClickListener() {
-       //     @Override
-        //    public void onClick(View v) {
-        //        if (coursesPlanScreenListenerBtn != null) {
-       //             coursesPlanScreenListenerBtn.onPlanCoursesScreenClicked();
-       //         }
-       //     }
-      //  });
 
         coursesPlanBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,7 +215,5 @@ public class MainScreenFragment extends Fragment {
                 }
             }
         });
-
-        //spinner
     }
 }
