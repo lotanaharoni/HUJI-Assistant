@@ -60,6 +60,7 @@ public class PlanCourseInfoFragment extends Fragment {
     LinearLayoutManager coordinatorLayout2;
     String ROOT_COLLECTION = "coursesTestOnlyCs";
     TextView noKdamCoursesTextView;
+    TextView noScheduleTextView;
     KdamCoursesAdapter kdamCoursesAdapter;
 
     public PlanCourseInfoFragment() {
@@ -69,18 +70,19 @@ public class PlanCourseInfoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        courseNameTextView = view.findViewById(R.id.courseInfoName);
-        courseNumberTextView = view.findViewById(R.id.courseInfoNumber);
-        courseTypeTextView = view.findViewById(R.id.courseInfoType1);
-        coursePointsTextView = view.findViewById(R.id.courseInfoPoints1);
-        courseYearTextView = view.findViewById(R.id.courseInfoYear1);
-        courseSemesterTextView = view.findViewById(R.id.courseInfoSemester1);
+        courseNameTextView = view.findViewById(R.id.planCourseInfoName);
+        courseNumberTextView = view.findViewById(R.id.planCourseInfoNumber);
+        courseTypeTextView = view.findViewById(R.id.planCourseInfoType1);
+        coursePointsTextView = view.findViewById(R.id.planCourseInfoPoints1);
+        courseYearTextView = view.findViewById(R.id.planCourseInfoYear1);
+        courseSemesterTextView = view.findViewById(R.id.planCourseInfoSemester1);
         kdamLoadingBar = view.findViewById(R.id.kdamProgressBar);
         scheduleLoadingBar = view.findViewById(R.id.scheduleProgressBar);
-        noKdamCoursesTextView = view.findViewById(R.id.noKdamCoursesTextView);
-        recyclerViewSchedule = view.findViewById(R.id.aftercoursessrecycleview);
+        noKdamCoursesTextView = view.findViewById(R.id.planNoKdamCoursesTextView);
+        noScheduleTextView = view.findViewById(R.id.planScheduleTextView);
+        recyclerViewSchedule = view.findViewById(R.id.planAftercoursessrecycleview);
 
-        recyclerViewKdamCourses = view.findViewById(R.id.kdamcoursessrecycleview);
+        recyclerViewKdamCourses = view.findViewById(R.id.planKdamcoursessrecycleview);
         kdamCoursesAdapter = new KdamCoursesAdapter(getContext());
         viewModelAppMainScreen = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         scheduleAdapter = new ScheduleAdapter(); // schedule Adapter
@@ -147,6 +149,10 @@ public class PlanCourseInfoFragment extends Fragment {
 
                             recyclerViewKdamCourses.setLayoutManager(new LinearLayoutManager(getContext(),
                                     RecyclerView.VERTICAL, false));
+
+                            if (kdamCourses.isEmpty()) {
+                                noKdamCoursesTextView.setVisibility(View.VISIBLE);
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -172,11 +178,12 @@ public class PlanCourseInfoFragment extends Fragment {
         ArrayList<CourseScheduleEntry> coursesSchedule = new ArrayList<>();
 
 
-        for (String type : types) {
-            for (String group : groups) {
-                for (String day : days) {
+        try {
 
-                    try {
+            for (String type : types) {
+                for (String group : groups) {
+                    for (String day : days) {
+
                         firebaseInstancedb.collection(ROOT_COLLECTION).document(db.getCurrentStudent().getChugId())
                                 .collection("maslulimInChug").document(db.getCurrentStudent().getMaslulId()).collection("coursesInMaslul")
                                 .document(courseNumber)
@@ -187,6 +194,8 @@ public class PlanCourseInfoFragment extends Fragment {
                                     CourseScheduleEntry entry = task.getResult().toObject(CourseScheduleEntry.class);
                                     coursesSchedule.add(entry);
                                     System.out.println(entry.toString());
+                                    scheduleLoadingBar.setVisibility(View.INVISIBLE);
+                                    noScheduleTextView.setVisibility(View.INVISIBLE);
                                 }
                             }
 
@@ -199,21 +208,27 @@ public class PlanCourseInfoFragment extends Fragment {
                             recyclerViewSchedule.setLayoutManager(new LinearLayoutManager(getContext(),
                                     RecyclerView.VERTICAL, false));
 
+
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                noKdamCoursesTextView.setVisibility(View.VISIBLE);
+                                noScheduleTextView.setVisibility(View.VISIBLE);
                                 System.out.println("failed to get kdam courses1");
                             }
                         });
-                    } catch (Exception e) {
-                        noKdamCoursesTextView.setVisibility(View.VISIBLE);
-                        System.out.println("failed to get kdam courses2");
-                    }
 
+                    }
                 }
             }
+        } catch (Exception e) {
+            noScheduleTextView.setVisibility(View.VISIBLE);
+            System.out.println("failed to get kdam courses2");
         }
-        scheduleLoadingBar.setVisibility(View.INVISIBLE);
+
+//
+//        if (coursesSchedule.isEmpty()) {
+//            noScheduleTextView.setVisibility(View.VISIBLE);
+//        }
+
     }
 }

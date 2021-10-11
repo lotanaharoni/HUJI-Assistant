@@ -24,15 +24,15 @@ public class ScheduleItemHolder extends RecyclerView.ViewHolder {
     public ScheduleItemHolder(@NonNull View itemView) {
         super(itemView);
         dataBase = HujiAssistentApplication.getInstance().getDataBase();
-        textView = itemView.findViewById(R.id.textViewParent);
+//        textView = itemView.findViewById(R.id.textViewParent);
         type = itemView.findViewById(R.id.scheduleTypeHolder);
         day = itemView.findViewById(R.id.scheduleDayHolder);
         group = itemView.findViewById(R.id.scheduleGroup);
         teacher = itemView.findViewById(R.id.scheduleTeacherHolder);
         location = itemView.findViewById(R.id.scheduleLocationHolder);
         time = itemView.findViewById(R.id.scheduleHoursHolder);
-        cardView = itemView.findViewById(R.id.courseitemcard);
-        checkBox = itemView.findViewById(R.id.checkBoxCourse);
+        cardView = itemView.findViewById(R.id.scheduleitemcard);
+//        checkBox = itemView.findViewById(R.id.checkBoxCourse);
 
     }
 }
