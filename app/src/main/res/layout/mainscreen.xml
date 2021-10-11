@@ -155,7 +155,7 @@
                 android:textDirection="rtl" />
 
             <Button
-                android:id="@+id/circulumButton"
+                android:id="@+id/filesButton"
                 android:layout_width="50dp"
                 android:layout_height="60dp"
                 android:layout_rowWeight="1"
@@ -163,18 +163,14 @@
                 android:layout_margin="5sp"
                 android:gravity="fill"
                 android:textSize="14sp"
-                android:text="@string/schedule"
+                android:text="@string/showFilesBtn"
                 android:textDirection="rtl"
                 android:visibility="visible" />
-
 
         </GridLayout>
         </ScrollView>
 
     </androidx.cardview.widget.CardView>
-
-
-
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/bottomconstraitlayout"

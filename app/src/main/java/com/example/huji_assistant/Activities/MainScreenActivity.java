@@ -38,6 +38,7 @@ import com.example.huji_assistant.Fragments.PlanCourseInfoFragment;
 import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Fragments.PlannedCoursesFragment;
 import com.example.huji_assistant.Fragments.SettingsFragment;
+import com.example.huji_assistant.Fragments.ShowFilesFragment;
 import com.example.huji_assistant.Fragments.TextViewFragment;
 import com.example.huji_assistant.Maslul;
 import com.example.huji_assistant.Model;
@@ -237,7 +238,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         myCoursesFragment2 = new MyCoursesFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
         PlanCourseInfoFragment planCourseInfoFragment = new PlanCourseInfoFragment();
-
+        ShowFilesFragment showFilesFragment = new ShowFilesFragment();
         AddCourseFragment addCourseFragment = new AddCourseFragment();
         PlannedCoursesFragment plannedCoursesFragment = new PlannedCoursesFragment();
        // ProfilePageFragment profilePageFragment = new ProfilePageFragment();
@@ -352,6 +353,36 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 )
                         // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
                         .replace(mainFragmentView.getId(), courseInfoFragment1, "INFO_COURSE_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        //todo for lotan
+        showFilesFragment.filesClickedListener = new ShowFilesFragment.showFilesClicked() {
+            @Override
+            public void onFilesShowClick() {
+                System.out.println("files");
+            }
+        };
+
+        // todo for lotan
+        showFilesFragment.imagesClickedListener = new ShowFilesFragment.showImagesClicked() {
+            @Override
+            public void onImageShowClick() {
+                System.out.println("images");
+            }
+        };
+
+        mainscreenfragment.showFilesListener = new MainScreenFragment.showFilesListener() {
+            @Override
+            public void onShowFilesButtonClicked() {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        // .replace(mainFragmentView.getId(), coursesFragment, "COURSES_FRAGMENT").addToBackStack(null).commit();
+                        .replace(mainFragmentView.getId(), showFilesFragment, "FILES_FRAGMENT").addToBackStack(null).commit();
             }
         };
 

@@ -43,10 +43,15 @@ public class MainScreenFragment extends Fragment {
     public MainScreenFragment.coursesPlanButtonListenerBtn coursesPlanButtonListenerBtn = null;
     public MainScreenFragment.coursesPlanScreenListenerBtn coursesPlanScreenListenerBtn = null;
     public MainScreenFragment.showAttendanceButtonListener showAttendanceButtonListener = null;
+    public MainScreenFragment.showFilesListener showFilesListener = null;
     public LocalDataBase dataBase = null;
 
     public interface myCoursesButtonListener{
         public void onMyCoursesButtonClicked();
+    }
+
+    public interface showFilesListener{
+        public void onShowFilesButtonClicked();
     }
 
     public interface coursesPlanButtonListenerBtn{
@@ -76,14 +81,14 @@ public class MainScreenFragment extends Fragment {
     public MainScreenFragment(){
         super(R.layout.mainscreen);
     }
-    Spinner dropdown;
+    Button showFilesButton;
     Button myCourses;
     Button privateInfoEditBtn;
     Button uploadPicturesButton;
     Button coursesPlanBtn;
     FirebaseFirestoreSettings settings;
     Button showAttendanceButton;
-    Button circulumButtonBtn;
+  //  Button circulumButtonBtn;
     Button showCourseInfo;
     SearchView seachViewMainFragment;
     public onSearchClickListener onSearchClickListener = null;
@@ -101,7 +106,7 @@ public class MainScreenFragment extends Fragment {
         uploadPicturesButton = view.findViewById(R.id.uploadPicturesButton);
         privateInfoEditBtn = view.findViewById(R.id.privateInfoEditButton);
         showAttendanceButton = view.findViewById(R.id.showAttendanceButton);
-        circulumButtonBtn = view.findViewById(R.id.circulumButton);
+        showFilesButton = view.findViewById(R.id.filesButton);
         seachViewMainFragment = view.findViewById(R.id.searchViewMainScreen);
         //androidx.appcompat.widget.SearchView searchView
         showCourseInfo = view.findViewById(R.id.searchBtnMainScreen);
@@ -162,15 +167,23 @@ public class MainScreenFragment extends Fragment {
             }
         });
 
-
-        circulumButtonBtn.setOnClickListener(new View.OnClickListener() {
+        showFilesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (coursesPlanScreenListenerBtn != null) {
-                    coursesPlanScreenListenerBtn.onPlanCoursesScreenClicked();
+                if (showFilesListener != null) {
+                    showFilesListener.onShowFilesButtonClicked();
                 }
             }
         });
+
+        //circulumButtonBtn.setOnClickListener(new View.OnClickListener() {
+       //     @Override
+        //    public void onClick(View v) {
+        //        if (coursesPlanScreenListenerBtn != null) {
+       //             coursesPlanScreenListenerBtn.onPlanCoursesScreenClicked();
+       //         }
+       //     }
+      //  });
 
         coursesPlanBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -137,9 +137,10 @@
     <string name="grade_tooltip">לחץ על הציון על מנת לשנות אותו</string>
 
 
-
-
-
+    <string name="showFilesBtn">הצגת קבצים</string>
+    <string name="showSummariesBtn">הצג מסמכים</string>
+    <string name="showImagesBtn">הצג תמונות</string>
+    <string name="showfilestitle">מסך הצגת קבצים</string>
     <string name="new_user">משתמש חדש</string>
     <string name="user_exist">משתמש קיים</string>
     <string name="schedule">מערכת שעות</string>
@@ -155,6 +156,7 @@
     <string name="please_enter_maslul_msg">נא להזין מסלול</string>
     <string name="email_address_field">כתובת דואר אלקטרוני</string>
     <string name="password_address_field">סיסמא</string>
+    <string name="files_screen_desc">במסך זה ניתן לצפות בתמונות ומסמכים שהועלו</string>
 
     <string name="nameOfStudentMyCoursesScreen">שם הסטודנט: </string>
     <string name="nameOfFacultyMyCoursesScreen">פקולטה: </string>

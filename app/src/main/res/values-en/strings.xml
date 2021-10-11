@@ -85,13 +85,17 @@
     <string name="added_to_the_list_of_courses">Was added to the list of courses</string>
     <string name="exists_in_the_list_of_courses">Already exists in the list of courses</string>
     <string name="removed_from_the_list_of_courses">Was removed from the list of courses</string>
-
+    <string name="showFilesBtn">Show uploaded files</string>
     <string name="email_not_valid_message">Invalid email address</string>
     <string name="email_field">mail address</string>
     <string name="user_first_name_field">First name</string>
     <string name="user_last_name_field">Last name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="showSummariesBtn">Show summaries</string>
+    <string name="showImagesBtn">Show photos</string>
+    <string name="showfilestitle">Show files</string>
+    <string name="files_screen_desc">View your photos and summaries</string>
 
     <string name="register1out3">Registration screen - 1 out of 3</string>
     <string name="register2out3">Registration screen - 2 out of 3</string>
@@ -134,6 +138,7 @@
         <item value="01">בוגר</item>
         <item value="02">מוסמך</item>
     </string-array>
+    <string name="schedule">Schedule</string>
 
     <string-array name="beginyeararray">
         <item value="1">2022</item>
