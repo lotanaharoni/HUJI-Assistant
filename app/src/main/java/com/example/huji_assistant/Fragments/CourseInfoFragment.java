@@ -1,6 +1,7 @@
 package com.example.huji_assistant.Fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -81,9 +82,6 @@ public class CourseInfoFragment extends Fragment {
         courseYearTextView = view.findViewById(R.id.courseInfoYear1);
         courseSemesterTextView = view.findViewById(R.id.courseInfoSemester1);
 
-      //  TextView textView = requireActivity().findViewById(R.id.change_language_textView);
-      //  textView.setVisibility(View.INVISIBLE);
-
         recyclerViewKdamCourses = view.findViewById(R.id.kdamcoursessrecycleview);
         kdamCoursesAdapter = new KdamCoursesAdapter(getContext());
         noKdamCoursesTextView = view.findViewById(R.id.noKdamCoursesTextView);
@@ -91,7 +89,6 @@ public class CourseInfoFragment extends Fragment {
 
         afterCoursesAdapter = new AfterCourseAdapter(getContext());
         recyclerViewAfterCourses = view.findViewById(R.id.aftercoursessrecycleview);
-
 
         if (kdamHolder == null) {
             kdamHolder = new KdamCourseItemHolder(recyclerViewKdamCourses);
@@ -134,16 +131,9 @@ public class CourseInfoFragment extends Fragment {
             getAfterCourses();
 
         });
-
-        // Get kdam courses
     }
 
     public void getKdamCourses(){
-
-        System.out.println("chug33: " + db.getCurrentStudent().getChugId());// bug - no current student yet
-        System.out.println("maslul33: " + db.getCurrentStudent().getMaslulId());
-        System.out.println("course33: " + courseNumber);
-
         try {
             Task<QuerySnapshot> document = firebaseInstancedb.collection(ROOT_COLLECTION).document(db.getCurrentStudent().getChugId())
                     .collection("maslulimInChug").document(db.getCurrentStudent().getMaslulId()).collection("coursesInMaslul")
@@ -158,10 +148,6 @@ public class CourseInfoFragment extends Fragment {
                                 // retrieve for each chug id it's name
                                 KdamOrAfterCourse course = document1.toObject(KdamOrAfterCourse.class);
                                 assert course != null;
-                                // String courseTitle = course.getName();
-                                // String courseNumber = course.getNumber();
-                                // String coursePoints = course.getPoints();
-                                System.out.println("kdam course: " + course.getNumber() + " " + course.getName());
                                 kdamCourses.add(course);
                             }
 
@@ -182,21 +168,17 @@ public class CourseInfoFragment extends Fragment {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             noKdamCoursesTextView.setVisibility(View.VISIBLE);
-                            System.out.println("failed to get kdam courses1");
+                            Log.i("ERROR", "failed to get kdam courses");
                         }
                     });
         }
         catch (Exception e){
             noKdamCoursesTextView.setVisibility(View.VISIBLE);
-            System.out.println("failed to get kdam courses2");
+            Log.i("ERROR", "failed to get kdam courses");
         }
     }
 
     public void getAfterCourses(){
-        System.out.println("chug: " + db.getCurrentStudent().getChugId());
-        System.out.println("maslul: " + db.getCurrentStudent().getMaslulId());
-        System.out.println("course: " + courseNumber);
-
         try {
             Task<QuerySnapshot> document = firebaseInstancedb.collection(ROOT_COLLECTION).document(db.getCurrentStudent().getChugId())
                     .collection("maslulimInChug").document(db.getCurrentStudent().getMaslulId()).collection("coursesInMaslul")
@@ -211,10 +193,6 @@ public class CourseInfoFragment extends Fragment {
                                 // retrieve for each chug id it's name
                                 KdamOrAfterCourse course = document1.toObject(KdamOrAfterCourse.class);
                                 assert course != null;
-                                // String courseTitle = course.getName();
-                                // String courseNumber = course.getNumber();
-                                // String coursePoints = course.getPoints();
-                                System.out.println("kdam course: " + course.getNumber() + " " + course.getName());
                                 afterCourses.add(course);
                             }
                             // todo change matod name
@@ -235,13 +213,13 @@ public class CourseInfoFragment extends Fragment {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             noAfterCoursesTextView.setVisibility(View.VISIBLE);
-                            System.out.println("failed to get after courses1");
+                            Log.i("ERROR", "failed to get after courses");
                         }
                     });
         }
         catch (Exception e){
             noAfterCoursesTextView.setVisibility(View.VISIBLE);
-            System.out.println("failed to get after courses2");
+            Log.i("ERROR", "failed to get after courses");
         }
     }
 }

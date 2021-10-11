@@ -30,7 +30,6 @@ import com.example.huji_assistant.CoursesAdapter;
 import com.example.huji_assistant.Fragments.CourseInfoFragment;
 import com.example.huji_assistant.Fragments.CoursesFragment;
 import com.example.huji_assistant.Fragments.FirstFragment;
-import com.example.huji_assistant.Fragments.GradeFragment;
 import com.example.huji_assistant.Fragments.InfoFragment;
 import com.example.huji_assistant.Fragments.MainScreenFragment;
 import com.example.huji_assistant.Fragments.PlanCourseInfoFragment;
@@ -47,15 +46,6 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-   // private static final float GESTURE_THRESHOLD_DP = 16.0f;
-
-    // Get the screen's density scale
-//    final float scale = getResources().getDisplayMetrics().density;
-// Convert the dps to pixels, based on density scale
-  //  int mGestureThreshold = (int) (GESTURE_THRESHOLD_DP * scale + 0.5f);
-   // private static final int GESTURE_THRESHOLD_DP = ViewConfiguration.get(myContext).getScaledTouchSlop();
-
-
     public interface PopUpInterface
     {
         public String grade(String grade);
@@ -71,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //FirebaseFirestore.getInstance()
-
         // db
         if (dataBase == null) {
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
@@ -80,17 +68,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-
-        // Get all chugim and maslulim
-        ///FireStoreReader fire = new FireStoreReader();
-      //  fire.work();
-
-        //Fetcher fe = new Fetcher();
-        //fe.execute();
-
-        // HashMap<String, Chug> chugsMap = fe.getChugsMap();
-        //  dataBase.chugs = chugsMap;
-
 
         // application singleton
         HujiAssistentApplication application = (HujiAssistentApplication) getApplication();
@@ -113,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MainScreenFragment mainScreenFragment = new MainScreenFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
         PlanCourseInfoFragment planCourseInfoFragment = new PlanCourseInfoFragment();
-        GradeFragment gradeFragment = new GradeFragment();
         PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
 
         getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment, "FIRST_FRAGMENT")
@@ -148,21 +124,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ).replace(loginFragment.getId(), secondFragment, "LOGIN_FRAGMENT").addToBackStack(null).commit();
             }
         };
-
-        /**
-        coursesFragment.addGradeListener = new CoursesFragment.addGradeListener() {
-            @Override
-            public void onAddGradeClicked(Course item) {
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.fade_in,  // enter
-                        R.anim.slide_out,  // exit
-                        R.anim.slide_in,   // popEnter
-                        R.anim.fade_out  // popExit
-                )
-                        .replace(loginFragment.getId(), gradeFragment,"GRADE_FRAGMENT").addToBackStack(null).commit();
-            }
-        };
-         */
 
         secondFragment.continueButtonListener = new TextViewFragment.continueButtonListener() {
             @Override
@@ -203,8 +164,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-
-
         infoFragment.continueListener = new InfoFragment.continueButtonClickListener() {
             @Override
             public void continueBtnClicked() {
@@ -222,9 +181,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         coursesFragment.endRegistrationBtnListener = new CoursesFragment.endRegistrationButtonClickListener() {
             @Override
             public void onEndRegistrationBtnClicked() {
-                // todo get all data from registration fragments and save the new user
-
-                // TODO open MainSreen2 activity
                 Intent editIntent = new Intent(MainActivity.this, MainScreenActivity.class);
                 startActivity(editIntent);
             }
@@ -235,30 +191,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         coursesFragment.onCheckBoxClickListener = new CoursesAdapter.OnCheckBoxClickListener() {
             @Override
             public void onCheckBoxClicked(View v, Course item) {
-                System.out.println("----------------item checked: " + item.toStringP());
-                // todo show here pop up?
-               // if (item.getChecked()) {
-                 //   grade = "";
-
-                  //  Intent i = new Intent();
-                  //  PopUpWindowActivity popUpWindow = new PopUpWindowActivity();
-                 //   popUpWindow.showPopup(v); //todo check
-                    // todo get the string value
-
-
-                  //  System.out.println("grade of course: " + item.getGrade());
-                  //  System.out.println("gg");
-               // }
             }
         };
-
-
-      //  coursesFragment.onTextBoxClickListener = new CoursesAdapter.OnTextBoxClickListener() {
-        //    @Override
-        //    public void onTextBoxClick(Course item) {
-        //        System.out.println("----------------textbox clicked: " + item.toStringP());
-        //    }
-     //   };
 
         coursesFragment.onItemClickListener = new CoursesAdapter.OnItemClickListener() {
             @Override
@@ -273,19 +207,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         };
 
-//        planCoursesFragment.onItemClickListener = new com.example.huji_assistant.PlanCoursesAdapter.OnItemClickListener() {
-//            @Override
-//            public void onClick(Course item) {
-//                getSupportFragmentManager().beginTransaction().setCustomAnimations(
-//                        R.anim.fade_in,  // enter
-//                        R.anim.slide_out,  // exit
-//                        R.anim.slide_in,   // popEnter
-//                        R.anim.fade_out  // popExit
-//                )
-//                        .replace(loginFragment.getId(), planCourseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
-//            }
-//        };
-
         changeLanguageTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -293,7 +214,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
-
 
     private void goToUrl(String s) {
         Uri url = Uri.parse(s);
@@ -320,61 +240,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         return true;
-    }
-
-    public class PopUpWindowActivity {
-        public void showPopup(View anchorView) {
-
-            PopUpInterface popUpInterface = new PopUpInterface() {
-                @Override
-                public String grade(String grade) {
-                    return grade;
-                }
-            };
-
-
-            System.out.println("reached top");
-            View popupView = getLayoutInflater().inflate(R.layout.popup_layout, null);
-            System.out.println("bottom");
-            PopupWindow popupWindow = new PopupWindow(popupView,
-                    RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
-            System.out.println("bottom1");
-            // TextView tv = (TextView) popupView.findViewById(R.id.tv);
-            EditText gradeTextView = popupView.findViewById(R.id.editTextNumber1);
-            Button approveBtn = popupView.findViewById(R.id.approveBtn);
-            System.out.println("bottom2");
-            // If the PopupWindow should be focusable
-            popupWindow.setFocusable(true);
-            System.out.println("bottom3");
-            // If you need the PopupWindow to dismiss when when touched outside
-            popupWindow.setBackgroundDrawable(new ColorDrawable());
-            System.out.println("bottom4");
-            int[] location = new int[2];
-            // final String[] grade1 = new String[1];
-            // Get the View's(the one that was clicked in the Fragment) location
-            anchorView.getLocationOnScreen(location);
-
-            // Using location, the PopupWindow will be displayed right under anchorView
-            popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY,
-                    location[0], location[1] + anchorView.getHeight());
-            System.out.println("bottom6");
-            approveBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("grade1: " + gradeTextView.getText().toString());
-                    grade = gradeTextView.getText().toString();
-                    //   grade1[0] = grade;
-                    System.out.println("grade1111: " + grade);
-                   // item.setGrade(Integer.parseInt(grade));
-                   // System.out.println("items grade: " + item.getGrade());
-                    //intent.putExtra("grade", grade);
-                    popUpInterface.grade(grade);
-                    popupWindow.dismiss();
-                }
-            });
-            //System.out.println("gggg" + grade1[0]);
-            //return grade1[0];
-        }
     }
 
     @Override

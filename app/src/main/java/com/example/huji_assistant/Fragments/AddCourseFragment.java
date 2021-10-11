@@ -27,11 +27,7 @@ import java.util.ArrayList;
 public class AddCourseFragment extends Fragment {
 
     private ViewModelApp viewModelApp;
-
-  //  SearchView searchView;
-  //  ListView listView;
     ArrayList list;
-    ArrayAdapter adapter;
     public LocalDataBase dataBase = null;
 
     public AddCourseFragment(){
@@ -60,7 +56,7 @@ public class AddCourseFragment extends Fragment {
             public void onClick(View v) {
                 String courseIdToAdd = courseIdTextView.getText().toString();
 
-                checkValidaity(courseIdToAdd);
+                checkIfValidCourseNumber(courseIdToAdd);
 
                 if (isCourseIdValid) {
                     String text = getResources().getString(R.string.numberofcoursetoast) + " " +  courseIdToAdd +" "+getResources().getString(R.string.addingcoursemsgsuccess);
@@ -72,44 +68,17 @@ public class AddCourseFragment extends Fragment {
             }
         });
 
-
-       // searchView = view.findViewById(R.id.searchViewNumber);
-       // listView = view.findViewById(R.id.listViewNumber);
         list = new ArrayList<>(courseItems);
-
-        String[] aa = {"linearit", "infi"};
-
-        adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, aa);
-       // listView.setAdapter(adapter);
-      //  searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-        //    @Override
-        //    public boolean onQueryTextSubmit(String query) {
-          //      if(list.contains(query)){
-           //         adapter.getFilter().filter(query);
-           //     }else{
-                   // Toast.makeText(MainActivity.this, "No Match found",Toast.LENGTH_LONG).show();
-            //    }
-           //     return false;
-          //  }
-        //    @Override
-          //  public boolean onQueryTextChange(String newText) {
-          //      adapter.getFilter().filter(newText);
-          //      return false;
-          //  }
-      //  });
     }
 
-    private void checkValidaity(String courseToAddId){
+    // Checks if the number of course to add is correct
+    private void checkIfValidCourseNumber(String courseToAddId){
+        // Gets the list of courses of current student
         ArrayList<String> courses = dataBase.getCurrentStudent().getCourses();
-        System.out.println("courses in id list in check validity ");
-        for (String id : courses){
-            System.out.println("id: " + id);
-        }
         ArrayList<Course> coursesFromFireBase = dataBase.getCoursesFromFireBase();
 
         // go to firebase to check if course exists
         boolean isExists = checkIfExists(courseToAddId);
-        System.out.println("is exists: " + isExists);
 
         if (!isExists){
             String text = getResources().getString(R.string.courseDoesntExistsInFireBase);
@@ -128,11 +97,9 @@ public class AddCourseFragment extends Fragment {
     }
 
     private boolean checkIfExists(String courseId){
-        // todo bug - doesn't find course by id
 
         ArrayList<Course> coursesFromFireBase = dataBase.getCoursesFromFireBase();
         for (Course course : coursesFromFireBase) {
-           // System.out.println("course from firebase: " + course.toStringP());
             if (course.getNumber().equals(courseId)){
                 return true;
             }
