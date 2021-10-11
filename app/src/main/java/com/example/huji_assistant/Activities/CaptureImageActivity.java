@@ -62,6 +62,7 @@ public class CaptureImageActivity extends AppCompatActivity {
     private String fName, messagePushId;
     private ProgressBar progressBar;
     private DatabaseReference root;
+    private DatabaseReference rootForDocument;
     private StorageReference reference;
     private Uri imageUri, classContentUri;
     private LocalDataBase dataBase = null;
@@ -92,6 +93,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar2);
         imageView = findViewById(R.id.uploadFromGallery);
         root = FirebaseDatabase.getInstance().getReference("Image");
+        rootForDocument = FirebaseDatabase.getInstance().getReference("Documents");
         reference = FirebaseStorage.getInstance().getReference();
         progressBar.setVisibility(View.INVISIBLE);
         cameraImageUpload = findViewById(R.id.cameraImageUpload);
@@ -133,7 +135,7 @@ public class CaptureImageActivity extends AppCompatActivity {
                 // startActivity(new Intent(CaptureImage2.this, PDFMainActivity.class));
                 // }
 
-                startActivity(new Intent(CaptureImageActivity.this, PDFMainActivity.class));            }
+                startActivity(new Intent(CaptureImageActivity.this, PDFMainActivity2.class));            }
 
         });
 
@@ -310,7 +312,12 @@ public class CaptureImageActivity extends AppCompatActivity {
 //                        assert modelId != null;
                         progressBar.setVisibility(View.INVISIBLE);
 //                        root.child(modelId).setValue(model);
-                        root.child(course).child(year).push().setValue(model);
+                        if (type == GALLERY_TYPE || type == CAMERA_TYPE){
+                            root.child(course).child(year).push().setValue(model);
+                        }
+                        else{
+                            rootForDocument.child(course).child(year).push().setValue(model);
+                        }
                         imageTitle.setText("");
                         dropdown.setSelection(0); //todo: check!
                         uploadBtn.setEnabled(false);

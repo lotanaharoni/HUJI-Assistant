@@ -34,7 +34,7 @@ public class PDFMainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
-        DatabaseReference root = FirebaseDatabase.getInstance().getReference("Image");
+        DatabaseReference root = FirebaseDatabase.getInstance().getReference("Documents");
         pdfDocs = new ArrayList<>();
 
         root.addValueEventListener(new ValueEventListener() {
@@ -42,14 +42,18 @@ public class PDFMainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 PDFDoc pdfDoc;
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    Model model = dataSnapshot.getValue(Model.class);
-                    assert model != null;
-                    if (model.getType() == PDF_TYPE){
-                        pdfDoc=new PDFDoc();
-                        pdfDoc.setName(model.getName());
-                        pdfDoc.setPath(model.getImageUrl());
-                        pdfDocs.add(pdfDoc);
-                    }
+                    String course = dataSnapshot.getKey();
+                    pdfDoc = new PDFDoc();
+                    pdfDoc.setName(course);
+                    pdfDocs.add(pdfDoc);
+//                    Model model = dataSnapshot.getValue(Model.class);
+//                    assert model != null;
+//                    if (model.getType() == PDF_TYPE){
+//                        pdfDoc=new PDFDoc();
+//                        pdfDoc.setName(model.getName());
+//                        pdfDoc.setPath(model.getImageUrl());
+//                        pdfDocs.add(pdfDoc);
+//                    }
                 }
                 lv.setAdapter(new PDFCustomerAdapter(PDFMainActivity.this,getPDFs()));
             }

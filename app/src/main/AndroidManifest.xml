@@ -30,6 +30,7 @@
         <activity android:name=".Activities.ShowActivity" />
         <activity android:name=".Activities.PDFMainActivity" />
         <activity android:name=".Activities.ScanQrActivity" />
+        <activity android:name=".Activities.PDFMainActivity2" />
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.PDFActivity" />
         <activity android:name=".Activities.CaptureImageActivity" />

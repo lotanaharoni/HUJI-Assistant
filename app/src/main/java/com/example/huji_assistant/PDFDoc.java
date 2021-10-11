@@ -1,7 +1,11 @@
 package com.example.huji_assistant;
 
 public class PDFDoc {
-    String name,path;
+    String name,path, id;
+
+    public PDFDoc(){
+
+    }
 
     public String getName() {
         return name;
@@ -18,5 +22,13 @@ public class PDFDoc {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
