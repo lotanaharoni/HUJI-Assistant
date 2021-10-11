@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -20,6 +21,7 @@ import com.example.huji_assistant.CoursesAdapter;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.R;
+import com.example.huji_assistant.StudentInfo;
 import com.example.huji_assistant.ViewModelApp;
 import com.example.huji_assistant.ViewModelAppMainScreen;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -91,6 +93,7 @@ public class MainScreenFragment extends Fragment {
     SearchView seachViewMainFragment;
     public onSearchClickListener onSearchClickListener = null;
     String textToSearch;
+    TextView helloTextView;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
     private ViewModelAppMainScreen viewModelAppMainScreen;
 
@@ -108,10 +111,15 @@ public class MainScreenFragment extends Fragment {
         seachViewMainFragment = view.findViewById(R.id.searchViewMainScreen);
         showCourseInfo = view.findViewById(R.id.searchBtnMainScreen);
         showCourseInfo.setEnabled(false);
+        helloTextView = view.findViewById(R.id.helloTextView2);
 
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
+
+        String nameOfStudent = dataBase.getCurrentStudent().getPersonalName();
+        String text = helloTextView.getText() + " " + nameOfStudent + " !";
+        helloTextView.setText(text);
 
         settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
