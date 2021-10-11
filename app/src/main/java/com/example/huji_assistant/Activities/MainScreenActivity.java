@@ -34,12 +34,14 @@ import com.example.huji_assistant.Fragments.GradeFragment;
 
 import com.example.huji_assistant.Fragments.FirstFragment;
 
+import com.example.huji_assistant.Fragments.PlanCourseInfoFragment;
 import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Fragments.PlannedCoursesFragment;
 import com.example.huji_assistant.Fragments.SettingsFragment;
 import com.example.huji_assistant.Fragments.TextViewFragment;
 import com.example.huji_assistant.Maslul;
 import com.example.huji_assistant.Model;
+import com.example.huji_assistant.PlanCoursesAdapter;
 import com.example.huji_assistant.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -234,6 +236,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         myCoursesFragment = new MyCoursesFragment();
         myCoursesFragment2 = new MyCoursesFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
+        PlanCourseInfoFragment planCourseInfoFragment = new PlanCourseInfoFragment();
 
         AddCourseFragment addCourseFragment = new AddCourseFragment();
         PlannedCoursesFragment plannedCoursesFragment = new PlannedCoursesFragment();
@@ -552,6 +555,27 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                         R.anim.fade_out  // popExit
                 )
                         .replace(mainFragmentView.getId(), courseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
+            }
+        };
+
+        planCoursesFragment.onCheckBoxClickListener = new PlanCoursesAdapter.OnCheckBoxClickListener() {
+            @Override
+            public void onCheckBoxClicked(View v, Course item) {
+                dataBase.getCurrentStudent().updateCoursePlannedByStudentList(item.getNumber());
+
+            }
+        };
+
+        planCoursesFragment.onItemClickListener = new PlanCoursesAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Course item) {
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                        R.anim.fade_in,  // enter
+                        R.anim.slide_out,  // exit
+                        R.anim.slide_in,   // popEnter
+                        R.anim.fade_out  // popExit
+                )
+                        .replace(mainFragmentView.getId(), planCourseInfoFragment, "SELECT_PLANED_COURSE_INFO_FRAGMENT").addToBackStack(null).commit();
             }
         };
 

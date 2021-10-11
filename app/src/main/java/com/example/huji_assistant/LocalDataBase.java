@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class LocalDataBase {
 
@@ -499,6 +500,135 @@ public class LocalDataBase {
 
     public FirebaseFirestore getFirestoreDB(){
         return db;
+    }
+
+    public ArrayList<Course> getCoursesToComplete() {
+        /**
+         * Returns all the courses of the current Student which Still need to be Done.
+         */
+        ArrayList<Course> coursesToComplete = (ArrayList<Course>) this.coursesFromFireBase.clone();
+        coursesToComplete.removeAll(this.coursesOfCurrentStudent);
+        return coursesToComplete;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToComplete_PerYear(String year) {
+        /**
+         * Returns all the courses the student has to complete from given year and prior years.
+         * currently deprecated, you may use getCoursesToPlan(year, null, null)
+         */
+
+        ArrayList<String> years = new ArrayList<>();
+
+        switch (year) {
+
+            case "שנה ו": // is there case like this?
+                years.add(year);
+                break;
+            case "שנה ה":
+                years.add("שנה ה");
+                break;
+            case "שנה ד":
+                years.add("שנה ד");
+                break;
+            case "שנה ג":
+                years.add("שנה ג");
+                break;
+            case "שנה ב":
+                years.add("שנה ב");
+                break;
+            case "שנה א":
+                years.add("שנה א");
+                break;
+        }
+
+        ArrayList<Course> coursesToComplete = getCoursesToComplete();
+        ArrayList<Course> coursesToComplete_ThisYear = new ArrayList<>();
+
+        for (String currYear : years) {
+            coursesToComplete_ThisYear.addAll(coursesToComplete.stream().filter(Course -> Course.getYear().equals(currYear)).collect(Collectors.toCollection(ArrayList::new)));
+        }
+
+        return coursesToComplete_ThisYear;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToComplete_PerSemester(String year, String semester) {
+        /**
+         * Returns all the courses the student has to complete occurring at specific semester
+         * at specific year.
+         * currently deprecated, you may use getCoursesToPlan(null, semester, null)
+         */
+
+        ArrayList<Course> coursesToComplete_perYear = getCoursesToComplete_PerYear(year);
+
+        if (semester.equals("all")) return coursesToComplete_perYear;
+
+        ArrayList<Course> coursesToComplete_ThisSemester = coursesToComplete_perYear.stream().filter(Course -> Course.getSemester().equals(semester)).collect(Collectors.toCollection(ArrayList::new));
+        if (!semester.equals("א' או ב'"))
+            coursesToComplete_ThisSemester.addAll(coursesToComplete_perYear.stream().filter(Course -> Course.getSemester().equals("א' או ב'")).collect(Collectors.toCollection(ArrayList::new)));
+
+        return coursesToComplete_ThisSemester;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToComplete_byPoints(String points) {
+        /**
+         * Returns all the courses the student need to complete by their points value.
+         * currently deprecated, you may use getCoursesToPlan(null, null, points)
+         */
+        ArrayList<Course> coursesToComplete = getCoursesToComplete();
+        ArrayList<Course> coursesToComplete_byPoints = coursesToComplete.stream().filter(Course -> Course.getPoints().equals(points)).collect(Collectors.toCollection(ArrayList::new));
+        return coursesToComplete_byPoints;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToComplete_byPoints(String points, ArrayList<Course> coursesToFilter) {
+        /**
+         * Returns all the courses the student need to complete by their points value, for a specific
+         * courses list.
+         */
+        ArrayList<Course> coursesToComplete = ((ArrayList<Course>) coursesToFilter.clone());
+
+        if (points.equals("הכל")) return coursesToComplete;
+
+        ArrayList<Course> coursesToComplete_byPoints = coursesToComplete.stream().filter(Course -> Course.getPoints().equals(points)).collect(Collectors.toCollection(ArrayList::new));
+        return coursesToComplete_byPoints;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> getCoursesToPlan(String year, String semester, String points) {
+        ArrayList<Course> coursesToComplete = getCoursesToComplete();
+        ArrayList<Course> filterBySemester = new ArrayList<>();
+        if (year != null) {
+            coursesToComplete = coursesToComplete.stream().filter(Course -> Course.getYear().equals(year)).collect(Collectors.toCollection(ArrayList::new));
+        }
+        if (semester != null){
+            ArrayList<Course> temp = coursesToComplete.stream().filter(Course -> Course.getSemester().equals(semester)).collect(Collectors.toCollection(ArrayList::new));
+            coursesToComplete.removeAll(temp);
+            if  (!(semester.equals("קורס שנתי") || semester.equals("א' או ב'"))){
+                ArrayList<Course> aAndBCourses = coursesToComplete.stream().filter(Course -> Course.getSemester().equals("א' או ב'")).collect(Collectors.toCollection(ArrayList::new));
+                filterBySemester.addAll(aAndBCourses);
+            }
+            filterBySemester.addAll(0,temp);
+            coursesToComplete = filterBySemester;
+        }
+        if (points != null){
+            if (points.equals("ה")){ // הכל
+                ArrayList<Course> temp = new ArrayList<>();
+                for (int i = 1; i < 8; i++) {
+                    int finalI = i;
+                    temp.addAll(coursesToComplete.stream().filter(Course -> Course.getPoints().equals(""+ finalI)) .collect(Collectors.toCollection(ArrayList::new)));
+                    coursesToComplete.removeAll(temp);
+                }
+                coursesToComplete.addAll(temp);
+            }
+            else {
+                coursesToComplete = coursesToComplete.stream().filter(Course -> Course.getPoints().equals(points)).collect(Collectors.toCollection(ArrayList::new));
+            }
+        }
+
+        return coursesToComplete;
     }
 
     //    private void readDataIdsInUse(FirebaseUsersUpdateCallback firebaseCallback) {

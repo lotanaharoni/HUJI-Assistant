@@ -2,6 +2,7 @@ package com.example.huji_assistant;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,52 +44,47 @@ public class KdamCoursesAdapter extends RecyclerView.Adapter<KdamCourseItemHolde
         return new KdamCourseItemHolder(view);
     }
 
-    public com.example.huji_assistant.CoursesAdapter.DeleteClickListener deleteListener;
-    public com.example.huji_assistant.CoursesAdapter.CancelClickListener cancelListener;
-    public com.example.huji_assistant.CoursesAdapter.OnItemClickListener itemClickListener;
-    public com.example.huji_assistant.CoursesAdapter.OnCheckBoxClickListener checkBoxClickListener;
-        // public OnTextBoxClickListener textBoxClickListener;
+    public DeleteClickListener deleteListener;
+    public CoursesAdapter.CancelClickListener cancelListener;
+    public OnItemClickListener itemClickListener;
+    public OnCheckBoxClickListener checkBoxClickListener;
+    // public OnTextBoxClickListener textBoxClickListener;
 
 
-        // Create an interface
-        public interface DeleteClickListener{
-            void onDeleteClick(View v, Course item);
-        }
+    // Create an interface
+    public interface DeleteClickListener{
+        void onDeleteClick(View v, Course item);
+    }
 
-        // Create an interface
-        public interface CancelClickListener{
-            void onCancelClick(Course item);
-        }
+    // Create an interface
+    public interface CancelClickListener{
+        void onCancelClick(Course item);
+    }
 
-        public interface OnCheckBoxClickListener{
-            void onCheckBoxClicked(View v, Course item);
-        }
+    public interface OnCheckBoxClickListener{
+        void onCheckBoxClicked(View v, Course item);
+    }
 
-        public interface OnItemClickListener {
-            //  public void onClick(View view, int position);
-            public void onClick(Course item);
-        }
-
-        // public interface OnTextBoxClickListener {
+    public interface OnItemClickListener {
         //  public void onClick(View view, int position);
-        //     public void onTextBoxClick(Course item);
-        // }
+        public void onClick(Course item);
+    }
 
-        public void setItemClickListener(com.example.huji_assistant.CoursesAdapter.OnItemClickListener listener){
-            this.itemClickListener = listener;
-        }
+    // public interface OnTextBoxClickListener {
+    //  public void onClick(View view, int position);
+    //     public void onTextBoxClick(Course item);
+    // }
 
-        public void setItemCheckBoxListener(com.example.huji_assistant.CoursesAdapter.OnCheckBoxClickListener listener){
-            this.checkBoxClickListener = listener;
-        }
 
-        public void setDeleteListener(com.example.huji_assistant.CoursesAdapter.DeleteClickListener listener){
-            this.deleteListener = listener;
-        }
 
-        // public void setTextBoxClickListener(OnTextBoxClickListener listener){
-        ///     this.textBoxClickListener = listener;
-        //  }
+    public void setItemCheckBoxListener(OnCheckBoxClickListener listener){
+        this.checkBoxClickListener = listener;
+    }
+
+
+    // public void setTextBoxClickListener(OnTextBoxClickListener listener){
+    ///     this.textBoxClickListener = listener;
+    //  }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
@@ -97,11 +93,25 @@ public class KdamCoursesAdapter extends RecyclerView.Adapter<KdamCourseItemHolde
         KdamOrAfterCourse courseItem = this.list.get(position);
         holder.name.setText(courseItem.getName());
         holder.number.setText(courseItem.getNumber());
-       // holder.group.setText(courseItem.getGroup());
+//        holder.group.setText(courseItem.getGroup());
         String semesterText = " סמסטר " + courseItem.getSemester()  ;
         holder.semester.setText(semesterText);
         String text = courseItem.getPoints() + " נ''ז ";
         holder.points.setText(text);
+
+        // courses the student has to complete will be colored red
+        if (!HujiAssistentApplication.getInstance().getDataBase().getCurrentStudent().getCourses().contains(courseItem.getNumber())){
+            holder.name.setTextColor(Color.RED);
+            holder.number.setTextColor(Color.RED);
+            holder.semester.setTextColor(Color.RED);
+            holder.points.setTextColor(Color.RED);
+        }
+        else {
+            holder.name.setTextColor(Color.BLACK);
+            holder.number.setTextColor(Color.BLACK);
+            holder.semester.setTextColor(Color.BLACK);
+            holder.points.setTextColor(Color.BLACK);
+        }
     }
 
 
@@ -111,6 +121,4 @@ public class KdamCoursesAdapter extends RecyclerView.Adapter<KdamCourseItemHolde
 
     public ArrayList<KdamOrAfterCourse> getItems(){
         return list;
-    }
-
-}
+    }}

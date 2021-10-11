@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -16,16 +15,13 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.huji_assistant.CourseItemHolder;
-import com.example.huji_assistant.CoursesAdapter;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
-import com.example.huji_assistant.PlanCourseAdapter;
+import com.example.huji_assistant.PlanCoursesAdapter;
 import com.example.huji_assistant.PlanCourseItemHolder;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.StudentInfo;
 import com.example.huji_assistant.ViewModelAppMainScreen;
-import com.example.huji_assistant.databinding.FragmentMycoursesBinding;
 import com.example.huji_assistant.databinding.FragmentPlancoursesBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,7 +44,7 @@ public class PlannedCoursesFragment extends Fragment {
 
     public PlanCourseItemHolder holder = null;
     LinearLayoutManager coordinatorLayout;
-    public PlanCourseAdapter adapter = null;
+    public PlanCoursesAdapter adapter = null;
   // public CoursesAdapter.OnCheckBoxClickListener onCheckBoxClickListener = null;
   //  public CoursesAdapter.AddGradeListener addGradeListener = null;
     RecyclerView recyclerViewPlannedCourses;
@@ -89,7 +85,7 @@ public class PlannedCoursesFragment extends Fragment {
       //  viewModelAppGradeScreen = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         viewModelAppMainScreen = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         recyclerViewPlannedCourses = view.findViewById(R.id.recycleViewPlannedCourses2);
-        adapter = new PlanCourseAdapter(getContext());
+        adapter = new PlanCoursesAdapter(getContext());
         FloatingActionButton addCourseBtn = view.findViewById(R.id.addCourseBtn);
         androidx.appcompat.widget.SearchView searchView = view.findViewById(R.id.search1);
         averageTxt = view.findViewById(R.id.textViewDegreeAverage);
