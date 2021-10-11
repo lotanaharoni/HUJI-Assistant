@@ -1,6 +1,5 @@
 package com.example.huji_assistant.Activities;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.huji_assistant.PDFCustomerAdapter2;
+import com.example.huji_assistant.PDFCustomerAdapter;
 import com.example.huji_assistant.PDFDoc;
 import com.example.huji_assistant.R;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +25,7 @@ public class ShowPDFActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<PDFDoc> list;
 
-    private PDFCustomerAdapter2 adapter;
+    private PDFCustomerAdapter adapter;
     private DatabaseReference root;
     private static final int PDF_TYPE = 2;
 
@@ -45,7 +44,7 @@ public class ShowPDFActivity extends AppCompatActivity {
 
 
         list = new ArrayList<>();
-        adapter = new PDFCustomerAdapter2(this, list, 0, "");
+        adapter = new PDFCustomerAdapter(this, list, 0, "");
         recyclerView.setAdapter(adapter);
 
         root.addValueEventListener(new ValueEventListener() {
@@ -79,7 +78,7 @@ public class ShowPDFActivity extends AppCompatActivity {
 //            finish();
         }
         else if (stage == 1){
-            adapter = new PDFCustomerAdapter2(this, list, 0, "");
+            adapter = new PDFCustomerAdapter(this, list, 0, "");
             recyclerView.setAdapter(adapter);
             list = new ArrayList<>();
 
@@ -108,7 +107,7 @@ public class ShowPDFActivity extends AppCompatActivity {
 
         else if (stage == 2){
 //            courses = new ArrayList<>();
-            adapter = new PDFCustomerAdapter2(this, list, 1, savedCourse);
+            adapter = new PDFCustomerAdapter(this, list, 1, savedCourse);
             recyclerView.setAdapter(adapter);
             list = new ArrayList<>();
 
