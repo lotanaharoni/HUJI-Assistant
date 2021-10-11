@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/pdfImage"
+            android:id="@+id/m_image"
             android:src="@drawable/ic_pdf_icon"
             android:layout_width="150dp"
             android:layout_height="wrap_content" />
@@ -30,7 +30,7 @@
                 android:layout_marginStart="30dp"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="@string/pdf_name"
-                android:id="@+id/nameTxt"
+                android:id="@+id/info_text"
                 android:padding="10dp"
                 android:textColor="@color/colorAccent"
                 android:textStyle="bold" />
