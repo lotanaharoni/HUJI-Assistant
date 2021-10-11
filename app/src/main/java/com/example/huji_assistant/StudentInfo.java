@@ -25,8 +25,10 @@ public class StudentInfo {
     private String beginSemester;
     private ArrayList<String> courses = new ArrayList<>();
     private ArrayList<String> coursesMadeByStudent; // list of course id's
-    private ArrayList<String> coursesPlannedByStudent;
     private HashMap<String, String> coursesGrades=null;
+    private ArrayList<String> coursesPlannedByStudent = new ArrayList<>();;
+    private ArrayList<CourseScheduleEntry> schedulePlannedByStudent = new ArrayList<>();
+
 
     public StudentInfo(){
 
@@ -198,6 +200,51 @@ public class StudentInfo {
     public void printCourses(){
         for (String id: this.courses){
             System.out.println("course3: " + id);
+        }
+    }
+
+    public ArrayList<CourseScheduleEntry> getSchedulePlannedByStudent() {
+        return schedulePlannedByStudent;
+    }
+
+    public void setSchedulePlannedByStudent(ArrayList<CourseScheduleEntry> schedulePlannedByStudent) {
+        this.schedulePlannedByStudent = schedulePlannedByStudent;
+    }
+
+    public void addScheduleEntry(CourseScheduleEntry entry){
+        this.schedulePlannedByStudent.add(entry);
+    }
+
+    public void removeScheduleEntry(CourseScheduleEntry entry){
+        if (this.schedulePlannedByStudent.contains(entry)) {
+            this.schedulePlannedByStudent.remove(entry);
+        }
+    }
+
+    public ArrayList<String> getCoursesPlannedByStudent() {
+        return coursesPlannedByStudent;
+    }
+
+    public void setCoursesPlannedByStudent(ArrayList<String> coursesPlannedByStudent) {
+        this.coursesPlannedByStudent = coursesPlannedByStudent;
+    }
+
+    public void addCoursePlannedByStudent(String courseId){
+        this.coursesPlannedByStudent.add(courseId);
+    }
+    public void updateCoursePlannedByStudentList(String courseId){
+        if (coursesPlannedByStudent.contains(courseId)){
+
+            this.coursesPlannedByStudent.add(courseId);
+        }else {
+
+            this.coursesPlannedByStudent.remove(courseId);
+        }
+    }
+
+    public void removeCoursePlannedByStudent(String courseId){
+        if (this.coursesPlannedByStudent.contains(courseId)){
+            this.coursesPlannedByStudent.remove(courseId);
         }
     }
 }

@@ -33,6 +33,8 @@ import com.example.huji_assistant.Fragments.FirstFragment;
 import com.example.huji_assistant.Fragments.GradeFragment;
 import com.example.huji_assistant.Fragments.InfoFragment;
 import com.example.huji_assistant.Fragments.MainScreenFragment;
+import com.example.huji_assistant.Fragments.PlanCourseInfoFragment;
+import com.example.huji_assistant.Fragments.PlanCoursesFragment;
 import com.example.huji_assistant.Fragments.TextViewFragment;
 import com.example.huji_assistant.Fragments.TopFragment;
 import com.example.huji_assistant.HujiAssistentApplication;
@@ -110,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         InfoFragment infoFragment = new InfoFragment();
         MainScreenFragment mainScreenFragment = new MainScreenFragment();
         CourseInfoFragment courseInfoFragment = new CourseInfoFragment();
+        PlanCourseInfoFragment planCourseInfoFragment = new PlanCourseInfoFragment();
         GradeFragment gradeFragment = new GradeFragment();
+        PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
 
         getSupportFragmentManager().beginTransaction().replace(loginFragment.getId(), firstFragment, "FIRST_FRAGMENT")
                 .commit();
@@ -268,6 +272,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .replace(loginFragment.getId(), courseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
             }
         };
+
+//        planCoursesFragment.onItemClickListener = new com.example.huji_assistant.PlanCoursesAdapter.OnItemClickListener() {
+//            @Override
+//            public void onClick(Course item) {
+//                getSupportFragmentManager().beginTransaction().setCustomAnimations(
+//                        R.anim.fade_in,  // enter
+//                        R.anim.slide_out,  // exit
+//                        R.anim.slide_in,   // popEnter
+//                        R.anim.fade_out  // popExit
+//                )
+//                        .replace(loginFragment.getId(), planCourseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
+//            }
+//        };
 
         changeLanguageTextView.setOnClickListener(new View.OnClickListener() {
             @Override

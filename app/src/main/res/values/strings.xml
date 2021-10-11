@@ -176,10 +176,15 @@
         <item value="6">2017</item>
     </string-array>
 
-    <string-array name="beginsemesterarray">
-        <item value="1">סמסטר א</item>
-        <item value="2">סמסטר ב</item>
+    <string-array name="semesterArray">
+        <item value="01">הכל</item>
+        <item value="02">סמסטר א</item>
+        <item value="03">סמסטר ב</item>
+        <item value="04">סמסטר א או ב</item>
+        <item value="05">קורס שנתי</item>
     </string-array>
+
+
 
     <string-array name="yearArray">
         <item value="01">שנה א</item>
@@ -187,7 +192,28 @@
         <item value="03">שנה ג</item>
         <item value="04">שנה ד</item>
         <item value="05">שנה ה</item>
+        <item value="06">שנה ו</item>
     </string-array>
+
+    <string-array name="pointsArray">
+        <item value="1">הכל</item>
+        <item value="2">1 נקודת זכות</item>
+        <item value="3">2 נקודות זכות</item>
+        <item value="4">3 נקודות זכות</item>
+        <item value="5">4 נקודות זכות</item>
+        <item value="6">5 נקודות זכות</item>
+        <item value="7">6 נקודות זכות</item>
+        <item value="8">7+ נקודות זכות</item>
+    </string-array>
+
+
+
+
+    <string-array name="beginsemesterarray">
+        <item value="1">סמסטר א</item>
+        <item value="2">סמסטר ב</item>
+    </string-array>
+
 
     <string-array name="courseType">
         <item value="01">לימודי חובה</item>

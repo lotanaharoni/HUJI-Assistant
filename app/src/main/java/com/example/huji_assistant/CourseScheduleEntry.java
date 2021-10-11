@@ -1,14 +1,14 @@
 package com.example.huji_assistant;
 
 public class CourseScheduleEntry {
-    private final String type;
-    private final String groupNumber;
-    private final String day;
-    private final String starting;
-    private final String ending;
-    private final String location;
-    private final String group;
-    private final String teacher;
+    private String type;
+    private String groupNumber;
+    private String day;
+    private String starting;
+    private String ending;
+    private String location;
+    private String group;
+    private String teacher;
 
     public CourseScheduleEntry(String type, String groupNumber, String day, String starting, String ending, String location, String group, String teacher) {
         this.type = type;
@@ -20,6 +20,11 @@ public class CourseScheduleEntry {
         this.group = group;
         this.teacher = teacher;
     }
+
+    public CourseScheduleEntry() {
+    }
+
+
 
     public String getType() {
         return type;
