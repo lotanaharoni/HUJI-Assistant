@@ -269,6 +269,45 @@ public class MyCoursesFragment extends Fragment {
                 });
          */
 
+        adapter.setOnPopUpListener(new CoursesAdapter.OnPopUpApproveListener() {
+            @Override
+            public void OnPopUpClick(String item_number, String grade) {
+                System.out.println("inside my courses: "+ item_number + " " + grade);
+
+                try {
+                    int gradeNumber = Integer.parseInt(grade);
+                    if (gradeNumber < 0 || gradeNumber > 100){
+                        Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        //int grade = item.getGrade();
+                        // item.setGrade(Integer.parseInt(grade)); // todo not a field of this class, saved in map
+                        dataBase.updateGrade(item_number, grade);
+                        double average = calculateAverage();
+                        String averageText = getResources().getString(R.string.average) + " " + average;
+                        averageTxt.setText(averageText);
+                        Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
+                        ArrayList<Course> coursesOfCurrentStudent = dataBase.getCoursesOfCurrentStudent();
+                        adapter.addCoursesListToAdapter(coursesOfCurrentStudent);
+                        adapter.notifyDataSetChanged();
+                        // todo check here
+                        // addGradeListener.onAddGradeClick(item, grade);
+                    }
+                }
+                catch (Exception e){
+                    if (!grade.equals("")) {
+                        Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
+                    }
+                    System.out.println("error parsing grade");
+                }
+
+              //  dataBase.updateGrade(item_number, grade);
+              //  double average = calculateAverage();
+              //  String averageText = getResources().getString(R.string.average) + " " + average;
+             //   averageTxt.setText(averageText); //todo keep?
+            }
+        });
+
         adapter.setGradeListener(new CoursesAdapter.AddGradeListener() {
             @Override
             public void onAddGradeClick(Course item, String grade) {
@@ -285,12 +324,12 @@ public class MyCoursesFragment extends Fragment {
                             // item.setGrade(Integer.parseInt(grade)); // todo not a field of this class, saved in map
                             // todo fix toast
                             System.out.println("got to update grade: " + grade+ "in " + item.getNumber());
-                            dataBase.updateGrade(item.getNumber(), grade);
+                          //  dataBase.updateGrade(item.getNumber(), grade);
                             double average = calculateAverage();
                             String averageText = getResources().getString(R.string.average) + " " + average;
                             averageTxt.setText(averageText);
-                            //Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
-                            // addGradeListener.onAddGradeClick(v,item);
+                           // Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
+                            // addGradeListener.onAddGradeClick(item, grade);
                         }
                     }
                     catch (Exception e){

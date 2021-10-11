@@ -4,21 +4,28 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.huji_assistant.Activities.MainScreenActivity;
 import com.tooltip.Tooltip;
 
 import java.util.ArrayList;
@@ -67,47 +74,9 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             }
         };
     }
-/**
-    class CustomFilter extends Filter {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            FilterResults results = new FilterResults();
-            if (constraint != null && constraint.length() > 0) {
-
-                constraint = constraint.toString().toUpperCase();
-                ArrayList<String> filters = new ArrayList<>();
-
-                for (int i = 0; i < filterList.size(); i++) {
-                    if (filterList.get(i).getName().toUpperCase().contains(constraint)) {
-                        filters.add(filterList.get(i).getName());
-                    }
-                }
-
-                results.count = filters.size();
-                results.values = filters;
-            } else {
-                results.count = filterList.size();
-                results.values = filterList;
-            }
-            return results;
-        }
-
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            list = (ArrayList<Course>) results.values;
-            notifyDataSetChanged();
-        }
-    }*/
 
     private Context mContext;
     ArrayList<Course> filterList;
-   // CustomFilter filter;
-
-   // public Filter getFilter(){
-     //   if (filter == null){
-     //       filter = new CustomFilter();
-     //   }
-     //   return filter;
-   // }
 
     public CoursesAdapter(Context context){
         this.list = new ArrayList<>();
@@ -140,18 +109,23 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.courseitem, parent, false);
         return new CourseItemHolder(view);
     }
-
+  //  public PopupDialogFragment dialogFragment = new PopupDialogFragment();
     public DeleteClickListener deleteListener;
     public AddGradeListener addGradeListener;
     public CancelClickListener cancelListener;
     public OnItemClickListener itemClickListener;
     public OnCheckBoxClickListener checkBoxClickListener;
+    public static OnPopUpApproveListener onPopUpApproveListener;
    // public OnTextBoxClickListener textBoxClickListener;
 
 
     // Create an interface
     public interface DeleteClickListener{
         void onDeleteClick(View v, Course item);
+    }
+
+    public interface OnPopUpApproveListener{
+        void OnPopUpClick(String item, String grade);
     }
 
     // Create an interface
@@ -175,6 +149,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
 
     public void setItemClickListener(OnItemClickListener listener){
         this.itemClickListener = listener;
+    }
+
+    public void setOnPopUpListener(OnPopUpApproveListener onPopUpListener){
+        this.onPopUpApproveListener = onPopUpListener;
     }
 
     public void setItemCheckBoxListener(OnCheckBoxClickListener listener){
@@ -208,6 +186,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         holder.number.setText(courseItem.getNumber());
         holder.type.setText(courseItem.getType());
         holder.gradeAddBtn.setText(dataBase.getGradesOfStudent().get(courseItem.getNumber()));
+       // holder.gradeAddBtn.setText(courseItem.getGradeFromDb());
         holder.grade.setVisibility(View.INVISIBLE);
         holder.deleteButton.setVisibility(View.INVISIBLE);
         holder.gradeAddBtn.setVisibility(View.INVISIBLE);
@@ -215,13 +194,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         String text = courseItem.getPoints() + " נ''ז ";
         holder.points.setText(text);
 
-        // todo check if get the local grade
-        // Checks if the grade of the current course exists in the map of grades
-        // TODO
-      //  holder.gradeAddBtn.setText(courseItem.getGradeFromDb());
-
-      //  holder.gradeAddBtn.setText(courseItem.getGrade());
-
+        // todo retrieve
         if (dataBase.getGradesOfStudent().containsKey(courseItem.getNumber())) {
             holder.gradeAddBtn.setText(dataBase.getGradesOfStudent().get(courseItem.getNumber()));
         }
@@ -245,12 +218,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
          //   holder.saveTextiew.setVisibility(View.VISIBLE);
         }
 
-        holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //addGradeListener.onAddGradeClick(v, courseItem);
-            }
-        });
+       // holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+         //   public void onClick(View v) {
+                //showPopup(v);
+              //  addGradeListener.onAddGradeClick(v, courseItem);
+           // }
+     //   });
 
         // This method runs when the text in grade edit text is changed
         holder.gradeAddBtn.addTextChangedListener(new TextWatcher() {
@@ -281,6 +255,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             @Override
             public void onClick(View v) {
                 System.out.println("grade clicked");
+                showPopup(courseItem, v);
                 holder.gradeAddBtn.setEnabled(true);
             }
         });
@@ -364,6 +339,77 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         else{
 
         }
+    }
+    public static class PopupDialogFragment extends DialogFragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.popup_layout, container,
+                    false);
+
+            return rootView;
+        }
+
+     //   public PopupDialogFragment.OnPopUpApproveListener onPopUpApproveListener;
+      //  public void setOnPopUpListener(PopupDialogFragment.OnPopUpApproveListener onPopUpListener){
+      //      this.onPopUpApproveListener = onPopUpListener;
+      //  }
+       // public interface OnPopUpApproveListener{
+       //     void OnPopUpClick(String item, String grade);
+       // }
+
+        private String item_number;
+        private String item_grade;
+        public PopupDialogFragment(Course item){
+            this.item_number = item.getNumber();
+        }
+        Button approveBtn;
+        EditText grade;
+        String gradeStr="333";
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+             approveBtn = view.findViewById(R.id.approveBtn);
+             grade = view.findViewById(R.id.editTextNumber1);
+             gradeStr = grade.getText().toString();
+             System.out.println("gradeee: " + gradeStr);
+
+             grade.addTextChangedListener(new TextWatcher() {
+                 @Override
+                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                 }
+
+                 @Override
+                 public void onTextChanged(CharSequence s, int start, int before, int count) {
+                     String gradeStr = grade.getText().toString();
+                     System.out.println("gradeee2: " + gradeStr);
+                 }
+
+                 @Override
+                 public void afterTextChanged(Editable s) {
+
+                 }
+             });
+
+             approveBtn.setOnClickListener(new View.OnClickListener() {
+                 @Override
+                 public void onClick(View v) {
+                     gradeStr = grade.getText().toString();
+                     System.out.println("clicked approve: " + item_number + " " + gradeStr);
+                     if (onPopUpApproveListener != null) {
+                         onPopUpApproveListener.OnPopUpClick(item_number, gradeStr);
+                     }
+                 }
+             });
+        }
+    }
+
+    public void showPopup(Course item, View view) {
+        @SuppressLint("InflateParams") View popupView = LayoutInflater.from(mContext).inflate(R.layout.popup_layout, null);
+        System.out.println("inside popup");
+        PopupDialogFragment dialogFragment = new PopupDialogFragment(item);
+        dialogFragment.show(((MainScreenActivity)mContext).getSupportFragmentManager(), "OpenPopup");
     }
 
     public int getItemCount() {

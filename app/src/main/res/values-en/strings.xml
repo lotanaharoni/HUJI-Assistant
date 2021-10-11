@@ -34,7 +34,7 @@
     <string name="try_again_later_message">There was a problem, please try again later</string>
     <string name="incorrect_username">Incorrect username and password. Try entering again or registering as a new user</string>
     <string name="logout">Are you sure you want to log out?</string>
-    <string name="insert_grade">Enter a course grade:</string>
+    <string name="insert_grade">Enter a course grade</string>
     <string name="approve_btn">OK</string>
     <string name="register_Successfully_message">You have successfully registered!</string>
     <string name="register_failed_message">There was a problem registering, please try again later</string>
@@ -197,7 +197,7 @@
     <string name="grade_tooltip">Press on the grade to edit it</string>
     <string name="gradeAdded">The grade was successfully updated</string>
     <string name="invalidGrade">Please enter a grade in the range 0 – 100</string>
-    <string name="gradeDescription">grade: </string>
+    <string name="gradeDescription">grade</string>
     <string name="noAftercoursesmsg">This course is not pre course for other courses</string>
 
     <string name="infofragment_facultyhint">Choose a faculty/school</string>
@@ -230,6 +230,7 @@
     <string name="settingsinvitefriends">Invite friends</string>
     <string name="enteramail">Please enter an email address. It is possible to enter many email addresses, separated by comma</string>
     <string name="sendmailbtn">Send</string>
+    <string name="popup_addgrade">Please add grade </string>
 
     <string-array name="faculty">
         <item value="01">הפקולטה למדעי הרוח</item>

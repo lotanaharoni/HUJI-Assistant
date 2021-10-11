@@ -148,10 +148,11 @@ public class LocalDataBase {
     public void updateGrade(String number, String grade){
         this.gradesOfStudent.put(number, grade); // save in local
         // upload to firebase
-       // this.currentStudent.setCoursesGrades(new HashMap<>(this.gradesOfStudent));
-       // this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
-       //     System.out.println("upload of grade finished");
-       // });
+        // todo maybe hide upload
+        this.currentStudent.setCoursesGrades(new HashMap<>(this.gradesOfStudent));
+        this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
+            System.out.println("upload of grade finished");
+        });
     }
 
     public void uploadGrades(){

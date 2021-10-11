@@ -285,15 +285,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                     .replace(mainFragmentView.getId(), settingsFragment, "SETTINGS_FRAGMENT")
                     .addToBackStack(null)
                     .commit();
-
-           // getSupportFragmentManager().beginTransaction().setCustomAnimations(
-            //        R.anim.fade_in,  // enter
-            //        R.anim.slide_out,  // exit
-            //        R.anim.slide_in,   // popEnter
-            //        R.anim.fade_out  // popExit
-           // )
-               //     .replace(mainFragmentView.getId(), settingsFragment, "SETTINGS_FRAGMENT").addToBackStack(null).commit();
-
             System.out.println("settings clicked");
         });
 

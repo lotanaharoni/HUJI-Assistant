@@ -619,7 +619,7 @@ public class CoursesFragment extends Fragment {
                 RecyclerView.LayoutParams.WRAP_CONTENT, RecyclerView.LayoutParams.WRAP_CONTENT);
         System.out.println("bottom1");
         // TextView tv = (TextView) popupView.findViewById(R.id.tv);
-        EditText gradeTextView = popupView.findViewById(R.id.editTextNumber);
+        EditText gradeTextView = popupView.findViewById(R.id.editTextNumber1);
         Button approveBtn = popupView.findViewById(R.id.approveBtn);
         System.out.println("bottom2");
         // If the PopupWindow should be focusable

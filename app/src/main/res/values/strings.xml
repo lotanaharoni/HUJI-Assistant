@@ -33,7 +33,7 @@
     <string name="try_again_later_message">היתה בעיה, נסה שוב מאוחר יותר</string>
     <string name="incorrect_username">שם משתמש וסיסמה לא נכונים. נסה להזין שוב או להירשם בתור משתמש חדש</string>
     <string name="logout">האם אתה בטוח שברצונך להתנתק?</string>
-    <string name="insert_grade">הזן ציון בקורס:</string>
+    <string name="insert_grade">הוספת ציון</string>
     <string name="approve_btn">אישור</string>
     <string name="register_Successfully_message">נרשמת בהצלחה!</string>
     <string name="register_failed_message">היתה בעיה ברישום, אנא נסה שנית מאוחר יותר</string>
@@ -78,6 +78,7 @@
     <string name="points_field">נקודות זכות</string>
     <string name="saveBtn">שמירה</string>
     <string name="savedsuccessfully">השינויים נשמרו בהצלחה</string>
+    <string name="popup_addgrade">הזן ציון בקורס: </string>
 
     <string name="infofragment_facultyhint">בחר פקולטה/בית ספר</string>
     <string name="infofragment_chughint">בחר חוג</string>

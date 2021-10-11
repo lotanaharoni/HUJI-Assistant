@@ -100,15 +100,16 @@
             android:layout_height="match_parent"
             android:text="TextView" />
 
-        <EditText
+        <TextView
             android:id="@+id/textViewAddGrade"
             android:layout_width="34dp"
-            android:layout_marginRight="34dp"
+            android:layout_marginRight="40dp"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:maxLength="3"
+            android:layout_marginTop="6dp"
             android:inputType="number"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:text="" />
 
         <CheckBox
@@ -136,8 +137,9 @@
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:text="@string/gradeDescription"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="6dp"
             android:textSize="12sp"
+            android:textDirection="rtl"
             android:layout_marginRight="5dp"
             android:layout_gravity="right"
             android:visibility="gone" />

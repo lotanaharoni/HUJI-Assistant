@@ -24,7 +24,7 @@ public class CourseItemHolder extends RecyclerView.ViewHolder  {
     CheckBox checkBox;
     TextView textView;
     TextView grade;
-    EditText gradeAddBtn;
+    TextView gradeAddBtn;
     TextView deleteButton;
     TextView gradeDescription;
     TextView saveTextiew;

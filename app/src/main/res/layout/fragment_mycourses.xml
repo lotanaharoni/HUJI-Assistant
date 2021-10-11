@@ -204,6 +204,7 @@
             android:paddingRight="12dp"
             android:layout_gravity="right"
             android:layout_height="25dp"
+            android:visibility="gone"
             android:drawableRight="@drawable/ic_baseline_save_16"
             android:text="@string/saveBtn"
             android:textSize="12dp"

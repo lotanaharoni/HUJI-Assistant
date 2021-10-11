@@ -91,14 +91,6 @@ public class StudentInfo {
 
     }
 
-
-   // public StudentInfo(String name, String email, String year){
-    //    this.name=name;
-      //  this.email=email;
-      //  this.year=year;
-      //  this.id = UUID.randomUUID().toString();
-    //}
-
     public void setPersonalName(String name){
         this.personalName = name;
     }
