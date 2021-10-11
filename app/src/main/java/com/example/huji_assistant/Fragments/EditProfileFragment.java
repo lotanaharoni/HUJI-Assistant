@@ -37,8 +37,6 @@ import static android.content.ContentValues.TAG;
 public class EditProfileFragment extends Fragment {
 
     private TextView helloMessage;
-    //    private TextView userFirstNameEditText;
-//    private TextView userLastNameEditText;
     private EditText emailEditText, userNewPassword, userRepeatPassword, oldPassword;
     private ImageView btnEditProfile;
     private ImageView btnCancelEdit;
@@ -68,8 +66,6 @@ public class EditProfileFragment extends Fragment {
 
         // find views
         helloMessage = view.findViewById(R.id.helloMessage);
-//        userFirstNameEditText = view.findViewById(R.id.profile_user_first_name);
-//        userLastNameEditText = view.findViewById(R.id.profile_user_last_name);
         emailEditText = view.findViewById(R.id.usersEmailMyProfile);
         btnCancelEdit = view.findViewById(R.id.btnCancelEditProfile);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);

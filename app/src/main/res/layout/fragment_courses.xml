@@ -147,10 +147,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/endRegistration"
-        android:layout_marginBottom="40dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/recycleViewCourses"
         tools:layout_editor_absoluteX="30dp"
         tools:layout_editor_absoluteY="655dp" />

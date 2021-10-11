@@ -141,18 +141,13 @@ public class PlanCoursesAdapter extends RecyclerView.Adapter<PlanCourseItemHolde
         if (courseItem.getName().startsWith("שנה ")) {
             holder.name.setText(courseItem.getName());
             holder.name.setTextColor(Color.BLACK);
-
             holder.checkBox.setVisibility(View.INVISIBLE);
             holder.number.setVisibility(View.INVISIBLE);
             holder.type.setVisibility(View.INVISIBLE);
             holder.grade.setVisibility(View.INVISIBLE);
             holder.points.setVisibility(View.INVISIBLE);
-
             holder.cardView.setCardBackgroundColor(Color.WHITE);
-
-
             holder.itemView.setOnClickListener(v -> {
-
             });
 
             return;

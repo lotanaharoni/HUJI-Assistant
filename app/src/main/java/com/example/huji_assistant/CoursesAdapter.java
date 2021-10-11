@@ -182,162 +182,164 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     @Override
     public void onBindViewHolder(@NonNull CourseItemHolder holder, int position) {
         Course courseItem = this.list.get(position);
-        holder.name.setText(courseItem.getName());
-        holder.number.setText(courseItem.getNumber());
-        holder.type.setText(courseItem.getType());
-        holder.gradeAddBtn.setText(dataBase.getGradesOfStudent().get(courseItem.getNumber()));
-       // holder.gradeAddBtn.setText(courseItem.getGradeFromDb());
-        holder.grade.setVisibility(View.INVISIBLE);
-        holder.deleteButton.setVisibility(View.INVISIBLE);
-        holder.gradeAddBtn.setVisibility(View.INVISIBLE);
-        holder.gradeAddBtn.setEnabled(true);
-        String text = courseItem.getPoints() + " נ''ז ";
-        holder.points.setText(text);
 
-        // todo retrieve
-        if (dataBase.getGradesOfStudent().containsKey(courseItem.getNumber())) {
-            holder.gradeAddBtn.setText(dataBase.getGradesOfStudent().get(courseItem.getNumber()));
-        }
-        else{ // The grade doesn't exist in the map of grades
-            holder.gradeAddBtn.setText("");
-        }
-
-        // Show the grade only for my fragment courses
-      //  if (courseItem.getGrade() != -1) {
-         //   holder.grade.setVisibility(View.VISIBLE);
-          //  holder.grade.setText(courseItem.getGrade()); // todo check
-         //   holder.grade.setText("");
-      //  }
-
-        // todo check - when added courses write is finished == true
-        if (courseItem.getIsFinished()){
+        if (courseItem.getName().startsWith("שנה ")) {
+            holder.name.setText(courseItem.getName());
+            holder.name.setTextColor(Color.BLACK);
             holder.checkBox.setVisibility(View.INVISIBLE);
-            holder.deleteButton.setVisibility(View.VISIBLE);
-            holder.gradeAddBtn.setVisibility(View.VISIBLE);
-            holder.gradeDescription.setVisibility(View.VISIBLE);
-         //   holder.saveTextiew.setVisibility(View.VISIBLE);
-        }
+            holder.number.setVisibility(View.INVISIBLE);
+            holder.type.setVisibility(View.INVISIBLE);
+            holder.grade.setVisibility(View.INVISIBLE);
+            holder.points.setVisibility(View.INVISIBLE);
+            holder.gradeAddBtn.setVisibility(View.INVISIBLE);
+            holder.cardView.setCardBackgroundColor(Color.WHITE);
+            holder.itemView.setOnClickListener(v -> {
+            });
 
-       // holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-         //   public void onClick(View v) {
-                //showPopup(v);
-              //  addGradeListener.onAddGradeClick(v, courseItem);
-           // }
-     //   });
+            return;
+        } else {
 
-        // This method runs when the text in grade edit text is changed
-        holder.gradeAddBtn.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            holder.name.setText(courseItem.getName());
+            holder.number.setText(courseItem.getNumber());
+            holder.type.setText(courseItem.getType());
+            holder.gradeAddBtn.setText(dataBase.getGradesOfStudent().get(courseItem.getNumber()));
+            holder.grade.setVisibility(View.INVISIBLE);
+            holder.checkBox.setVisibility(View.VISIBLE);
+            holder.deleteButton.setVisibility(View.INVISIBLE);
+            holder.gradeAddBtn.setVisibility(View.INVISIBLE);
+            holder.gradeAddBtn.setEnabled(true);
+            String text = courseItem.getPoints() + " נ''ז ";
+            holder.points.setText(text);
 
+            if (dataBase.getGradesOfStudent().containsKey(courseItem.getNumber())) {
+                holder.gradeAddBtn.setText(dataBase.getGradesOfStudent().get(courseItem.getNumber()));
+            } else { // The grade doesn't exist in the map of grades
+                holder.gradeAddBtn.setText("");
             }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
-                // todo validity check >=0 && <=100 checkValidity(grade);
-                // if (isValidGrade){
-
-              //  if (!grade.isEmpty()) {//todo check
-                addGradeListener.onAddGradeClick(courseItem, grade); // todo check
-              //  }
+            // todo check - when added courses write is finished == true
+            if (courseItem.getIsFinished()) {
+                holder.checkBox.setVisibility(View.INVISIBLE);
+                holder.deleteButton.setVisibility(View.VISIBLE);
+                holder.gradeAddBtn.setVisibility(View.VISIBLE);
+                holder.gradeDescription.setVisibility(View.VISIBLE);
+                //   holder.saveTextiew.setVisibility(View.VISIBLE);
             }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-               // String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
-                //addGradeListener.onAddGradeClick(courseItem, grade); // todo check
+            // holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
+            //    @Override
+            //   public void onClick(View v) {
+            //showPopup(v);
+            //  addGradeListener.onAddGradeClick(v, courseItem);
+            // }
+            //   });
+
+            // This method runs when the text in grade edit text is changed
+            holder.gradeAddBtn.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
+                    // todo validity check >=0 && <=100 checkValidity(grade);
+                    // if (isValidGrade){
+
+                    //  if (!grade.isEmpty()) {//todo check
+                    addGradeListener.onAddGradeClick(courseItem, grade); // todo check
+                    //  }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
+                    //addGradeListener.onAddGradeClick(courseItem, grade); // todo check
+                }
+            });
+
+            holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("grade clicked");
+                    showPopup(courseItem, v);
+                    holder.gradeAddBtn.setEnabled(true);
+                }
+            });
+
+            holder.gradeAddBtn.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    System.out.println("long clicked");
+                    holder.gradeAddBtn.setEnabled(true);
+                    return false;
+                }
+            });
+
+            holder.gradeAddBtn.setOnHoverListener(new View.OnHoverListener() {
+                @Override
+                public boolean onHover(View v, MotionEvent event) {
+                    Tooltip tooltip = new Tooltip.Builder(holder.itemView)
+                            .setText(R.string.grade_tooltip)
+                            .show();
+                    return false;
+                }
+            });
+
+            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("delete button clicked");
+                    deleteListener.onDeleteClick(v, courseItem);
+                }
+            });
+
+            // todo - enable edit grade?
+
+            //todo remove
+            // holder.textView.setOnClickListener(v -> {
+            //     System.out.println("text box clicked");
+            // });
+
+            holder.checkBox.setOnClickListener(v -> {
+                System.out.println("check box clicked");
+                if (holder.checkBox.isChecked()) {
+                    courseItem.setChecked(true);
+                    //  holder.gradeAddBtn.setVisibility(View.VISIBLE); //todo delete
+                } else {
+                    courseItem.setChecked(false);
+                }
+                checkBoxClickListener.onCheckBoxClicked(v, courseItem);
+            });
+
+            if (courseItem.getChecked()) {
+                holder.checkBox.setChecked(true);
+                // todo can enter grade only if selected this course
+                // and it exists in the list of courses
+                holder.gradeAddBtn.setVisibility(View.VISIBLE);
+                holder.gradeAddBtn.setEnabled(false);
+            } else {
+                holder.checkBox.setChecked(false);
             }
-        });
 
-        holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("grade clicked");
-                showPopup(courseItem, v);
-                holder.gradeAddBtn.setEnabled(true);
+            holder.itemView.setOnClickListener(v -> {
+                itemClickListener.onClick(courseItem);
+            });
+
+            if (courseItem.getType().equals("לימודי חובה")) {
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue1));
+            } else if (courseItem.getType().equals("לימודי חובת בחירה")) {
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue2));
+            } else if (courseItem.getType().equals("קורסי בחירה")) {
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue3));
+            } else if (courseItem.getType().equals("משלימים")) {
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue4));
+            } else if (courseItem.getType().equals("אבני פינה")) {
+                holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue5));
+            } else {
+
             }
-        });
-
-        holder.gradeAddBtn.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                System.out.println("long clicked");
-                holder.gradeAddBtn.setEnabled(true);
-                return false;
-            }
-        });
-
-        holder.gradeAddBtn.setOnHoverListener(new View.OnHoverListener() {
-            @Override
-            public boolean onHover(View v, MotionEvent event) {
-                Tooltip tooltip = new Tooltip.Builder(holder.itemView)
-                        .setText(R.string.grade_tooltip)
-                        .show();
-                return false;
-            }
-        });
-
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("delete button clicked");
-                deleteListener.onDeleteClick(v, courseItem);
-            }
-        });
-
-        // todo - enable edit grade?
-
-        //todo remove
-       // holder.textView.setOnClickListener(v -> {
-       //     System.out.println("text box clicked");
-       // });
-
-        holder.checkBox.setOnClickListener(v -> {
-            System.out.println("check box clicked");
-            if (holder.checkBox.isChecked()){
-                courseItem.setChecked(true);
-              //  holder.gradeAddBtn.setVisibility(View.VISIBLE); //todo delete
-            }
-            else{
-                courseItem.setChecked(false);
-            }
-            checkBoxClickListener.onCheckBoxClicked(v, courseItem);
-        });
-
-        if (courseItem.getChecked()){
-            holder.checkBox.setChecked(true);
-            // todo can enter grade only if selected this course
-            // and it exists in the list of courses
-            holder.gradeAddBtn.setVisibility(View.VISIBLE);
-            holder.gradeAddBtn.setEnabled(false);
-        }
-        else{
-            holder.checkBox.setChecked(false);
-        }
-
-        holder.itemView.setOnClickListener(v -> {
-            itemClickListener.onClick(courseItem);
-        });
-
-        if (courseItem.getType().equals("לימודי חובה")){
-           holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue1));
-        }
-        else if (courseItem.getType().equals("לימודי חובת בחירה")){
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue2));
-        }
-        else if (courseItem.getType().equals("קורסי בחירה")){
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue3));
-        }
-        else if (courseItem.getType().equals("משלימים")){
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue4));
-        }
-        else if (courseItem.getType().equals("אבני פינה")){
-            holder.cardView.setCardBackgroundColor(this.mContext.getResources().getColor(R.color.lightblue5));
-        }
-        else{
-
         }
     }
     public static class PopupDialogFragment extends DialogFragment {

@@ -1,6 +1,7 @@
 package com.example.huji_assistant.Fragments;
 
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -231,10 +233,11 @@ public class CoursesFragment extends Fragment {
                 Task<QuerySnapshot> document = firebaseInstancedb.collection(ROOT_COLLECTION).document(chugId)
                         .collection("maslulimInChug").document(maslulId).collection("coursesInMaslul")
                         .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @RequiresApi(api = Build.VERSION_CODES.N)
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 List<DocumentSnapshot> documents = task.getResult().getDocuments();
-                                // ArrayList<Course> coursesInMaslul = new ArrayList<>();
+
                                 for (DocumentSnapshot document1 : documents) {
                                     // retrieve for each chug id it's name
                                     Course course = document1.toObject(Course.class);
@@ -243,7 +246,9 @@ public class CoursesFragment extends Fragment {
                                 }
 
                                 db.setCoursesRegistration(coursesInMaslul);
-                                adapter.addCoursesListToAdapter(coursesInMaslul);
+                                ArrayList<Course> sortedCoursesInMaslul = db.sortCoursesByYearAndType(coursesInMaslul);
+                                adapter.addCoursesListToAdapter(sortedCoursesInMaslul);
+                                adapter.notifyDataSetChanged();
                             }
                         });
             } catch (Exception e) {
@@ -279,12 +284,14 @@ public class CoursesFragment extends Fragment {
         binding.autocompletechoosetypeRegisterScreen.setAdapter(arrayAdapter);
 
         dropdowntype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedValue = (String) (parent.getItemAtPosition(position));
                 if (selectedValue.equals("הכל")) {
                     ArrayList<Course> list = db.getCoursesRegistration();
-                    adapter.addCoursesListToAdapter(list);
+                    ArrayList<Course> coursesSorted = db.sortCoursesByYearAndType(list);
+                    adapter.addCoursesListToAdapter(coursesSorted);
                     adapter.notifyDataSetChanged();
                     arrayAdapter.getFilter().filter("");
                     binding.autocompletechoosetypeRegisterScreen.setAdapter(arrayAdapter);

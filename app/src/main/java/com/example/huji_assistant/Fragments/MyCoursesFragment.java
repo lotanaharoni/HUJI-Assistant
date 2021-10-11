@@ -288,9 +288,9 @@ public class MyCoursesFragment extends Fragment {
                         averageTxt.setText(averageText);
                         Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
                         ArrayList<Course> coursesOfCurrentStudent = dataBase.getCoursesOfCurrentStudent();
+
                         adapter.addCoursesListToAdapter(coursesOfCurrentStudent);
                         adapter.notifyDataSetChanged();
-                        // todo check here
                         // addGradeListener.onAddGradeClick(item, grade);
                     }
                 }
@@ -409,22 +409,19 @@ public class MyCoursesFragment extends Fragment {
         ArrayAdapter arrayAdapter = new ArrayAdapter(requireContext(), R.layout.dropdowntypeitem, getResources().getStringArray(R.array.courseType));
         arrayAdapter.getFilter().filter("");
         binding.autocompletechoosetype1.setAdapter(arrayAdapter);
-
         autocompletechoosetype.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedValue = (String)(parent.getItemAtPosition(position));
                 if (selectedValue.equals("הכל")){
                     ArrayList<Course> list = dataBase.getCoursesOfCurrentStudent();
-                    adapter.addCoursesListToAdapter(list);
+                    ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(list);
+                    adapter.addCoursesListToAdapter(coursesSorted);
                     adapter.notifyDataSetChanged();
                     arrayAdapter.getFilter().filter("");
                     binding.autocompletechoosetype1.setAdapter(arrayAdapter);
-
                 }
                 else {
-                    System.out.println("selection1 " + selectedValue);
-                    System.out.println("position1 " + position);
                     arrayAdapter.getFilter().filter("");
                     ArrayList<Course> newC = new ArrayList<>();
                     // todo check
@@ -440,27 +437,13 @@ public class MyCoursesFragment extends Fragment {
                     adapter.addCoursesListToAdapter(newC);
                     adapter.notifyDataSetChanged();
                     //  recyclerViewMyCourses.setAdapter(adapter);
-                    System.out.println("reached");
                 }
-
             }
         });
 
         if (dataBase == null){
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
         }
-/**
-        dataBase.publicLiveDataMyCourses.observe(getViewLifecycleOwner(), new Observer<List<Course>>() {
-            @Override
-            public void onChanged(List<Course> items) {
-                if(items.size() == 0){
-                    adapter.addCoursesListToAdapter(new ArrayList<>());
-                }
-                else{
-                    adapter.addCoursesListToAdapter(new ArrayList<>(items));
-                }
-            }
-        });*/
 
         if (holder == null) {
             holder = new CourseItemHolder(recyclerViewMyCourses);
@@ -516,7 +499,8 @@ public class MyCoursesFragment extends Fragment {
 
 
         // Create the adapter
-        adapter.addCoursesListToAdapter(courseItems);
+        ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(courseItems);
+        adapter.addCoursesListToAdapter(coursesSorted);
         adapter.notifyDataSetChanged();
         recyclerViewMyCourses.setAdapter(adapter);
 
