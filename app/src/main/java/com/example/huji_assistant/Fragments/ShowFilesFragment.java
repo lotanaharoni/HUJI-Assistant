@@ -1,5 +1,6 @@
 package com.example.huji_assistant.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.huji_assistant.Course;
+import com.example.huji_assistant.Activities.ShowPDFActivity;
+import com.example.huji_assistant.Activities.ShowImagesActivity;
 import com.example.huji_assistant.R;
-import com.example.huji_assistant.databinding.FragmentCoursesBinding;
 import com.example.huji_assistant.databinding.FragmentShowfilesBinding;
 
 public class ShowFilesFragment extends Fragment {
@@ -52,7 +53,7 @@ public class ShowFilesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (filesClickedListener != null){
-                    System.out.println("files");
+                    startActivity(new Intent(requireActivity(), ShowPDFActivity.class));
                     filesClickedListener.onFilesShowClick();
                 }
             }
@@ -62,7 +63,7 @@ public class ShowFilesFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if (imagesClickedListener != null){
-                    System.out.println("images");
+                    startActivity(new Intent(requireActivity(), ShowImagesActivity.class));
                     imagesClickedListener.onImageShowClick();
                 }
             }

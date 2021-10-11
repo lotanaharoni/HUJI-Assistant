@@ -87,10 +87,6 @@ import java.util.List;
 public class MainScreenActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public LocalDataBase dataBase = null;
-    public static final int CAMERA_PERM_CODE = 101;
-    private static final int CAMERA_TYPE = 1;
-    private DatabaseReference root;
-    private StorageReference reference;
     FragmentManager fragmentManager;
     MainScreenFragment mainscreenfragment;
     MainScreenFragment mainscreenfragment2;
@@ -107,14 +103,12 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
     PlannedCoursesFragment plannedCoursesFragment;
     ProgressBar progressBar;
     FirebaseFirestoreSettings settings;
-    private ActivityResultLauncher<Intent> cameraUploadActivityResultLauncher;
     String currentPhotoPath;
     private DrawerLayout moreInfoDrawerLayout;
     private ImageView logoutImageView;
     private TextView changeLanguageTextView;
     ListenerRegistration listener;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
-  //  FirebaseFirestore firebaseInstancedb = HujiAssistentApplication.getInstance().getDataBase().getFirestoreDB();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,8 +191,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         settingsFragment2 = new SettingsFragment();
 
         FloatingActionButton openCameraBtn = findViewById(R.id.open_camera_floating_button);
-        root = FirebaseDatabase.getInstance().getReference("Image");
-        reference = FirebaseStorage.getInstance().getReference();
 
         mainscreenfragment = new MainScreenFragment();
         mainscreenfragment2 = new MainScreenFragment();
@@ -235,28 +227,9 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         openCameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askCameraPermissions();
+                startActivity(new Intent(MainScreenActivity.this, CaptureImageActivity.class));
             }
         });
-
-        cameraUploadActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK) {
-                            Intent data = result.getData();
-                            File f = new File(currentPhotoPath);
-
-                            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                            Uri contentUri = Uri.fromFile(f);
-                            mediaScanIntent.setData(contentUri);
-                            sendBroadcast(mediaScanIntent);
-
-                            uploadToFirebase(contentUri);
-                        }
-                    }
-                });
 
         mainscreenfragment.coursesPlanButtonListenerBtn = new MainScreenFragment.coursesPlanButtonListenerBtn() {
             @Override
@@ -784,78 +757,6 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
                 super.onBackPressed();
             }
         }
-    }
-
-    private void askCameraPermissions() {
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.CAMERA}, CAMERA_PERM_CODE);
-        }else {
-            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            // Ensure that there's a camera activity to handle the intent
-            if (takePictureIntent.resolveActivity(this.getPackageManager()) != null) {
-                // Create the File where the photo should go
-                File photoFile = null;
-                try {
-                    photoFile = createImageFile();
-                } catch (IOException ex) {
-
-                }
-                // Continue only if the File was successfully created
-                if (photoFile != null) {
-                    Uri photoURI = FileProvider.getUriForFile(this,
-                            "com.example.android.fileprovider",
-                            photoFile);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    cameraUploadActivityResultLauncher.launch(takePictureIntent);
-                }
-            }
-        }
-    }
-
-    private void uploadToFirebase(Uri uri) {
-        String name = new SimpleDateFormat("dd-MM-yyyy-HH:mm:ss").format(new Date()) +
-                "_" + dataBase.getCurrentStudent().getPersonalName() + "_" +
-                dataBase.getCurrentStudent().getFamilyName() + ".jpg";
-        StorageReference fileRef = reference.child("Camera_images/" + name);
-        fileRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Model model = new Model(uri.toString(), name, CAMERA_TYPE);
-                        String modelId = root.push().getKey();
-                        assert modelId != null;
-                        root.child(modelId).setValue(model);
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Toast.makeText(MainScreenActivity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(MainScreenActivity.this, R.string.upload_failed_message, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private File createImageFile() throws IOException {
-        String imageFileName = new SimpleDateFormat("dd-MM-yyyy").format(new Date());;
-        File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        currentPhotoPath = image.getAbsolutePath();
-        return image;
     }
 
     private void setLocale(String lang) {

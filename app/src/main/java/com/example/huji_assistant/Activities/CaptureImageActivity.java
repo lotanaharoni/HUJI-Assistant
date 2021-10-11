@@ -55,7 +55,7 @@ import java.util.Date;
 
 public class CaptureImageActivity extends AppCompatActivity {
 
-    private Button uploadBtn, showAllBtn, button2;
+    private Button uploadBtn;
     private TextView pdfName;
     private ImageView imageView, cameraImageUpload, pdfImageUpload, imageShow;
     private int uploadChoose;
@@ -89,7 +89,6 @@ public class CaptureImageActivity extends AppCompatActivity {
 
         uploadBtn = findViewById(R.id.upload_btn);
         uploadBtn.setEnabled(false);
-        showAllBtn = findViewById(R.id.showall_btn);
         progressBar = findViewById(R.id.progressBar2);
         imageView = findViewById(R.id.uploadFromGallery);
         root = FirebaseDatabase.getInstance().getReference("Image");
@@ -103,7 +102,6 @@ public class CaptureImageActivity extends AppCompatActivity {
         imageTitle = findViewById(R.id.imageTitle);
         imageTitle.setText("");
         imageShow.setVisibility(View.INVISIBLE);
-        button2 = findViewById(R.id.button2);
         uploadChoose = -1;
         fName = "";
         pdfName.setText("");
@@ -128,17 +126,6 @@ public class CaptureImageActivity extends AppCompatActivity {
             }
         });
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // startActivity(new Intent(CaptureImage2.this, PDFMainActivity.class));
-                // }
-
-                startActivity(new Intent(CaptureImageActivity.this, PDFMainActivity2.class));            }
-
-        });
-
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,13 +146,6 @@ public class CaptureImageActivity extends AppCompatActivity {
                         Toast.makeText(CaptureImageActivity.this, R.string.course_number_is_not_valid, Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
-
-        showAllBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(CaptureImageActivity.this, ShowActivity.class));
             }
         });
 

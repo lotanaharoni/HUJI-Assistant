@@ -27,10 +27,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.HUJI_Assistant">
-        <activity android:name=".Activities.ShowActivity" />
-        <activity android:name=".Activities.PDFMainActivity" />
+        <activity android:name=".Activities.ShowImagesActivity" />
         <activity android:name=".Activities.ScanQrActivity" />
-        <activity android:name=".Activities.PDFMainActivity2" />
+        <activity android:name=".Activities.ShowPDFActivity" />
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.PDFActivity" />
         <activity android:name=".Activities.CaptureImageActivity" />

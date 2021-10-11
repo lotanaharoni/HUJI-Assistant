@@ -12,21 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.Model;
 import com.example.huji_assistant.R;
-import com.example.huji_assistant.ShowAttendancyAdapter;
 import com.example.huji_assistant.ShowImagesAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
-public class ShowActivity extends AppCompatActivity {
+public class ShowImagesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private ArrayList<Model> list;
@@ -77,8 +72,9 @@ public class ShowActivity extends AppCompatActivity {
         String savedCourse = adapter.getSavedCourse();
 
         if (stage == 0){
-            startActivity(new Intent(ShowActivity.this, CaptureImageActivity.class));
-            finish();
+            super.onBackPressed();
+//            startActivity(new Intent(ShowImagesActivity.this, MainScreenActivity.class));
+//            finish();
         }
         else if (stage == 1){
             adapter = new ShowImagesAdapter(this, list, 0, "");

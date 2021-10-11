@@ -6,23 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Activities.CaptureImageActivity">
 
-    <EditText
-        android:id="@+id/imageTitle"
-        android:layout_width="299dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="50dp"
-        android:ems="10"
-        android:layout_marginTop="75dp"
-        android:hint="@string/image_title"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/upload_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pdfImageUpload"
-        app:layout_constraintVertical_bias="0.136" />
-
-<!--    <EditText-->
+    <!--    <EditText-->
 <!--        android:id="@+id/courseNumberEditText"-->
 <!--        android:layout_width="299dp"-->
 <!--        android:layout_height="45dp"-->
@@ -53,6 +37,21 @@
 <!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        app:layout_constraintVertical_bias="0.658" />-->
 
+    <EditText
+        android:id="@+id/imageTitle"
+        android:layout_width="299dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginBottom="50dp"
+        android:ems="10"
+        android:hint="@string/image_title"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/upload_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pdfImageUpload"
+        app:layout_constraintVertical_bias="0.31" />
+
     <Spinner
         android:id="@+id/spinner1"
         android:layout_width="323dp"
@@ -64,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.6" />
+        app:layout_constraintVertical_bias="0.638" />
 
     <ImageView
         android:id="@+id/cameraImageUpload"
@@ -103,28 +102,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="20dp"
         android:background="@color/colorPrimaryDark"
         android:text="@string/upload_button"
         android:textColor="#fff"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pdfImageUpload"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/showall_btn"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="16dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/show_all_pictures_button"
-        android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintVertical_bias="0.79" />
 
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -137,20 +122,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pdfImageUpload"
         app:layout_constraintVertical_bias="0.904" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/show_all_pdf_button"
-        android:textColor="#fff"
-        app:layout_constraintBottom_toTopOf="@+id/showall_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar2"
-        app:layout_constraintVertical_bias="0.795" />
 
     <ImageView
         android:id="@+id/imageShow"
