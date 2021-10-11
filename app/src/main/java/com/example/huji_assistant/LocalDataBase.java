@@ -8,26 +8,15 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import androidx.annotation.Nullable;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
@@ -37,7 +26,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,7 +56,6 @@ public class LocalDataBase {
     private int currentSuppPoints = 0;
     private ArrayList<Course> coursesRegistration;
     private final HashMap<String, StudentInfo> students;
-//    private final DatabaseReference usersRef;
     private final MutableLiveData<StudentInfo> currentUserMutableLiveData = new MutableLiveData<>();
     public final LiveData<StudentInfo> currentUserLiveData = currentUserMutableLiveData;
     private final MutableLiveData<Boolean> firstLoadFlagMutableLiveData = new MutableLiveData<>();
@@ -107,9 +94,6 @@ public class LocalDataBase {
 
         mutableLiveDataMyCourses.setValue(new ArrayList<>(listOfCourses));
         sortCourseItems();
-//        this.refreshDataUsers();
-//        FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        this.usersRef = database.getReference("Users");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -133,12 +117,6 @@ public class LocalDataBase {
                     this.coursesOfCurrentStudent.add(course);
                 }
             }
-
-          //  SharedPreferences.Editor editor = sp.edit();
-           // if (toAdd != null) {
-           //     editor.putString("course", toAdd.getNumber());
-           // }
-           // editor.apply();
 
             this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
                 System.out.println("upload finished");
@@ -315,7 +293,6 @@ public class LocalDataBase {
 
     public void saveUserToSp(String id, String email, String password) {
         SharedPreferences.Editor spEditor = sp.edit();
-//        spEditor.putString("id", id);
         spEditor.apply();
     }
 
@@ -324,7 +301,6 @@ public class LocalDataBase {
         this.currentFbUser = null;
         this.currentStudent = new StudentInfo();
         SharedPreferences.Editor spEditor = sp.edit();
-//        spEditor.remove(user_email);
         spEditor.apply();
     }
 
@@ -450,7 +426,6 @@ public class LocalDataBase {
                         setCurrentUser(currentFbUser);
                         firstLoadFlagMutableLiveData.postValue(true);
                         firstUsersLoad = true;
-//                        firstLoadFlagMutableLiveData.postValue(true);
                     }
                 });
     }
@@ -681,64 +656,4 @@ public class LocalDataBase {
         return sortedList;
 
     }
-
-    //    private void readDataIdsInUse(FirebaseUsersUpdateCallback firebaseCallback) {
-//        ValueEventListener valueEventListenerUsers = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                students.clear();
-//                ArrayList<StudentInfo> unapproved = new ArrayList<>();
-//                for (DataSnapshot ds : snapshot.getChildren()) {
-//                    if (ds != null) {
-//                        StudentInfo user = ds.getValue(StudentInfo.class);
-//                        assert user != null;
-//                        students.put(user.getId(), user);
-//                    }
-//                }
-//                setCurrentUser(currentFbUser);
-//                firebaseCallback.onCallback(students);
-//                firstLoadFlagMutableLiveData.postValue(firstUsersLoad);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        };
-//        // update data and relevant liveData
-//        usersRef.addValueEventListener(valueEventListenerUsers);
-//
-//        // notifies first load
-//        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                firstUsersLoad = true;
-//                firstLoadFlagMutableLiveData.postValue(true);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//            }
-//        });
-//    }
-
-    //    public void addStudentFirebase(String studentId, String email, String password) {
-//        StudentInfo newStudent = new StudentInfo(studentId, email, password);
-//        this.usersRef.child(newStudent.getId()).setValue(newStudent);
-//    }
-
-    //    public void updateStudentFirebase(String name, String email, String password, String facultyId, String chugId, String maslulId, String degree, String year, String id) {
-//        StudentInfo newUser = new StudentInfo(name, email, password, facultyId, chugId, maslulId, degree, year, id);
-//        this.usersRef.child(id).setValue(newUser).addOnSuccessListener(aVoid -> {
-//            if (newUser.getId().equals(currentStudent.getId())) {
-//                currentStudent = newUser;
-//            } else {
-//                Log.d("sameUserCheck", "not the current user");
-//            }
-//        });
-//    }
-
-    //    public void refreshDataUsers() {
-//        readDataIdsInUse((students) -> {
-//        });
-//    }
 }

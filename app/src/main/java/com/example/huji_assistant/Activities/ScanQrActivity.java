@@ -36,9 +36,6 @@ import java.util.Map;
 public class ScanQrActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
     LocalDataBase db;
-    private final int COURSE = 0;
-    private final int YEAR = 1;
-    private final int DAY = 2;
     FirebaseFirestore firestore;
     FirebaseFirestoreSettings settings;
 
@@ -67,11 +64,6 @@ public class ScanQrActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        String[] parts = result.getText().split("-");
-                        // parts = "67625-2021-15.09"
-//                        if (parts.length != 3){
-//                            return;
-//                        }
                         String year =  new SimpleDateFormat("yyyy").format(new Date());
                         String day = new SimpleDateFormat("dd.MM").format(new Date());
                         String course = result.getText();
@@ -83,7 +75,6 @@ public class ScanQrActivity extends AppCompatActivity {
                         firestore.collection("attendance").document(course).set(dummyValue);
                         firestore.collection("attendance").document(course).collection(year).document(day).set(dummyValue);
                         firestore.collection("attendance").document(course).collection(year).document(day).collection("dummy")
-//                        firestore.collection(parts[COURSE]).document(parts[YEAR]).collection(parts[DAY])
                                 .add(userScan)
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
@@ -138,7 +129,6 @@ public class ScanQrActivity extends AppCompatActivity {
         else {
             startActivity(new Intent(this, MainScreenActivity.class));
             finish();
-//            super.onBackPressed();
         }
     }
 
