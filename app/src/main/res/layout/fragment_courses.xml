@@ -111,7 +111,19 @@
 
     </LinearLayout>
 
-
+    <TextView
+        android:id="@+id/selectCoursesMsg"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/recycleViewCourses"
+        android:layout_marginTop="70dp"
+        android:gravity="center"
+        android:paddingRight="10dp"
+        android:textSize="14sp"
+        android:background="@color/lightorange2"
+        android:text="@string/courses_msg"
+        android:textColor="@color/black"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycleViewCourses"

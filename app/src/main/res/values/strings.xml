@@ -61,13 +61,14 @@
     <string name="forgot_password">שכחתי סיסמא</string>
     <string name="login_screen">מסך התחברות למערכת</string>
     <string name="logout_textview">התנתק</string>
-    <string name="search_course">חפש קורס…</string>
+    <string name="search_course">חפש לפי מספר קורס…</string>
     <string name="choose_course">בחר קורס שהקובץ מיועד אליו</string>
     <string name="edit_degree_data">עריכת נתוני תואר</string>
     <string name="choose_a_degree">בחר תואר</string>
     <string name="choose_a_year_for_the_degree">בחר שנה לתואר</string>
     <string name="choose_a_course">בחר קורס</string>
     <string name="other">אחר</string>
+    <string name="courses_msg">אנא סמן את הקורסים שעשית בתואר</string>
     <string name="version">גרסה 1.0</string>
     <string name="username">שם משתמש: </string>
     <string name="course_number_txt">קורס מספר:</string>

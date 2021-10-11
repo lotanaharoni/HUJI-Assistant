@@ -108,13 +108,14 @@
     <string name="bottommenusettings">Settings</string>
     <string name="bottommenuqrscan">QR Scan</string>
     <string name="mycoursestitle">My courses</string>
-    <string name="search_course">Search for a course…</string>
+    <string name="search_course">Search for a course by number…</string>
     <string name="choose_course">Select a course for which the file is intended</string>
     <string name="edit_degree_data">Editing degree data</string>
     <string name="choose_a_degree">Choose a degree</string>
     <string name="choose_a_year_for_the_degree">Choose a year for the degree</string>
     <string name="choose_a_course">Choose a course</string>
     <string name="other">Other</string>
+    <string name="courses_msg">Please select the courses you have done already</string>
     <string name="version">Version 1.0</string>
     <string name="username">Username: </string>
     <string name="show_only_selected">Show only selected items</string>
