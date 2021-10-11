@@ -5,6 +5,7 @@ public class Model {
     private String imageUrl;
     private String name;
     private int type;
+    private String id;
 
     public Model(){
 
@@ -13,6 +14,7 @@ public class Model {
         this.imageUrl = imageUrl;
         this.type = type;
         this.name = name;
+        this.id = "";
     }
 
     public String getImageUrl() {
@@ -37,5 +39,13 @@ public class Model {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

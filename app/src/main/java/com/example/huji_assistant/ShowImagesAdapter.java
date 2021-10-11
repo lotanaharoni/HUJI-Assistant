@@ -1,6 +1,8 @@
 package com.example.huji_assistant;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.huji_assistant.Activities.ImageActivity;
+import com.example.huji_assistant.Activities.PDFActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,7 +51,7 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
         View v;
 //        v = LayoutInflater.from(context).inflate(R.layout.model_pdf, parent, false);
 
-        if (stage == 3){
+        if (stage == 2){
             v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         }
         else{
@@ -57,7 +61,7 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         dataImages = new ArrayList<>();
 
         if (stage == 2){
@@ -106,11 +110,43 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
                                                                     Model model = dataSnapshot.getValue(Model.class);
                                                                     assert model != null;
                                                                     if (model.getType() != PDF_TYPE){
+                                                                        model.setId(dataSnapshot.getKey());
                                                                         dataImages.add(model);
                                                                     }
                                                                 }
                                                                 swapImages(dataImages);
                                                                 stage = 2;
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                                            }
+                                                        });
+                                                    }
+
+                                                    else if (stage == 2){
+                                                        String path = "Image" + "/" + savedCourse + "/" + savedDate;
+
+                                                        root = FirebaseDatabase.getInstance().getReference(path);
+
+                                                        root.addValueEventListener(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                                                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                                    if (dataSnapshot.getKey().equals(mModels.get(position).getId())){
+                                                                        Model model = dataSnapshot.getValue(Model.class);
+                                                                        assert model != null;
+                                                                        if (model.getType() != PDF_TYPE){
+                                                                            PDFDoc pdfDoc = new PDFDoc();
+                                                                            pdfDoc.setName(model.getName());
+                                                                            pdfDoc.setPath(model.getImageUrl());
+                                                                            openPDFView(pdfDoc.getPath());
+                                                                            break;
+                                                                        }
+                                                                    }
+                                                                }
                                                             }
 
                                                             @Override
@@ -154,5 +190,12 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
 
     public String getSavedCourse(){
         return savedCourse;
+    }
+
+    private void openPDFView(String path)
+    {
+        Intent i=new Intent(context, ImageActivity.class);
+        i.putExtra("PATH",path);
+        context.startActivity(i);
     }
 }

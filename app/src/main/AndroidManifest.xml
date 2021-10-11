@@ -24,6 +24,7 @@
         android:theme="@style/Theme.HUJI_Assistant">
         <activity android:name=".Activities.ShowImagesActivity" />
         <activity android:name=".Activities.ScanQrActivity" />
+        <activity android:name=".Activities.ImageActivity" />
         <activity android:name=".Activities.ShowPDFActivity" />
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.PDFActivity" />
