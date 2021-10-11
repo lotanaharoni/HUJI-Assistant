@@ -108,32 +108,6 @@ public class PlanCoursesFragment extends Fragment {
         settings = new FirebaseFirestoreSettings.Builder().setPersistenceEnabled(true).build();
         firebaseInstancedb.setFirestoreSettings(settings);
 
-
-
-
-// just for sec, not working or worked
-//        planCoursesFragment.onItemClickListener = new com.example.huji_assistant.PlanCoursesAdapter.OnItemClickListener() {
-//            @Override
-//            public void onClick(Course item) {
-//                getSupportFragmentManager().beginTransaction().setCustomAnimations(
-//                        R.anim.fade_in,  // enter
-//                        R.anim.slide_out,  // exit
-//                        R.anim.slide_in,   // popEnter
-//                        R.anim.fade_out  // popExit
-//                )
-//                        .replace(loginFragment.getId(), planCourseInfoFragment, "SELECT_COURSE_ITEM_FRAGMENT").addToBackStack(null).commit();
-//            }
-//        };
-
-
-
-
-
-
-
-
-
-
         StudentInfo currentStudent = dataBase.getCurrentUser();
 
         // Update data on screen
@@ -174,10 +148,14 @@ public class PlanCoursesFragment extends Fragment {
 
                 ArrayList<Course> list = dataBase.getCoursesToPlan(filterYear, filterSemester, filterPoints);
                 coursesToShow = list;
-                adapter.addCoursesListToAdapter(list);
+                adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(list));
                 adapter.notifyDataSetChanged();
                 if (list.size() == 0)
                     Toast.makeText(getContext(), "אין קורסים תחת סינון זה", Toast.LENGTH_SHORT).show();
+
+                if (showOnlyChosePlanned.isChecked()){ // check if onlyShowPlaned is clicked, and if so response accordingly
+                    showOnlyPlanedLogic();
+                }
             }
         });
 
@@ -190,7 +168,7 @@ public class PlanCoursesFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 filterSemester = ((String) (parent.getItemAtPosition(position)));
-                if (!filterSemester.equals("קורס שנתי")) {
+                if (!(filterSemester.equals("קורס שנתי") || filterSemester.equals("הכל"))) {
                     if (filterSemester.equals("סמסטר א או ב")) {
                         filterSemester = "א' או ב'";
                     } else filterSemester = filterSemester.substring(6) + "'"; // סמסטר ב -> ב'
@@ -200,10 +178,14 @@ public class PlanCoursesFragment extends Fragment {
                 ArrayList<Course> list = dataBase.getCoursesToPlan(filterYear, filterSemester, filterPoints);
 
                 coursesToShow = list;
-                adapter.addCoursesListToAdapter(list);
+                adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(list));
                 adapter.notifyDataSetChanged();
                 if (list.size() == 0)
                     Toast.makeText(getContext(), "אין קורסים תחת סינון זה", Toast.LENGTH_SHORT).show();
+
+                if (showOnlyChosePlanned.isChecked()){ // check if onlyShowPlaned is clicked, and if so response accordingly
+                    showOnlyPlanedLogic();
+                }
             }
         });
 
@@ -219,18 +201,26 @@ public class PlanCoursesFragment extends Fragment {
                 filterPoints = ((String) (parent.getItemAtPosition(position))).substring(0, 1);
                 ArrayList<Course> list = dataBase.getCoursesToPlan(filterYear, filterSemester, filterPoints);
 
-                adapter.addCoursesListToAdapter(list);
+                adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(list));
                 adapter.notifyDataSetChanged();
                 if (list.size() == 0)
                     Toast.makeText(getContext(), "אין קורסים תחת סינון זה", Toast.LENGTH_SHORT).show();
+
+                if (showOnlyChosePlanned.isChecked()){ // check if onlyShowPlaned is clicked, and if so response accordingly
+                    showOnlyPlanedLogic();
+                }
             }
         });
 
 
         // Create the adapter
-        adapter.addCoursesListToAdapter(coursesToShow); // courses List To Show --------------------------
+        adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(coursesToShow)); // courses List To Show --------------------------
         adapter.notifyDataSetChanged();
         recyclerViewMyCourses.setAdapter(adapter);
+
+        if (showOnlyChosePlanned.isChecked()){ // check if onlyShowPlaned is clicked, and if so response accordingly
+            showOnlyPlanedLogic();
+        }
 
         coordinatorLayout = new LinearLayoutManager(getContext(),
                 RecyclerView.VERTICAL, false);
@@ -263,20 +253,13 @@ public class PlanCoursesFragment extends Fragment {
         showOnlyChosePlanned.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (showOnlyChosePlanned.isChecked()){
-                    ArrayList<Course> planedOnlyList;
-                    planedOnlyList = adapter.getItems().stream().filter(Course::isPlanned).collect(Collectors.toCollection(ArrayList::new));
-                    adapter.addCoursesListToAdapter(planedOnlyList);
-                    adapter.notifyDataSetChanged();
-                }else {
-                    adapter.addCoursesListToAdapter(coursesToShow);
-                    adapter.notifyDataSetChanged();
-                }
+            showOnlyPlanedLogic();
             }
         });
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onResume() {
         super.onResume();
@@ -293,7 +276,24 @@ public class PlanCoursesFragment extends Fragment {
         arrayPointsAdapter.getFilter().filter("");
         binding.autocompletechoosepoints.setAdapter(arrayPointsAdapter);
 
-        adapter.addCoursesListToAdapter(coursesToShow);
+        adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(coursesToShow));
         adapter.notifyDataSetChanged();
+
+        if (showOnlyChosePlanned.isChecked()){ // check if onlyShowPlaned is clicked, and if so response accordingly
+            showOnlyPlanedLogic();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void showOnlyPlanedLogic(){
+        if (showOnlyChosePlanned.isChecked()) {
+            ArrayList<Course> planedOnlyList;
+            planedOnlyList = adapter.getItems().stream().filter(Course::isPlanned).collect(Collectors.toCollection(ArrayList::new));
+            adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(planedOnlyList));
+            adapter.notifyDataSetChanged();
+        } else {
+            adapter.addCoursesListToAdapter(dataBase.sortCoursesByYearAndType(coursesToShow));
+            adapter.notifyDataSetChanged();
+        }
     }
 }

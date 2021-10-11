@@ -35,7 +35,7 @@
             android:layoutDirection="rtl"
             android:textDirection="rtl"
             android:paddingRight="6dp"
-            android:layout_marginRight="70dp"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="2dp"
             android:fontFamily="casual"
             android:singleLine="false"
@@ -72,13 +72,16 @@
         <TextView
             android:id="@+id/coursepoints"
             android:layout_width="wrap_content"
-            android:background="@color/common_google_signin_btn_text_dark_default"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
             android:layout_marginTop="25dp"
-            android:textSize="12sp"
+            android:layout_marginLeft="30dp"
+            android:layout_gravity="left"
+            android:layoutDirection="ltr"
+            android:textDirection="ltr"
+            android:background="@color/common_google_signin_btn_text_dark_default"
             android:text="נקודות זכות"
-            android:textAppearance="?android:textAppearanceLarge" />
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/courseTypeHolder"

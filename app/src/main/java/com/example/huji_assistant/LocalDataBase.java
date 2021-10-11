@@ -606,12 +606,19 @@ public class LocalDataBase {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public ArrayList<Course> getCoursesToPlan(String year, String semester, String points) {
+        /**
+         * Returns all the courses the student need to complete by their year, semester and points.
+         * you can use this method to filter by any of these parameters alone or by couples, just leave
+         * the parameter you don't need as null.
+         */
         ArrayList<Course> coursesToComplete = getCoursesToComplete();
         ArrayList<Course> filterBySemester = new ArrayList<>();
-        if (year != null) {
+
+        if (!(year == null || year.equals("הכל"))) {
             coursesToComplete = coursesToComplete.stream().filter(Course -> Course.getYear().equals(year)).collect(Collectors.toCollection(ArrayList::new));
         }
-        if (semester != null){
+
+        if (!(semester == null || semester.equals("הכל"))){
             ArrayList<Course> temp = coursesToComplete.stream().filter(Course -> Course.getSemester().equals(semester)).collect(Collectors.toCollection(ArrayList::new));
             coursesToComplete.removeAll(temp);
             if  (!(semester.equals("קורס שנתי") || semester.equals("א' או ב'"))){
@@ -621,22 +628,58 @@ public class LocalDataBase {
             filterBySemester.addAll(0,temp);
             coursesToComplete = filterBySemester;
         }
-        if (points != null){
-            if (points.equals("ה")){ // הכל
-                ArrayList<Course> temp = new ArrayList<>();
-                for (int i = 1; i < 8; i++) {
-                    int finalI = i;
-                    temp.addAll(coursesToComplete.stream().filter(Course -> Course.getPoints().equals(""+ finalI)) .collect(Collectors.toCollection(ArrayList::new)));
-                    coursesToComplete.removeAll(temp);
-                }
-                coursesToComplete.addAll(temp);
-            }
-            else {
+
+        if (!(points == null || points.equals("ה"))){ //ה for הכל
                 coursesToComplete = coursesToComplete.stream().filter(Course -> Course.getPoints().equals(points)).collect(Collectors.toCollection(ArrayList::new));
-            }
         }
 
         return coursesToComplete;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> sortCoursesByYearAndType(ArrayList<Course> coursesToFilter){
+        /**
+         * Used to sort the Array by year one two and three..
+         * And do sub-sort by course type.pl
+         * !!!
+         * Notice: the method adds  Course objects as Separators, your Adapter need to take it in count
+         * and hide and checkBos or irrelevant text in the holder for them not to show.
+         * !!!
+         */
+        ArrayList<Course> sortedList= new ArrayList<>();
+
+
+        ArrayList<String> yearsList = new ArrayList<>();
+        yearsList.add("שנה א");
+        yearsList.add("שנה ב");
+        yearsList.add("שנה ג");
+        yearsList.add("שנה ד");
+        yearsList.add("שנה ה");
+
+        //Todo: אבני פינה when there is in the FireStore
+        ArrayList<Course> hovaCourses;
+        ArrayList<Course> bchiraCourses;
+        ArrayList<Course> hovatBchiraCourses;
+
+        for (String year : yearsList){
+
+            Course separator = new Course(year,"",Course.Type.Mandatory,"0","");
+            separator.setPlanned(true);
+
+            ArrayList<Course> currYearCourses = coursesToFilter.stream().filter(Course -> Course.getYear().equals(year)).collect(Collectors.toCollection(ArrayList::new));
+
+            hovaCourses = currYearCourses.stream().filter(Course -> Course.getType().equals("לימודי חובה")).collect(Collectors.toCollection(ArrayList::new));
+            bchiraCourses = currYearCourses.stream().filter(Course -> Course.getType().equals("קורסי בחירה")).collect(Collectors.toCollection(ArrayList::new));
+            hovatBchiraCourses = currYearCourses.stream().filter(Course -> Course.getType().equals("לימודי חובת בחירה")).collect(Collectors.toCollection(ArrayList::new));
+
+            sortedList.add(separator);
+            sortedList.addAll(hovaCourses);
+            sortedList.addAll(bchiraCourses);
+            sortedList.addAll(hovatBchiraCourses);
+        }
+
+        return sortedList;
+
     }
 
     //    private void readDataIdsInUse(FirebaseUsersUpdateCallback firebaseCallback) {

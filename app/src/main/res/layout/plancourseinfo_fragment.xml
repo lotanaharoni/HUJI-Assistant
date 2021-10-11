@@ -24,7 +24,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/courseInfoNumber"
+                android:id="@+id/planCourseInfoNumber"
                 android:layout_width="wrap_content"
                 android:layout_marginLeft="90dp"
                 android:textSize="14sp"
@@ -35,7 +35,7 @@
                 android:text="@string/courseinfonumber" />
 
             <TextView
-                android:id="@+id/courseInfoName"
+                android:id="@+id/planCourseInfoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -67,7 +67,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/courseInfoType1"
+                android:id="@+id/planCourseInfoType1"
                 android:layout_width="wrap_content"
                 android:paddingRight="10dp"
                 android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/courseInfoPoints1"
+                android:id="@+id/planCourseInfoPoints1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -89,7 +89,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/courseInfoYear1"
+                android:id="@+id/planCourseInfoYear1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="2dp"
@@ -101,7 +101,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/courseInfoSemester1"
+                android:id="@+id/planCourseInfoSemester1"
                 android:layout_width="wrap_content"
                 android:layout_gravity="right"
                 android:paddingRight="2dp"
@@ -134,16 +134,7 @@
             android:text="@string/kdamcoursestitle"
             />
 
-        <TextView
-            android:id="@+id/noKdamCoursesTextView"
-            android:layout_width="wrap_content"
-            android:layout_marginLeft="80dp"
-            android:textStyle="italic"
-            android:visibility="gone"
-            android:textColor="@color/lightred"
-            android:layout_height="wrap_content"
-            android:text="@string/nokdamcoursesmsg"
-            />
+
     </androidx.cardview.widget.CardView>
 
 
@@ -159,7 +150,7 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/kdamcoursessrecycleview"
+            android:id="@+id/planKdamcoursessrecycleview"
             android:layout_width="match_parent"
             android:layout_height="234dp"
             android:maxHeight="190dp"
@@ -175,8 +166,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            android:layout_marginLeft="180dp"
+            android:layout_marginStart="180dp"
             android:layout_marginTop="50dp" />
+
+        <TextView
+            android:id="@+id/planNoKdamCoursesTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="250dp"
+            android:text="אין קורסי קדם לקורס זה"
+            android:textColor="@color/red"
+            android:visibility="invisible" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -212,7 +213,7 @@
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/aftercoursessrecycleview"
+            android:id="@+id/planAftercoursessrecycleview"
             android:layout_width="match_parent"
             android:layout_height="231dp"
             android:maxHeight="160dp"
@@ -226,8 +227,18 @@
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="180dp"
+            android:layout_marginStart="180dp"
             android:layout_marginTop="50dp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/planScheduleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="10dp"
+            android:text="אין לוח זמנים לקורס זה"
+            android:textColor="@color/red"
             android:visibility="visible" />
     </androidx.cardview.widget.CardView>
 
