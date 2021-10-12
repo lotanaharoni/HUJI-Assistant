@@ -365,13 +365,13 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         };
 
-        planCoursesFragment.onCheckBoxClickListener = new PlanCoursesAdapter.OnCheckBoxClickListener() {
-            @Override
-            public void onCheckBoxClicked(View v, Course item) {
-                dataBase.getCurrentStudent().updateCoursePlannedByStudentList(item.getNumber());
-            }
-        };
-
+       // planCoursesFragment.onCheckBoxClickListener = new PlanCoursesAdapter.OnCheckBoxClickListener() {
+         //   @Override
+          //  public void onCheckBoxClicked(View v, Course item) {
+           //     dataBase.getCurrentStudent().updateCoursePlannedByStudentList(item.getNumber());
+           // }
+      //  };
+//
         planCoursesFragment.onItemClickListener = new PlanCoursesAdapter.OnItemClickListener() {
             @Override
             public void onClick(Course item) {
@@ -560,6 +560,18 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         ArrayList<String> coursesOfStudentById = dataBase.getCurrentStudent().getCourses();
         ArrayList<Course> coursesOfStudentByCourse = new ArrayList<>();
+
+        // Get the id's of the planned courses that are saved in firebase
+        ArrayList<String> coursesOfStudentPlannedById = dataBase.getCurrentStudent().getPlanned();
+        for (String s: coursesOfStudentPlannedById)  {
+           System.out.println("ssss" + s);
+         }
+
+        ArrayList<Course> plannedCoursesOfStudentByCourse = new ArrayList<>();
+        //for (String s: coursesOfStudentPlannedById)  {
+         //   System.out.println("ssss" + s);
+       // }
+
         String ROOT_COLLECTION = "coursesTestOnlyCs";
 
         // Gets the courses of the student from firebase and updates in local data base
@@ -585,6 +597,15 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
                         // Save the list of all courses in the student's maslul
                         dataBase.setCoursesFromFireBase(coursesFromFireBase);
+
+                        for (String id : coursesOfStudentPlannedById){
+                            for (Course course : coursesFromFireBase){
+                                if (course.getNumber().equals(id)){
+                                    course.setPlannedChecked(true);
+                                    plannedCoursesOfStudentByCourse.add(course);
+                                }
+                            }
+                        }
 
                         for (String id : coursesOfStudentById){
                             for (Course course: coursesFromFireBase){
@@ -623,6 +644,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
                         // show changes on course list in adapter
                         dataBase.setCoursesOfCurrentStudent(coursesOfStudentByCourse);
+                        dataBase.setPlannedCoursesOfCurrentStudent(plannedCoursesOfStudentByCourse);
                     }
                 });
     }

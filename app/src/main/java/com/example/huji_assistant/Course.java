@@ -20,6 +20,7 @@ public class Course {
     private boolean isMandatory;
     private String nameOfDegree;
     private boolean isChecked = false;
+    private boolean isPlannedChecked = false;
     private boolean isPlanned = false;
 
     public enum Type{
@@ -62,9 +63,15 @@ public class Course {
         this.isChecked = val;
     }
 
+    public void setPlannedChecked(boolean val){
+        this.isPlannedChecked = val;
+    }
+
     public boolean getChecked(){
         return this.isChecked;
     }
+
+    public boolean getPlannedChecked(){return this.isPlannedChecked;}
 
     public boolean getIsFinished(){
         return this.isFinished;

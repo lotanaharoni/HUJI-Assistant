@@ -153,13 +153,12 @@ public class PlanCoursesAdapter extends RecyclerView.Adapter<PlanCourseItemHolde
             return;
         } else {
 
-
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.number.setVisibility(View.VISIBLE);
             holder.type.setVisibility(View.VISIBLE);
             holder.points.setVisibility(View.VISIBLE);
 
-            holder.checkBox.setChecked(courseItem.isPlanned());
+            holder.checkBox.setChecked(courseItem.getPlannedChecked());
             holder.name.setText(courseItem.getName());
             holder.number.setText(courseItem.getNumber());
             holder.type.setText(courseItem.getType());
@@ -193,21 +192,21 @@ public class PlanCoursesAdapter extends RecyclerView.Adapter<PlanCourseItemHolde
             }
 
             // todo check - when added courses write is finished == true
-            // todo: delete? courses that are finished won't show in the recycleViewer anyway
-            if (courseItem.getIsFinished()) {
-                holder.checkBox.setVisibility(View.INVISIBLE);
-            }
+          //  if (courseItem.getPlannedChecked()) { // liora - todo check  liora
+            //    holder.checkBox.setVisibility(View.VISIBLE);
+           // }
 
             holder.checkBox.setOnClickListener(v -> {
                 if (holder.checkBox.isChecked()) {
-                    courseItem.setChecked(true);// TODO: to Liora, do you need it?
-                    courseItem.setPlanned(true);
+                    System.out.println("adapter plancheck box");
+                    courseItem.setPlannedChecked(true);// TODO: to Liora, do you need it?
+                   // courseItem.setPlanned(true);
                     if (holder.name.getCurrentTextColor() == Color.RED) { // missing some kdam Courses
                         Toast.makeText(mContext, "Notice: you got some Course kdam missing", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    courseItem.setChecked(false);
-                    courseItem.setPlanned(false);
+                  //  courseItem.setChecked(false);
+                    courseItem.setPlannedChecked(false);
                 }
                 checkBoxClickListener.onCheckBoxClicked(v, courseItem);
             });

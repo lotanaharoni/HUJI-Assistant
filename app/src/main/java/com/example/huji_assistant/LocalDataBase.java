@@ -63,10 +63,13 @@ public class LocalDataBase {
     private boolean firstUsersLoad = false;
     FirebaseFirestoreSettings settings;
     private ArrayList<Course> coursesOfCurrentStudent = new ArrayList<>();
+    private ArrayList<Course> plannedCoursesOfStudent = new ArrayList<>();
     FirebaseFirestore db;
     private ArrayList<String> coursesRegistrationById = new ArrayList<>();
+    private ArrayList<String> coursesPlannedById = new ArrayList<>();
     CollectionReference studentsCollection;
     private HashMap<String, String> gradesOfStudent = new HashMap<>();
+    private ArrayList<CourseScheduleEntry> coursesPlannedByStudentDb = new ArrayList<>();
 
     // Courses db
     private final MutableLiveData<List<Course>> mutableLiveDataMyCourses = new MutableLiveData<>();
@@ -124,6 +127,8 @@ public class LocalDataBase {
         }
     }
 
+
+
     public void updateGrade(String number, String grade){
         this.gradesOfStudent.put(number, grade); // save in local
         // upload to firebase
@@ -145,8 +150,38 @@ public class LocalDataBase {
         this.coursesRegistrationById = new ArrayList<>(coursesRegistrationById_);
     }
 
+    public void updatePlannedCourses(){
+        // Saves the list for the student
+       // this.currentStudent.setCoursesPlannedByStudent(this.coursesPlannedById);
+        this.currentStudent.setPlanned(new ArrayList<>(this.coursesPlannedById));
+
+        // upload the list to firebase
+        this.studentsCollection.document(this.currentStudent.getId()).set(this.currentStudent).addOnSuccessListener(aVoid -> {
+            System.out.println("upload of planned courses finished");
+            Log.i("UPLOADED_SUCCESSFULLY", "upload of planned courses finished");
+        });
+    }
+
+    public void setCoursesPlannedById(ArrayList<String> coursesPlannedById_){
+        this.coursesPlannedById = new ArrayList<>(coursesPlannedById_);
+
+        // prints current planned list
+        for (String s: this.coursesPlannedById){
+            System.out.println(" hhhh " + s);
+        }
+    }
+
     public ArrayList<String> getCoursesRegistrationById(){
         return new ArrayList<>(this.coursesRegistrationById);
+    }
+
+    public ArrayList<String> getCoursesPlannedById(){
+
+        // prints current planned list
+        for (String s: this.coursesPlannedById){
+            System.out.println(" gggg " + s);
+        }
+        return new ArrayList<>(this.coursesPlannedById);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -438,6 +473,10 @@ public class LocalDataBase {
         this.coursesOfCurrentStudent = courses;
     }
 
+    public void setPlannedCoursesOfCurrentStudent(ArrayList<Course> planCourses){
+        this.plannedCoursesOfStudent = planCourses;
+    }
+
     public ArrayList<Course> getCoursesOfCurrentStudent(){
         return new ArrayList<Course>(this.coursesOfCurrentStudent);
     }
@@ -491,6 +530,14 @@ public class LocalDataBase {
          */
         ArrayList<Course> coursesToComplete = (ArrayList<Course>) this.coursesFromFireBase.clone();
         coursesToComplete.removeAll(this.coursesOfCurrentStudent);
+
+        for (String s : this.currentStudent.getPlanned()){
+            for (Course c : coursesToComplete){
+                if (c.getNumber().equals(s)){
+                    c.setPlannedChecked(true);
+                }
+            }
+        }
         return coursesToComplete;
     }
 

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.Course;
+import com.example.huji_assistant.CoursesAdapter;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.PlanCoursesAdapter;
@@ -58,11 +60,12 @@ public class PlanCoursesFragment extends Fragment {
     TextView maslulTextView;
     TextView degreeTextView;
     TextView yearTextView;
+    Button approvePlannedBtn;
     AutoCompleteTextView autoCompleteChooseYear;
     AutoCompleteTextView autoCompleteChooseSemester;
     AutoCompleteTextView autoCompleteChoosePoints;
     CheckBox showOnlyChosePlanned;
-
+    ArrayList<String> plannedCoursesOfStudent = new ArrayList<>(); // Saves the checked courses numbers
 
     public PlanCoursesFragment() {
         super(R.layout.fragment_plancourses);
@@ -80,7 +83,6 @@ public class PlanCoursesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         facultyTextView = view.findViewById(R.id.nameOfFaculty);
         chugTextView = view.findViewById(R.id.nameOfChug);
         maslulTextView = view.findViewById(R.id.nameOfMaslul);
@@ -94,6 +96,7 @@ public class PlanCoursesFragment extends Fragment {
         studentNameTextView = view.findViewById(R.id.nameOfStudentTextView);
         viewModelAppMainScreen = new ViewModelProvider(requireActivity()).get(ViewModelAppMainScreen.class);
         adapter = new PlanCoursesAdapter(getContext());
+        approvePlannedBtn = view.findViewById(R.id.approvePlannedCoursesBtn);
 
         if (dataBase == null) {
             dataBase = HujiAssistentApplication.getInstance().getDataBase();
@@ -235,15 +238,74 @@ public class PlanCoursesFragment extends Fragment {
             }
         });
 
+        // todo-liora
         //adding new course to planned courses by checkbox
         adapter.setItemCheckBoxListener(new PlanCoursesAdapter.OnCheckBoxClickListener() {
             @Override
             public void onCheckBoxClicked(View v, Course item) {
-                if (onCheckBoxClickListener != null) {
-                    onCheckBoxClickListener.onCheckBoxClicked(v, item);
+                // if (onCheckBoxClickListener != null) {
+                //      onCheckBoxClickListener.onCheckBoxClicked(v, item);
+                //  }
+                plannedCoursesOfStudent = dataBase.getCurrentStudent().getPlanned();
+                for (String s: plannedCoursesOfStudent){
+                    System.out.println("jj " + s);
                 }
+
+                //if (onCheckBoxClickListener != null) { // todo need?
+                    System.out.println("this item1 " + item.getNumber());
+                    if (item.getPlannedChecked()) {
+                        if (!plannedCoursesOfStudent.contains(item.getNumber())) {
+                            System.out.println("this item2 " + item.getNumber());
+                            plannedCoursesOfStudent.add(item.getNumber());
+                            // Adds the new checked course to the list of planned courses in database
+                            dataBase.setCoursesPlannedById(plannedCoursesOfStudent);
+                         //   dataBase.getCurrentStudent().setPlanned(plannedCoursesOfStudent);
+
+                            String text = getActivity().getResources().getString(R.string.course_number_txt) + " " +
+                                    item.getNumber() + " " + getActivity().getResources().getString(R.string.added_to_the_list_of_courses);
+                            item.setPlannedChecked(true);
+                            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            String text = getActivity().getResources().getString(R.string.course_number_txt) + " "
+                                    + item.getNumber() + " " + getActivity().getResources().getString(R.string.exists_in_the_list_of_courses);
+                            item.setPlannedChecked(true);
+                            Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        plannedCoursesOfStudent.remove(item.getNumber());
+                        System.out.println("removed: " + item.getNumber());
+                        // Removes the un-checked course from the list of planned courses in database
+                        dataBase.setCoursesPlannedById(plannedCoursesOfStudent);
+                      //  dataBase.getCurrentStudent().setPlanned(plannedCoursesOfStudent);
+                        item.setPlannedChecked(false);
+                        String text = getActivity().getResources().getString(R.string.course_number_txt) + " "
+                                + item.getNumber() + " " + getActivity().getResources().getString(R.string.removed_from_the_list_of_courses);
+                        Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
+                    }
+                    // printPlannedCourses();
+                  //  onCheckBoxClickListener.onCheckBoxClicked(v, item); // todo need?
+              //  }
             }
         });
+
+
+        approvePlannedBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("save clicked, the planned courses are: ");
+
+                ArrayList<String> courses = dataBase.getCoursesPlannedById();
+                for (String s : courses){
+                    System.out.println("kk" + s);
+                }
+              //  dataBase.getCurrentStudent().setPlanned(courses);
+
+                // todo - upload saved list to firebase
+                dataBase.updatePlannedCourses();
+            }
+        });
+
 
         showOnlyChosePlanned.setOnClickListener(new View.OnClickListener() {
             @Override

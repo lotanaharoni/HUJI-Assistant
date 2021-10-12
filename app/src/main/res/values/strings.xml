@@ -70,7 +70,7 @@
     <string name="other">אחר</string>
     <string name="Notice_you_got_some_Course_kdam_missing">שים לב! חסרים לך קורסי קדם לקורס זה</string>
     <string name="courses_msg">אנא סמן את הקורסים שעשית בתואר</string>
-    <string name="plan_courses_msg">אנא סמן את הקורסים שברצונך לעשות</string>
+    <string name="plan_courses_msg">אנא סמן את הקורסים שברצונך לעשות:</string>
     <string name="version">גרסה 1.0</string>
     <string name="username">שם משתמש: </string>
     <string name="course_number_txt">קורס מספר:</string>
