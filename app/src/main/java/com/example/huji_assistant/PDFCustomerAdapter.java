@@ -33,6 +33,10 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
     private DatabaseReference root;
     private List<PDFDoc> dataImages;
     private static final int PDF_TYPE = 2;
+    private final String DOCUMENTS_COLLECTION_NAME = "Documents";
+    private final int COURSES_PREVIEW = 0;
+    private final int YEAR_PREVIEW = 1;
+    private final int STUDENTS_PREVIEW = 2;
 
 
     public PDFCustomerAdapter(Context context, ArrayList<PDFDoc> pdfDocs, int stage, String savedCourse){
@@ -54,7 +58,7 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         dataImages = new ArrayList<>();
 
-        if (stage == 2){
+        if (stage == STUDENTS_PREVIEW){
             holder.imageView.setImageResource(R.drawable.ic_pdf_icon);
             holder.imageTitle.setText(pdfDocs.get(position).getName());
         }
@@ -66,9 +70,9 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (stage == 0) {
+                if (stage == COURSES_PREVIEW) {
                     savedCourse = holder.imageTitle.getText().toString();
-                    String path = "Documents" + "/" + savedCourse;
+                    String path = DOCUMENTS_COLLECTION_NAME + "/" + savedCourse;
                     root = FirebaseDatabase.getInstance().getReference(path);
 
                     root.addValueEventListener(new ValueEventListener() {
@@ -81,7 +85,7 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                                 dataImages.add(pdfDoc);
                             }
                             swapImages(dataImages);
-                            stage = 1;
+                            stage = YEAR_PREVIEW;
                         }
 
                         @Override
@@ -90,9 +94,9 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                         }
                     });
                 }
-                else if (stage == 1) {
+                else if (stage == YEAR_PREVIEW) {
                     savedDate = holder.imageTitle.getText().toString();
-                    String path = "Documents" + "/" + savedCourse + "/" + savedDate;
+                    String path = DOCUMENTS_COLLECTION_NAME + "/" + savedCourse + "/" + savedDate;
                     root = FirebaseDatabase.getInstance().getReference(path);
 
                     root.addValueEventListener(new ValueEventListener() {
@@ -108,7 +112,7 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                                 dataImages.add(pdfDoc);
                             }
                             swapImages(dataImages);
-                            stage = 2;
+                            stage = STUDENTS_PREVIEW;
                         }
 
                         @Override
@@ -117,8 +121,8 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
                         }
                     });
                 }
-                else if (stage == 2){
-                    String path = "Documents" + "/" + savedCourse + "/" + savedDate;
+                else if (stage == STUDENTS_PREVIEW){
+                    String path = DOCUMENTS_COLLECTION_NAME + "/" + savedCourse + "/" + savedDate;
 
                     root = FirebaseDatabase.getInstance().getReference(path);
 
@@ -188,7 +192,7 @@ public class PDFCustomerAdapter extends RecyclerView.Adapter<PDFCustomerAdapter.
 
     private void openPDFView(String path)
     {
-        Intent i=new Intent(context, PDFActivity.class);
+        Intent i = new Intent(context, PDFActivity.class);
         i.putExtra("PATH",path);
         context.startActivity(i);
     }

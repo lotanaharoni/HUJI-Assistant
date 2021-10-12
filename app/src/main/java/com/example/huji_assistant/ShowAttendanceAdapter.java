@@ -17,11 +17,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAdapter.MyViewHolder> {
+public class ShowAttendanceAdapter extends RecyclerView.Adapter<ShowAttendanceAdapter.MyViewHolder> {
 
     private ArrayList<String> mListCourses;
     private Context context;
@@ -30,8 +32,13 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
     private String savedDateDocument;
     private List<String> data;
     private FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
+    private final String ATTENDANCE_COLLECTION_NAME = "attendance";
+    private final String DUMMY_COLLECTION = "dummy";
+    private final int COURSES_PREVIEW = 0;
+    private final int YEAR_PREVIEW = 1;
+    private final int STUDENTS_PREVIEW = 2;
 
-    public ShowAttendancyAdapter(Context context, ArrayList<String> mList, int stage, String savedCourseDocument){
+    public ShowAttendanceAdapter(Context context, ArrayList<String> mList, int stage, String savedCourseDocument){
         this.context = context;
         this.mListCourses = mList;
         this.stage = stage;
@@ -48,9 +55,10 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        String year =  new SimpleDateFormat("yyyy").format(new Date());
         data = new ArrayList<>();
         holder.imageTitle.setText(mListCourses.get(position));
-        if (stage == 2){
+        if (stage == STUDENTS_PREVIEW){
             holder.imageView.setImageResource(R.drawable.ic_baseline_person_24);
         }
         else {
@@ -60,9 +68,9 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (stage == 0){
+                if (stage == COURSES_PREVIEW){
                     savedCourseDocument = holder.imageTitle.getText().toString();
-                    firebaseInstancedb.collection("attendance").document(holder.imageTitle.getText().toString()).collection("2021").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    firebaseInstancedb.collection(ATTENDANCE_COLLECTION_NAME).document(holder.imageTitle.getText().toString()).collection(year).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
@@ -73,11 +81,11 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
                             }
                         }
                     });
-                    stage = 1;
+                    stage = YEAR_PREVIEW;
                 }
-                else if (stage == 1){
+                else if (stage == YEAR_PREVIEW){
                     savedDateDocument = holder.imageTitle.getText().toString();
-                    firebaseInstancedb.collection("attendance").document(savedCourseDocument).collection("2021").document(holder.imageTitle.getText().toString()).collection("dummy").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    firebaseInstancedb.collection(ATTENDANCE_COLLECTION_NAME).document(savedCourseDocument).collection(year).document(holder.imageTitle.getText().toString()).collection(DUMMY_COLLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
@@ -89,7 +97,7 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
                             }
                         }
                     });
-                    stage = 2;
+                    stage = STUDENTS_PREVIEW;
                 }
             }
         });
@@ -112,10 +120,10 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
         }
     }
 
-    public void swap(List<String> datas)
+    public void swap(List<String> data)
     {
         mListCourses.clear();
-        mListCourses.addAll(datas);
+        mListCourses.addAll(data);
         notifyDataSetChanged();
     }
 
@@ -125,9 +133,5 @@ public class ShowAttendancyAdapter extends RecyclerView.Adapter<ShowAttendancyAd
 
     public String getSavedCourseDocument(){
         return this.savedCourseDocument;
-    }
-
-    public String getSavedDate(){
-        return savedDateDocument;
     }
 }

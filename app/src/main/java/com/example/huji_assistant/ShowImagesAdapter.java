@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.huji_assistant.Activities.ImageActivity;
-import com.example.huji_assistant.Activities.PDFActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +34,10 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
     private DatabaseReference root;
     private List<Model> dataImages;
     private static final int PDF_TYPE = 2;
+    private final String IMAGES_COLLECTION_NAME = "Image";
+    private final int COURSES_PREVIEW = 0;
+    private final int YEAR_PREVIEW = 1;
+    private final int IMAGES_PREVIEW = 2;
 
 
     public ShowImagesAdapter(Context context, ArrayList<Model> mModels, int stage, String savedCourse){
@@ -49,9 +52,8 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v;
-//        v = LayoutInflater.from(context).inflate(R.layout.model_pdf, parent, false);
 
-        if (stage == 2){
+        if (stage == IMAGES_PREVIEW){
             v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         }
         else{
@@ -64,21 +66,20 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
     public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         dataImages = new ArrayList<>();
 
-        if (stage == 2){
+        if (stage == IMAGES_PREVIEW){
             Glide.with(context).load(mModels.get(position).getImageUrl()).into(holder.imageView);
-            holder.imageTitle.setText(mModels.get(position).getName());
         }
         else {
             holder.imageView.setImageResource(R.drawable.ic_baseline_folder_256);
-            holder.imageTitle.setText(mModels.get(position).getName());
         }
+        holder.imageTitle.setText(mModels.get(position).getName());
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View view) {
-                                                    if (stage == 0) {
+                                                    if (stage == COURSES_PREVIEW) {
                                                         savedCourse = holder.imageTitle.getText().toString();
-                                                        String path = "Image" + "/" + savedCourse;
+                                                        String path = IMAGES_COLLECTION_NAME + "/" + savedCourse;
                                                         root = FirebaseDatabase.getInstance().getReference(path);
 
                                                         root.addValueEventListener(new ValueEventListener() {
@@ -89,7 +90,7 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
                                                                     dataImages.add(new Model("", course, 0));
                                                                 }
                                                                 swapImages(dataImages);
-                                                                stage = 1;
+                                                                stage = YEAR_PREVIEW;
                                                             }
 
                                                             @Override
@@ -98,9 +99,9 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
                                                             }
                                                         });
                                                     }
-                                                    else if (stage == 1) {
+                                                    else if (stage == YEAR_PREVIEW) {
                                                         savedDate = holder.imageTitle.getText().toString();
-                                                        String path = "Image" + "/" + savedCourse + "/" + savedDate;
+                                                        String path = IMAGES_COLLECTION_NAME + "/" + savedCourse + "/" + savedDate;
                                                         root = FirebaseDatabase.getInstance().getReference(path);
 
                                                         root.addValueEventListener(new ValueEventListener() {
@@ -115,7 +116,7 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
                                                                     }
                                                                 }
                                                                 swapImages(dataImages);
-                                                                stage = 2;
+                                                                stage = IMAGES_PREVIEW;
                                                             }
 
                                                             @Override
@@ -125,8 +126,8 @@ public class ShowImagesAdapter extends RecyclerView.Adapter<ShowImagesAdapter.My
                                                         });
                                                     }
 
-                                                    else if (stage == 2){
-                                                        String path = "Image" + "/" + savedCourse + "/" + savedDate;
+                                                    else if (stage == IMAGES_PREVIEW){
+                                                        String path = IMAGES_COLLECTION_NAME + "/" + savedCourse + "/" + savedDate;
 
                                                         root = FirebaseDatabase.getInstance().getReference(path);
 

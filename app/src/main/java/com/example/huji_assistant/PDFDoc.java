@@ -1,7 +1,7 @@
 package com.example.huji_assistant;
 
 public class PDFDoc {
-    String name,path, id;
+    String name, path, id;
 
     public PDFDoc(){
 

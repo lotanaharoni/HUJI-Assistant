@@ -25,7 +25,6 @@ public class LoadDataMainActivity extends AppCompatActivity {
         db = HujiAssistentApplication.getInstance().getDataBase();
 
         FirebaseUser currentUser = db.getUsersAuthenticator().getCurrentUser();
-       // db.logoutUser();
         // Update current language
         setLocale(db.loadLocale());
 
