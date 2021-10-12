@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.huji_assistant.Activities.MainActivity;
-import com.example.huji_assistant.Activities.MainScreenActivity;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.R;
@@ -27,7 +26,6 @@ import com.example.huji_assistant.StudentInfo;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
-import java.util.Objects;
 
 public class SettingsFragment extends Fragment {
 
@@ -105,8 +103,6 @@ public class SettingsFragment extends Fragment {
                     validateEmail(split[i]);
                 }
 
-                //validateEmail(entermailedittext.getText().toString());
-                // If the mail is valid
                 if (isEmailValid){
                     if (sendEmailBtnListener != null){
                         sendEmailBtnListener.onSendEmailBtnClicked(emails);
@@ -154,7 +150,5 @@ public class SettingsFragment extends Fragment {
             isEmailValid = true;
         }
     }
-
-    //private function to send email
 
 }

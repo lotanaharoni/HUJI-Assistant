@@ -30,8 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 public class ProfilePageFragment extends Fragment {
 
     private TextView helloMessage;
-//    private TextView userFirstNameEditText;
-//    private TextView userLastNameEditText;
     private EditText emailEditText, userNewPassword, userRepeatPassword, oldPassword;
     private ImageView btnEditProfile;
     private ImageView btnCancelEdit;
@@ -51,8 +49,6 @@ public class ProfilePageFragment extends Fragment {
 
         // find views
         helloMessage = view.findViewById(R.id.helloMessage);
-//        userFirstNameEditText = view.findViewById(R.id.profile_user_first_name);
-//        userLastNameEditText = view.findViewById(R.id.profile_user_last_name);
         emailEditText = view.findViewById(R.id.usersEmailMyProfile);
         btnCancelEdit = view.findViewById(R.id.btnCancelEditProfile);
         btnEditProfile = view.findViewById(R.id.btnEditProfile);
@@ -98,12 +94,7 @@ public class ProfilePageFragment extends Fragment {
                                 }
                             }
                         });
-//                dataBase.updateStudent(userFirstNameEditText.getText().toString(),
-//                        emailEditText.getText().toString(), currentUser.getFacultyId(),
-//                        currentUser.getChugId(), currentUser.getMaslulId(),
-//                        currentUser.getDegree(), currentUser.getYear(), currentUser.getId());
             } else {
-//                emailBeforeEdit = emailEditText.getText().toString();
             }
             isEdit = !isEdit;
             setViewsByState(isEdit);
@@ -117,35 +108,12 @@ public class ProfilePageFragment extends Fragment {
      * sets the views content as the given user fields
      */
     private void setViewsContentByUser(StudentInfo user) {
-//        userFirstNameEditText.setText(user.getPersonalName()); //todo: first name
-//        userLastNameEditText.setText(user.getFamilyName()); //todo: last name
         String message = "Hello" + " " + user.getPersonalName() + " " + user.getFamilyName();
         helloMessage.setText(message);
         emailEditText.setText(user.getEmail());
     }
 
-    /**
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean("is_edit", isEdit);
-        outState.putString("user_first_name", userFirstNameEditText.getText().toString());
-        outState.putString("user_last_name", userLastNameEditText.getText().toString());
-        outState.putString("email", emailEditText.getText().toString());
-    }
-
-    @Override
-    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        isEdit = savedInstanceState.getBoolean("is_edit");
-        userFirstNameEditText.setText(savedInstanceState.getString("user_first_name"));
-        userLastNameEditText.setText(savedInstanceState.getString("user_last_name"));
-        emailEditText.setText(savedInstanceState.getString("email"));
-        setViewsByState(isEdit);
-    }*/
-
     private void cancelEditing() {
-        //        emailEditText.setText(emailBeforeEdit);
         userNewPassword.setText("");
         userRepeatPassword.setText("");
         oldPassword.setText("");
@@ -169,16 +137,6 @@ public class ProfilePageFragment extends Fragment {
         int edit_ic = isEditState ? R.drawable.ic_save_profile : R.drawable.ic_edit_profile;
         btnEditProfile.setImageResource(edit_ic);
     }
-/**
-    @Override
-    public void onBackPressed() {
-        if (isEdit) {
-            cancelEditing();
-        }
-    }*/
-
-
-
 
     @Nullable
     @Override

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,11 +16,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.huji_assistant.Course;
-import com.example.huji_assistant.CoursesAdapter;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.R;
-import com.example.huji_assistant.StudentInfo;
 import com.example.huji_assistant.ViewModelApp;
 import com.example.huji_assistant.ViewModelAppMainScreen;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

@@ -83,6 +83,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_capture2);
 
+        // Set layout in 'rtl' direction
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
@@ -120,6 +121,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, courses);
         dropdown.setAdapter(adapter);
 
+        // Upload image
         cameraImageUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -238,6 +240,7 @@ public class CaptureImageActivity extends AppCompatActivity {
         });
     }
 
+    // Check if the user chose a course
     private boolean checkCourseNumberValidation() {
         return !dropdown.getSelectedItem().toString().equals(getString(R.string.choose_a_course));
     }

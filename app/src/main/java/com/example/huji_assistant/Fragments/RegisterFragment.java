@@ -60,9 +60,7 @@ public class RegisterFragment extends Fragment {
 
         this.db = HujiAssistentApplication.getInstance().getDataBase();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
-      //  if (view != null) {
 
-      //  }
         email = view.findViewById(R.id.email);
         password = view.findViewById(R.id.password);
 

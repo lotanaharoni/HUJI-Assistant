@@ -70,9 +70,6 @@ public class TextViewFragment extends Fragment {
         }
         this.db = HujiAssistentApplication.getInstance().getDataBase();
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
-       // if (view != null) {
-
-       // }
 
         TextView textView = requireActivity().findViewById(R.id.change_language_textView);
         textView.setVisibility(View.INVISIBLE);

@@ -21,7 +21,6 @@ import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.StudentInfo;
-import com.example.huji_assistant.databinding.FragmentCoursesBinding;
 import com.example.huji_assistant.databinding.FragmentEditprofileBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,8 +28,6 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.w3c.dom.Text;
 
 import static android.content.ContentValues.TAG;
 
@@ -171,7 +168,6 @@ public class EditProfileFragment extends Fragment {
                             }
                         });
             } else {
-//                emailBeforeEdit = emailEditText.getText().toString();
             }
             isEdit = !isEdit;
             setViewsByState(isEdit);
@@ -191,7 +187,6 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void cancelEditing() {
-        //        emailEditText.setText(emailBeforeEdit);
         userNewPassword.setText("");
         userRepeatPassword.setText("");
         oldPassword.setText("");

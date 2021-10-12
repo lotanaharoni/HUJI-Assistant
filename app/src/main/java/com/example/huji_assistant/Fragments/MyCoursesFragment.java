@@ -11,10 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -24,8 +21,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.huji_assistant.Activities.MainScreenActivity;
-import com.example.huji_assistant.Chug;
 import com.example.huji_assistant.Course;
 import com.example.huji_assistant.CourseItemHolder;
 import com.example.huji_assistant.CoursesAdapter;
@@ -42,12 +37,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
 public class MyCoursesFragment extends Fragment {
 
@@ -186,7 +176,7 @@ public class MyCoursesFragment extends Fragment {
         textViewTotalSuppPoints = view.findViewById(R.id.textViewTotalSuppPoints);
         textViewTotalCornerStonePoints = view.findViewById(R.id.textViewTotalCornerStonePoints);
 
-        int totalChoose = 16; //todo set in firebase
+        int totalChoose = 16;
 
         String text4 = textViewTotalCornerStonePoints.getText() + " " + currentMaslul.getCornerStonesPoints();
         textViewTotalCornerStonePoints.setText(text4);
@@ -201,10 +191,6 @@ public class MyCoursesFragment extends Fragment {
 
         String text6 = textViewTotalChoosePoints.getText() + " " + currentChoosePoints + " ";
         textViewTotalChoosePoints.setText(text6);
-
-        //int average = calculateAverage();
-        //averageTxt = view.findViewById(R.id.textViewAverage);
-       // averageTxt.setText(Integer.toString(average));
 
         double average = calculateAverage();
         String averageText = getResources().getString(R.string.average) + " " + average;
@@ -234,8 +220,6 @@ public class MyCoursesFragment extends Fragment {
                         Toast.makeText(getContext(), getResources().getString(R.string.invalidGrade), Toast.LENGTH_LONG).show();
                     }
                     else {
-                        //int grade = item.getGrade();
-                        // item.setGrade(Integer.parseInt(grade)); // todo not a field of this class, saved in map
                         dataBase.updateGrade(item_number, grade);
                         double average = calculateAverage();
                         String averageText = getResources().getString(R.string.average) + " " + average;
@@ -243,11 +227,9 @@ public class MyCoursesFragment extends Fragment {
                         Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
 
                         ArrayList<Course> coursesOfCurrentStudent = dataBase.getCoursesOfCurrentStudent();
-                       // ArrayList<Course> newList = dataBase.sortCoursesByYearAndType(coursesOfCurrentStudent);
                         adapter.addCoursesListToAdapter(coursesOfCurrentStudent);
 
                         adapter.notifyDataSetChanged();
-                        // addGradeListener.onAddGradeClick(item, grade);
                     }
                 }
                 catch (Exception e){
@@ -314,7 +296,6 @@ public class MyCoursesFragment extends Fragment {
                 String selectedValue = (String)(parent.getItemAtPosition(position));
                 if (selectedValue.equals("הכל")){
                     ArrayList<Course> list = dataBase.getCoursesOfCurrentStudent();
-                  //  ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(list);
                     adapter.addCoursesListToAdapter(list);
                     adapter.notifyDataSetChanged();
                     arrayAdapter.getFilter().filter("");
@@ -332,11 +313,8 @@ public class MyCoursesFragment extends Fragment {
                     }
 
                     // Create the adapter
-                    //  CoursesAdapter adapter2 = new CoursesAdapter(getContext());
-                   // ArrayList<Course> newList = dataBase.sortCoursesByYearAndType(newC);
                     adapter.addCoursesListToAdapter(newC);
                     adapter.notifyDataSetChanged();
-                    //  recyclerViewMyCourses.setAdapter(adapter);
                 }
             }
         });
@@ -362,7 +340,6 @@ public class MyCoursesFragment extends Fragment {
                             assert data != null;
                             coursesId = new ArrayList<>(data.getCourses());
                             dataBase.setCurrentStudent(data);
-                          //  printCourses();
                         }
                     });
         }
@@ -372,11 +349,9 @@ public class MyCoursesFragment extends Fragment {
 
         ArrayList<String> coursesIds = dataBase.getCurrentUser().getCourses();
         // get the courses from fire store
-      //  printCourses();
         ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
 
         // Create the adapter
-       // ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(courseItems);
         adapter.addCoursesListToAdapter(courseItems);
         adapter.notifyDataSetChanged();
         recyclerViewMyCourses.setAdapter(adapter);
@@ -394,7 +369,6 @@ public class MyCoursesFragment extends Fragment {
                     viewModelAppMainScreen.set(item);
                     onItemClickListener.onClick(item);
                 }
-                //  adapter.notifyDataSetChanged();
             }
         });
 
@@ -419,7 +393,6 @@ public class MyCoursesFragment extends Fragment {
                                 String text = points_desc + " " + newPoints;
                                 textViewTotalPoints.setText(text);
 
-                             //   ArrayList<Course> newList = dataBase.sortCoursesByYearAndType(courseItems);
                                 adapter.addCoursesListToAdapter(courseItems);
                                 adapter.notifyDataSetChanged();
                                 Maslul currentMaslul = dataBase.getCurrentMaslul();
@@ -482,7 +455,6 @@ public class MyCoursesFragment extends Fragment {
 
     private void printCourses(){
         for (int i = 0; i < coursesId.size(); i++){
-            //System.out.println(coursesId.get(i));
         }
     }
 

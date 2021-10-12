@@ -46,7 +46,6 @@ public class AfterCourseAdapter extends RecyclerView.Adapter<AfterCourseItemHold
     public com.example.huji_assistant.CoursesAdapter.CancelClickListener cancelListener;
     public com.example.huji_assistant.CoursesAdapter.OnItemClickListener itemClickListener;
     public com.example.huji_assistant.CoursesAdapter.OnCheckBoxClickListener checkBoxClickListener;
-    // public OnTextBoxClickListener textBoxClickListener;
 
 
     // Create an interface
@@ -64,14 +63,8 @@ public class AfterCourseAdapter extends RecyclerView.Adapter<AfterCourseItemHold
     }
 
     public interface OnItemClickListener {
-        //  public void onClick(View view, int position);
         public void onClick(Course item);
     }
-
-    // public interface OnTextBoxClickListener {
-    //  public void onClick(View view, int position);
-    //     public void onTextBoxClick(Course item);
-    // }
 
     public void setItemClickListener(com.example.huji_assistant.CoursesAdapter.OnItemClickListener listener){
         this.itemClickListener = listener;
@@ -85,10 +78,6 @@ public class AfterCourseAdapter extends RecyclerView.Adapter<AfterCourseItemHold
         this.deleteListener = listener;
     }
 
-    // public void setTextBoxClickListener(OnTextBoxClickListener listener){
-    ///     this.textBoxClickListener = listener;
-    //  }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint("ResourceAsColor")
     @Override
@@ -96,7 +85,6 @@ public class AfterCourseAdapter extends RecyclerView.Adapter<AfterCourseItemHold
         KdamOrAfterCourse courseItem = this.list.get(position);
         holder.name.setText(courseItem.getName());
         holder.number.setText(courseItem.getNumber());
-        //holder.group.setText(courseItem.getGroup());
         String semesterText = " סמסטר " + courseItem.getSemester()  ;
         holder.semester.setText(semesterText);
         String text = courseItem.getPoints() + " נ''ז ";
