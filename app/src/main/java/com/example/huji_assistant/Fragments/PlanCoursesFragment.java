@@ -244,7 +244,6 @@ public class PlanCoursesFragment extends Fragment {
             }
         });
 
-        // todo-liora
         //adding new course to planned courses by checkbox
         adapter.setItemCheckBoxListener(new PlanCoursesAdapter.OnCheckBoxClickListener() {
             @Override
@@ -252,7 +251,6 @@ public class PlanCoursesFragment extends Fragment {
 
                 plannedCoursesOfStudent = dataBase.getCoursesPlannedById();
 
-                //if (onCheckBoxClickListener != null) {
                 if (item.getPlannedChecked()) {
                     if (!plannedCoursesOfStudent.contains(item.getNumber())) {
                         plannedCoursesOfStudent.add(item.getNumber());

@@ -9,7 +9,6 @@ public class ViewModelAppMainScreen extends ViewModel {
     public MutableLiveData<Course> courseMutableLiveData = new MutableLiveData<>();
 
     public ViewModelAppMainScreen(FragmentActivity fragmentActivity){
-        // firestore = Firestore.getInstance();
     }
 
     public ViewModelAppMainScreen(){
@@ -20,7 +19,6 @@ public class ViewModelAppMainScreen extends ViewModel {
         courseMutableLiveData.setValue(course);
     }
 
-    //public MutableLiveData<StudentInfo> get(Class<ViewModelApp> viewModelAppClass){
     public MutableLiveData<Course> get(){
         if (courseMutableLiveData == null)
         {

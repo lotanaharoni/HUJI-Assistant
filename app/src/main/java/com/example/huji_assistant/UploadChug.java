@@ -8,7 +8,6 @@ public class UploadChug {
     public String chugId="";
     public String facultyParentId="";
     public ArrayList<UploadMaslul> listOfMaslulim=new ArrayList<>();
-    // todo change to private
 
     public UploadChug(){
 

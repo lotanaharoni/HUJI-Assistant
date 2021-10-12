@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import javax.security.auth.callback.Callback;
 
 public class SwipeViewHolderItem extends ItemTouchHelper.Callback {
 
