@@ -18,10 +18,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ShowAttendanceActivity extends AppCompatActivity {
 
+    private final String ATTENDANCE_COLLECTION_NAME = "attendance";
+    private final int COURSES_PREVIEW = 0;
+    private final int YEAR_PREVIEW = 1;
+    private final int IMAGES_PREVIEW = 2;
     private RecyclerView recyclerView;
     private ArrayList<String> courses;
 
@@ -34,6 +40,7 @@ public class ShowAttendanceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_attendance);
 
+        // Set layout in 'rtl' direction
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
@@ -41,10 +48,12 @@ public class ShowAttendanceActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         courses = new ArrayList<>();
-        adapter = new ShowAttendancyAdapter(this, courses, 0, "");
+        // initializes adapter
+        adapter = new ShowAttendancyAdapter(this, courses, COURSES_PREVIEW, "");
         recyclerView.setAdapter(adapter);
 
-        firebaseInstancedb.collection("attendance").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        // Sets the courses preview
+        firebaseInstancedb.collection(ATTENDANCE_COLLECTION_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
@@ -62,15 +71,16 @@ public class ShowAttendanceActivity extends AppCompatActivity {
         int stage = adapter.getStage();
         String savedCourseDocument = adapter.getSavedCourseDocument();
 
-        if (stage == 0){
+        if (stage == COURSES_PREVIEW){
             startActivity(new Intent(ShowAttendanceActivity.this, MainScreenActivity.class));
             finish();
         }
-        else if (stage == 1){
-            adapter = new ShowAttendancyAdapter(this, courses, 0, "");
+        // Go back to courses preview
+        else if (stage == YEAR_PREVIEW){
+            adapter = new ShowAttendancyAdapter(this, courses, COURSES_PREVIEW, "");
             recyclerView.setAdapter(adapter);
             courses = new ArrayList<>();
-            firebaseInstancedb.collection("attendance")
+            firebaseInstancedb.collection(ATTENDANCE_COLLECTION_NAME)
                     .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -83,13 +93,15 @@ public class ShowAttendanceActivity extends AppCompatActivity {
                 }
             });
         }
-        else if (stage == 2){
-            adapter = new ShowAttendancyAdapter(this, courses, 1, savedCourseDocument);
+        // Go back to years preview
+        else if (stage == IMAGES_PREVIEW){
+            String year =  new SimpleDateFormat("yyyy").format(new Date());
+            adapter = new ShowAttendancyAdapter(this, courses, YEAR_PREVIEW, savedCourseDocument);
             recyclerView.setAdapter(adapter);
             courses = new ArrayList<>();
 
-            firebaseInstancedb.collection("attendance").document(savedCourseDocument)
-                    .collection("2021").get()
+            firebaseInstancedb.collection(ATTENDANCE_COLLECTION_NAME).document(savedCourseDocument)
+                    .collection(year).get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -35,6 +34,8 @@ import java.util.Map;
 
 public class ScanQrActivity extends AppCompatActivity {
     private CodeScanner mCodeScanner;
+    private final String DUMMY_COLLECTION = "dummy";
+    private final String COLLECTION_NAME = "attendance";
     LocalDataBase db;
     FirebaseFirestore firestore;
     FirebaseFirestoreSettings settings;
@@ -45,6 +46,7 @@ public class ScanQrActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan_qr);
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
 
+        // Set layout in 'rtl' direction
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
@@ -53,11 +55,14 @@ public class ScanQrActivity extends AppCompatActivity {
         verifyPermissions();
         mCodeScanner.startPreview();
         firestore = FirebaseFirestore.getInstance();
+
+        // Sets offline fireStore settings
         settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
                 .build();
         firestore.setFirestoreSettings(settings);
 
+        // When scans
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull final Result result) {
@@ -71,10 +76,11 @@ public class ScanQrActivity extends AppCompatActivity {
                         Map<String, Object> userScan = new HashMap<>();
                         userScan.put(user.getEmail(), user);
                         Map<String, Object> dummyValue = new HashMap<>();
-                        dummyValue.put("dummy", "dummy");
-                        firestore.collection("attendance").document(course).set(dummyValue);
-                        firestore.collection("attendance").document(course).collection(year).document(day).set(dummyValue);
-                        firestore.collection("attendance").document(course).collection(year).document(day).collection("dummy")
+                        // Insert the user into the right collection
+                        dummyValue.put(DUMMY_COLLECTION, DUMMY_COLLECTION);
+                        firestore.collection(COLLECTION_NAME).document(course).set(dummyValue);
+                        firestore.collection(COLLECTION_NAME).document(course).collection(year).document(day).set(dummyValue);
+                        firestore.collection(COLLECTION_NAME).document(course).collection(year).document(day).collection(DUMMY_COLLECTION)
                                 .add(userScan)
                                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
@@ -103,8 +109,8 @@ public class ScanQrActivity extends AppCompatActivity {
     }
 
 
+    // Verify camera and storage access permissions
     private void verifyPermissions(){
-        Log.d("chek", "verify permission");
         String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.CAMERA};

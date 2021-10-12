@@ -26,6 +26,7 @@ public class LoadDataMainActivity extends AppCompatActivity {
 
         FirebaseUser currentUser = db.getUsersAuthenticator().getCurrentUser();
 
+        // Update current language
         setLocale(db.loadLocale());
 
         // update UI when DB finish to load the initial data
@@ -47,17 +48,20 @@ public class LoadDataMainActivity extends AppCompatActivity {
             LocalDataBase db = HujiAssistentApplication.getInstance().getDataBase();
             db.setCurrentUser(firebaseUser);
             db.currentUserLiveData.observe(this, user -> {
+                // If the user is already logged in
                 if (user != null) {
                     startActivity(new Intent(this, MainScreenActivity.class));
                     finish();
                 }
             });
+            // If the user needs to logged in
         } else {
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
     }
 
+    // Update the current language
     private void setLocale(String lang) {
         Locale locale = new Locale(lang);
         locale.setDefault(locale);
