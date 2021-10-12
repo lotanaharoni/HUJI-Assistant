@@ -22,9 +22,12 @@ import java.util.ArrayList;
 
 public class ShowImagesActivity extends AppCompatActivity {
 
+    private final String IMAGES_COLLECTION_NAME = "Image";
+    private final int COURSES_PREVIEW = 0;
+    private final int YEAR_PREVIEW = 1;
+    private final int IMAGES_PREVIEW = 2;
     private RecyclerView recyclerView;
     private ArrayList<Model> list;
-
     private ShowImagesAdapter adapter;
     private DatabaseReference root;
 
@@ -33,26 +36,28 @@ public class ShowImagesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
 
+        // Set layout in 'rtl' direction
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        root = FirebaseDatabase.getInstance().getReference("Image");
-
+        root = FirebaseDatabase.getInstance().getReference(IMAGES_COLLECTION_NAME);
 
         list = new ArrayList<>();
-        adapter = new ShowImagesAdapter(this, list, 0, "");
+        // initializes adapter
+        adapter = new ShowImagesAdapter(this, list, COURSES_PREVIEW, "");
         recyclerView.setAdapter(adapter);
 
+        // Sets the courses preview
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     String course = dataSnapshot.getKey();
                     assert course != null;
-                    list.add(new Model("", course, 0));
+                    list.add(new Model("", course, COURSES_PREVIEW));
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -69,23 +74,23 @@ public class ShowImagesActivity extends AppCompatActivity {
         int stage = adapter.getStage();
         String savedCourse = adapter.getSavedCourse();
 
-        if (stage == 0){
+        if (stage == COURSES_PREVIEW){
             super.onBackPressed();
         }
-        else if (stage == 1){
-            adapter = new ShowImagesAdapter(this, list, 0, "");
+        // Go back to courses preview
+        else if (stage == YEAR_PREVIEW){
+            adapter = new ShowImagesAdapter(this, list, COURSES_PREVIEW, "");
             recyclerView.setAdapter(adapter);
             list = new ArrayList<>();
 
-
-            root = FirebaseDatabase.getInstance().getReference("Image");
+            root = FirebaseDatabase.getInstance().getReference(IMAGES_COLLECTION_NAME);
             root.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                         String course = dataSnapshot.getKey();
                         assert course != null;
-                        list.add(new Model("", course, 0));
+                        list.add(new Model("", course, COURSES_PREVIEW));
                     }
                     adapter.swapImages(list);
                 }
@@ -97,12 +102,13 @@ public class ShowImagesActivity extends AppCompatActivity {
             });
         }
 
-        else if (stage == 2){
+        // Go back to years preview
+        else if (stage == IMAGES_PREVIEW){
             adapter = new ShowImagesAdapter(this, list, 1, savedCourse);
             recyclerView.setAdapter(adapter);
             list = new ArrayList<>();
 
-            String path = "Image" + "/" + savedCourse;
+            String path = IMAGES_COLLECTION_NAME + "/" + savedCourse;
             root = FirebaseDatabase.getInstance().getReference(path);
 
             root.addValueEventListener(new ValueEventListener() {
@@ -110,7 +116,7 @@ public class ShowImagesActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         String course = dataSnapshot.getKey();
-                        list.add(new Model("", course, 0));
+                        list.add(new Model("", course, COURSES_PREVIEW));
                     }
                     adapter.swapImages(list);
                 }

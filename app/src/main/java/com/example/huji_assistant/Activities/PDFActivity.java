@@ -29,18 +29,22 @@ public class PDFActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pdf);
 
+        // Set layout in 'rtl' direction
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         activity = this;
 
+        // Show ProgressDialog when the image is loading
         progDailog = ProgressDialog.show(activity, getString(R.string.loading),getString(R.string.please_wait_message), true);
         progDailog.setCancelable(false);
 
         webView = findViewById(R.id.webview);
 
-        Intent i=this.getIntent();
-        String path=i.getExtras().getString("PATH");
+        // Get the image's path
+        Intent i = this.getIntent();
+        String path = i.getExtras().getString("PATH");
 
+        // Set webView settings
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
@@ -61,10 +65,12 @@ public class PDFActivity extends AppCompatActivity {
 
         String url = "";
         try {
+            // Convert the Firestore url to 'UTF-8' url
             url= URLEncoder.encode(path,"UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        // Show the image in the webView
         webView.loadUrl("https://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
     }
 }

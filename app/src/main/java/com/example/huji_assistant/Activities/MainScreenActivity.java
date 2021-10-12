@@ -566,6 +566,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         for (String s: coursesOfStudentPlannedById)  {
            System.out.println("ssss" + s);
          }
+        dataBase.setCoursesPlannedById(coursesOfStudentPlannedById);
 
         ArrayList<Course> plannedCoursesOfStudentByCourse = new ArrayList<>();
         //for (String s: coursesOfStudentPlannedById)  {

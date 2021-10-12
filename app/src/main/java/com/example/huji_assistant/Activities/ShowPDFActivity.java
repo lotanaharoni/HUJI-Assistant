@@ -22,9 +22,12 @@ import java.util.ArrayList;
 
 public class ShowPDFActivity extends AppCompatActivity {
 
+    private final String DOCUMENTS_COLLECTION_NAME = "Documents";
+    private final int COURSES_PREVIEW = 0;
+    private final int YEAR_PREVIEW = 1;
+    private final int DOCUMENTS_PREVIEW = 2;
     private RecyclerView recyclerView;
-    private ArrayList<PDFDoc> list;
-
+    private ArrayList<PDFDoc> PDFList;
     private PDFCustomerAdapter adapter;
     private DatabaseReference root;
 
@@ -33,19 +36,21 @@ public class ShowPDFActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show);
 
+        // Set layout in 'rtl' direction
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
             getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        root = FirebaseDatabase.getInstance().getReference("Documents");
+        root = FirebaseDatabase.getInstance().getReference(DOCUMENTS_COLLECTION_NAME);
 
-
-        list = new ArrayList<>();
-        adapter = new PDFCustomerAdapter(this, list, 0, "");
+        PDFList = new ArrayList<>();
+        // initializes adapter
+        adapter = new PDFCustomerAdapter(this, PDFList, COURSES_PREVIEW, "");
         recyclerView.setAdapter(adapter);
 
+        // Sets the courses preview
         root.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -54,7 +59,7 @@ public class ShowPDFActivity extends AppCompatActivity {
                     assert course != null;
                     PDFDoc pdfDoc = new PDFDoc();
                     pdfDoc.setName(course);
-                    list.add(pdfDoc);
+                    PDFList.add(pdfDoc);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -71,16 +76,16 @@ public class ShowPDFActivity extends AppCompatActivity {
         int stage = adapter.getStage();
         String savedCourse = adapter.getSavedCourse();
 
-        if (stage == 0){
+        if (stage == COURSES_PREVIEW){
             super.onBackPressed();
         }
-        else if (stage == 1){
-            adapter = new PDFCustomerAdapter(this, list, 0, "");
+        // Go back to courses preview
+        else if (stage == YEAR_PREVIEW){
+            adapter = new PDFCustomerAdapter(this, PDFList, COURSES_PREVIEW, "");
             recyclerView.setAdapter(adapter);
-            list = new ArrayList<>();
+            PDFList = new ArrayList<>();
 
-
-            root = FirebaseDatabase.getInstance().getReference("Documents");
+            root = FirebaseDatabase.getInstance().getReference(DOCUMENTS_COLLECTION_NAME);
             root.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -89,9 +94,9 @@ public class ShowPDFActivity extends AppCompatActivity {
                         assert course != null;
                         PDFDoc pdfDoc = new PDFDoc();
                         pdfDoc.setName(course);
-                        list.add(pdfDoc);
+                        PDFList.add(pdfDoc);
                     }
-                    adapter.swapImages(list);
+                    adapter.swapImages(PDFList);
                 }
 
                 @Override
@@ -101,12 +106,13 @@ public class ShowPDFActivity extends AppCompatActivity {
             });
         }
 
-        else if (stage == 2){
-            adapter = new PDFCustomerAdapter(this, list, 1, savedCourse);
+        // Go back to years preview
+        else if (stage == DOCUMENTS_PREVIEW){
+            adapter = new PDFCustomerAdapter(this, PDFList, YEAR_PREVIEW, savedCourse);
             recyclerView.setAdapter(adapter);
-            list = new ArrayList<>();
+            PDFList = new ArrayList<>();
 
-            String path = "Documents" + "/" + savedCourse;
+            String path = DOCUMENTS_COLLECTION_NAME + "/" + savedCourse;
             root = FirebaseDatabase.getInstance().getReference(path);
 
             root.addValueEventListener(new ValueEventListener() {
@@ -116,9 +122,9 @@ public class ShowPDFActivity extends AppCompatActivity {
                         String course = dataSnapshot.getKey();
                         PDFDoc pdfDoc = new PDFDoc();
                         pdfDoc.setName(course);
-                        list.add(pdfDoc);
+                        PDFList.add(pdfDoc);
                     }
-                    adapter.swapImages(list);
+                    adapter.swapImages(PDFList);
                 }
 
                 @Override

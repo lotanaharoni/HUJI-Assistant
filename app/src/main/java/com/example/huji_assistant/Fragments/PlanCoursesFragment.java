@@ -246,7 +246,9 @@ public class PlanCoursesFragment extends Fragment {
                 // if (onCheckBoxClickListener != null) {
                 //      onCheckBoxClickListener.onCheckBoxClicked(v, item);
                 //  }
-                plannedCoursesOfStudent = dataBase.getCurrentStudent().getPlanned();
+                System.out.println("rrrr " + item.getNumber());
+              //  plannedCoursesOfStudent = dataBase.getCurrentStudent().getPlanned();
+                plannedCoursesOfStudent = dataBase.getCoursesPlannedById();
                 for (String s: plannedCoursesOfStudent){
                     System.out.println("jj " + s);
                 }
