@@ -14,18 +14,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.huji_assistant.Fragments.TextViewFragment;
 import com.example.huji_assistant.HujiAssistentApplication;
 import com.example.huji_assistant.LocalDataBase;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.StudentInfo;
 import com.example.huji_assistant.ViewModelApp;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class RegisterFragment extends Fragment {
     private LocalDataBase db;
     private ViewModelApp viewModelApp;
     private EditText email;
     private EditText password;
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
   //  public interface buttonClickListener{
    //     public void onButtonClicked();
    // }
@@ -172,7 +176,7 @@ public class RegisterFragment extends Fragment {
             isEmailValid = false;
         }
         else if (email.length() > 254 ||
-                !Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                !Patterns.EMAIL_ADDRESS.matcher(email).matches() || !validateEmail(email)){
             Toast.makeText(getActivity(), getResources().getString(R.string.email_not_valid_message), Toast.LENGTH_LONG).show();
             isEmailValid = false;
         }
@@ -220,5 +224,10 @@ public class RegisterFragment extends Fragment {
         if (isEmailValid && isPasswordValid) {
             // the values are valid
         }
+    }
+
+    public static boolean validateEmail(String emailStr) {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
     }
 }
