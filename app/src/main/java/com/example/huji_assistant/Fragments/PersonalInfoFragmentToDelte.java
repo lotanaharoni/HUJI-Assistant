@@ -2,7 +2,6 @@ package com.example.huji_assistant.Fragments;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,24 +12,21 @@ import com.example.huji_assistant.R;
 import com.example.huji_assistant.StudentInfo;
 import com.example.huji_assistant.ViewModelApp;
 
-public class PersonalInfoFragment extends Fragment {
+/**
+ * This fragment is used in the registration screens, to add details about the degree:
+ * The user is able to choose it's faculty, chug, maslul and add more details about it's degree.
+ */
+public class PersonalInfoFragmentToDelte extends Fragment {
     private ViewModelApp viewModelApp;
-    // private ViewDataBinding binding = null;
 
     public interface continueButtonClickListener{
         public void continueBtnClicked();
     }
 
+    /* Continue button listener*/
+    public PersonalInfoFragmentToDelte.continueButtonClickListener continueListener = null;
 
-    EditText nameEditText;
-    EditText yearEditText;
-    EditText degreeNameEditText;
-
-
-
-    public PersonalInfoFragment.continueButtonClickListener continueListener = null;
-
-    public PersonalInfoFragment(){
+    public PersonalInfoFragmentToDelte(){
         super(R.layout.fragment_info);
     }
 
@@ -38,21 +34,12 @@ public class PersonalInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //nameEditText = view.findViewById(R.id.editTextTextPersonName);
-        // yearEditText = view.findViewById(R.id.editTextTextPersonYear);
-        //degreeNameEditText = view.findViewById(R.id.editTextTextPersonDegree);
-
         viewModelApp = new ViewModelProvider(requireActivity()).get(ViewModelApp.class);
         view.findViewById(R.id.continuePersBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (continueListener != null) {
                     StudentInfo currentStudent = viewModelApp.getStudent().getValue();
-
-                    //  currentStudent.setName(nameEditText.getText().toString());
-                    // currentStudent.setYear(yearEditText.getText().toString());
-                    //  currentStudent.setDegreeName(degreeNameEditText.getText().toString());
-
                     continueListener.continueBtnClicked();
                 }
             }

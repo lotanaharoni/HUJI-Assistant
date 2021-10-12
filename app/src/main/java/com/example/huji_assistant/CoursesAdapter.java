@@ -43,19 +43,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
-                System.out.println("char: " + charString);
                 ArrayList<Course> filteredList = new ArrayList<>();
                 if (charSequence == null || charSequence.length() == 0){
                     filteredList.addAll(listFull);
                 }
-
-               // if (charString.isEmpty()) {
-               //     filteredList = list;
                 else {
-                   // ArrayList<Course> filteredList = new ArrayList<>();
                     for (Course item : list) {
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
+                        // Finds courses matching the filter
                         if (item.getName().toLowerCase().contains(charString.toLowerCase()) || item.getNumber().contains(charSequence)) {
                             filteredList.add(item);
                         }
@@ -80,17 +74,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
 
     public CoursesAdapter(Context context){
         this.list = new ArrayList<>();
-      //  System.out.println("adapter rrrr");
-       // this.filterList = list;
-        this.filterList = new ArrayList<>(list); // todo keep?
+        this.filterList = new ArrayList<>(list);
         this.mContext = context;
-      //  this.listFull = new ArrayList<>();
     }
 
     public void addCoursesListToAdapter(ArrayList<Course> newList){
-      //  if (this.list == null){
-            this.list = new ArrayList<>();
-      //  }
+        this.list = new ArrayList<>();
         this.list.clear();
         this.listFull = new ArrayList<>(newList);
         this.list.addAll(newList);
@@ -98,7 +87,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     }
 
     public void removeCourseFromAdapter(Course course){
-        //list.remove(course);
         this.list.remove(course);
         notifyDataSetChanged();
     }
@@ -109,15 +97,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.courseitem, parent, false);
         return new CourseItemHolder(view);
     }
-  //  public PopupDialogFragment dialogFragment = new PopupDialogFragment();
+
     public DeleteClickListener deleteListener;
     public AddGradeListener addGradeListener;
     public CancelClickListener cancelListener;
     public OnItemClickListener itemClickListener;
     public OnCheckBoxClickListener checkBoxClickListener;
     public static OnPopUpApproveListener onPopUpApproveListener;
-   // public OnTextBoxClickListener textBoxClickListener;
-
 
     // Create an interface
     public interface DeleteClickListener{
@@ -138,12 +124,10 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     }
 
     public interface OnItemClickListener {
-      //  public void onClick(View view, int position);
         public void onClick(Course item);
     }
 
     public interface AddGradeListener {
-        //  public void onClick(View view, int position);
         public void onAddGradeClick(Course item, String grade);
     }
 
@@ -152,7 +136,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     }
 
     public void setOnPopUpListener(OnPopUpApproveListener onPopUpListener){
-        this.onPopUpApproveListener = onPopUpListener;
+        onPopUpApproveListener = onPopUpListener;
     }
 
     public void setItemCheckBoxListener(OnCheckBoxClickListener listener){
@@ -183,7 +167,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     public void onBindViewHolder(@NonNull CourseItemHolder holder, int position) {
         Course courseItem = this.list.get(position);
 
-
         if (courseItem.getName().startsWith("שנה ")) {
             holder.name.setText(courseItem.getName());
             holder.name.setTextColor(Color.BLACK);
@@ -196,8 +179,8 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             holder.cardView.setCardBackgroundColor(Color.WHITE);
             holder.itemView.setOnClickListener(v -> {
             });
-
             return;
+
         } else {
 
             holder.name.setText(courseItem.getName());
@@ -217,23 +200,12 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             } else { // The grade doesn't exist in the map of grades
                 holder.gradeAddBtn.setText("");
             }
-
-            // todo check - when added courses write is finished == true
             if (courseItem.getIsFinished()) {
                 holder.checkBox.setVisibility(View.INVISIBLE);
                 holder.deleteButton.setVisibility(View.VISIBLE);
                 holder.gradeAddBtn.setVisibility(View.VISIBLE);
                 holder.gradeDescription.setVisibility(View.VISIBLE);
-                //   holder.saveTextiew.setVisibility(View.VISIBLE);
             }
-
-            // holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
-            //    @Override
-            //   public void onClick(View v) {
-            //showPopup(v);
-            //  addGradeListener.onAddGradeClick(v, courseItem);
-            // }
-            //   });
 
             // This method runs when the text in grade edit text is changed
             holder.gradeAddBtn.addTextChangedListener(new TextWatcher() {
@@ -245,25 +217,17 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
                     String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
-                    // todo validity check >=0 && <=100 checkValidity(grade);
-                    // if (isValidGrade){
-
-                    //  if (!grade.isEmpty()) {//todo check
-                    addGradeListener.onAddGradeClick(courseItem, grade); // todo check
-                    //  }
+                    addGradeListener.onAddGradeClick(courseItem, grade);
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    // String grade = holder.gradeAddBtn.getText().toString(); // Saves the grade
-                    //addGradeListener.onAddGradeClick(courseItem, grade); // todo check
                 }
             });
 
             holder.gradeAddBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("grade clicked");
                     showPopup(courseItem, v);
                     holder.gradeAddBtn.setEnabled(true);
                 }
@@ -272,7 +236,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             holder.gradeAddBtn.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    System.out.println("long clicked");
                     holder.gradeAddBtn.setEnabled(true);
                     return false;
                 }
@@ -291,23 +254,13 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             holder.deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("delete button clicked");
                     deleteListener.onDeleteClick(v, courseItem);
                 }
             });
 
-            // todo - enable edit grade?
-
-            //todo remove
-            // holder.textView.setOnClickListener(v -> {
-            //     System.out.println("text box clicked");
-            // });
-
             holder.checkBox.setOnClickListener(v -> {
-                System.out.println("check box clicked");
                 if (holder.checkBox.isChecked()) {
                     courseItem.setChecked(true);
-                    //  holder.gradeAddBtn.setVisibility(View.VISIBLE); //todo delete
                 } else {
                     courseItem.setChecked(false);
                 }
@@ -316,8 +269,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
 
             if (courseItem.getChecked()) {
                 holder.checkBox.setChecked(true);
-                // todo can enter grade only if selected this course
-                // and it exists in the list of courses
                 holder.gradeAddBtn.setVisibility(View.VISIBLE);
                 holder.gradeAddBtn.setEnabled(false);
             } else {
@@ -354,14 +305,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             return rootView;
         }
 
-     //   public PopupDialogFragment.OnPopUpApproveListener onPopUpApproveListener;
-      //  public void setOnPopUpListener(PopupDialogFragment.OnPopUpApproveListener onPopUpListener){
-      //      this.onPopUpApproveListener = onPopUpListener;
-      //  }
-       // public interface OnPopUpApproveListener{
-       //     void OnPopUpClick(String item, String grade);
-       // }
-
         private String item_number;
         private String item_grade;
         public PopupDialogFragment(Course item){
@@ -369,14 +312,14 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
         }
         Button approveBtn;
         EditText grade;
-        String gradeStr="333";
+        String gradeStr="";
+
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
              approveBtn = view.findViewById(R.id.approveBtn);
              grade = view.findViewById(R.id.editTextNumber1);
              gradeStr = grade.getText().toString();
-             System.out.println("gradeee: " + gradeStr);
 
              grade.addTextChangedListener(new TextWatcher() {
                  @Override
@@ -387,7 +330,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
                  @Override
                  public void onTextChanged(CharSequence s, int start, int before, int count) {
                      String gradeStr = grade.getText().toString();
-                     System.out.println("gradeee2: " + gradeStr);
                  }
 
                  @Override
@@ -400,7 +342,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
                  @Override
                  public void onClick(View v) {
                      gradeStr = grade.getText().toString();
-                     System.out.println("clicked approve: " + item_number + " " + gradeStr);
                      if (onPopUpApproveListener != null) {
                          onPopUpApproveListener.OnPopUpClick(item_number, gradeStr);
                      }
@@ -411,7 +352,6 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
 
     public void showPopup(Course item, View view) {
         @SuppressLint("InflateParams") View popupView = LayoutInflater.from(mContext).inflate(R.layout.popup_layout, null);
-        System.out.println("inside popup");
         PopupDialogFragment dialogFragment = new PopupDialogFragment(item);
         dialogFragment.show(((MainScreenActivity)mContext).getSupportFragmentManager(), "OpenPopup");
     }

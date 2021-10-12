@@ -35,7 +35,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * This fragment is used in the registration screens, to add details about the degree:
+ * The user is able to choose it's faculty, chug, maslul and add more details about it's degree.
+ */
 public class InfoFragment extends Fragment {
 
     public InfoFragment(){
@@ -44,6 +47,7 @@ public class InfoFragment extends Fragment {
 
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
+    /* On item selected in faculty auto complete text listener*/
     public interface itemSelectedDropDownFaculty{
         public void onFacultyItemSelected();
     }
@@ -121,6 +125,7 @@ public class InfoFragment extends Fragment {
 
     public InfoFragment.continueButtonClickListener continueListener = null;
 
+    /* Checks validation for the fields in the screen */
     private void checkValidation(){
 
         // Check fields not empty
@@ -130,7 +135,6 @@ public class InfoFragment extends Fragment {
         }
         else {
             isFacultyValid = true;
-
             if (dropdownHugim.getText().toString().isEmpty()) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.please_enter_chug_msg), Toast.LENGTH_LONG).show();
                 isChugValid = false;
@@ -171,7 +175,7 @@ public class InfoFragment extends Fragment {
         binding.autoCompleteYearBeginDegree.setAdapter(new ArrayAdapter(requireContext(), R.layout.dropdownbeginyearitem, beginYearArray));
         arrayAdapter.getFilter().filter("");
 
-
+        // Finds views
         AutoCompleteTextView autoCompleteTextViewFaculty = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewFaculty);
         AutoCompleteTextView autoCompleteTextViewChug = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewChug);
         AutoCompleteTextView autoCompleteTextViewDegree = (AutoCompleteTextView) getView().findViewById(R.id.autoCompleteTextViewDegree);
@@ -223,7 +227,6 @@ public class InfoFragment extends Fragment {
                             currentStudent.setBeginSemester(selectedBeginSemester);
                         }
 
-                       // StudentInfo newStudent = new StudentInfo(facultyId, chugId, maslulId, selectedDegree, selectedYear, selectedBeginYear, selectedBeginSemester);
                         viewModelApp.setStudent(currentStudent);
                         continueListener.continueBtnClicked();
                     }

@@ -12,6 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.huji_assistant.R;
 import com.example.huji_assistant.ViewModelApp;
 
+/* This is the first fragment in the registration process. Allows to sign in or sign up as
+   a new user.
+ */
 public class FirstFragment extends Fragment {
 
     private ViewModelApp viewModelApp;
