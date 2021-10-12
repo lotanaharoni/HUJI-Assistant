@@ -183,6 +183,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
     public void onBindViewHolder(@NonNull CourseItemHolder holder, int position) {
         Course courseItem = this.list.get(position);
 
+
         if (courseItem.getName().startsWith("שנה ")) {
             holder.name.setText(courseItem.getName());
             holder.name.setTextColor(Color.BLACK);
@@ -342,6 +343,7 @@ public class CoursesAdapter extends RecyclerView.Adapter<CourseItemHolder> imple
             }
         }
     }
+
     public static class PopupDialogFragment extends DialogFragment {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,

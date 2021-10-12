@@ -241,9 +241,11 @@ public class MyCoursesFragment extends Fragment {
                         String averageText = getResources().getString(R.string.average) + " " + average;
                         averageTxt.setText(averageText);
                         Toast.makeText(getContext(), getResources().getString(R.string.gradeAdded), Toast.LENGTH_LONG).show();
-                        ArrayList<Course> coursesOfCurrentStudent = dataBase.getCoursesOfCurrentStudent();
 
+                        ArrayList<Course> coursesOfCurrentStudent = dataBase.getCoursesOfCurrentStudent();
+                       // ArrayList<Course> newList = dataBase.sortCoursesByYearAndType(coursesOfCurrentStudent);
                         adapter.addCoursesListToAdapter(coursesOfCurrentStudent);
+
                         adapter.notifyDataSetChanged();
                         // addGradeListener.onAddGradeClick(item, grade);
                     }
@@ -312,8 +314,8 @@ public class MyCoursesFragment extends Fragment {
                 String selectedValue = (String)(parent.getItemAtPosition(position));
                 if (selectedValue.equals("הכל")){
                     ArrayList<Course> list = dataBase.getCoursesOfCurrentStudent();
-                    ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(list);
-                    adapter.addCoursesListToAdapter(coursesSorted);
+                  //  ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(list);
+                    adapter.addCoursesListToAdapter(list);
                     adapter.notifyDataSetChanged();
                     arrayAdapter.getFilter().filter("");
                     binding.autocompletechoosetype1.setAdapter(arrayAdapter);
@@ -331,6 +333,7 @@ public class MyCoursesFragment extends Fragment {
 
                     // Create the adapter
                     //  CoursesAdapter adapter2 = new CoursesAdapter(getContext());
+                   // ArrayList<Course> newList = dataBase.sortCoursesByYearAndType(newC);
                     adapter.addCoursesListToAdapter(newC);
                     adapter.notifyDataSetChanged();
                     //  recyclerViewMyCourses.setAdapter(adapter);
@@ -373,8 +376,8 @@ public class MyCoursesFragment extends Fragment {
         ArrayList<Course> courseItems = dataBase.getCoursesOfCurrentStudent();
 
         // Create the adapter
-        ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(courseItems);
-        adapter.addCoursesListToAdapter(coursesSorted);
+       // ArrayList<Course> coursesSorted = dataBase.sortCoursesByYearAndType(courseItems);
+        adapter.addCoursesListToAdapter(courseItems);
         adapter.notifyDataSetChanged();
         recyclerViewMyCourses.setAdapter(adapter);
 
@@ -415,6 +418,8 @@ public class MyCoursesFragment extends Fragment {
                                 int newPoints = calculateNewPointsSum(item.getPoints());
                                 String text = points_desc + " " + newPoints;
                                 textViewTotalPoints.setText(text);
+
+                             //   ArrayList<Course> newList = dataBase.sortCoursesByYearAndType(courseItems);
                                 adapter.addCoursesListToAdapter(courseItems);
                                 adapter.notifyDataSetChanged();
                                 Maslul currentMaslul = dataBase.getCurrentMaslul();

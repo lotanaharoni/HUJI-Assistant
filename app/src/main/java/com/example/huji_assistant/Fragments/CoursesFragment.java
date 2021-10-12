@@ -308,7 +308,8 @@ public class CoursesFragment extends Fragment {
                     }
 
                     // Create the adapter
-                    adapter.addCoursesListToAdapter(newC);
+                    ArrayList<Course> newList = db.sortCoursesByYearAndType(newC);
+                    adapter.addCoursesListToAdapter(newList);
                     adapter.notifyDataSetChanged();
                     //  recyclerViewMyCourses.setAdapter(adapter);
                 }
