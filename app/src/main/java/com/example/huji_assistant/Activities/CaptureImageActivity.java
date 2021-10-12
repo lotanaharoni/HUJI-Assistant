@@ -90,8 +90,10 @@ public class CaptureImageActivity extends AppCompatActivity {
         uploadBtn.setEnabled(false);
         progressBar = findViewById(R.id.progressBar2);
         imageView = findViewById(R.id.uploadFromGallery);
-        root = FirebaseDatabase.getInstance().getReference("Image");
-        rootForDocument = FirebaseDatabase.getInstance().getReference("Documents");
+        String IMAGES_COLLECTION_NAME = "Image";
+        root = FirebaseDatabase.getInstance().getReference(IMAGES_COLLECTION_NAME);
+        String DOCUMENTS_COLLECTION_NAME = "Documents";
+        rootForDocument = FirebaseDatabase.getInstance().getReference(DOCUMENTS_COLLECTION_NAME);
         reference = FirebaseStorage.getInstance().getReference();
         progressBar.setVisibility(View.INVISIBLE);
         cameraImageUpload = findViewById(R.id.cameraImageUpload);
@@ -285,7 +287,7 @@ public class CaptureImageActivity extends AppCompatActivity {
                             rootForDocument.child(course).child(year).push().setValue(model);
                         }
                         imageTitle.setText("");
-                        dropdown.setSelection(0); //todo: check!
+                        dropdown.setSelection(0);
                         uploadBtn.setEnabled(false);
                         showButtonsAfterChooseImage();
                         Toast.makeText(CaptureImageActivity.this, R.string.upload_Successfully_message, Toast.LENGTH_SHORT).show();

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.huji_assistant.R;
-import com.example.huji_assistant.ShowAttendancyAdapter;
+import com.example.huji_assistant.ShowAttendanceAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,7 +31,7 @@ public class ShowAttendanceActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<String> courses;
 
-    public ShowAttendancyAdapter adapter;
+    public ShowAttendanceAdapter adapter;
     FirebaseFirestore firebaseInstancedb = FirebaseFirestore.getInstance();
 
 
@@ -49,7 +49,7 @@ public class ShowAttendanceActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         courses = new ArrayList<>();
         // initializes adapter
-        adapter = new ShowAttendancyAdapter(this, courses, COURSES_PREVIEW, "");
+        adapter = new ShowAttendanceAdapter(this, courses, COURSES_PREVIEW, "");
         recyclerView.setAdapter(adapter);
 
         // Sets the courses preview
@@ -77,7 +77,7 @@ public class ShowAttendanceActivity extends AppCompatActivity {
         }
         // Go back to courses preview
         else if (stage == YEAR_PREVIEW){
-            adapter = new ShowAttendancyAdapter(this, courses, COURSES_PREVIEW, "");
+            adapter = new ShowAttendanceAdapter(this, courses, COURSES_PREVIEW, "");
             recyclerView.setAdapter(adapter);
             courses = new ArrayList<>();
             firebaseInstancedb.collection(ATTENDANCE_COLLECTION_NAME)
@@ -96,7 +96,7 @@ public class ShowAttendanceActivity extends AppCompatActivity {
         // Go back to years preview
         else if (stage == IMAGES_PREVIEW){
             String year =  new SimpleDateFormat("yyyy").format(new Date());
-            adapter = new ShowAttendancyAdapter(this, courses, YEAR_PREVIEW, savedCourseDocument);
+            adapter = new ShowAttendanceAdapter(this, courses, YEAR_PREVIEW, savedCourseDocument);
             recyclerView.setAdapter(adapter);
             courses = new ArrayList<>();
 
