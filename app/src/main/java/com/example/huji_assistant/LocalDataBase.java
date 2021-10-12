@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class LocalDataBase {
@@ -662,7 +663,7 @@ public class LocalDataBase {
     public ArrayList<Course> sortCoursesByYearAndType(ArrayList<Course> coursesToFilter){
         /**
          * Used to sort the Array by year one two and three..
-         * And do sub-sort by course type.pl
+         * And do sub-sort by course type
          * !!!
          * Notice: the method adds  Course objects as Separators, your Adapter need to take it in count
          * and hide and checkBos or irrelevant text in the holder for them not to show.
@@ -701,6 +702,75 @@ public class LocalDataBase {
         }
 
         return sortedList;
+    }
 
+
+    public String courseArrayToString(ArrayList<Course> coursesArray){
+        /**
+         * Converts Course Object to a string, keeps only the dynamic data (look at doc in Course class),
+         * separates each data bit by "|" token.
+         */
+        StringBuilder coursesString = new StringBuilder();
+        Boolean notFirstFlag = false;
+
+        for (Course course: coursesArray){
+            if (course.getNumber().equals("")){ // title Course (שנה א) or an error
+                continue;
+            }
+            if (notFirstFlag){
+                coursesString.append("@");
+            }
+            coursesString.append(course.toStringToSP());
+            notFirstFlag = true;
+        }
+
+        return coursesString.toString();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public ArrayList<Course> stringToCourseArray(String stringCourses){
+        /**
+         * Takes list of courses as a string form, and rebuild it as an Array of courses.
+         * The method does not construct new Course Objects, only update it's dynamic
+         * data on existing courses.
+         * useful specially for sp.
+         */
+
+        ArrayList<Course> coursesToComplete = getCoursesToComplete();
+        ArrayList<Course> output = new ArrayList<>();
+        String number;
+        String grade;
+        Boolean isChecked;
+        Boolean isPlanned;
+        Boolean isPlannedChecked;
+        Boolean isFinished;
+
+        String[] coursesStringArray = stringCourses.split("@");
+
+        for (String courseData: coursesStringArray){
+            String[] split = courseData.split("\\|");
+            number = split[0];
+            grade = split[1];
+            isChecked = Boolean.parseBoolean(split[2]);
+            isPlanned = Boolean.parseBoolean(split[3]);
+            isPlannedChecked = Boolean.parseBoolean(split[4]);
+            isFinished = Boolean.parseBoolean(split[5]);
+
+            String finalNumber = number;
+            Course currCourse = coursesToComplete.stream().filter(Course -> Course.getNumber().equals(finalNumber)).findFirst().get();
+            currCourse.setGrade(grade);
+            currCourse.setChecked(isChecked);
+            currCourse.setPlanned(isPlanned);
+            currCourse.setPlannedChecked(isPlannedChecked);
+            currCourse.setIsFinished(isFinished);
+
+            output.add(currCourse);
+        }
+
+        return output;
+    }
+
+    public SharedPreferences getSp(){
+        return this.sp;
     }
 }
