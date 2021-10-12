@@ -153,7 +153,6 @@ public class LocalDataBase {
 
     public void updatePlannedCourses(){
         // Saves the list for the student
-       // this.currentStudent.setCoursesPlannedByStudent(this.coursesPlannedById);
         this.currentStudent.setPlanned(new ArrayList<>(this.coursesPlannedById));
 
         // upload the list to firebase

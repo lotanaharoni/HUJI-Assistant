@@ -301,15 +301,8 @@ public class PlanCoursesFragment extends Fragment {
         approvePlannedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("save clicked, the planned courses are: ");
-
                 ArrayList<String> courses = dataBase.getCoursesPlannedById();
-                for (String s : courses) {
-                    System.out.println("kk" + s);
-                }
-                //  dataBase.getCurrentStudent().setPlanned(courses);
-
-                // todo - upload saved list to firebase
+                Toast.makeText(getActivity(), R.string.savedsuccessfully, Toast.LENGTH_LONG).show();
                 dataBase.updatePlannedCourses();
             }
         });
@@ -337,8 +330,8 @@ public class PlanCoursesFragment extends Fragment {
         }
     }
 
-    //  TODO: for now the screen orientation is disabled, when it will be implemented all over the app
-    //   re enabled these two method and fix if needed.
+    //  for now the screen orientation is disabled, when it will be implemented all over the app
+    //  re enabled these two method and fix if needed.
 //    @RequiresApi(api = Build.VERSION_CODES.N)
 //    @Override
 //    public void onResume() {
