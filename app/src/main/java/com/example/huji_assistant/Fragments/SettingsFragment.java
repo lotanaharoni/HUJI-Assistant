@@ -100,7 +100,6 @@ public class SettingsFragment extends Fragment {
             public void onClick(View v) {
                 String emails = entermailedittext.getText().toString();
                 String[] split = emails.split(",");
-               // System.out.println(split[0] + "- " + split[1]);
 
                 for (int i = 0; i < split.length; i++){
                     validateEmail(split[i]);

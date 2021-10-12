@@ -249,25 +249,15 @@ public class PlanCoursesFragment extends Fragment {
         adapter.setItemCheckBoxListener(new PlanCoursesAdapter.OnCheckBoxClickListener() {
             @Override
             public void onCheckBoxClicked(View v, Course item) {
-                // if (onCheckBoxClickListener != null) {
-                //      onCheckBoxClickListener.onCheckBoxClicked(v, item);
-                //  }
-                System.out.println("rrrr " + item.getNumber());
-                //  plannedCoursesOfStudent = dataBase.getCurrentStudent().getPlanned();
-                plannedCoursesOfStudent = dataBase.getCoursesPlannedById();
-                for (String s : plannedCoursesOfStudent) {
-                    System.out.println("jj " + s);
-                }
 
-                //if (onCheckBoxClickListener != null) { // todo need?
-                System.out.println("this item1 " + item.getNumber());
+                plannedCoursesOfStudent = dataBase.getCoursesPlannedById();
+
+                //if (onCheckBoxClickListener != null) {
                 if (item.getPlannedChecked()) {
                     if (!plannedCoursesOfStudent.contains(item.getNumber())) {
-                        System.out.println("this item2 " + item.getNumber());
                         plannedCoursesOfStudent.add(item.getNumber());
                         // Adds the new checked course to the list of planned courses in database
                         dataBase.setCoursesPlannedById(plannedCoursesOfStudent);
-                        //   dataBase.getCurrentStudent().setPlanned(plannedCoursesOfStudent);
 
                         String text = getActivity().getResources().getString(R.string.course_number_txt) + " " +
                                 item.getNumber() + " " + getActivity().getResources().getString(R.string.added_to_the_list_of_courses);
@@ -282,18 +272,13 @@ public class PlanCoursesFragment extends Fragment {
                     }
                 } else {
                     plannedCoursesOfStudent.remove(item.getNumber());
-                    System.out.println("removed: " + item.getNumber());
                     // Removes the un-checked course from the list of planned courses in database
                     dataBase.setCoursesPlannedById(plannedCoursesOfStudent);
-                    //  dataBase.getCurrentStudent().setPlanned(plannedCoursesOfStudent);
                     item.setPlannedChecked(false);
                     String text = getActivity().getResources().getString(R.string.course_number_txt) + " "
                             + item.getNumber() + " " + getActivity().getResources().getString(R.string.removed_from_the_list_of_courses);
                     Toast.makeText(getActivity(), text, Toast.LENGTH_SHORT).show();
                 }
-                // printPlannedCourses();
-                //  onCheckBoxClickListener.onCheckBoxClicked(v, item); // todo need?
-                //  }
             }
         });
 

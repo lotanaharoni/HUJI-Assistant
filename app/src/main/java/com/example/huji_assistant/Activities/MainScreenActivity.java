@@ -19,7 +19,6 @@ import com.example.huji_assistant.Faculty;
 import com.example.huji_assistant.Fragments.EditProfileFragment;
 import com.example.huji_assistant.Fragments.PlanCourseInfoFragment;
 import com.example.huji_assistant.Fragments.PlanCoursesFragment;
-import com.example.huji_assistant.Fragments.PlannedCoursesFragment;
 import com.example.huji_assistant.Fragments.SettingsFragment;
 import com.example.huji_assistant.Fragments.ShowFilesFragment;
 import com.example.huji_assistant.Maslul;
@@ -144,7 +143,7 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
         PlanCourseInfoFragment planCourseInfoFragment = new PlanCourseInfoFragment();
         ShowFilesFragment showFilesFragment = new ShowFilesFragment();
         AddCourseFragment addCourseFragment = new AddCourseFragment();
-        PlannedCoursesFragment plannedCoursesFragment = new PlannedCoursesFragment();
+      //  PlannedCoursesFragment plannedCoursesFragment = new PlannedCoursesFragment();
         EditProfileFragment editProfileFragment = new EditProfileFragment();
         PlanCoursesFragment planCoursesFragment = new PlanCoursesFragment();
         SettingsFragment settingsFragment = new SettingsFragment();
@@ -249,18 +248,18 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
             }
         };
 
-        mainscreenfragment.coursesPlanScreenListenerBtn = new MainScreenFragment.coursesPlanScreenListenerBtn() {
-            @Override
-            public void onPlanCoursesScreenClicked() {
-                getSupportFragmentManager().beginTransaction().setCustomAnimations(
-                        R.anim.fade_in,  // enter
-                        R.anim.slide_out,  // exit
-                        R.anim.slide_in,   // popEnter
-                        R.anim.fade_out  // popExit
-                )
-                        .replace(mainFragmentView.getId(), plannedCoursesFragment, "PLAN_SCREEN_FRAGMENT").addToBackStack(null).commit();
-            }
-        };
+       // mainscreenfragment.coursesPlanScreenListenerBtn = new MainScreenFragment.coursesPlanScreenListenerBtn() {
+        //    @Override
+          //  public void onPlanCoursesScreenClicked() {
+            //    getSupportFragmentManager().beginTransaction().setCustomAnimations(
+                //        R.anim.fade_in,  // enter
+                  //      R.anim.slide_out,  // exit
+                   //     R.anim.slide_in,   // popEnter
+                   //     R.anim.fade_out  // popExit
+             //   )
+                 //       .replace(mainFragmentView.getId(), plannedCoursesFragment, "PLAN_SCREEN_FRAGMENT").addToBackStack(null).commit();
+          //  }
+     //   };
 
         mainscreenfragment.editInfoButtonListener = new MainScreenFragment.editInfoButtonListener(){
 
@@ -461,11 +460,11 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         StudentInfo currentUser = dataBase.getCurrentStudent();
         String[] CC = {""};
-        String link = "link"; // todo set link
+        String link = "link"; // set link
         String emailSubject = getResources().getString(R.string.mailheader) + " " + " Huji assistent";
         String emailFrom = currentUser.getPersonalName() + " " + currentUser.getFamilyName();
         String emailText = getResources().getString(R.string.hellomail) + " " + emailFrom + " " + getResources().getString(R.string.invitationmail)
-                + " " + "Huji assistent!" + " " +  getResources().getString(R.string.linkmail) + " " + link;
+                + " " + "Huji assistent!";
 
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
@@ -563,15 +562,8 @@ public class MainScreenActivity extends AppCompatActivity implements NavigationV
 
         // Get the id's of the planned courses that are saved in firebase
         ArrayList<String> coursesOfStudentPlannedById = dataBase.getCurrentStudent().getPlanned();
-        for (String s: coursesOfStudentPlannedById)  {
-           System.out.println("ssss" + s);
-         }
         dataBase.setCoursesPlannedById(coursesOfStudentPlannedById);
-
         ArrayList<Course> plannedCoursesOfStudentByCourse = new ArrayList<>();
-        //for (String s: coursesOfStudentPlannedById)  {
-         //   System.out.println("ssss" + s);
-       // }
 
         String ROOT_COLLECTION = "coursesTestOnlyCs";
 

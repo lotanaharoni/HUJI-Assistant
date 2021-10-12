@@ -261,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             break;
                     }
                 };
-                // todo not work
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setMessage(R.string.close_app).setPositiveButton(R.string.positive_answer, dialogClickListener)
                         .setNegativeButton(R.string.negative_answer, dialogClickListener).show();

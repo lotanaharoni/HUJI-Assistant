@@ -126,7 +126,6 @@ public class CourseInfoFragment extends Fragment {
             courseYearTextView.setText(courseyearstext);
             String coursesemesterstext = courseSemesterTextView.getText() + ": " + semester;
             courseSemesterTextView.setText(coursesemesterstext);
-            System.out.println("reached view model33");
             getKdamCourses();
             getAfterCourses();
 

@@ -129,7 +129,6 @@ public class CoursesFragment extends Fragment {
         yearTextView = view.findViewById(R.id.year);
         degreeTextView = view.findViewById(R.id.degreeType);
         recyclerViewCourses = view.findViewById(R.id.recycleViewCourses);
-        System.out.println("reached adapetr bbb");
         adapter = new CoursesAdapter(getContext());
         dropdowntype = view.findViewById(R.id.autocompletechoosetypeRegisterScreen);
         searchView = view.findViewById(R.id.searchCoursesScreen);
@@ -435,7 +434,7 @@ public class CoursesFragment extends Fragment {
 
     private void printCourses() {
         for (int i = 0; i < coursesOfStudent.size(); i++) {
-            System.out.println(coursesOfStudent.get(i));
+           // System.out.println(coursesOfStudent.get(i));
         }
     }
 }

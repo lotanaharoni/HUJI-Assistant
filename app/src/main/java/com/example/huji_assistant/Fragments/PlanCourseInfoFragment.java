@@ -31,6 +31,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+    Shows the details of a course item in plan courses fragment
+    (Prev courses and schedule)
+ */
 public class PlanCourseInfoFragment extends Fragment {
 
     private ViewModelAppMainScreen viewModelAppMainScreen;
@@ -136,7 +140,6 @@ public class PlanCourseInfoFragment extends Fragment {
                             for (DocumentSnapshot document1 : documents) {
                                 KdamOrAfterCourse course = document1.toObject(KdamOrAfterCourse.class);
                                 assert course != null;
-                                System.out.println("kdam course: " + course.getNumber() + " " + course.getName());
                                 kdamCourses.add(course);
                             }
                             kdamLoadingBar.setVisibility(View.INVISIBLE);
@@ -158,28 +161,22 @@ public class PlanCourseInfoFragment extends Fragment {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             noKdamCoursesTextView.setVisibility(View.VISIBLE);
-                            System.out.println("failed to get kdam courses1");
                         }
                     });
         } catch (Exception e) {
             noKdamCoursesTextView.setVisibility(View.VISIBLE);
-            System.out.println("failed to get kdam courses2");
         }
     }
 
 
     public void getSchedule() {
-        // TODO: this is really ugly code and need to be fixed, the FireStore Database Schedule section need to be rebuilt
+        // this is really ugly code and need to be fixed, the FireStore Database Schedule section need to be rebuilt
         ArrayList<String> types = new ArrayList<>(Arrays.asList("שעור", "תרגיל", "סמינר", "מעבדה", "סמינר ושעור", "סמינר ותרגול"));
         ArrayList<String> groups = new ArrayList<>(Arrays.asList("א'", "ב'", "ג'", "ד'", "ה'", "ו'", "ז'", "ח'", "ט'", "י'"));
         ArrayList<String> days = new ArrayList<>(Arrays.asList("א", "ב", "ג", "ד", "ה", "ו"));
-//        scheduleLoadingBar.setVisibility(View.VISIBLE);
-
         ArrayList<CourseScheduleEntry> coursesSchedule = new ArrayList<>();
 
-
         try {
-
             for (String type : types) {
                 for (String group : groups) {
                     for (String day : days) {
@@ -193,7 +190,6 @@ public class PlanCourseInfoFragment extends Fragment {
                                 if (task.getResult().exists()) {
                                     CourseScheduleEntry entry = task.getResult().toObject(CourseScheduleEntry.class);
                                     coursesSchedule.add(entry);
-                                    System.out.println(entry.toString());
                                     scheduleLoadingBar.setVisibility(View.INVISIBLE);
                                     noScheduleTextView.setVisibility(View.INVISIBLE);
                                 }
@@ -213,7 +209,6 @@ public class PlanCourseInfoFragment extends Fragment {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 noScheduleTextView.setVisibility(View.VISIBLE);
-                                System.out.println("failed to get kdam courses1");
                             }
                         });
 
@@ -222,13 +217,7 @@ public class PlanCourseInfoFragment extends Fragment {
             }
         } catch (Exception e) {
             noScheduleTextView.setVisibility(View.VISIBLE);
-            System.out.println("failed to get kdam courses2");
         }
-
-//
-//        if (coursesSchedule.isEmpty()) {
-//            noScheduleTextView.setVisibility(View.VISIBLE);
-//        }
 
     }
 }
